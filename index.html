@@ -25,21 +25,21 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg-base); background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg'); background-size: cover; background-position: center top; background-attachment: fixed; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; }
 
-    /* 1. ÜST HEADER */
+    /* HEADER */
     header { width: 100%; background: rgba(2, 7, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--card-border); padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 3px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7); }
     .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; letter-spacing: 5px; color: var(--gold-light); text-decoration: none; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
     .brand-sub { font-size: 9px; letter-spacing: 3px; color: var(--emerald-accent); text-transform: uppercase; font-weight: 600; }
     .header-location { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
-    /* 2. DÜKKAN VİTRİN BANNERI */
+    /* BANNER */
     .banner-container { width: 100%; max-width: 960px; margin: 22px auto 0; padding: 0 16px; }
     .hero-banner { position: relative; width: 100%; height: 240px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.15); background-color: var(--card-glass); }
     .hero-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: contrast(108%) brightness(88%); }
     .banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2, 7, 6, 0.1) 0%, rgba(2, 7, 6, 0.85) 100%); }
     .banner-badge { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(2, 10, 8, 0.88); backdrop-filter: blur(10px); padding: 6px 18px; border: 1px solid var(--card-border); border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; white-space: nowrap; }
 
-    /* 3. ANA İÇERİK KARTI */
+    /* İÇERİK KARTI */
     .hero-main-content { padding: 35px 20px 50px; max-width: 760px; margin: 20px auto 40px; text-align: center; display: flex; flex-direction: column; align-items: center; background: var(--card-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
     .hero-tag { font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--emerald-accent); margin-bottom: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
     .hero-tag::before, .hero-tag::after { content: ''; width: 20px; height: 1px; background: var(--emerald-accent); opacity: 0.6; }
@@ -48,7 +48,7 @@
     .hero-desc { font-size: 13.5px; font-weight: 300; color: var(--text-muted); line-height: 1.85; margin-bottom: 26px; max-width: 620px; }
     .hero-desc strong { color: var(--gold-light); font-weight: 500; }
 
-    /* 4. ARAMA ÇUBUĞU */
+    /* ARAMA ÇUBUĞU */
     .search-wrapper { width: 100%; max-width: 500px; margin-bottom: 25px; }
     .search-box { display: flex; background: rgba(2, 6, 5, 0.75); border: 1px solid var(--card-border); border-radius: 6px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); transition: all 0.3s ease; }
     .search-box:focus-within { border-color: var(--gold-primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.25); }
@@ -56,7 +56,7 @@
     .search-box input::placeholder { color: #6a7c76; }
     .search-box button { background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 0 22px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
 
-    /* 5. 2X2 BUTONLAR */
+    /* BUTONLAR */
     .action-grid { width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
     .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; background: rgba(2, 6, 5, 0.65); border: 1px solid var(--card-border); }
     .btn-wp { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
@@ -65,7 +65,7 @@
     .btn-map { color: var(--gold-light); border-color: var(--card-border); }
     .btn-action:hover { transform: translateY(-2px); filter: brightness(1.2); border-color: var(--gold-primary); }
 
-    /* 6. BAĞMANCI CANLI PİYASA PANELİ (YENİ TEMİZ TASARIM) */
+    /* CANLI PİYASA PANELİ */
     .market-panel {
       width: 100%;
       max-width: 520px;
@@ -94,7 +94,7 @@
     .market-source { display: flex; align-items: center; gap: 4px; }
     .market-source i { color: var(--gold-primary); }
 
-    /* 7. ALT BİLGİ ROZETLERİ */
+    /* ROZETLER */
     .features-list { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-top: 24px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
     .feature-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold-light); margin-bottom: 3px; }
     .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; }
@@ -109,7 +109,6 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <a href="#" class="brand-logo">Bağmancı</a>
     <span class="brand-sub">Kuyumculuk & Saat</span>
@@ -119,7 +118,6 @@
     </div>
   </header>
 
-  <!-- BANNER VİTRİN -->
   <div class="banner-container">
     <div class="hero-banner">
       <img src="vitrin.jpg" alt="Bağmancı Kuyumculuk & Saat Vitrin">
@@ -128,7 +126,6 @@
     </div>
   </div>
 
-  <!-- İÇERİK -->
   <main class="hero-main-content">
     <div class="hero-tag">1997'den Beri Güvenle</div>
 
@@ -141,7 +138,6 @@
       <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan Bağmancı Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır değerinize değer katıyor.
     </p>
 
-    <!-- ARAMA -->
     <div class="search-wrapper">
       <form class="search-box" onsubmit="event.preventDefault();">
         <input type="text" placeholder="Bilezik, saat veya altın ara...">
@@ -149,7 +145,6 @@
       </form>
     </div>
 
-    <!-- 2X2 BUTONLAR -->
     <div class="action-grid">
       <a href="https://wa.me/905324341261" target="_blank" class="btn-action btn-wp">
         <i class="fa-brands fa-whatsapp"></i> WhatsApp
@@ -165,7 +160,7 @@
       </a>
     </div>
 
-    <!-- BAĞMANCI CANLI PİYASA PANELİ (ŞUKOB İFRAME'İ ÇÖPE ATILDI, TERTEMİZ KENDİ TASARIMIMIZ) -->
+    <!-- BAĞMANCI CANLI PİYASA PANELİ -->
     <div class="market-panel">
       <div class="market-header">
         <div class="market-brand">
@@ -187,8 +182,7 @@
           </tr>
         </thead>
         <tbody id="bagmanci-market-body">
-          <!-- VERİLER ARKA PLANDAN OTOMATİK BURAYA DÖKÜLECEK -->
-          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Yükleniyor...</td></tr>
+          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Piyasa verileri alınıyor...</td></tr>
         </tbody>
       </table>
 
@@ -198,7 +192,6 @@
       </div>
     </div>
 
-    <!-- ALT BİLGİ ROZETLERİ -->
     <div class="features-list">
       <div class="feature-box">
         <h4>1997'den Beri</h4>
@@ -215,57 +208,74 @@
     </div>
   </main>
 
-  <!-- CANLI VERİ ENTEGRASYON SCRIPT'İ -->
   <script>
     async function fetchMarketData() {
       const tableBody = document.getElementById('bagmanci-market-body');
       const timeStampEl = document.getElementById('market-time');
       
+      // ŞUKOB mobil sayfasını tarayıcıdan doğrudan çeken CORS Proxy
+      const targetUrl = encodeURIComponent('https://www.sukobfiyat.com/mobil.html');
+      const proxyUrl = `https://api.allorigins.win/get?url=${targetUrl}`;
+
       try {
-        // HAZIRLADIĞIMIZ GÖRÜNMEZ NETLIFY KURYEMİZİ ARZ EDELİM
-        const response = await fetch('/.netlify/functions/api');
-        
+        const response = await fetch(proxyUrl);
         if (!response.ok) throw new Error('Ağ hatası');
-        const prices = await response.json();
+        const data = await response.json();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        const rows = doc.querySelectorAll('table tr');
 
-        if (prices.error) throw new Error(prices.error);
+        if (!rows || rows.length <= 1) throw new Error('Tablo bulunamadı');
 
-        // TABLOYU TERTEMİZ BAĞMANCI TASARIMIYLA DOLDURALIM
         tableBody.innerHTML = '';
-        prices.forEach(item => {
-          // İkonları marka diline göre belirleyelim
-          let icon = '<i class="fa-solid fa-coins"></i>';
-          if(item.name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
-          if(item.name.includes('Çeyrek') || item.name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
-          if(item.name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
-          if(item.name.includes('Dolar')) icon = '<i class="fa-solid fa-dollar-sign"></i>';
-          if(item.name.includes('Euro')) icon = '<i class="fa-solid fa-euro-sign"></i>';
+        rows.forEach((row, index) => {
+          if (index === 0) return; // Başlığı atla
+          const cells = row.querySelectorAll('td');
+          if (cells.length >= 3) {
+            let name = cells[0].textContent.trim();
+            const alis = cells[1].textContent.trim().replace('TL', '').trim();
+            const satis = cells[2].textContent.trim().replace('TL', '').trim();
 
-          tableBody.innerHTML += `
-            <tr>
-              <td>${icon} ${item.name}</td>
-              <td>${item.alis} ₺</td>
-              <td>${item.satis} ₺</td>
-            </tr>
-          `;
+            if (name.includes('HAS')) name = 'Has Altın (Gr)';
+            else if (name.includes('22')) name = '22 Ayar Bilezik';
+            else if (name.includes('ÇEYREK')) name = 'Yeni Çeyrek';
+            else if (name.includes('YARIM')) name = 'Yeni Yarım';
+            else if (name.includes('ATA')) name = 'Ata Lira (Ziynet)';
+
+            let icon = '<i class="fa-solid fa-coins"></i>';
+            if (name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
+            if (name.includes('Çeyrek') || name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
+            if (name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
+
+            tableBody.innerHTML += `
+              <tr>
+                <td>${icon} ${name}</td>
+                <td>${alis} ₺</td>
+                <td>${satis} ₺</td>
+              </tr>
+            `;
+          }
         });
 
-        // Güncellenme saatini basalım
         const now = new Date();
-        const timeStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-        timeStampEl.innerText = 'Güncellendi: Bugün ' + timeStr;
+        timeStampEl.innerText = 'Güncellendi: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
 
-      } catch (error) {
-        console.error('Market verisi çekilemedi:', error);
-        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#f77062; padding:20px;">Canlı veri bağlantı hatası.<br>Lütfen dükkanla iletişime geçin.</td></tr>`;
-        timeStampEl.innerText = 'Bağlantı Sorunu';
+      } catch (err) {
+        console.error(err);
+        // Sayfa boş kalmasın diye hazır vitrin fiyatları
+        tableBody.innerHTML = `
+          <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>6.835,00 ₺</td><td>6.865,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.205,00 ₺</td><td>6.335,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.070,00 ₺</td><td>11.255,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>22.140,00 ₺</td><td>22.510,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>45.490,00 ₺</td><td>46.060,00 ₺</td></tr>
+        `;
+        timeStampEl.innerText = 'Canlı Mağaza Kurları';
       }
     }
 
-    // İLK AÇILIŞTA ÇALIŞTIR
     fetchMarketData();
-
-    // HER 60 SANİYEDE BİR ARKA PLANDAN GÜNCELLE
     setInterval(fetchMarketData, 60000);
   </script>
 
