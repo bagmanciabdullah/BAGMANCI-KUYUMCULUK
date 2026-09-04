@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BAĞMANCI KUYUMCULUK & SAAT | Canlı Borsa & Özel Koleksiyon</title>
   
-  <!-- Fontlar ve İkonlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,293 +12,334 @@
 
   <style>
     :root {
-      --bg-dark: #030a08;
-      --bg-card: #061410;
+      --bg-dark: #020907;
+      --card-bg: #061712;
+      --card-inner: #09201a;
       --gold-primary: #d4af37;
-      --gold-light: #f3e5ab;
-      --gold-dark: #aa820a;
-      --border-gold: rgba(212, 175, 55, 0.35);
+      --gold-light: #f7e7a9;
+      --gold-border: rgba(212, 175, 55, 0.35);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --emerald-accent: #10b981;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg-dark);
       color: var(--text-main);
       font-family: 'Montserrat', sans-serif;
+      padding-bottom: 90px;
+      background-image: radial-gradient(circle at 50% 0%, #09261e 0%, #020907 70%);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 14px;
-      background-image: radial-gradient(circle at 50% 0%, #0a251e 0%, #030a08 75%);
     }
 
     .container {
       width: 100%;
-      max-width: 920px;
+      max-width: 1050px;
       margin: 0 auto;
+      padding: 24px 16px;
     }
 
-    /* Üst Header */
-    header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
+    /* ÜST MARKA BAŞLIĞI */
+    header { text-align: center; margin-bottom: 30px; }
     .brand-title {
       font-family: 'Cinzel', serif;
-      font-size: 34px;
+      font-size: 36px;
       font-weight: 900;
       color: var(--gold-primary);
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      text-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
-      margin-bottom: 5px;
+      text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
     }
-
     .brand-sub {
       font-size: 13px;
       letter-spacing: 3px;
       color: var(--gold-light);
       text-transform: uppercase;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-top: 4px;
     }
-
     .brand-loc {
       font-size: 11px;
       color: var(--text-muted);
       letter-spacing: 2px;
       text-transform: uppercase;
+      margin-top: 4px;
     }
 
-    /* Piyasa Paneli */
+    /* CANLI BORSA ZÜMRÜT PANELİ */
     .market-panel {
-      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--gold-border);
       border-radius: 14px;
-      border: 1px solid var(--border-gold);
-      background: var(--bg-card);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
-      margin-bottom: 50px;
-      overflow: hidden;
+      padding: 20px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.85);
+      margin-bottom: 45px;
     }
-
-    .market-header {
-      background: linear-gradient(180deg, #030a08 0%, #061914 100%);
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border-gold);
+    .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid var(--gold-border);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
     }
-
-    .market-title-main {
+    .panel-title {
       font-family: 'Cinzel', serif;
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 800;
       color: var(--gold-primary);
-      letter-spacing: 2.5px;
-      display: block;
-      text-transform: uppercase;
-    }
-
-    .market-title-sub {
-      font-size: 11px;
       letter-spacing: 2px;
-      color: #e2e8f0;
       text-transform: uppercase;
-      font-weight: 600;
     }
-
     .live-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(52, 211, 153, 0.45);
-      padding: 6px 14px;
-      border-radius: 25px;
+      gap: 7px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 5px 12px;
+      border-radius: 20px;
       font-size: 10px;
       color: #34d399;
-      text-transform: uppercase;
-      letter-spacing: 2px;
       font-weight: 700;
+      letter-spacing: 1.5px;
     }
-
     .pulse-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px; height: 7px;
       background: #10b981;
       border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 10px #10b981;
+      box-shadow: 0 0 8px #10b981;
     }
 
-    /* İframe Kutusu & Hassas Maske */
-    .iframe-container {
-      position: relative;
-      width: 100%;
-      height: 480px;
-      background: #ffffff;
-      overflow: hidden;
+    /* Borsa Özet Grid */
+    .rates-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
     }
-
-    .iframe-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    .rate-box {
+      background: var(--card-inner);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
     }
+    .rate-label { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .rate-val { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 800; color: var(--gold-light); margin-top: 4px; }
 
-    /* ŞUKOB yazısını tam yerinde örten altın mühür */
-    .sukob-cover {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 48px;
-      background: #3b5998; /* ŞUKOB mavi zemin rengiyle birebir */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    .sukob-cover span {
-      font-family: 'Cinzel', serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .market-footer {
-      padding: 12px 18px;
-      background: #030a08;
-      border-top: 1px solid var(--border-gold);
+    /* Fiyat Listesi */
+    .rates-list { display: flex; flex-direction: column; gap: 8px; }
+    .rates-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
+      background: rgba(9, 32, 26, 0.45);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.04);
+      font-size: 13px;
     }
+    .rates-row:hover { background: rgba(212, 175, 55, 0.08); }
+    .item-name { font-weight: 600; color: #fff; }
+    .item-sub { font-size: 10px; color: var(--text-muted); }
+    .item-prices { display: flex; gap: 18px; text-align: right; }
+    .price-col span { display: block; }
+    .price-tag { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
+    .price-num { font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
 
-    /* Ürün Vitrini */
-    .section-title {
+    /* KATALOG & 10 ÜRÜN VİTRİNİ */
+    .catalog-header {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
-
-    .section-title h2 {
+    .catalog-header h2 {
       font-family: 'Cinzel', serif;
-      font-size: 25px;
+      font-size: 26px;
+      font-weight: 900;
       color: var(--gold-primary);
       letter-spacing: 3px;
-      margin-bottom: 6px;
       text-transform: uppercase;
-      font-weight: 800;
     }
-
-    .section-title p {
-      color: var(--text-muted);
+    .catalog-header p {
       font-size: 11.5px;
+      color: var(--text-muted);
       letter-spacing: 2px;
       text-transform: uppercase;
+      margin-top: 4px;
     }
+    .divider { width: 50px; height: 2px; background: var(--gold-primary); margin: 12px auto; }
 
-    .gold-divider {
-      width: 50px;
-      height: 2px;
-      background: var(--gold-primary);
-      margin: 14px auto 0 auto;
-    }
-
-    .product-grid {
+    .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 50px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
     }
-
     .product-card {
-      background: linear-gradient(145deg, #071914 0%, #030a08 100%);
-      border: 1px solid var(--border-gold);
+      background: var(--card-bg);
+      border: 1px solid var(--gold-border);
       border-radius: 12px;
-      padding: 24px;
-      text-align: center;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    .card-icon {
-      width: 54px;
-      height: 54px;
-      margin: 0 auto 16px auto;
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px solid var(--gold-primary);
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.8);
+      border-color: var(--gold-primary);
+    }
+    .product-img-box {
+      height: 160px;
+      background: var(--card-inner);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      color: var(--gold-primary);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     }
-
-    .product-card h3 {
+    .product-img-box i { font-size: 55px; color: var(--gold-primary); }
+    .product-info { padding: 15px; }
+    .product-tag { font-size: 9.5px; color: var(--emerald-accent); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+    .product-name {
       font-family: 'Cinzel', serif;
-      font-size: 16px;
-      color: #ffffff;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin: 4px 0 8px 0;
       text-transform: uppercase;
     }
-
-    .product-card p {
-      color: var(--text-muted);
-      font-size: 12px;
-      line-height: 1.6;
-      margin-bottom: 20px;
+    .product-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; min-height: 32px; }
+    .product-price {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin: 12px 0;
     }
-
-    .card-btn {
-      display: inline-block;
-      padding: 9px 18px;
+    .btn-group { display: flex; flex-direction: column; gap: 7px; }
+    .btn-cart {
+      background: transparent;
       border: 1px solid var(--gold-primary);
       color: var(--gold-primary);
-      text-decoration: none;
-      border-radius: 20px;
+      padding: 9px;
+      border-radius: 6px;
       font-size: 11px;
-      letter-spacing: 1.5px;
       font-weight: 700;
       text-transform: uppercase;
-      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
     }
-
-    .card-btn:hover {
+    .btn-cart:hover { background: var(--gold-primary); color: #000; }
+    .btn-buy {
       background: var(--gold-primary);
+      border: 1px solid var(--gold-primary);
       color: #000;
+      padding: 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .btn-buy:hover { background: var(--gold-light); }
+
+    /* MOBİL UYGULAMA TİPİ SABİT ALT MENÜ (APP BAR) */
+    .app-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: rgba(3, 10, 8, 0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--gold-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      padding: 0 10px;
+    }
+    .app-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 20%;
+    }
+    .app-item i { font-size: 17px; margin-bottom: 3px; color: var(--gold-primary); }
+    .app-item.active { color: var(--gold-light); font-weight: 700; }
+    .cart-badge {
+      position: absolute;
+      top: -2px;
+      right: 18px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 10px;
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 25px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 11px;
+    /* SEPET & GİRİŞ MODALLARI */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 440px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      font-size: 20px;
       color: var(--text-muted);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      cursor: pointer;
+      background: none; border: none;
+    }
+    .cart-list { max-height: 240px; overflow-y: auto; margin: 15px 0; }
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px;
+    }
+    .cart-total-box {
+      border-top: 1px solid var(--gold-border);
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold-light);
     }
   </style>
 </head>
@@ -307,108 +347,385 @@
 
   <div class="container">
     
-    <!-- Üst Başlık -->
-    <header>
+    <!-- HEADER -->
+    <header id="anasayfa">
       <h1 class="brand-title">BAĞMANCI</h1>
       <div class="brand-sub">Kuyumculuk & Saat</div>
       <div class="brand-loc"><i class="fa-solid fa-location-dot" style="color: var(--gold-primary);"></i> Şanlıurfa &bull; Eyyübiye</div>
     </header>
 
-    <!-- BAĞMANCI CANLI BORSA PANELİ -->
-    <div class="market-panel">
-      <div class="market-header">
+    <!-- BAĞMANCI CANLI BORSA -->
+    <section id="borsa" class="market-panel">
+      <div class="panel-header">
         <div>
-          <span class="market-title-main">BAĞMANCI</span>
-          <span class="market-title-sub">Kuyumculuk &bull; Canlı Borsa</span>
+          <div class="panel-title">BAĞMANCI CANLI BORSA</div>
+          <div style="font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">Şanlıurfa Kapalıçarşı Anlık Kurları</div>
         </div>
         <div class="live-badge">
           <span class="pulse-dot"></span>
-          <span>Canlı Borsa</span>
+          <span>CANLI AKIŞ</span>
         </div>
       </div>
 
-      <!-- Canlı Veri Ekranı: Dolar, Has ve Tüm Altınlar Eksiksiz Görünür -->
-      <div class="iframe-container">
-        <!-- Sadece SUKOB yazısını örten şık başlık -->
-        <div class="sukob-cover">
-          <span>BAĞMANCI CANLI PİYASA</span>
+      <!-- Üst 3 Önemli Değer -->
+      <div class="rates-top">
+        <div class="rate-box">
+          <div class="rate-label">HAS ALIŞ</div>
+          <div class="rate-val">₺6.910,92</div>
         </div>
-        <iframe src="https://www.sukobfiyat.com/mobil.html#" title="BAĞMANCI Canlı Borsa ve Döviz Fiyatları"></iframe>
+        <div class="rate-box">
+          <div class="rate-label">HAS SATIŞ</div>
+          <div class="rate-val">₺6.936,35</div>
+        </div>
+        <div class="rate-box">
+          <div class="rate-label">USD (DOLAR)</div>
+          <div class="rate-val">₺48,27</div>
+        </div>
       </div>
 
-      <div class="market-footer">
-        <span><strong style="color: var(--gold-primary);">BAĞMANCI</strong> Güvencesiyle Anlık Değerler</span>
-        <span>Has Altın &bull; Dolar &bull; Sarrafiye</span>
+      <!-- Detaylı Sarrafiye Listesi -->
+      <div class="rates-list">
+        <div class="rates-row">
+          <div><div class="item-name">22 AYAR BİLEZİK</div><div class="item-sub">22 Ayar İşçilikli Bilezik</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺6.275</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺6.402</span></div>
+          </div>
+        </div>
+        <div class="rates-row">
+          <div><div class="item-name">22 AYAR HURDA</div><div class="item-sub">22 Ayar Hurda Altın</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺6.275</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺6.339</span></div>
+          </div>
+        </div>
+        <div class="rates-row">
+          <div><div class="item-name">YENİ ÇEYREK</div><div class="item-sub">Darphane Basımı</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺11.195</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺11.375</span></div>
+          </div>
+        </div>
+        <div class="rates-row">
+          <div><div class="item-name">YENİ YARIM</div><div class="item-sub">Darphane Basımı</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺22.391</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺22.751</span></div>
+          </div>
+        </div>
+        <div class="rates-row">
+          <div><div class="item-name">YENİ ZİYNET (TAM)</div><div class="item-sub">Darphane Basımı</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺44.782</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺45.363</span></div>
+          </div>
+        </div>
+        <div class="rates-row">
+          <div><div class="item-name">ESKİ ÇEYREK</div><div class="item-sub">Sarrafiye Alım-Satım</div></div>
+          <div class="item-prices">
+            <div class="price-col"><span class="price-tag">Alış</span><span class="price-num">₺11.126</span></div>
+            <div class="price-col"><span class="price-tag">Satış</span><span class="price-num">₺11.371</span></div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- BAĞMANCI ÜRÜN TANITIM SEKMESİ -->
-    <section>
-      <div class="section-title">
-        <h2>BAĞMANCI Koleksiyonu</h2>
-        <p>Seçkin Mücevher, Sarrafiye ve Saat Seçkisi</p>
-        <div class="gold-divider"></div>
+    <!-- BAĞMANCI KATALOG (10 ÜRÜN) -->
+    <section id="katalog">
+      <div class="catalog-header">
+        <h2>BAĞMANCI KATALOG</h2>
+        <p>Has Altın &bull; Sarrafiye &bull; Bilezik &bull; Aksesuar &bull; Saat</p>
+        <div class="divider"></div>
       </div>
 
-      <div class="product-grid">
-        
-        <!-- Kart 1: Sarrafiye -->
+      <div class="products-grid">
+
+        <!-- Ürün 1 -->
         <div class="product-card">
-          <div>
-            <div class="card-icon"><i class="fa-solid fa-coins"></i></div>
-            <h3>BAĞMANCI Sarrafiye</h3>
-            <p>24 Ayar tescilli gram külçeler, Ata Çeyrek, Yarım, Tam Ziynet ve Gremse altınlarında anlık garantili alım-satım.</p>
+          <div class="product-img-box"><i class="fa-solid fa-bars"></i></div>
+          <div class="product-info">
+            <div class="product-tag">HAS ALTIN</div>
+            <div class="product-name">BAĞMANCI 1 Gram Külçe</div>
+            <div class="product-desc">24 Ayar 995.0 saflıkta tescilli ve sertifikalı has gram altın.</div>
+            <div class="product-price">₺6.950</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('BAĞMANCI 1 Gram Külçe Altın', 6950)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('BAĞMANCI 1 Gram Külçe Altın', 6950)">Şimdi Satın Al</button>
+            </div>
           </div>
-          <a href="https://wa.me/905320000000?text=Merhaba%20BAĞMANCI%20Kuyumculuk,%20sarrafiye%20fiyatları%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="card-btn">
-            Fiyat Al &bull; WhatsApp
-          </a>
         </div>
 
-        <!-- Kart 2: 22 Ayar Bilezik -->
+        <!-- Ürün 2 -->
         <div class="product-card">
-          <div>
-            <div class="card-icon"><i class="fa-solid fa-ring"></i></div>
-            <h3>BAĞMANCI 22 Ayar Bilezik</h3>
-            <p>Şanlıurfa geleneksel telkari, burma, şarniyel ve modern işçilikli Ajda bilezik serileri geniş vitrinimizde.</p>
+          <div class="product-img-box"><i class="fa-solid fa-coins"></i></div>
+          <div class="product-info">
+            <div class="product-tag">SARRAFİYE</div>
+            <div class="product-name">Yeni Çeyrek Altın</div>
+            <div class="product-desc">Kulplu T.C. Darphane basımı yeni tarihli çeyrek ziynet.</div>
+            <div class="product-price">₺11.375</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('Yeni Çeyrek Altın', 11375)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('Yeni Çeyrek Altın', 11375)">Şimdi Satın Al</button>
+            </div>
           </div>
-          <a href="https://wa.me/905320000000?text=Merhaba%20BAĞMANCI%20Kuyumculuk,%2022%20ayar%20bilezik%20modelleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="card-btn">
-            Modeller &bull; WhatsApp
-          </a>
         </div>
 
-        <!-- Kart 3: Pırlanta -->
+        <!-- Ürün 3 -->
         <div class="product-card">
-          <div>
-            <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
-            <h3>BAĞMANCI Pırlanta</h3>
-            <p>Uluslararası sertifikalı tektaş, beştaş ve baget kesim pırlanta yüzükler ile özel tasarım kuyum siparişleri.</p>
+          <div class="product-img-box"><i class="fa-solid fa-circle-notch"></i></div>
+          <div class="product-info">
+            <div class="product-tag">SARRAFİYE</div>
+            <div class="product-name">Yeni Yarım Altın</div>
+            <div class="product-desc">T.C. Darphane üretimi garantili ve tescilli yarım altın.</div>
+            <div class="product-price">₺22.751</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('Yeni Yarım Altın', 22751)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('Yeni Yarım Altın', 22751)">Şimdi Satın Al</button>
+            </div>
           </div>
-          <a href="https://wa.me/905320000000?text=Merhaba%20BAĞMANCI%20Kuyumculuk,%20pırlanta%20modelleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="card-btn">
-            Katalog &bull; WhatsApp
-          </a>
         </div>
 
-        <!-- Kart 4: Saat -->
+        <!-- Ürün 4 -->
         <div class="product-card">
-          <div>
-            <div class="card-icon"><i class="fa-solid fa-clock"></i></div>
-            <h3>BAĞMANCI Saat</h3>
-            <p>Orijinal distribütör garantili prestij saat markaları, kadın ve erkek özel koleksiyon ürünleri.</p>
+          <div class="product-img-box"><i class="fa-solid fa-award"></i></div>
+          <div class="product-info">
+            <div class="product-tag">SARRAFİYE</div>
+            <div class="product-name">Yeni Tam Ziynet Altın</div>
+            <div class="product-desc">Yatırımlık ve düğün hediyelik 22 ayar tam altın.</div>
+            <div class="product-price">₺45.363</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('Yeni Tam Ziynet Altın', 45363)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('Yeni Tam Ziynet Altın', 45363)">Şimdi Satın Al</button>
+            </div>
           </div>
-          <a href="https://wa.me/905320000000?text=Merhaba%20BAĞMANCI%20Kuyumculuk,%20saat%20modelleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="card-btn">
-            İncele &bull; WhatsApp
-          </a>
+        </div>
+
+        <!-- Ürün 5 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-ring"></i></div>
+          <div class="product-info">
+            <div class="product-tag">22 AYAR BİLEZİK</div>
+            <div class="product-name">22 Ayar Ajda Bilezik (10 Gr)</div>
+            <div class="product-desc">Klasik parlak ve çizgi desenli işçiliksiz şık yatırım bileziği.</div>
+            <div class="product-price">₺64.020</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('22 Ayar Ajda Bilezik (10 Gr)', 64020)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('22 Ayar Ajda Bilezik (10 Gr)', 64020)">Şimdi Satın Al</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün 6 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-fingerprint"></i></div>
+          <div class="product-info">
+            <div class="product-tag">22 AYAR BİLEZİK</div>
+            <div class="product-name">Urfa Akıtma & Burma Bilezik</div>
+            <div class="product-desc">Şanlıurfa el sanatı geleneksel 22 ayar özel işçilikli bilezik.</div>
+            <div class="product-price">₺96.500</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('Urfa Akıtma & Burma Bilezik', 96500)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('Urfa Akıtma & Burma Bilezik', 96500)">Şimdi Satın Al</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün 7 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-gem"></i></div>
+          <div class="product-info">
+            <div class="product-tag">AKSESUAR</div>
+            <div class="product-name">14 Ayar Baget Altın Kolye</div>
+            <div class="product-desc">Lüks zirkon taşlı, zarif ve modern 14 ayar altın tasarım kolye.</div>
+            <div class="product-price">₺14.850</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('14 Ayar Baget Altın Kolye', 14850)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('14 Ayar Baget Altın Kolye', 14850)">Şimdi Satın Al</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün 8 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-heart"></i></div>
+          <div class="product-info">
+            <div class="product-tag">AKSESUAR</div>
+            <div class="product-name">14 Ayar Altın Künye & Bileklik</div>
+            <div class="product-desc">İtalyan ezme zincirli, günlük kullanıma uygun özel altın bileklik.</div>
+            <div class="product-price">₺18.400</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('14 Ayar Altın Künye & Bileklik', 18400)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('14 Ayar Altın Künye & Bileklik', 18400)">Şimdi Satın Al</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün 9 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-clock"></i></div>
+          <div class="product-info">
+            <div class="product-tag">SAAT</div>
+            <div class="product-name">BAĞMANCI Klasik Altın Kaplama Saat</div>
+            <div class="product-desc">Safir camlı, su geçirmez çelik kasa ve altın sarısı kadran seçeneği.</div>
+            <div class="product-price">₺28.500</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('BAĞMANCI Klasik Altın Kaplama Saat', 28500)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('BAĞMANCI Klasik Altın Kaplama Saat', 28500)">Şimdi Satın Al</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün 10 -->
+        <div class="product-card">
+          <div class="product-img-box"><i class="fa-solid fa-stopwatch"></i></div>
+          <div class="product-info">
+            <div class="product-tag">SAAT</div>
+            <div class="product-name">BAĞMANCI Otomatik Kronograf Saat</div>
+            <div class="product-desc">Otomatik mekanizmalı, hakiki deri kordonlu prestij erkek saati.</div>
+            <div class="product-price">₺34.000</div>
+            <div class="btn-group">
+              <button class="btn-cart" onclick="sepeteEkle('BAĞMANCI Otomatik Kronograf Saat', 34000)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+              <button class="btn-buy" onclick="hemenAl('BAĞMANCI Otomatik Kronograf Saat', 34000)">Şimdi Satın Al</button>
+            </div>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-      &copy; 2026 <strong>BAĞMANCI</strong> Kuyumculuk & Saat. Tüm Hakları Saklıdır.
-    </footer>
-
   </div>
+
+  <!-- UYGULAMA TİPİ SABİT ALT MENÜ (BOTTOM NAVIGATION) -->
+  <nav class="app-bar">
+    <a href="#anasayfa" class="app-item active">
+      <i class="fa-solid fa-house"></i>
+      <span>Ana Sayfa</span>
+    </a>
+    <a href="#borsa" class="app-item">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Borsa</span>
+    </a>
+    <a href="#katalog" class="app-item">
+      <i class="fa-solid fa-gem"></i>
+      <span>Katalog</span>
+    </a>
+    <button class="app-item" onclick="sepetiAc()">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Sepetim</span>
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+    <button class="app-item" onclick="modalAc('uyeModal')">
+      <i class="fa-solid fa-user"></i>
+      <span>Üye Girişi</span>
+    </button>
+  </nav>
+
+  <!-- SEPET MODALI -->
+  <div class="modal-overlay" id="sepetModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="modalKapat('sepetModal')">&times;</button>
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 10px;">SEPETİNİZ</h3>
+      <div class="cart-list" id="cartItems">
+        <div style="color: var(--text-muted); text-align: center; padding: 20px 0;">Sepetiniz henüz boş.</div>
+      </div>
+      <div class="cart-total-box">
+        <span>TOPLAM:</span>
+        <span id="cartTotal">₺0</span>
+      </div>
+      <button class="btn-buy" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="siparisTamamla()">Siparişi Onayla & Satın Al</button>
+    </div>
+  </div>
+
+  <!-- ÜYE GİRİŞİ MODALI -->
+  <div class="modal-overlay" id="uyeModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="modalKapat('uyeModal')">&times;</button>
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 14px; text-align: center;">BAĞMANCI MÜŞTERİ GİRİŞİ</h3>
+      <form onsubmit="event.preventDefault(); alert('Giriş başarılı! Hoş geldiniz.'); modalKapat('uyeModal');">
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">Telefon veya E-Posta</label>
+          <input type="text" required placeholder="05XX XXX XX XX" style="width: 100%; padding: 10px; background: #020907; border: 1px solid var(--gold-border); border-radius: 6px; color: #fff;">
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">Şifre</label>
+          <input type="password" required placeholder="••••••••" style="width: 100%; padding: 10px; background: #020907; border: 1px solid var(--gold-border); border-radius: 6px; color: #fff;">
+        </div>
+        <button type="submit" class="btn-buy" style="width: 100%; padding: 11px;">Giriş Yap</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SİSTEM ÇALIŞMA KODLARI (JAVASCRIPT) -->
+  <script>
+    let sepet = [];
+
+    function sepeteEkle(ad, fiyat) {
+      sepet.push({ ad, fiyat });
+      guncelleSepet();
+      alert(ad + " sepetinize eklendi!");
+    }
+
+    function hemenAl(ad, fiyat) {
+      sepet.push({ ad, fiyat });
+      guncelleSepet();
+      sepetiAc();
+    }
+
+    function guncelleSepet() {
+      document.getElementById('cartCount').innerText = sepet.length;
+      const list = document.getElementById('cartItems');
+      if (sepet.length === 0) {
+        list.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px 0;">Sepetiniz henüz boş.</div>';
+        document.getElementById('cartTotal').innerText = '₺0';
+        return;
+      }
+
+      let html = '';
+      let toplam = 0;
+      sepet.forEach((item, index) => {
+        toplam += item.fiyat;
+        html += `
+          <div class="cart-row">
+            <span>${item.ad}</span>
+            <div>
+              <strong style="color: var(--gold-primary); margin-right: 8px;">₺${item.fiyat.toLocaleString('tr-TR')}</strong>
+              <button onclick="sepettenSil(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+        `;
+      });
+      list.innerHTML = html;
+      document.getElementById('cartTotal').innerText = '₺' + toplam.toLocaleString('tr-TR');
+    }
+
+    function sepettenSil(index) {
+      sepet.splice(index, 1);
+      guncelleSepet();
+    }
+
+    function sepetiAc() {
+      modalAc('sepetModal');
+    }
+
+    function modalAc(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function modalKapat(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function siparisTamamla() {
+      if(sepet.length === 0) {
+        alert("Sepetiniz boş!");
+        return;
+      }
+      alert("Sipariş talebiniz alındı! Satış ekibimiz sizinle iletişime geçecektir.");
+      sepet = [];
+      guncelleSepet();
+      modalKapat('sepetModal');
+    }
+  </script>
 
 </body>
 </html>
