@@ -1153,34 +1153,63 @@
     }// CANLI KUR VE DİNAMİK 10 ÜRÜN MOTORU
     let canliBilezikFiyati = 6402;
 
+    let canliBilezikFiyati = 6402;
+
     function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
       const innerView = document.getElementById('catalogItemsView');
       innerView.style.display = 'block';
-      document.getElementById('currentCatTitle').innerText = 'BAĞMANCI • ' + kategoriAdi;
+      document.getElementById('currentCatTitle').innerHTML = `<i class="fa-solid fa-gem" style="color:var(--gold-primary); margin-right:8px;"></i> BAĞMANCI • ${kategoriAdi}`;
 
       const container = document.getElementById('catalogItemsContainer');
       container.innerHTML = '';
 
+      // Kategoriye göre sembol ve ayar damgası belirleme
+      let icon = 'fa-ring';
+      let ayar = '22 AYAR (916)';
+      if(kategoriAdi.includes('Saat')) { icon = 'fa-clock'; ayar = 'SAFİR / ÇELİK'; }
+      else if(kategoriAdi.includes('Kolye') || kategoriAdi.includes('Madonna') || kategoriAdi.includes('Frenk')) { icon = 'fa-heart'; ayar = '22K ÖZEL İŞÇİLİK'; }
+      else if(kategoriAdi.includes('Akıtma') || kategoriAdi.includes('Kelepçe')) { icon = 'fa-fingerprint'; ayar = 'URFA ATÖLYE HAS'; }
+
       for (let i = 1; i <= 10; i++) {
-        let gram = (8 + (i * 2)); 
+        let gram = (6 + (i * 2.5)).toFixed(1); 
         let hesaplananFiyat = Math.round(gram * canliBilezikFiyati);
 
         container.innerHTML += `
-          <div class="product-card">
-            <div class="product-icon-box">
-              <i class="fa-regular fa-image"></i>
-              <span style="position: absolute; font-size: 10px; color: var(--text-muted); margin-top: 50px;">Fotoğraf Alanı #${i}</span>
+          <div class="luxury-product-card">
+            <div class="jewel-display-stage">
+              <span class="gold-hallmark">${ayar}</span>
+              <div class="stage-glow"></div>
+              <div class="jewel-icon-wrap">
+                <i class="fa-solid ${icon}"></i>
+              </div>
+              <span class="stage-label">BAĞMANCI VİTRİN STANDI #${i}</span>
             </div>
-            <div class="product-body">
-              <span class="item-calc-badge"><i class="fa-solid fa-arrows-rotate"></i> Canlı Kur Endeksli</span>
-              <div class="product-cat">${kategoriAdi}</div>
-              <div class="product-title">Model #${i} (${gram} Gram)</div>
-              <div class="product-desc">Ürün fotoğrafı ve detaylı açıklama metni buraya gelecek.</div>
-              <div class="product-price">₺${hesaplananFiyat.toLocaleString('tr-TR')}</div>
-              <div class="card-actions">
-                <button class="btn-add-cart" onclick="sepeteEkle('${kategoriAdi} Model #${i}', ${hesaplananFiyat})"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-                <button class="btn-buy-now" onclick="hemenAl('${kategoriAdi} Model #${i}', ${hesaplananFiyat})">Şimdi Satın Al</button>
+
+            <div class="jewel-details">
+              <div class="jewel-specs">
+                <span><i class="fa-solid fa-scale-balanced" style="color:var(--gold-primary);"></i> Net: ${gram} Gr</span>
+                <span><i class="fa-solid fa-shield-halved" style="color:var(--gold-primary);"></i> Tescilli</span>
+              </div>
+
+              <div class="jewel-name">${kategoriAdi} &bull; Model #${i}</div>
+              <div class="jewel-subtext">Özel el kalemi, tescilli ayar güvencesi ve Kapalıçarşı işçilik zarafeti.</div>
+
+              <div class="jewel-price-box">
+                <div>
+                  <span class="jewel-live-tag"><i class="fa-solid fa-arrows-rotate"></i> Canlı Kur Değeri</span>
+                  <span style="font-size: 10px; color: var(--text-muted); text-transform:uppercase;">Tavsiye Satış</span>
+                </div>
+                <div class="jewel-cost">₺${hesaplananFiyat.toLocaleString('tr-TR')}</div>
+              </div>
+
+              <div class="jewel-btn-group">
+                <button class="btn-lux-cart" onclick="sepeteEkle('${kategoriAdi} Model #${i} (${gram} Gr)', ${hesaplananFiyat})">
+                  <i class="fa-solid fa-cart-plus"></i> Ekle
+                </button>
+                <button class="btn-lux-buy" onclick="hemenAl('${kategoriAdi} Model #${i} (${gram} Gr)', ${hesaplananFiyat})">
+                  Satın Al
+                </button>
               </div>
             </div>
           </div>
@@ -1188,11 +1217,6 @@
       }
 
       document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function katalogKapat() {
-      document.getElementById('catalogItemsView').style.display = 'none';
-      document.getElementById('catalogCoversView').style.display = 'grid';
     }
   </script>
 
