@@ -390,119 +390,102 @@
     /* ====================================================
        BAĞMANCI KATALOG (10 ÜRÜN)
     ==================================================== */
-    .catalog-section {
-      width: 100%;
-      max-width: 960px;
-      margin: 10px auto 40px;
-      padding: 0 16px;
-    }
-    .catalog-header { text-align: center; margin-bottom: 28px; }
-    .catalog-header h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 26px;
-      font-weight: 900;
-      color: var(--gold-primary);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-    .catalog-header p {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 5px;
-    }
-    .gold-divider { width: 45px; height: 2px; background: var(--gold-primary); margin: 12px auto 0; }
-
-    .products-grid {
+   /* KAPAKLI KATALOG & İÇ GÖRÜNÜM */
+    .catalog-covers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
     }
-    .product-card {
+    .catalog-cover-card {
       background: var(--card-glass);
       border: 1px solid var(--card-border);
       border-radius: 12px;
       overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    .catalog-cover-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-primary);
+      box-shadow: 0 15px 35px rgba(212,175,55,0.2);
+    }
+    .cover-img-placeholder {
+      height: 160px;
+      background: rgba(2, 8, 6, 0.9);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--gold-primary);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 15px rgba(212,175,55,0.15);
-    }
-    .product-icon-box {
-      height: 140px;
-      background: rgba(2, 8, 6, 0.8);
-      display: flex;
       align-items: center;
       justify-content: center;
       border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      color: var(--gold-primary);
+      gap: 8px;
     }
-    .product-icon-box i { font-size: 48px; color: var(--gold-primary); }
-    .product-body { padding: 14px; }
-    .product-cat {
-      font-size: 9px;
-      color: var(--emerald-accent);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 700;
-    }
-    .product-title {
+    .cover-img-placeholder i { font-size: 42px; }
+    .cover-info { padding: 16px 12px; }
+    .cover-title {
       font-family: 'Cinzel', serif;
       font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      margin: 4px 0 6px 0;
-      text-transform: uppercase;
-    }
-    .product-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
-      min-height: 30px;
-    }
-    .product-price {
-      font-family: 'Cinzel', serif;
-      font-size: 17px;
       font-weight: 800;
-      color: var(--gold-light);
-      margin: 10px 0;
+      color: #fff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .card-actions { display: flex; flex-direction: column; gap: 6px; }
-    .btn-add-cart {
+    .btn-open-cat {
       background: transparent;
       border: 1px solid var(--gold-primary);
-      color: var(--gold-primary);
-      padding: 8px;
-      border-radius: 5px;
-      font-size: 10.5px;
+      color: var(--gold-light);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 10px;
       font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.2s;
+      transition: 0.2s;
+      display: inline-block;
     }
-    .btn-add-cart:hover { background: var(--gold-primary); color: #020605; }
-    .btn-buy-now {
-      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%);
-      border: none;
-      color: #020605;
-      padding: 8px;
-      border-radius: 5px;
-      font-size: 10.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.2s;
+    .catalog-cover-card:hover .btn-open-cat {
+      background: var(--gold-primary);
+      color: #000;
     }
-    .btn-buy-now:hover { filter: brightness(1.2); }
 
+    /* İÇ ÜRÜN LİSTESİ ALANI */
+    .catalog-inner-view {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .cat-back-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .btn-cat-back {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--gold-light);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .item-calc-badge {
+      font-size: 9.5px;
+      color: var(--emerald-accent);
+      background: rgba(16, 185, 129, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      display: inline-block;
+      margin-bottom: 6px;
+    }
     /* ====================================================
        MOBİL UYGULAMA TİPİ ALT MENÜ (APP BAR)
     ==================================================== */
@@ -719,165 +702,78 @@
   <!-- ====================================================
        BAĞMANCI KATALOG (10 ADET ÖZEL ÜRÜN)
   ==================================================== -->
+ <!-- ====================================================
+       BAĞMANCI ANA KATALOG (KAPAKLI SİSTEM)
+  ==================================================== -->
   <section class="catalog-section" id="katalog">
     <div class="catalog-header">
       <h2>BAĞMANCI KATALOG</h2>
-      <p>Has Altın • Sarrafiye • Bilezik • Aksesuar • Saat</p>
+      <p>Özel İmalat • Sarrafiye • Yöresel Takı • Saat</p>
       <div class="gold-divider"></div>
     </div>
 
-    <div class="products-grid">
+    <!-- 1. GÖRÜNÜM: ANA KATALOG KAPAKLARI -->
+    <div id="catalogCoversView" class="catalog-covers-grid">
 
-      <!-- 1 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-bars"></i></div>
-        <div class="product-body">
-          <div class="product-cat">HAS ALTIN</div>
-          <div class="product-title">BAĞMANCI 1 Gr Külçe</div>
-          <div class="product-desc">24 Ayar 995.0 tescilli sertifikalı has gram altın.</div>
-          <div class="product-price">₺6.950</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('BAĞMANCI 1 Gr Külçe Altın', 6950)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('BAĞMANCI 1 Gr Külçe Altın', 6950)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Bilezik')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-ring"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Bilezik</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 2 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-coins"></i></div>
-        <div class="product-body">
-          <div class="product-cat">SARRAFİYE</div>
-          <div class="product-title">Yeni Çeyrek Altın</div>
-          <div class="product-desc">T.C. Darphane basımı yeni tarihli kulplu çeyrek altın.</div>
-          <div class="product-price">₺11.375</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('Yeni Çeyrek Altın', 11375)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('Yeni Çeyrek Altın', 11375)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Yüzük')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-gem"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Yüzük</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 3 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-circle-notch"></i></div>
-        <div class="product-body">
-          <div class="product-cat">SARRAFİYE</div>
-          <div class="product-title">Yeni Yarım Altın</div>
-          <div class="product-desc">Darphane üretimi garantili 22 ayar yarım ziynet.</div>
-          <div class="product-price">₺22.751</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('Yeni Yarım Altın', 22751)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('Yeni Yarım Altın', 22751)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Küpe')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-certificate"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Küpe</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 4 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-award"></i></div>
-        <div class="product-body">
-          <div class="product-cat">SARRAFİYE</div>
-          <div class="product-title">Yeni Tam Ziynet</div>
-          <div class="product-desc">Düğün ve yatırımlık 22 ayar tescilli tam altın lira.</div>
-          <div class="product-price">₺45.363</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('Yeni Tam Ziynet Altın', 45363)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('Yeni Tam Ziynet Altın', 45363)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Kolye')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-heart"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Kolye</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 5 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-ring"></i></div>
-        <div class="product-body">
-          <div class="product-cat">22 AYAR BİLEZİK</div>
-          <div class="product-title">22 Ayar Ajda Bilezik</div>
-          <div class="product-desc">10 Gram işçiliksiz, parlak klasik yatırım bileziği.</div>
-          <div class="product-price">₺64.020</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('22 Ayar Ajda Bilezik (10 Gr)', 64020)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('22 Ayar Ajda Bilezik (10 Gr)', 64020)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Madonna')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-award"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Madonna</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 6 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-fingerprint"></i></div>
-        <div class="product-body">
-          <div class="product-cat">22 AYAR BİLEZİK</div>
-          <div class="product-title">Urfa Burma Bilezik</div>
-          <div class="product-desc">Şanlıurfa el sanatı geleneksel 22 ayar burma model.</div>
-          <div class="product-price">₺96.500</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('Urfa Burma Bilezik', 96500)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('Urfa Burma Bilezik', 96500)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Frenk Bağı')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-link"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Frenk Bağı</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 7 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-gem"></i></div>
-        <div class="product-body">
-          <div class="product-cat">AKSESUAR</div>
-          <div class="product-title">14 Ayar Baget Kolye</div>
-          <div class="product-desc">Özel taş dizilimli, 14 ayar zarif altın kadın kolye.</div>
-          <div class="product-price">₺14.850</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('14 Ayar Baget Kolye', 14850)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('14 Ayar Baget Kolye', 14850)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Urfa Akıtması')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-fingerprint"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Urfa Akıtması</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 8 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-heart"></i></div>
-        <div class="product-body">
-          <div class="product-cat">AKSESUAR</div>
-          <div class="product-title">14 Ayar Altın Künye</div>
-          <div class="product-desc">Ezme kordonlu, şık ve günlük kullanıma uygun bileklik.</div>
-          <div class="product-price">₺18.400</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('14 Ayar Altın Künye', 18400)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('14 Ayar Altın Künye', 18400)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Bileklik')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-hands-bound"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Bileklik</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 9 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-clock"></i></div>
-        <div class="product-body">
-          <div class="product-cat">SAAT</div>
-          <div class="product-title">BAĞMANCI Altın Seri Saat</div>
-          <div class="product-desc">Safir cam, su geçirmez çelik kasa ve altın kadran.</div>
-          <div class="product-price">₺28.500</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('BAĞMANCI Altın Seri Saat', 28500)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('BAĞMANCI Altın Seri Saat', 28500)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Kelepçe Model Bilezik')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-lock"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Kelepçe Bilezik</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
-      <!-- 10 -->
-      <div class="product-card">
-        <div class="product-icon-box"><i class="fa-solid fa-stopwatch"></i></div>
-        <div class="product-body">
-          <div class="product-cat">SAAT</div>
-          <div class="product-title">BAĞMANCI Otomatik Saat</div>
-          <div class="product-desc">Mekanik kurmalı, deri kordonlu prestij erkek saati.</div>
-          <div class="product-price">₺34.000</div>
-          <div class="card-actions">
-            <button class="btn-add-cart" onclick="sepeteEkle('BAĞMANCI Otomatik Saat', 34000)"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
-            <button class="btn-buy-now" onclick="hemenAl('BAĞMANCI Otomatik Saat', 34000)">Şimdi Satın Al</button>
-          </div>
-        </div>
+      <div class="catalog-cover-card" onclick="katalogAc('Saat & Aksesuar')">
+        <div class="cover-img-placeholder"><i class="fa-solid fa-clock"></i><span>Kapak Görseli</span></div>
+        <div class="cover-info"><div class="cover-title">Saat & Aksesuar</div><span class="btn-open-cat">Kataloğu Aç</span></div>
       </div>
 
+    </div>
+
+    <!-- 2. GÖRÜNÜM: SEÇİLEN KATALOĞUN İÇİ (10 YUVA) -->
+    <div id="catalogItemsView" class="catalog-inner-view">
+      <div class="cat-back-bar">
+        <button class="btn-cat-back" onclick="katalogKapat()"><i class="fa-solid fa-chevron-left"></i> Tüm Kataloglar</button>
+        <h3 id="currentCatTitle" style="font-family:'Cinzel', serif; color: var(--gold-light); text-transform: uppercase;"></h3>
+      </div>
+      <div id="catalogItemsContainer" class="products-grid"></div>
     </div>
   </section>
 
@@ -1084,6 +980,49 @@
       sepet = [];
       guncelleSepet();
       modalKapat('sepetModal');
+    }// CANLI KUR VE DİNAMİK 10 ÜRÜN MOTORU
+    let canliBilezikFiyati = 6402;
+
+    function katalogAc(kategoriAdi) {
+      document.getElementById('catalogCoversView').style.display = 'none';
+      const innerView = document.getElementById('catalogItemsView');
+      innerView.style.display = 'block';
+      document.getElementById('currentCatTitle').innerText = 'BAĞMANCI • ' + kategoriAdi;
+
+      const container = document.getElementById('catalogItemsContainer');
+      container.innerHTML = '';
+
+      for (let i = 1; i <= 10; i++) {
+        let gram = (8 + (i * 2)); 
+        let hesaplananFiyat = Math.round(gram * canliBilezikFiyati);
+
+        container.innerHTML += `
+          <div class="product-card">
+            <div class="product-icon-box">
+              <i class="fa-regular fa-image"></i>
+              <span style="position: absolute; font-size: 10px; color: var(--text-muted); margin-top: 50px;">Fotoğraf Alanı #${i}</span>
+            </div>
+            <div class="product-body">
+              <span class="item-calc-badge"><i class="fa-solid fa-arrows-rotate"></i> Canlı Kur Endeksli</span>
+              <div class="product-cat">${kategoriAdi}</div>
+              <div class="product-title">Model #${i} (${gram} Gram)</div>
+              <div class="product-desc">Ürün fotoğrafı ve detaylı açıklama metni buraya gelecek.</div>
+              <div class="product-price">₺${hesaplananFiyat.toLocaleString('tr-TR')}</div>
+              <div class="card-actions">
+                <button class="btn-add-cart" onclick="sepeteEkle('${kategoriAdi} Model #${i}', ${hesaplananFiyat})"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+                <button class="btn-buy-now" onclick="hemenAl('${kategoriAdi} Model #${i}', ${hesaplananFiyat})">Şimdi Satın Al</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function katalogKapat() {
+      document.getElementById('catalogItemsView').style.display = 'none';
+      document.getElementById('catalogCoversView').style.display = 'grid';
     }
   </script>
 
