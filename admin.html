@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bağmancı Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020605;
+      --panel: rgba(4, 15, 12, 0.94);
+      --border: rgba(212, 175, 55, 0.28);
+      --gold: #d4af37;
+      --gold-light: #f7e8c3;
+      --text: #f7f6f2;
+      --muted: #a3b3ae;
+      --green: #34d399;
+      --red: #fb7185;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 0%, rgba(17, 42, 34, 0.42), rgba(2, 6, 5, 0.96) 58%), var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      padding: 24px;
+    }
+    .wrap { width: min(1100px, 100%); margin: 0 auto; }
+    header { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 20px; }
+    h1 { font-family: 'Cormorant Garamond', serif; color: var(--gold-light); font-size: clamp(30px, 5vw, 46px); letter-spacing: 1px; }
+    .home { color: var(--gold-light); text-decoration: none; border: 1px solid var(--border); border-radius: 7px; padding: 10px 14px; font-size: 12px; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 22px; box-shadow: 0 18px 44px rgba(0,0,0,0.4); margin-bottom: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; letter-spacing: 0.4px; }
+    input, select, textarea {
+      width: 100%;
+      background: rgba(2, 6, 5, 0.78);
+      color: var(--text);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 7px;
+      padding: 11px 12px;
+      font-family: inherit;
+      outline: none;
+    }
+    textarea { min-height: 92px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08); }
+    .full { grid-column: 1 / -1; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .primary { background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); color: #020605; }
+    .secondary { background: rgba(212, 175, 55, 0.1); color: var(--gold-light); border: 1px solid var(--border); }
+    .danger { background: rgba(251, 113, 133, 0.12); color: #fecdd3; border: 1px solid rgba(251, 113, 133, 0.34); }
+    .status { min-height: 24px; color: var(--muted); font-size: 13px; margin-top: 12px; }
+    .status.ok { color: var(--green); }
+    .status.err { color: var(--red); }
+    .hidden { display: none; }
+    .products { display: grid; gap: 10px; }
+    .product-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      background: rgba(2, 6, 5, 0.46);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .product-row strong { color: var(--gold-light); display: block; }
+    .product-row span { color: var(--muted); font-size: 12px; }
+    .muted { color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) {
+      body { padding: 14px; }
+      header { align-items: flex-start; flex-direction: column; }
+      .grid { grid-template-columns: 1fr; }
+      .product-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Bağmancı Admin</h1>
+        <p class="muted">Ürün ekle, fotoğraf yükle, katalogda otomatik göster.</p>
+      </div>
+      <a class="home" href="index.html">Siteye Dön</a>
+    </header>
+
+    <section class="panel" id="setup-panel">
+      <h2>Kurulum Bekleniyor</h2>
+      <p class="muted">Önce Supabase bilgilerini <strong>supabase-config.js</strong> dosyasına yazman gerekiyor.</p>
+    </section>
+
+    <section class="panel" id="login-panel">
+      <h2>Admin Girişi</h2>
+      <div class="grid" style="margin-top:14px;">
+        <label>E-posta
+          <input id="email" type="email" autocomplete="email" placeholder="admin mailin">
+        </label>
+        <label>Şifre
+          <input id="password" type="password" autocomplete="current-password" placeholder="şifren">
+        </label>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="login()">Giriş Yap</button>
+      </div>
+      <div class="status" id="login-status"></div>
+    </section>
+
+    <section class="panel hidden" id="admin-panel">
+      <h2>Ürün Ekle / Düzenle</h2>
+      <div class="grid" style="margin-top:14px;">
+        <input id="editing-id" type="hidden">
+        <label>Ürün Adı
+          <input id="name" placeholder="22 Ayar Bilezik Model 001" oninput="autoSlug()">
+        </label>
+        <label>Ürün ID / Link
+          <input id="id" placeholder="22-ayar-bilezik-001">
+        </label>
+        <label>Kategori
+          <select id="category">
+            <option>Bilezik</option>
+            <option>Yüzük</option>
+            <option>Küpe</option>
+            <option>Kolye</option>
+            <option>Madonna</option>
+            <option>Frenk Bağı</option>
+            <option>Urfa Akıtması</option>
+            <option>Saat & Aksesuar</option>
+          </select>
+        </label>
+        <label>Stok Kodu
+          <input id="sku" placeholder="BGM-BLZ-001">
+        </label>
+        <label>Etiket
+          <input id="badge" placeholder="22 AYAR">
+        </label>
+        <label>Fiyat Tipi
+          <select id="price_mode" onchange="togglePriceFields()">
+            <option value="liveGram">Canlı gram fiyatı</option>
+            <option value="fixed">Sabit fiyat</option>
+          </select>
+        </label>
+        <label id="gram-field">Gram
+          <input id="gram" type="number" step="0.01" placeholder="24.5">
+        </label>
+        <label id="labor-field">İşçilik / Ek Tutar
+          <input id="labor" type="number" step="1" placeholder="0">
+        </label>
+        <label id="fixed-field">Sabit Fiyat
+          <input id="fixed_price" type="number" step="1" placeholder="26800">
+        </label>
+        <label>Materyal
+          <input id="material" placeholder="Altın">
+        </label>
+        <label>Ayar
+          <input id="ayar" placeholder="22 Ayar">
+        </label>
+        <label>Renk
+          <input id="renk" placeholder="Sarı Altın">
+        </label>
+        <label>Taş
+          <input id="tas" placeholder="Tek taş / zirkon / pırlanta">
+        </label>
+        <label>Ölçü
+          <input id="olcu" placeholder="Mağazada ayarlanır">
+        </label>
+        <label>Stok
+          <input id="stok" placeholder="Mağazadan teyit">
+        </label>
+        <label class="full">Kısa Açıklama
+          <textarea id="short_description" placeholder="Kartta görünecek kısa ürün tanıtımı"></textarea>
+        </label>
+        <label class="full">Detay Açıklama
+          <textarea id="description" placeholder="Ürün detay sayfasındaki açıklama"></textarea>
+        </label>
+        <label class="full">Ürün Fotoğrafları
+          <input id="images" type="file" accept="image/*" multiple>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="saveProduct()">Kaydet</button>
+        <button class="secondary" onclick="clearForm()">Formu Temizle</button>
+        <button class="secondary" onclick="logout()">Çıkış</button>
+      </div>
+      <div class="status" id="save-status"></div>
+    </section>
+
+    <section class="panel hidden" id="products-panel">
+      <h2>Ürünler</h2>
+      <div class="products" id="products-list" style="margin-top:14px;"></div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script>
+    let supabaseClient = null;
+    let session = null;
+    let products = [];
+
+    const ids = ['id', 'name', 'category', 'sku', 'badge', 'price_mode', 'gram', 'labor', 'fixed_price', 'material', 'ayar', 'renk', 'tas', 'olcu', 'stok', 'short_description', 'description'];
+
+    function configured() {
+      const cfg = window.BAGMANCI_SUPABASE || {};
+      return Boolean(cfg.url && cfg.anonKey);
+    }
+
+    function initSupabase() {
+      if (!configured()) return false;
+      supabaseClient = window.supabase.createClient(window.BAGMANCI_SUPABASE.url, window.BAGMANCI_SUPABASE.anonKey);
+      return true;
+    }
+
+    function setStatus(id, message, type = '') {
+      const el = document.getElementById(id);
+      el.textContent = message;
+      el.className = `status ${type}`;
+    }
+
+    function showApp(isLoggedIn) {
+      document.getElementById('setup-panel').classList.toggle('hidden', configured());
+      document.getElementById('login-panel').classList.toggle('hidden', !configured() || isLoggedIn);
+      document.getElementById('admin-panel').classList.toggle('hidden', !isLoggedIn);
+      document.getElementById('products-panel').classList.toggle('hidden', !isLoggedIn);
+    }
+
+    function slugify(text) {
+      return text
+        .toLocaleLowerCase('tr-TR')
+        .replaceAll('ğ', 'g').replaceAll('ü', 'u').replaceAll('ş', 's').replaceAll('ı', 'i').replaceAll('ö', 'o').replaceAll('ç', 'c')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function autoSlug() {
+      const idEl = document.getElementById('id');
+      if (!idEl.value.trim()) idEl.value = slugify(document.getElementById('name').value);
+    }
+
+    function togglePriceFields() {
+      const fixed = document.getElementById('price_mode').value === 'fixed';
+      document.getElementById('gram-field').style.display = fixed ? 'none' : 'grid';
+      document.getElementById('labor-field').style.display = fixed ? 'none' : 'grid';
+      document.getElementById('fixed-field').style.display = fixed ? 'grid' : 'none';
+    }
+
+    async function login() {
+      setStatus('login-status', 'Giriş yapılıyor...');
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        setStatus('login-status', error.message, 'err');
+        return;
+      }
+      session = data.session;
+      setStatus('login-status', 'Giriş başarılı.', 'ok');
+      showApp(true);
+      loadProducts();
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      session = null;
+      showApp(false);
+    }
+
+    function formValue(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function numberValue(id) {
+      const value = formValue(id);
+      if (!value) return null;
+      const number = Number(value.replace(',', '.'));
+      return Number.isFinite(number) ? number : null;
+    }
+
+    async function uploadImages(productId) {
+      const input = document.getElementById('images');
+      const files = [...input.files];
+      const urls = [];
+
+      for (const file of files) {
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const path = `${productId}/${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/, ''))}.${ext}`;
+        const { error } = await supabaseClient.storage.from('product-images').upload(path, file, { upsert: true });
+        if (error) throw error;
+        const { data } = supabaseClient.storage.from('product-images').getPublicUrl(path);
+        urls.push(data.publicUrl);
+      }
+
+      return urls;
+    }
+
+    function productPayload(images) {
+      const priceMode = formValue('price_mode');
+      const id = formValue('id') || slugify(formValue('name'));
+      return {
+        id,
+        name: formValue('name'),
+        category: formValue('category'),
+        sku: formValue('sku'),
+        badge: formValue('badge'),
+        price_mode: priceMode,
+        gram: priceMode === 'liveGram' ? numberValue('gram') : null,
+        labor: priceMode === 'liveGram' ? (numberValue('labor') || 0) : 0,
+        fixed_price: priceMode === 'fixed' ? numberValue('fixed_price') : null,
+        images,
+        short_description: formValue('short_description'),
+        description: formValue('description'),
+        material: formValue('material'),
+        ayar: formValue('ayar'),
+        renk: formValue('renk'),
+        tas: formValue('tas'),
+        olcu: formValue('olcu'),
+        stok: formValue('stok'),
+        active: true
+      };
+    }
+
+    async function saveProduct() {
+      try {
+        setStatus('save-status', 'Kaydediliyor...');
+        const productId = formValue('id') || slugify(formValue('name'));
+        if (!productId || !formValue('name') || !formValue('category')) {
+          setStatus('save-status', 'Ürün adı, ID ve kategori zorunlu.', 'err');
+          return;
+        }
+
+        const editingId = formValue('editing-id');
+        const current = products.find(item => item.id === editingId || item.id === productId);
+        const uploaded = await uploadImages(productId);
+        const existingImages = current && Array.isArray(current.images) ? current.images : [];
+        const payload = productPayload(uploaded.length ? uploaded : existingImages);
+
+        const { error } = await supabaseClient.from('products').upsert(payload, { onConflict: 'id' });
+        if (error) throw error;
+
+        setStatus('save-status', 'Ürün kaydedildi.', 'ok');
+        clearForm();
+        loadProducts();
+      } catch (error) {
+        setStatus('save-status', error.message || 'Ürün kaydedilemedi.', 'err');
+      }
+    }
+
+    function clearForm() {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('category').value = 'Bilezik';
+      document.getElementById('price_mode').value = 'liveGram';
+      document.getElementById('labor').value = '0';
+      document.getElementById('images').value = '';
+      togglePriceFields();
+    }
+
+    function editProduct(id) {
+      const item = products.find(product => product.id === id);
+      if (!item) return;
+      document.getElementById('editing-id').value = item.id;
+      document.getElementById('id').value = item.id || '';
+      document.getElementById('name').value = item.name || '';
+      document.getElementById('category').value = item.category || 'Bilezik';
+      document.getElementById('sku').value = item.sku || '';
+      document.getElementById('badge').value = item.badge || '';
+      document.getElementById('price_mode').value = item.price_mode || 'fixed';
+      document.getElementById('gram').value = item.gram || '';
+      document.getElementById('labor').value = item.labor || 0;
+      document.getElementById('fixed_price').value = item.fixed_price || '';
+      document.getElementById('material').value = item.material || '';
+      document.getElementById('ayar').value = item.ayar || '';
+      document.getElementById('renk').value = item.renk || '';
+      document.getElementById('tas').value = item.tas || '';
+      document.getElementById('olcu').value = item.olcu || '';
+      document.getElementById('stok').value = item.stok || '';
+      document.getElementById('short_description').value = item.short_description || '';
+      document.getElementById('description').value = item.description || '';
+      togglePriceFields();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm('Bu ürünü silmek istiyor musun?')) return;
+      const { error } = await supabaseClient.from('products').delete().eq('id', id);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+      loadProducts();
+    }
+
+    async function loadProducts() {
+      const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
+      if (error) {
+        document.getElementById('products-list').innerHTML = `<p class="muted">${error.message}</p>`;
+        return;
+      }
+      products = data || [];
+      document.getElementById('products-list').innerHTML = products.map(item => `
+        <div class="product-row">
+          <div><strong>${item.name}</strong><span>${item.category} • ${item.sku || item.id}</span></div>
+          <button class="secondary" onclick="editProduct('${item.id}')">Düzenle</button>
+          <button class="danger" onclick="deleteProduct('${item.id}')">Sil</button>
+        </div>
+      `).join('') || '<p class="muted">Henüz ürün yok.</p>';
+    }
+
+    async function init() {
+      if (!initSupabase()) {
+        showApp(false);
+        return;
+      }
+      const { data } = await supabaseClient.auth.getSession();
+      session = data.session;
+      showApp(Boolean(session));
+      togglePriceFields();
+      if (session) loadProducts();
+    }
+
+    init();
+  </script>
+</body>
+</html>
