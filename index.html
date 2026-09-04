@@ -353,171 +353,50 @@
     </div>
   </div>
 
-<script>
-    let canliBilezikFiyati = 6450;
+/* Borsa Yanıp Sönme Animasyonları */
+@keyframes flashGreen {
+  0% { background-color: rgba(46, 204, 113, 0.4); }
+  100% { background-color: transparent; }
+}
 
-    function katalogAc(kategoriAdi) {
-      document.getElementById('catalogCoversView').style.display = 'none';
-      const innerView = document.getElementById('catalogItemsView');
-      innerView.style.display = 'block';
-      document.getElementById('currentCatTitle').innerText = 'BAĞMANCI • ' + kategoriAdi;
+@keyframes flashRed {
+  0% { background-color: rgba(231, 76, 60, 0.4); }
+  100% { background-color: transparent; }
+}
 
-      const container = document.getElementById('catalogItemsContainer');
-      container.innerHTML = '';
+.fiyat-artti {
+  animation: flashGreen 1.4s ease-out;
+  color: #2ecc71 !important;
+}
 
-      for (let i = 1; i <= 10; i++) {
-        let gr = (8 + (i * 2));
-        let fiyat = Math.round(gr * canliBilezikFiyati);
+.fiyat-dustu {
+  animation: flashRed 1.4s ease-out;
+  color: #e74c3c !important;
+}
 
-        container.innerHTML += `
-          <div class="item-card">
-            <div class="item-stage">
-              <span class="item-hallmark">22 AYAR</span>
-              <i class="fa-solid fa-gem"></i>
-              <span style="font-size:9px; color:var(--gold-light); margin-top:6px;">Model #${i}</span>
-            </div>
-            <div class="item-body">
-              <div class="item-title">${kategoriAdi} #${i}</div>
-              <div style="font-size:10px; color:var(--text-muted);">${gr} Gram • Canlı Kur</div>
-              <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
-              <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
-            </div>
-          </div>
-        `;
-      }
-      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
-    }
+.fiyat-hucre {
+  transition: color 0.4s ease;
+}
 
-    function katalogKapat() {
-      document.getElementById('catalogItemsView').style.display = 'none';
-      document.getElementById('catalogCoversView').style.display = 'grid';
-      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
-    }
+.market-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
 
-    let sepet = [];
-    function sepeteEkle(ad, f) {
-      sepet.push({ ad, f });
-      sepetGuncelle();
-      alert(ad + " sepete eklendi!");
-    }
-
-    function sepetGuncelle() {
-      document.getElementById('cartCount').innerText = sepet.length;
-      const list = document.getElementById('cartItems');
-      if (!sepet.length) {
-        list.innerHTML = 'Sepetiniz boş.';
-        document.getElementById('cartTotal').innerText = '₺0';
-        return;
-      }
-      let top = 0, h = '';
-      sepet.forEach((x) => {
-        top += x.f;
-        h += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
-      });
-      list.innerHTML = h;
-      document.getElementById('cartTotal').innerText = '₺' + top.toLocaleString('tr-TR');
-    }
-
-    function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
-    function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
-
-    // CANLI PİYASA MOTORU
-    async function fetchMarketData() {
-      const tableBody = document.getElementById('bagmanci-market-body');
-      const timeStampEl = document.getElementById('market-time');
-      let htmlText = '';
-
-      try {
-        const res = await fetch('/api/kur');
-        if (res.ok) {
-          htmlText = await res.text();
-        }
-      } catch (e) {}
-
-      if (htmlText) {
-        try {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(htmlText, 'text/html');
-          const rows = doc.querySelectorAll('tr');
-
-          let hasAlis = '', hasSatis = '';
-          let bzAlis = '', bzSatis = '';
-          let cyAlis = '', cySatis = '';
-          let yrAlis = '', yrSatis = '';
-          let ataAlis = '', ataSatis = '';
-
-          rows.forEach(r => {
-            const txt = r.innerText.toUpperCase();
-            const cells = r.querySelectorAll('td, th');
-            if (cells.length >= 3) {
-              const c1 = cells[1].innerText.trim().replace(/[^\d.,]/g, '');
-              const c2 = cells[2].innerText.trim().replace(/[^\d.,]/g, '');
-
-              if ((txt.includes('HAS') || txt.includes('GRAM')) && !hasAlis) {
-                hasAlis = c1; hasSatis = c2;
-              } else if (txt.includes('22') && !bzAlis) {
-                bzAlis = c1; bzSatis = c2;
-                let parsed = parseFloat(c2.replace(/\./g, '').replace(',', '.'));
-                if (!isNaN(parsed) && parsed > 1000) canliBilezikFiyati = parsed;
-              } else if (txt.includes('ÇEYREK') && !cyAlis) {
-                cyAlis = c1; cySatis = c2;
-              } else if (txt.includes('YARIM') && !yrAlis) {
-                yrAlis = c1; yrSatis = c2;
-              } else if ((txt.includes('ATA') || txt.includes('ZİYNET')) && !ataAlis) {
-                ataAlis = c1; ataSatis = c2;
-              }
-            }
-          });
-
-          if (hasAlis && bzAlis) {
-            tableBody.innerHTML = `
-              <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>${hasAlis} ₺</td><td>${hasSatis} ₺</td></tr>
-              <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>${bzAlis} ₺</td><td>${bzSatis} ₺</td></tr>
-              <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>${cyAlis} ₺</td><td>${cySatis} ₺</td></tr>
-              <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>${yrAlis} ₺</td><td>${yrSatis} ₺</td></tr>
-              <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>${ataAlis} ₺</td><td>${ataSatis} ₺</td></tr>
-            `;
-            const now = new Date();
-            timeStampEl.innerText = 'Şanlıurfa Canlı: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            return;
-          }
-        } catch (err) {
-          console.error('Ayrıştırma hatası:', err);
-        }
-      }
-
-      // Genel canlı API yedek hattı
-      try {
-        const altRes = await fetch('https://finans.truncgil.com/v3/today.json');
-        if (altRes.ok) {
-          const d = await altRes.json();
-          const gr = d['gram-altin'] || {};
-          const cy = d['ceyrek-altin'] || {};
-          const yr = d['yarim-altin'] || {};
-          const ata = d['cumhuriyet-altini'] || {};
-
-          let grSatisNum = parseFloat((gr.Selling || '0').replace(',', '.'));
-          let bzAlisVal = (grSatisNum * 0.916 * 0.98).toFixed(2);
-          let bzSatisVal = (grSatisNum * 0.916 * 1.02).toFixed(2);
-
-          tableBody.innerHTML = `
-            <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>${gr.Buying || '---'} ₺</td><td>${gr.Selling || '---'} ₺</td></tr>
-            <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>${bzAlisVal} ₺</td><td>${bzSatisVal} ₺</td></tr>
-            <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>${cy.Buying || '---'} ₺</td><td>${cy.Selling || '---'} ₺</td></tr>
-            <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>${yr.Buying || '---'} ₺</td><td>${yr.Selling || '---'} ₺</td></tr>
-            <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>${ata.Buying || '---'} ₺</td><td>${ata.Selling || '---'} ₺</td></tr>
-          `;
-          const now = new Date();
-          timeStampEl.innerText = 'Piyasa Canlı: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
-      } catch (e) {
-        timeStampEl.innerText = 'Canlı Mağaza Kurları';
-      }
-    }
-
-    fetchMarketData();
-    setInterval(fetchMarketData, 30000);
-  </script>
+.online-users {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #34d399;
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.5px;
+}
 
 </body>
 </html>
