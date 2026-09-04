@@ -817,16 +817,13 @@
   }
 
   // Canlı Piyasa Motoru (JSON veya HTML Veri Akışı)
-  async function fetchMarketData() {
-    const timeStampEl = document.getElementById('market-time');
-    try {
-      const res = await fetch('/api/kur');
-      if (!res.ok) return;
-
-      const contentType = res.headers.get('content-type') || '';
-
-      if (contentType.includes('application/json')) {
+async function fetchMarketData() {
+      const timeStampEl = document.getElementById('market-time');
+      try {
+        const res = await fetch('/api/kur');
+        if (!res.ok) return;
         const d = await res.json();
+
         if (d.has) {
           hucreGuncelle('row-has', 'has-alis', d.has.alis);
           hucreGuncelle('row-has', 'has-satis', d.has.satis);
@@ -850,56 +847,18 @@
           hucreGuncelle('row-ata', 'ata-alis', d.ata.alis);
           hucreGuncelle('row-ata', 'ata-satis', d.ata.satis);
         }
-      } else {
-        const htmlText = await res.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-        const rows = doc.querySelectorAll('tr');
 
-        rows.forEach(r => {
-          const txt = r.textContent.toLocaleUpperCase('tr-TR');
-          const cells = r.querySelectorAll('td');
-
-          if (cells.length >= 3) {
-            const alis = temizPara(cells[1].textContent);
-            const satis = temizPara(cells[2].textContent);
-
-            if (!alis || !satis) return;
-
-            if (txt.includes('HAS') || (txt.includes('GRAM') && !txt.includes('22'))) {
-              hucreGuncelle('row-has', 'has-alis', alis);
-              hucreGuncelle('row-has', 'has-satis', satis);
-            } else if (txt.includes('22') && !txt.includes('HURDA')) {
-              hucreGuncelle('row-22', 'bz-alis', alis);
-              hucreGuncelle('row-22', 'bz-satis', satis);
-              if (satis && satis.sayisal > 1000) canliBilezikFiyati = satis.sayisal;
-            } else if (txt.includes('ÇEYREK') || txt.includes('CEYREK')) {
-              hucreGuncelle('row-ceyrek', 'cy-alis', alis);
-              hucreGuncelle('row-ceyrek', 'cy-satis', satis);
-            } else if (txt.includes('YARIM')) {
-              hucreGuncelle('row-yarim', 'yr-alis', alis);
-              hucreGuncelle('row-yarim', 'yr-satis', satis);
-            } else if (txt.includes('ATA') || txt.includes('ZİYNET')) {
-              hucreGuncelle('row-ata', 'ata-alis', alis);
-              hucreGuncelle('row-ata', 'ata-satis', satis);
-            }
-          }
-        });
+        const now = new Date();
+        if (timeStampEl) {
+          timeStampEl.innerText = 'Canlı Güncelleme: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+      } catch (err) {
+        console.error('Veri hatası:', err);
       }
-
-      const now = new Date();
-      if (timeStampEl) {
-        timeStampEl.innerText = 'Canlı Güncelleme: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      }
-    } catch (err) {
-      console.error('Veri akışı hatası:', err);
     }
-  }
 
-  fetchMarketData();
-  setInterval(fetchMarketData, 3000);
-</script>
-<!-- CANLI PİYASA EKRANI - BİTİŞ -->
+    fetchMarketData();
+    setInterval(fetchMarketData, 3000);
   </script>
 
 </body>
