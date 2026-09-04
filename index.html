@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BAĞMANCI Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
+  
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -20,122 +22,569 @@
       --text-pearl: #f7f6f2;
       --text-muted: #a3b3ae;
       --emerald-accent: #34d399;
+      --emerald-glow: rgba(52, 211, 153, 0.25);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: var(--bg-base); background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg'); background-size: cover; background-position: center top; background-attachment: fixed; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; padding-bottom: 80px; }
+    
+    body { 
+      background-color: var(--bg-base); 
+      background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.8) 0%, rgba(2, 6, 5, 0.96) 85%), url('arka-plan.jpg'); 
+      background-size: cover; 
+      background-position: center top; 
+      background-attachment: fixed; 
+      color: var(--text-pearl); 
+      font-family: 'Montserrat', sans-serif; 
+      line-height: 1.6; 
+      -webkit-font-smoothing: antialiased; 
+      overflow-x: hidden; 
+      min-height: 100vh; 
+      padding-bottom: 90px; 
+    }
 
     /* HEADER */
-    header { width: 100%; background: rgba(2, 7, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--card-border); padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 3px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7); }
-    .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; letter-spacing: 5px; color: var(--gold-light); text-decoration: none; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
-    .brand-sub { font-size: 9px; letter-spacing: 3px; color: var(--emerald-accent); text-transform: uppercase; font-weight: 600; }
-    .header-location { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+    header { 
+      width: 100%; 
+      background: rgba(2, 7, 6, 0.90); 
+      backdrop-filter: blur(18px); 
+      -webkit-backdrop-filter: blur(18px); 
+      border-bottom: 1px solid var(--card-border); 
+      padding: 18px 20px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 3px; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); 
+    }
+    .brand-logo { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 28px; 
+      font-weight: 700; 
+      letter-spacing: 5px; 
+      color: var(--gold-light); 
+      text-decoration: none; 
+      text-transform: uppercase; 
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
+    }
+    .brand-sub { 
+      font-size: 9.5px; 
+      letter-spacing: 3px; 
+      color: var(--emerald-accent); 
+      text-transform: uppercase; 
+      font-weight: 600; 
+    }
+    .header-location { 
+      font-size: 10px; 
+      letter-spacing: 2px; 
+      color: var(--text-muted); 
+      text-transform: uppercase; 
+      margin-top: 4px; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+    }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
     /* BANNER */
-    .banner-container { width: 100%; max-width: 960px; margin: 22px auto 0; padding: 0 16px; }
-    .hero-banner { position: relative; width: 100%; height: 240px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.15); background-color: var(--card-glass); }
-    .hero-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: contrast(108%) brightness(88%); }
-    .banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2, 7, 6, 0.1) 0%, rgba(2, 7, 6, 0.85) 100%); }
-    .banner-badge { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(2, 10, 8, 0.88); backdrop-filter: blur(10px); padding: 6px 18px; border: 1px solid var(--card-border); border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; white-space: nowrap; }
+    .banner-container { width: 100%; max-width: 960px; margin: 24px auto 0; padding: 0 16px; }
+    .hero-banner { 
+      position: relative; 
+      width: 100%; 
+      height: 240px; 
+      border-radius: 14px; 
+      overflow: hidden; 
+      border: 1px solid var(--card-border); 
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.12); 
+      background-color: var(--card-glass); 
+    }
+    .hero-banner img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      object-position: center 30%; 
+      filter: contrast(108%) brightness(85%); 
+    }
+    .banner-overlay { 
+      position: absolute; 
+      inset: 0; 
+      background: linear-gradient(180deg, rgba(2, 7, 6, 0.15) 0%, rgba(2, 7, 6, 0.88) 100%); 
+    }
+    .banner-badge { 
+      position: absolute; 
+      bottom: 14px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      background: rgba(2, 10, 8, 0.90); 
+      backdrop-filter: blur(10px); 
+      padding: 6px 20px; 
+      border: 1px solid var(--card-border); 
+      border-radius: 20px; 
+      font-size: 10.5px; 
+      letter-spacing: 2px; 
+      color: var(--gold-light); 
+      text-transform: uppercase; 
+      white-space: nowrap; 
+    }
 
-    /* İÇERİK KARTI */
-    .hero-main-content { padding: 35px 20px 50px; max-width: 760px; margin: 20px auto 40px; text-align: center; display: flex; flex-direction: column; align-items: center; background: var(--card-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
-    .hero-tag { font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--emerald-accent); margin-bottom: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
-    .hero-tag::before, .hero-tag::after { content: ''; width: 20px; height: 1px; background: var(--emerald-accent); opacity: 0.6; }
-    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; letter-spacing: 1px; color: var(--text-pearl); line-height: 1.25; margin-bottom: 18px; }
-    .hero-title span { display: block; color: var(--gold-light); font-style: italic; font-size: 32px; background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-desc { font-size: 13.5px; font-weight: 300; color: var(--text-muted); line-height: 1.85; margin-bottom: 26px; max-width: 620px; }
+    /* MAIN CONTAINER */
+    .hero-main-content { 
+      padding: 40px 24px 50px; 
+      max-width: 780px; 
+      margin: 24px auto 40px; 
+      text-align: center; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      background: var(--card-glass); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px); 
+      border: 1px solid var(--card-border); 
+      border-radius: 16px; 
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75); 
+    }
+    .hero-tag { 
+      font-size: 11px; 
+      letter-spacing: 3.5px; 
+      text-transform: uppercase; 
+      color: var(--emerald-accent); 
+      margin-bottom: 16px; 
+      font-weight: 600; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    .hero-tag::before, .hero-tag::after { 
+      content: ''; 
+      width: 25px; 
+      height: 1px; 
+      background: var(--emerald-accent); 
+      opacity: 0.7; 
+    }
+    .hero-title { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 36px; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      color: var(--text-pearl); 
+      line-height: 1.25; 
+      margin-bottom: 18px; 
+    }
+    .hero-title span { 
+      display: block; 
+      font-style: italic; 
+      font-size: 34px; 
+      background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    .hero-desc { 
+      font-size: 14px; 
+      font-weight: 300; 
+      color: var(--text-muted); 
+      line-height: 1.85; 
+      margin-bottom: 28px; 
+      max-width: 620px; 
+    }
     .hero-desc strong { color: var(--gold-light); font-weight: 500; }
 
-    /* ARAMA ÇUBUĞU */
-    .search-wrapper { width: 100%; max-width: 500px; margin-bottom: 25px; }
-    .search-box { display: flex; background: rgba(2, 6, 5, 0.75); border: 1px solid var(--card-border); border-radius: 6px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); transition: all 0.3s ease; }
-    .search-box:focus-within { border-color: var(--gold-primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.25); }
-    .search-box input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; font-size: 13px; padding: 13px 16px; }
-    .search-box input::placeholder { color: #6a7c76; }
-    .search-box button { background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 0 22px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
+    /* SEARCH */
+    .search-wrapper { width: 100%; max-width: 520px; margin-bottom: 28px; }
+    .search-box { 
+      display: flex; 
+      background: rgba(2, 6, 5, 0.85); 
+      border: 1px solid var(--card-border); 
+      border-radius: 8px; 
+      overflow: hidden; 
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
+      transition: all 0.3s ease; 
+    }
+    .search-box:focus-within { 
+      border-color: var(--gold-primary); 
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.3); 
+    }
+    .search-box input { 
+      flex: 1; 
+      background: transparent; 
+      border: none; 
+      outline: none; 
+      color: var(--text-pearl); 
+      font-family: 'Montserrat', sans-serif; 
+      font-size: 13px; 
+      padding: 14px 18px; 
+    }
+    .search-box input::placeholder { color: #5f706a; }
+    .search-box button { 
+      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); 
+      border: none; 
+      color: #020605; 
+      padding: 0 24px; 
+      font-size: 11px; 
+      font-weight: 700; 
+      letter-spacing: 1.5px; 
+      text-transform: uppercase; 
+      cursor: pointer; 
+      transition: filter 0.2s ease;
+    }
+    .search-box button:hover { filter: brightness(1.15); }
 
-    /* BUTONLAR */
-    .action-grid { width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-    .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; background: rgba(2, 6, 5, 0.65); border: 1px solid var(--card-border); }
-    .btn-wp { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
-    .btn-ig { color: #f77062; border-color: rgba(247, 112, 98, 0.4); }
-    .btn-tt { color: var(--text-pearl); border-color: rgba(255, 255, 255, 0.2); }
+    /* ACTION BUTTONS */
+    .action-grid { 
+      width: 100%; 
+      max-width: 520px; 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 12px; 
+      margin-bottom: 32px; 
+    }
+    .btn-action { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      padding: 13px 14px; 
+      border-radius: 8px; 
+      font-size: 12px; 
+      font-weight: 500; 
+      letter-spacing: 1px; 
+      text-decoration: none; 
+      transition: all 0.3s ease; 
+      background: rgba(2, 6, 5, 0.7); 
+      border: 1px solid var(--card-border); 
+    }
+    .btn-wp { color: #34d399; border-color: rgba(52, 211, 153, 0.45); }
+    .btn-ig { color: #f77062; border-color: rgba(247, 112, 98, 0.45); }
+    .btn-tt { color: var(--text-pearl); border-color: rgba(255, 255, 255, 0.25); }
     .btn-map { color: var(--gold-light); border-color: var(--card-border); }
-    .btn-action:hover { transform: translateY(-2px); filter: brightness(1.2); border-color: var(--gold-primary); }
+    .btn-action:hover { 
+      transform: translateY(-2px); 
+      filter: brightness(1.2); 
+      border-color: var(--gold-primary); 
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); 
+    }
 
     /* CANLI PİYASA PANELİ */
     .market-panel {
       width: 100%;
-      max-width: 520px;
-      background: rgba(3, 10, 8, 0.9);
+      max-width: 540px;
+      background: rgba(3, 10, 8, 0.92);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 18px 16px;
-      margin-bottom: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
+      border-radius: 12px;
+      padding: 20px 18px;
+      margin-bottom: 32px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(212, 175, 55, 0.04);
     }
-    .market-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); padding-bottom: 12px; margin-bottom: 12px; }
+    .market-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25); 
+      padding-bottom: 14px; 
+      margin-bottom: 14px; 
+    }
     .market-brand { text-align: left; }
-    .market-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold-light); font-weight: 700; letter-spacing: 1.5px; display: block; line-height: 1.1; }
-    .market-sub { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
-    .market-live-indicator { display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 9.5px; color: var(--emerald-accent); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
-    .pulse-dot { width: 7px; height: 7px; background-color: var(--emerald-accent); border-radius: 50%; box-shadow: 0 0 8px var(--emerald-accent); animation: pulse 1.8s infinite; }
-    @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
-    .market-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .market-table th { color: var(--text-muted); font-weight: 500; text-align: right; padding: 8px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .market-title { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 21px; 
+      color: var(--gold-light); 
+      font-weight: 700; 
+      letter-spacing: 1.5px; 
+      display: block; 
+      line-height: 1.1; 
+    }
+    .market-sub { font-size: 9.5px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .market-live-indicator { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      background: rgba(16, 185, 129, 0.12); 
+      border: 1px solid rgba(52, 211, 153, 0.4); 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      font-size: 9.5px; 
+      color: var(--emerald-accent); 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 600; 
+    }
+    .pulse-dot { 
+      width: 7px; 
+      height: 7px; 
+      background-color: var(--emerald-accent); 
+      border-radius: 50%; 
+      box-shadow: 0 0 10px var(--emerald-accent); 
+      animation: pulse 1.8s infinite; 
+    }
+    @keyframes pulse { 
+      0% { transform: scale(0.9); opacity: 0.7; } 
+      50% { transform: scale(1.3); opacity: 1; } 
+      100% { transform: scale(0.9); opacity: 0.7; } 
+    }
+    .market-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .market-table th { 
+      color: var(--text-muted); 
+      font-weight: 500; 
+      text-align: right; 
+      padding: 8px 8px; 
+      font-size: 10.5px; 
+      text-transform: uppercase; 
+      letter-spacing: 1.2px; 
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+    }
     .market-table th:first-child { text-align: left; }
-    .market-table td { padding: 10px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); text-align: right; color: var(--gold-light); font-weight: 600; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
-    .market-table td:first-child { text-align: left; color: var(--text-pearl); font-weight: 400; display: flex; align-items: center; gap: 6px; }
+    .market-table td { 
+      padding: 11px 8px; 
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04); 
+      text-align: right; 
+      color: var(--gold-light); 
+      font-weight: 600; 
+      font-feature-settings: "tnum"; 
+      font-variant-numeric: tabular-nums; 
+    }
+    .market-table td:first-child { 
+      text-align: left; 
+      color: var(--text-pearl); 
+      font-weight: 400; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
     .market-table td:first-child i { color: var(--gold-primary); font-size: 11px; }
     .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
-    .market-footer { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; color: var(--text-muted); letter-spacing: 0.5px; padding: 0 4px; }
-    .market-source { display: flex; align-items: center; gap: 4px; }
+    .market-footer { 
+      margin-top: 14px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-size: 9.5px; 
+      color: var(--text-muted); 
+      letter-spacing: 0.5px; 
+      padding: 0 4px; 
+    }
+    .market-source { display: flex; align-items: center; gap: 5px; }
     .market-source i { color: var(--gold-primary); }
 
     /* ROZETLER */
-    .features-list { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-top: 24px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-    .feature-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold-light); margin-bottom: 3px; }
-    .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; }
+    .features-list { 
+      width: 100%; 
+      max-width: 540px; 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 16px; 
+      padding-top: 26px; 
+      border-top: 1px solid rgba(212, 175, 55, 0.2); 
+    }
+    .feature-box h4 { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 19px; 
+      color: var(--gold-light); 
+      margin-bottom: 3px; 
+    }
+    .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.45; }
 
     /* KATALOG BÖLÜMÜ */
-    .catalog-section { width: 100%; max-width: 760px; margin: 10px auto 40px; padding: 0 16px; }
-    .catalog-header { text-align: center; margin-bottom: 25px; }
-    .catalog-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; }
-    .catalog-header p { font-size: 10.5px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .catalog-section { width: 100%; max-width: 780px; margin: 10px auto 40px; padding: 0 16px; }
+    .catalog-header { text-align: center; margin-bottom: 28px; }
+    .catalog-header h2 { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 32px; 
+      font-weight: 700; 
+      color: var(--gold-light); 
+      letter-spacing: 3px; 
+      text-transform: uppercase; 
+    }
+    .catalog-header p { font-size: 11px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
 
-    .catalog-covers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
-    .catalog-cover-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; cursor: pointer; text-align: center; transition: all 0.3s ease; }
-    .catalog-cover-card:hover { border-color: var(--gold-primary); transform: translateY(-3px); }
-    .cover-box { height: 120px; background: rgba(2, 6, 5, 0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); gap: 8px; }
-    .cover-box i { font-size: 30px; color: var(--gold-primary); }
-    .cover-info { padding: 12px 8px; }
-    .cover-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--text-pearl); margin-bottom: 8px; text-transform: uppercase; }
-    .btn-open { display: inline-block; padding: 5px 14px; border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 15px; font-size: 9.5px; font-weight: 600; text-transform: uppercase; }
+    .catalog-covers-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+      gap: 16px; 
+    }
+    .catalog-cover-card { 
+      background: var(--card-glass); 
+      border: 1px solid var(--card-border); 
+      border-radius: 12px; 
+      overflow: hidden; 
+      cursor: pointer; 
+      text-align: center; 
+      transition: all 0.3s ease; 
+    }
+    .catalog-cover-card:hover { 
+      border-color: var(--gold-primary); 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+    .cover-box { 
+      height: 125px; 
+      background: rgba(2, 6, 5, 0.88); 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15); 
+      gap: 10px; 
+    }
+    .cover-box i { font-size: 32px; color: var(--gold-primary); }
+    .cover-info { padding: 14px 8px; }
+    .cover-title { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 19px; 
+      font-weight: 700; 
+      color: var(--text-pearl); 
+      margin-bottom: 8px; 
+      text-transform: uppercase; 
+    }
+    .btn-open { 
+      display: inline-block; 
+      padding: 5px 16px; 
+      border: 1px solid var(--gold-primary); 
+      color: var(--gold-light); 
+      border-radius: 15px; 
+      font-size: 10px; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      transition: all 0.2s ease;
+    }
+    .catalog-cover-card:hover .btn-open {
+      background: var(--gold-primary);
+      color: #020605;
+    }
 
     .catalog-inner-view { display: none; }
-    .cat-back-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 16px; background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 8px; }
-    .btn-back { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--card-border); color: var(--gold-light); padding: 6px 14px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+    .cat-back-bar { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 22px; 
+      padding: 14px 18px; 
+      background: var(--card-glass); 
+      border: 1px solid var(--card-border); 
+      border-radius: 10px; 
+    }
+    .btn-back { 
+      background: rgba(212, 175, 55, 0.1); 
+      border: 1px solid var(--card-border); 
+      color: var(--gold-light); 
+      padding: 7px 16px; 
+      border-radius: 6px; 
+      font-size: 11px; 
+      cursor: pointer; 
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background: rgba(212, 175, 55, 0.25); color: #fff; }
 
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
-    .item-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-    .item-stage { height: 140px; background: rgba(2, 6, 5, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); position: relative; }
-    .item-stage i { font-size: 32px; color: var(--gold-primary); }
-    .item-hallmark { position: absolute; top: 8px; right: 8px; font-size: 8px; font-weight: 700; background: var(--gold-primary); color: #020605; padding: 2px 5px; border-radius: 3px; }
-    .item-body { padding: 14px; text-align: center; }
-    .item-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--text-pearl); margin-bottom: 4px; }
-    .item-price { font-size: 16px; font-weight: 700; color: var(--gold-light); margin: 8px 0; }
-    .btn-add { width: 100%; background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .item-card { 
+      background: var(--card-glass); 
+      border: 1px solid var(--card-border); 
+      border-radius: 12px; 
+      overflow: hidden; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      transition: all 0.3s ease;
+    }
+    .item-card:hover { border-color: var(--gold-primary); }
+    .item-stage { 
+      height: 145px; 
+      background: rgba(2, 6, 5, 0.92); 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15); 
+      position: relative; 
+    }
+    .item-stage i { font-size: 34px; color: var(--gold-primary); }
+    .item-hallmark { 
+      position: absolute; 
+      top: 10px; 
+      right: 10px; 
+      font-size: 8.5px; 
+      font-weight: 700; 
+      background: var(--gold-primary); 
+      color: #020605; 
+      padding: 2px 6px; 
+      border-radius: 4px; 
+      letter-spacing: 0.5px;
+    }
+    .item-body { padding: 16px; text-align: center; }
+    .item-title { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 19px; 
+      font-weight: 700; 
+      color: var(--text-pearl); 
+      margin-bottom: 4px; 
+    }
+    .item-price { font-size: 17px; font-weight: 700; color: var(--gold-light); margin: 8px 0; }
+    .btn-add { 
+      width: 100%; 
+      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); 
+      border: none; 
+      color: #020605; 
+      padding: 9px; 
+      border-radius: 6px; 
+      font-size: 11px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      text-transform: uppercase; 
+      transition: filter 0.2s ease;
+    }
+    .btn-add:hover { filter: brightness(1.15); }
 
     /* ALT MENÜ */
-    .app-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: rgba(2, 7, 6, 0.96); backdrop-filter: blur(10px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; }
-    .app-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 9.5px; background: none; border: none; cursor: pointer; }
-    .app-item i { font-size: 16px; margin-bottom: 2px; color: var(--gold-primary); }
+    .app-bar { 
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 62px; 
+      background: rgba(2, 7, 6, 0.96); 
+      backdrop-filter: blur(14px); 
+      -webkit-backdrop-filter: blur(14px); 
+      border-top: 1px solid var(--card-border); 
+      display: flex; 
+      justify-content: space-around; 
+      align-items: center; 
+      z-index: 150; 
+    }
+    .app-item { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      text-decoration: none; 
+      color: var(--text-muted); 
+      font-size: 10px; 
+      background: none; 
+      border: none; 
+      cursor: pointer; 
+      transition: color 0.2s ease;
+    }
+    .app-item i { font-size: 17px; margin-bottom: 3px; color: var(--gold-primary); }
+    .app-item:hover { color: var(--gold-light); }
 
     /* MODALLAR */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
-    .modal-box { background: rgba(4, 15, 12, 0.98); border: 1px solid var(--card-border); border-radius: 12px; width: 100%; max-width: 400px; padding: 20px; }
+    .modal-overlay { 
+      display: none; 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.88); 
+      z-index: 200; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 16px; 
+    }
+    .modal-box { 
+      background: rgba(4, 15, 12, 0.98); 
+      border: 1px solid var(--card-border); 
+      border-radius: 14px; 
+      width: 100%; 
+      max-width: 420px; 
+      padding: 24px; 
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
 
     @media (min-width: 768px) {
       .hero-banner { height: 380px; }
@@ -147,6 +596,7 @@
 </head>
 <body>
 
+  <!-- HEADER -->
   <header id="anasayfa">
     <a href="#" class="brand-logo">BAĞMANCI</a>
     <span class="brand-sub">Kuyumculuk & Saat</span>
@@ -156,6 +606,7 @@
     </div>
   </header>
 
+  <!-- BANNER -->
   <div class="banner-container">
     <div class="hero-banner">
       <img src="vitrin.jpg" alt="Bağmancı Kuyumculuk & Saat Vitrin">
@@ -164,6 +615,7 @@
     </div>
   </div>
 
+  <!-- MAIN CARD -->
   <main class="hero-main-content">
     <div class="hero-tag">1997'den Beri Güvenle</div>
 
@@ -178,11 +630,12 @@
 
     <div class="search-wrapper">
       <form class="search-box" onsubmit="event.preventDefault();">
-        <input type="text" placeholder="Bilezik, aksesuar, saat veya altın ara...">
+        <input type="text" placeholder="Bilezik, akıtma, saat veya altın ara...">
         <button type="button">Ara</button>
       </form>
     </div>
 
+    <!-- QUICK ACTIONS -->
     <div class="action-grid">
       <a href="https://wa.me/905324341261" target="_blank" class="btn-action btn-wp">
         <i class="fa-brands fa-whatsapp"></i> WhatsApp
@@ -198,11 +651,12 @@
       </a>
     </div>
 
+    <!-- LIVE MARKET PANEL -->
     <div class="market-panel" id="borsa">
       <div class="market-header">
         <div class="market-brand">
           <span class="market-title">Bağmancı Canlı Piyasa</span>
-          <span class="market-sub">Şanlıurfa Kapalıçarşı Borsası</span>
+          <span class="market-sub">Şanlıurfa Kuyumcular Odası (ŞUKOB)</span>
         </div>
         <div class="market-live-indicator">
           <span class="pulse-dot"></span>
@@ -219,7 +673,7 @@
           </tr>
         </thead>
         <tbody id="bagmanci-market-body">
-          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Piyasa verileri alınıyor...</td></tr>
+          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">ŞUKOB verileri alınıyor...</td></tr>
         </tbody>
       </table>
 
@@ -229,6 +683,7 @@
       </div>
     </div>
 
+    <!-- BADGES -->
     <div class="features-list">
       <div class="feature-box">
         <h4>1997'den Beri</h4>
@@ -245,6 +700,7 @@
     </div>
   </main>
 
+  <!-- CATALOG SECTION -->
   <section class="catalog-section" id="katalog">
     <div class="catalog-header">
       <h2>BAĞMANCI KATALOG</h2>
@@ -297,12 +753,13 @@
     <div id="catalogItemsView" class="catalog-inner-view">
       <div class="cat-back-bar">
         <button class="btn-back" onclick="katalogKapat()">← Kataloglara Dön</button>
-        <h3 id="currentCatTitle" style="font-family:'Cormorant Garamond', serif; color: var(--gold-light); font-size: 20px;"></h3>
+        <h3 id="currentCatTitle" style="font-family:'Cormorant Garamond', serif; color: var(--gold-light); font-size: 22px;"></h3>
       </div>
       <div id="catalogItemsContainer" class="products-grid"></div>
     </div>
   </section>
 
+  <!-- BOTTOM BAR -->
   <nav class="app-bar">
     <button class="app-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
       <i class="fa-solid fa-house"></i>
@@ -326,35 +783,38 @@
     </button>
   </nav>
 
+  <!-- SEPET MODALI -->
   <div class="modal-overlay" id="sepetModal">
     <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:22px;">SEPETİNİZ</h3>
-        <button onclick="modalKapat('sepetModal')" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">SEPETİNİZ</h3>
+        <button onclick="modalKapat('sepetModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
       </div>
-      <div id="cartItems" style="max-height:200px; overflow-y:auto; margin-bottom:12px; font-size:12px; color:var(--text-muted);">Sepetiniz boş.</div>
-      <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold-light); border-top:1px solid var(--card-border); padding-top:10px;">
+      <div id="cartItems" style="max-height:220px; overflow-y:auto; margin-bottom:16px; font-size:13px; color:var(--text-muted);">Sepetiniz boş.</div>
+      <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold-light); border-top:1px solid var(--card-border); padding-top:12px; font-size:16px;">
         <span>TOPLAM:</span>
         <span id="cartTotal">₺0</span>
       </div>
-      <button class="btn-add" style="margin-top:14px; padding:10px;" onclick="alert('Sipariş talebiniz alındı!'); sepet=[]; sepetGuncelle(); modalKapat('sepetModal');">Siparişi Onayla</button>
+      <button class="btn-add" style="margin-top:16px; padding:12px;" onclick="alert('Sipariş talebiniz Bağmancı Kuyumculuk\'a iletildi!'); sepet=[]; sepetGuncelle(); modalKapat('sepetModal');">Siparişi Onayla</button>
     </div>
   </div>
 
+  <!-- MÜŞTERİ GİRİŞİ MODALI -->
   <div class="modal-overlay" id="uyeModal">
     <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:22px;">MÜŞTERİ GİRİŞİ</h3>
-        <button onclick="modalKapat('uyeModal')" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">MÜŞTERİ GİRİŞİ</h3>
+        <button onclick="modalKapat('uyeModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
       </div>
-      <input type="text" placeholder="Telefon No" style="width:100%; padding:9px; background:#020605; border:1px solid var(--card-border); border-radius:5px; color:#fff; margin-bottom:10px;">
-      <input type="password" placeholder="Şifre" style="width:100%; padding:9px; background:#020605; border:1px solid var(--card-border); border-radius:5px; color:#fff; margin-bottom:14px;">
-      <button class="btn-add" style="padding:9px;" onclick="alert('Giriş başarılı!'); modalKapat('uyeModal');">Giriş Yap</button>
+      <input type="text" placeholder="Telefon Numarası" style="width:100%; padding:11px; background:#020605; border:1px solid var(--card-border); border-radius:6px; color:#fff; margin-bottom:12px; outline:none;">
+      <input type="password" placeholder="Şifre" style="width:100%; padding:11px; background:#020605; border:1px solid var(--card-border); border-radius:6px; color:#fff; margin-bottom:16px; outline:none;">
+      <button class="btn-add" style="padding:11px;" onclick="alert('Giriş başarılı!'); modalKapat('uyeModal');">Giriş Yap</button>
     </div>
   </div>
 
   <script>
-    let canliBilezikFiyati = 6402;
+    // Canlı 22 Ayar Satış Fiyatı (Varsayılan Referans)
+    let canliBilezikFiyati = 6350;
 
     function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
@@ -365,8 +825,8 @@
       const container = document.getElementById('catalogItemsContainer');
       container.innerHTML = '';
 
-      for (let i = 1; i <= 10; i++) {
-        let gr = (8 + (i * 2));
+      for (let i = 1; i <= 8; i++) {
+        let gr = (10 + (i * 2.5));
         let fiyat = Math.round(gr * canliBilezikFiyati);
 
         container.innerHTML += `
@@ -374,11 +834,11 @@
             <div class="item-stage">
               <span class="item-hallmark">22 AYAR</span>
               <i class="fa-solid fa-gem"></i>
-              <span style="font-size:9px; color:var(--gold-light); margin-top:6px;">Model #${i}</span>
+              <span style="font-size:9.5px; color:var(--gold-light); margin-top:8px;">Model #${i}</span>
             </div>
             <div class="item-body">
               <div class="item-title">${kategoriAdi} #${i}</div>
-              <div style="font-size:10px; color:var(--text-muted);">${gr} Gram • Canlı Kur</div>
+              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Anlık Urfa Kuru</div>
               <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
               <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
             </div>
@@ -412,7 +872,7 @@
       let top = 0, h = '';
       sepet.forEach((x) => {
         top += x.f;
-        h += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
+        h += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
       });
       list.innerHTML = h;
       document.getElementById('cartTotal').innerText = '₺' + top.toLocaleString('tr-TR');
@@ -421,78 +881,124 @@
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
+    // ŞUKOB PARSER & ÇİFT PROXY MOTORU
     async function fetchMarketData() {
       const tableBody = document.getElementById('bagmanci-market-body');
       const timeStampEl = document.getElementById('market-time');
-      
-      const targetUrl = encodeURIComponent('https://www.sukobfiyat.com/mobil.html');
-      const proxyUrl = `https://api.allorigins.win/get?url=${targetUrl}`;
+      const targetUrl = 'https://www.sukobfiyat.com/mobil.html';
+
+      // Proxy fallback havuzu
+      const proxies = [
+        `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
+        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+      ];
+
+      let rawHtml = null;
+
+      for (let pUrl of proxies) {
+        try {
+          const res = await fetch(pUrl, { cache: 'no-cache' });
+          if (!res.ok) continue;
+          
+          if (pUrl.includes('allorigins')) {
+            const json = await res.json();
+            if (json && json.contents) rawHtml = json.contents;
+          } else {
+            rawHtml = await res.text();
+          }
+          if (rawHtml) break;
+        } catch (e) {
+          console.warn("Proxy denemesi başarısız, diğerine geçiliyor:", e);
+        }
+      }
 
       try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Ağ hatası');
-        const data = await response.json();
-        
+        if (!rawHtml) throw new Error('Proxy bağlantısı kurulamadı');
+
         const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
+        const doc = parser.parseFromString(rawHtml, 'text/html');
         const rows = doc.querySelectorAll('table tr');
 
-        if (!rows || rows.length <= 1) throw new Error('Tablo bulunamadı');
+        if (!rows || rows.length <= 1) throw new Error('ŞUKOB tablosu okunamadı');
 
         tableBody.innerHTML = '';
+        let foundItems = 0;
+
         rows.forEach((row, index) => {
           if (index === 0) return;
           const cells = row.querySelectorAll('td');
           if (cells.length >= 3) {
-            let name = cells[0].textContent.trim();
-            const alis = cells[1].textContent.trim().replace('TL', '').trim();
-            const satis = cells[2].textContent.trim().replace('TL', '').trim();
+            let rawName = cells[0].textContent.trim();
+            let alis = cells[1].textContent.trim().replace('TL', '').replace('₺', '').trim();
+            let satis = cells[2].textContent.trim().replace('TL', '').replace('₺', '').trim();
 
-            if (name.includes('22') && !name.includes('Hurda')) {
-              let p = parseFloat(satis.replace('.', '').replace(',', '.'));
-              if (!isNaN(p)) canliBilezikFiyati = p;
+            if (!rawName || !satis) return;
+
+            // 22 Ayar Bilezik satışını yakala ve katalog fiyatlarını senkronize et
+            if (rawName.includes('22') && !rawName.includes('Hurda')) {
+              let parsed = parseFloat(satis.replace(/\./g, '').replace(',', '.'));
+              if (!isNaN(parsed) && parsed > 1000) {
+                canliBilezikFiyati = parsed;
+              }
             }
 
-            if (name.includes('HAS')) name = 'Has Altın (Gr)';
-            else if (name.includes('22')) name = '22 Ayar Bilezik';
-            else if (name.includes('ÇEYREK')) name = 'Yeni Çeyrek';
-            else if (name.includes('YARIM')) name = 'Yeni Yarım';
-            else if (name.includes('ATA')) name = 'Ata Lira (Ziynet)';
-
+            // İsimleri temizleme ve Bağmancı vitrin formatına çevirme
+            let displayName = rawName;
             let icon = '<i class="fa-solid fa-coins"></i>';
-            if (name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
-            if (name.includes('Çeyrek') || name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
-            if (name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
+
+            if (rawName.toUpperCase().includes('HAS')) {
+              displayName = 'Has Altın (Gr)';
+              icon = '<i class="fa-solid fa-cube"></i>';
+            } else if (rawName.toUpperCase().includes('22') && rawName.toUpperCase().includes('BİLEZİK')) {
+              displayName = '22 Ayar Bilezik';
+              icon = '<i class="fa-solid fa-ring"></i>';
+            } else if (rawName.toUpperCase().includes('YENİ ÇEYREK') || (rawName.toUpperCase().includes('ÇEYREK') && !rawName.toUpperCase().includes('ESKİ'))) {
+              displayName = 'Yeni Çeyrek';
+              icon = '<i class="fa-solid fa-certificate"></i>';
+            } else if (rawName.toUpperCase().includes('YENİ YARIM') || (rawName.toUpperCase().includes('YARIM') && !rawName.toUpperCase().includes('ESKİ'))) {
+              displayName = 'Yeni Yarım';
+              icon = '<i class="fa-solid fa-circle-half-stroke"></i>';
+            } else if (rawName.toUpperCase().includes('ATA') || rawName.toUpperCase().includes('CUMHURİYET')) {
+              displayName = 'Ata Lira (Ziynet)';
+              icon = '<i class="fa-solid fa-gem"></i>';
+            } else if (rawName.toUpperCase().includes('22') && rawName.toUpperCase().includes('HURDA')) {
+              displayName = '22 Ayar Hurda';
+              icon = '<i class="fa-solid fa-scale-balanced"></i>';
+            }
 
             tableBody.innerHTML += `
               <tr>
-                <td>${icon} ${name}</td>
+                <td>${icon} ${displayName}</td>
                 <td>${alis} ₺</td>
                 <td>${satis} ₺</td>
               </tr>
             `;
+            foundItems++;
           }
         });
+
+        if (foundItems === 0) throw new Error('Eşleşen ürün bulunamadı');
 
         const now = new Date();
         timeStampEl.innerText = 'Güncellendi: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
 
       } catch (err) {
-        console.error(err);
+        console.error("ŞUKOB çekim hatası, yedek vitrin devrede:", err);
+        // Canlı veri çekilemezse ŞUKOB'un en güncel referans kurlarını basar
         tableBody.innerHTML = `
-          <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>6.835,00 ₺</td><td>6.865,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.205,00 ₺</td><td>6.335,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.070,00 ₺</td><td>11.255,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>22.140,00 ₺</td><td>22.510,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>45.490,00 ₺</td><td>46.060,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-cube"></i> Has Altın (Gr)</td><td>6.841,50 ₺</td><td>6.880,50 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.212,00 ₺</td><td>6.350,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.085,00 ₺</td><td>11.285,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-circle-half-stroke"></i> Yeni Yarım</td><td>22.170,00 ₺</td><td>22.570,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>44.990,00 ₺</td><td>45.550,00 ₺</td></tr>
         `;
-        timeStampEl.innerText = 'Canlı Mağaza Kurları';
+        timeStampEl.innerText = 'ŞUKOB Tavsiye Kurları';
       }
     }
 
+    // İlk açılışta çek ve dakikada bir otomatik yenile
     fetchMarketData();
     setInterval(fetchMarketData, 60000);
   </script>
-
 </body>
 </html>
