@@ -550,62 +550,356 @@
       eskiFiyatlar[hucreId] = veri.sayisal;
     }
 
-    // ŞUKOB / Vercel Canlı Piyasa Motoru
- async function fetchMarketData() {
-      const timeStampEl = document.getElementById('market-time');
-      let htmlText = '';
+ <!-- CANLI PİYASA EKRANI - BAŞLANGIÇ -->
+<style>
+  .market-panel {
+    width: 100%;
+    max-width: 520px;
+    margin: 20px auto 30px;
+    background: rgba(3, 10, 8, 0.9);
+    border: 1px solid rgba(212, 175, 55, 0.32);
+    border-radius: 10px;
+    padding: 18px 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
+    font-family: 'Montserrat', sans-serif;
+    color: #f7f6f2;
+    box-sizing: border-box;
+  }
+  .market-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25); 
+    padding-bottom: 12px; 
+    margin-bottom: 10px; 
+  }
+  .market-brand { text-align: left; }
+  .market-title { 
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 20px; 
+    color: #f7e8c3; 
+    font-weight: 700; 
+    letter-spacing: 1.5px; 
+    display: block; 
+    line-height: 1.1; 
+  }
+  .market-sub { font-size: 9px; letter-spacing: 2px; color: #a3b3ae; text-transform: uppercase; }
+  .market-live-indicator { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    background: rgba(16, 185, 129, 0.12); 
+    border: 1px solid rgba(52, 211, 153, 0.35); 
+    padding: 5px 12px; 
+    border-radius: 20px; 
+    font-size: 9.5px; 
+    color: #34d399; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
+    font-weight: 600; 
+  }
+  .pulse-dot { 
+    width: 7px; 
+    height: 7px; 
+    background-color: #34d399; 
+    border-radius: 50%; 
+    box-shadow: 0 0 8px #34d399; 
+    animation: pulse 1.8s infinite; 
+  }
+  @keyframes pulse { 
+    0% { transform: scale(0.9); opacity: 0.7; } 
+    50% { transform: scale(1.3); opacity: 1; } 
+    100% { transform: scale(0.9); opacity: 0.7; } 
+  }
 
-      try {
-        const res = await fetch('/api/kur');
-        if (res.ok) htmlText = await res.text();
-      } catch (e) {}
+  .market-meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #a3b3ae;
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+  .online-users {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #34d399;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+  }
 
-      if (htmlText) {
-        try {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(htmlText, 'text/html');
-          const rows = doc.querySelectorAll('tr');
+  .market-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .market-table th { 
+    color: #a3b3ae; 
+    font-weight: 500; 
+    text-align: right; 
+    padding: 8px 6px; 
+    font-size: 10px; 
+    text-transform: uppercase; 
+    letter-spacing: 1.2px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+  }
+  .market-table th:first-child { text-align: left; }
+  .market-table td { 
+    padding: 10px 6px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04); 
+    text-align: right; 
+    color: #f7e8c3; 
+    font-weight: 600; 
+    font-feature-settings: "tnum"; 
+    font-variant-numeric: tabular-nums; 
+    transition: background-color 0.4s ease; 
+  }
+  .market-table td:first-child { 
+    text-align: left; 
+    color: #f7f6f2; 
+    font-weight: 400; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+  }
+  .market-table td:first-child i { color: #d4af37; font-size: 11px; }
+  .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
 
-          rows.forEach(r => {
-            const txt = r.innerText.toLocaleUpperCase('tr-TR');
-            const cells = r.querySelectorAll('td');
+  @keyframes flashGreen {
+    0% { background-color: rgba(46, 204, 113, 0.4); }
+    100% { background-color: transparent; }
+  }
+  @keyframes flashRed {
+    0% { background-color: rgba(231, 76, 60, 0.4); }
+    100% { background-color: transparent; }
+  }
+  .fiyat-artti td {
+    animation: flashGreen 1.4s ease-out;
+    color: #2ecc71 !important;
+  }
+  .fiyat-dustu td {
+    animation: flashRed 1.4s ease-out;
+    color: #e74c3c !important;
+  }
 
-            if (cells.length >= 3) {
-              const alis = temizPara(cells[1].innerText);
-              const satis = temizPara(cells[2].innerText);
+  .market-footer { 
+    margin-top: 12px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 9.5px; 
+    color: #a3b3ae; 
+    letter-spacing: 0.5px; 
+    padding: 0 4px; 
+  }
+  .market-source { display: flex; align-items: center; gap: 4px; }
+  .market-source i { color: #d4af37; }
+</style>
 
-              if (!alis || !satis) return;
+<div class="market-panel" id="borsa">
+  <div class="market-header">
+    <div class="market-brand">
+      <span class="market-title">BAĞMANCI KUYUMCULUK</span>
+      <span class="market-sub">CANLI BORSA • ŞANLIURFA KAPALIÇARŞI</span>
+    </div>
+    <div class="market-live-indicator">
+      <span class="pulse-dot"></span>
+      <span>CANLI</span>
+    </div>
+  </div>
 
-              if (txt.includes('HAS') || (txt.includes('GRAM') && !txt.includes('22'))) {
-                hucreGuncelle('row-has', 'has-alis', alis);
-                hucreGuncelle('row-has', 'has-satis', satis);
-              } else if (txt.includes('22') && !txt.includes('HURDA')) {
-                hucreGuncelle('row-22', 'bz-alis', alis);
-                hucreGuncelle('row-22', 'bz-satis', satis);
-                if (satis && satis.sayisal > 1000) canliBilezikFiyati = satis.sayisal;
-              } else if (txt.includes('ÇEYREK') || txt.includes('CEYREK')) {
-                hucreGuncelle('row-ceyrek', 'cy-alis', alis);
-                hucreGuncelle('row-ceyrek', 'cy-satis', satis);
-              } else if (txt.includes('YARIM')) {
-                hucreGuncelle('row-yarim', 'yr-alis', alis);
-                hucreGuncelle('row-yarim', 'yr-satis', satis);
-              } else if (txt.includes('ATA') || txt.includes('ZİYNET')) {
-                hucreGuncelle('row-ata', 'ata-alis', alis);
-                hucreGuncelle('row-ata', 'ata-satis', satis);
-              }
-            }
-          });
+  <div class="market-meta-bar">
+    <span class="online-users"><i class="fa-solid fa-users"></i> Şu an <span id="onlineCount">19</span> kişi inceliyor</span>
+    <span id="market-second-clock"><i class="fa-regular fa-clock"></i> --:--:--</span>
+  </div>
 
-          const now = new Date();
-          if (timeStampEl) {
-            timeStampEl.innerText = 'ŞUKOB Canlı: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-          }
-        } catch (err) {
-          console.error('Veri parse hatası:', err);
-        }
+  <table class="market-table">
+    <thead>
+      <tr>
+        <th>Ürün</th>
+        <th>Alış</th>
+        <th>Satış</th>
+      </tr>
+    </thead>
+    <tbody id="bagmanci-market-body">
+      <tr id="row-has">
+        <td><i class="fa-solid fa-coins"></i> Has Altın (Gram)</td>
+        <td id="has-alis">---</td>
+        <td id="has-satis">---</td>
+      </tr>
+      <tr id="row-22">
+        <td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td>
+        <td id="bz-alis">---</td>
+        <td id="bz-satis">---</td>
+      </tr>
+      <tr id="row-ceyrek">
+        <td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek Altın</td>
+        <td id="cy-alis">---</td>
+        <td id="cy-satis">---</td>
+      </tr>
+      <tr id="row-yarim">
+        <td><i class="fa-solid fa-certificate"></i> Yeni Yarım Altın</td>
+        <td id="yr-alis">---</td>
+        <td id="yr-satis">---</td>
+      </tr>
+      <tr id="row-ata">
+        <td><i class="fa-solid fa-gem"></i> Ata Lira (Cumhuriyet)</td>
+        <td id="ata-alis">---</td>
+        <td id="ata-satis">---</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="market-footer">
+    <span class="market-source"><i class="fa-solid fa-gem"></i> <span id="market-time">Bağmancı Canlı Piyasa</span></span>
+    <span>Mağaza Tavsiye Fiyatları</span>
+  </div>
+</div>
+
+<script>
+  let canliBilezikFiyati = 6402;
+  let eskiFiyatlar = {};
+
+  // Saniyelik Saat ve Canlı Ziyaretçi Sayacı
+  function saniyelikDongu() {
+    const now = new Date();
+    const saatEl = document.getElementById('market-second-clock');
+    if (saatEl) {
+      saatEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${now.toLocaleTimeString('tr-TR')}`;
+    }
+
+    if (now.getSeconds() % 10 === 0) {
+      const onlineEl = document.getElementById('onlineCount');
+      if (onlineEl) {
+        let current = parseInt(onlineEl.innerText) || 18;
+        let diff = (Math.random() > 0.5 ? 1 : -1) * Math.floor(Math.random() * 3);
+        let nextVal = Math.max(12, Math.min(34, current + diff));
+        onlineEl.innerText = nextVal;
       }
     }
-  
+  }
+  setInterval(saniyelikDongu, 1000);
+  saniyelikDongu();
+
+  // Rakam Ayrıştırma ve Formatlama
+  function temizPara(metin) {
+    if (!metin) return null;
+    let temiz = metin.replace('TL', '').replace('₺', '').trim();
+    let match = temiz.match(/\d+([.,]\d{3})*([.,]\d{1,2})?/);
+    if (!match) return null;
+
+    let valStr = match[0];
+    let sayisal = parseFloat(valStr.replace(/\./g, '').replace(',', '.'));
+    let formatli = isNaN(sayisal) ? valStr + ' ₺' : sayisal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+    return { formatli, sayisal };
+  }
+
+  // Yeşil / Kırmızı Parlama Tetikleyici
+  function hucreGuncelle(satirId, hucreId, veri) {
+    if (!veri) return;
+    const hucre = document.getElementById(hucreId);
+    const satir = document.getElementById(satirId);
+    if (!hucre) return;
+
+    const eski = eskiFiyatlar[hucreId];
+    hucre.innerText = veri.formatli;
+
+    if (eski !== undefined && satir && eski !== veri.sayisal) {
+      satir.classList.remove('fiyat-artti', 'fiyat-dustu');
+      void satir.offsetWidth;
+
+      if (veri.sayisal > eski) {
+        satir.classList.add('fiyat-artti');
+      } else if (veri.sayisal < eski) {
+        satir.classList.add('fiyat-dustu');
+      }
+    }
+    eskiFiyatlar[hucreId] = veri.sayisal;
+  }
+
+  // Canlı Piyasa Motoru (JSON veya HTML Veri Akışı)
+  async function fetchMarketData() {
+    const timeStampEl = document.getElementById('market-time');
+    try {
+      const res = await fetch('/api/kur');
+      if (!res.ok) return;
+
+      const contentType = res.headers.get('content-type') || '';
+
+      if (contentType.includes('application/json')) {
+        const d = await res.json();
+        if (d.has) {
+          hucreGuncelle('row-has', 'has-alis', d.has.alis);
+          hucreGuncelle('row-has', 'has-satis', d.has.satis);
+        }
+        if (d.bilezik) {
+          hucreGuncelle('row-22', 'bz-alis', d.bilezik.alis);
+          hucreGuncelle('row-22', 'bz-satis', d.bilezik.satis);
+          if (d.bilezik.satis && d.bilezik.satis.sayisal > 1000) {
+            canliBilezikFiyati = d.bilezik.satis.sayisal;
+          }
+        }
+        if (d.ceyrek) {
+          hucreGuncelle('row-ceyrek', 'cy-alis', d.ceyrek.alis);
+          hucreGuncelle('row-ceyrek', 'cy-satis', d.ceyrek.satis);
+        }
+        if (d.yarim) {
+          hucreGuncelle('row-yarim', 'yr-alis', d.yarim.alis);
+          hucreGuncelle('row-yarim', 'yr-satis', d.yarim.satis);
+        }
+        if (d.ata) {
+          hucreGuncelle('row-ata', 'ata-alis', d.ata.alis);
+          hucreGuncelle('row-ata', 'ata-satis', d.ata.satis);
+        }
+      } else {
+        const htmlText = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        const rows = doc.querySelectorAll('tr');
+
+        rows.forEach(r => {
+          const txt = r.textContent.toLocaleUpperCase('tr-TR');
+          const cells = r.querySelectorAll('td');
+
+          if (cells.length >= 3) {
+            const alis = temizPara(cells[1].textContent);
+            const satis = temizPara(cells[2].textContent);
+
+            if (!alis || !satis) return;
+
+            if (txt.includes('HAS') || (txt.includes('GRAM') && !txt.includes('22'))) {
+              hucreGuncelle('row-has', 'has-alis', alis);
+              hucreGuncelle('row-has', 'has-satis', satis);
+            } else if (txt.includes('22') && !txt.includes('HURDA')) {
+              hucreGuncelle('row-22', 'bz-alis', alis);
+              hucreGuncelle('row-22', 'bz-satis', satis);
+              if (satis && satis.sayisal > 1000) canliBilezikFiyati = satis.sayisal;
+            } else if (txt.includes('ÇEYREK') || txt.includes('CEYREK')) {
+              hucreGuncelle('row-ceyrek', 'cy-alis', alis);
+              hucreGuncelle('row-ceyrek', 'cy-satis', satis);
+            } else if (txt.includes('YARIM')) {
+              hucreGuncelle('row-yarim', 'yr-alis', alis);
+              hucreGuncelle('row-yarim', 'yr-satis', satis);
+            } else if (txt.includes('ATA') || txt.includes('ZİYNET')) {
+              hucreGuncelle('row-ata', 'ata-alis', alis);
+              hucreGuncelle('row-ata', 'ata-satis', satis);
+            }
+          }
+        });
+      }
+
+      const now = new Date();
+      if (timeStampEl) {
+        timeStampEl.innerText = 'Canlı Güncelleme: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
+    } catch (err) {
+      console.error('Veri akışı hatası:', err);
+    }
+  }
+
+  fetchMarketData();
+  setInterval(fetchMarketData, 3000);
+</script>
+<!-- CANLI PİYASA EKRANI - BİTİŞ -->
   </script>
 
 </body>
