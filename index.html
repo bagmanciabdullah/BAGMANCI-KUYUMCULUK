@@ -262,52 +262,53 @@
       gap: 10px;
       margin-top: 4px;
     }
-    .live-visitors {
-      color: var(--emerald-accent);
-      font-weight: 600;
+    .market-live-text {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 7px;
+      color: var(--text-muted);
+    }
+    .live-visitors {
+      color: var(--emerald-accent);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      letter-spacing: 1.4px;
     }
     .market-status-box {
       display: flex;
-      flex-direction: column;
       align-items: flex-end;
-      gap: 5px;
+      justify-content: center;
     }
-    .market-live-indicator { 
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-      background: rgba(16, 185, 129, 0.14); 
-      border: 1px solid rgba(52, 211, 153, 0.45); 
-      padding: 5px 12px; 
-      border-radius: 20px; 
-      font-size: 10px; 
-      color: var(--emerald-accent); 
-      text-transform: uppercase; 
-      letter-spacing: 1.5px; 
-      font-weight: 700; 
-    }
+    .market-live-indicator { display: none; }
     .live-clock {
-      font-size: 11px;
+      min-width: 96px;
+      text-align: center;
+      font-size: 12px;
       color: var(--gold-light);
-      letter-spacing: 1px;
+      letter-spacing: 1.4px;
       font-variant-numeric: tabular-nums;
-      font-weight: 600;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.34);
+      background: linear-gradient(180deg, rgba(247, 232, 195, 0.08), rgba(212, 175, 55, 0.035));
+      box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.06), 0 8px 22px rgba(0, 0, 0, 0.24);
     }
-    .pulse-dot { 
-      width: 7px; 
-      height: 7px; 
-      background-color: var(--emerald-accent); 
-      border-radius: 50%; 
-      box-shadow: 0 0 10px var(--emerald-accent); 
-      animation: pulse 1.6s infinite; 
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--emerald-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.62), 0 0 12px rgba(52, 211, 153, 0.9);
+      animation: softPulse 1.9s ease-in-out infinite;
+      flex: 0 0 auto;
     }
-    @keyframes pulse { 
-      0% { transform: scale(0.9); opacity: 0.7; } 
-      50% { transform: scale(1.3); opacity: 1; } 
-      100% { transform: scale(0.9); opacity: 0.7; } 
+    @keyframes softPulse {
+      0% { transform: scale(0.88); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55), 0 0 9px rgba(52, 211, 153, 0.8); opacity: 0.78; }
+      58% { transform: scale(1); box-shadow: 0 0 0 7px rgba(52, 211, 153, 0), 0 0 16px rgba(52, 211, 153, 0.95); opacity: 1; }
+      100% { transform: scale(0.88); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0), 0 0 9px rgba(52, 211, 153, 0.8); opacity: 0.78; }
     }
     .market-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     .market-table th { 
@@ -334,13 +335,10 @@
       text-align: left; 
       color: var(--text-pearl); 
       font-weight: 400; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
+      display: table-cell;
     }
     .market-table td:first-child i { color: var(--gold-primary); font-size: 12px; }
     .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
-    .market-table td:first-child { display: table-cell; }
     .market-product-name {
       display: inline-flex;
       align-items: center;
@@ -353,36 +351,51 @@
       align-items: center;
       justify-content: flex-end;
       gap: 5px;
-      min-width: 96px;
-      padding: 3px 6px;
-      border-radius: 6px;
-      transition: color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      min-width: 86px;
+      padding: 3px 7px;
+      border-radius: 8px;
+      transition: color 0.45s ease, background-color 0.45s ease, box-shadow 0.45s ease, transform 0.45s ease;
+      will-change: transform, background-color, color;
     }
     .market-price.price-up {
-      color: #34d399;
-      background: rgba(52, 211, 153, 0.14);
-      box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.28);
-      animation: priceUpFlash 1.25s ease;
+      color: #4ade80;
+      background: linear-gradient(90deg, rgba(74, 222, 128, 0.17), rgba(74, 222, 128, 0.045));
+      box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.22), 0 0 18px rgba(74, 222, 128, 0.08);
+      animation: priceRiseGlow 2.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .market-price.price-down {
-      color: #f87171;
-      background: rgba(248, 113, 113, 0.14);
-      box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.30);
-      animation: priceDownFlash 1.25s ease;
+      color: #fb7185;
+      background: linear-gradient(90deg, rgba(251, 113, 133, 0.17), rgba(251, 113, 133, 0.045));
+      box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.24), 0 0 18px rgba(251, 113, 133, 0.08);
+      animation: priceDropGlow 2.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .market-arrow {
-      font-size: 9px;
+      font-size: 8px;
       line-height: 1;
+      opacity: 0.92;
+      transform: translateY(0);
     }
-    @keyframes priceUpFlash {
-      0% { transform: scale(1); }
-      35% { transform: scale(1.045); }
-      100% { transform: scale(1); }
+    .price-up .market-arrow { animation: arrowFloatUp 2.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    .price-down .market-arrow { animation: arrowFloatDown 2.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes priceRiseGlow {
+      0% { transform: translateY(0); }
+      18% { transform: translateY(-1px); }
+      100% { transform: translateY(0); }
     }
-    @keyframes priceDownFlash {
-      0% { transform: scale(1); }
-      35% { transform: scale(0.965); }
-      100% { transform: scale(1); }
+    @keyframes priceDropGlow {
+      0% { transform: translateY(0); }
+      18% { transform: translateY(1px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes arrowFloatUp {
+      0% { opacity: 0; transform: translateY(3px); }
+      20% { opacity: 1; transform: translateY(-1px); }
+      100% { opacity: 0.92; transform: translateY(0); }
+    }
+    @keyframes arrowFloatDown {
+      0% { opacity: 0; transform: translateY(-3px); }
+      20% { opacity: 1; transform: translateY(1px); }
+      100% { opacity: 0.92; transform: translateY(0); }
     }
     .market-footer { 
       margin-top: 14px; 
@@ -666,15 +679,11 @@
         <div class="market-brand">
           <span class="market-title">BAĞMANCI KUYUMCULUK</span>
           <div class="market-sub">
-            <span>Canlı Piyasa</span>
-            <span class="live-visitors"><i class="fa-solid fa-eye"></i> <span id="visitor-count">14</span> Kişi İncelemekte</span>
+            <span class="market-live-text"><span class="pulse-dot"></span> Canlı Piyasa</span>
+            <span class="live-visitors"><i class="fa-solid fa-eye"></i> <span id="visitor-count">14</span></span>
           </div>
         </div>
         <div class="market-status-box">
-          <div class="market-live-indicator">
-            <span class="pulse-dot"></span>
-            <span>Canlı</span>
-          </div>
           <span class="live-clock" id="live-clock">--:--:--</span>
         </div>
       </div>
@@ -693,7 +702,7 @@
       </table>
 
       <div class="market-footer">
-        <span class="market-source"><i class="fa-solid fa-rotate"></i> <span id="market-sync-info">Canlı Fiyat Akışı Aktif</span></span>
+        <span class="market-source" id="market-sync-info">--</span>
         <span>Mağaza Tavsiye Fiyatları</span>
       </div>
     </div>
@@ -906,11 +915,7 @@
     function formatPrice(value, type) {
       const number = Number(value);
       if (!Number.isFinite(number)) return '-';
-      const decimals = type === 'USD' || type === 'EUR' ? 3 : 2;
-      return number.toLocaleString('tr-TR', {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-      }) + ' ₺';
+      return Math.round(number).toLocaleString('tr-TR') + ' ₺';
     }
 
     function productIcon(item) {
@@ -970,6 +975,13 @@
       }
     }
 
+    function formatMarketDate(lastUpdate) {
+      if (typeof lastUpdate === 'string' && lastUpdate.trim()) {
+        return lastUpdate.trim().split(' ')[0];
+      }
+      return new Date().toLocaleDateString('tr-TR');
+    }
+
     async function fetchMarketData() {
       if (marketRequestRunning) return;
       marketRequestRunning = true;
@@ -984,7 +996,7 @@
             const data = await fetchJsonWithTimeout(url);
             renderMarketRows(data);
             const lastUpdate = data.find(item => item.lastUpdate)?.lastUpdate;
-            syncInfo.innerText = lastUpdate ? `SUKOB canlı veri: ${lastUpdate}` : 'SUKOB canlı fiyat akışı aktif';
+            syncInfo.innerText = formatMarketDate(lastUpdate);
             return;
           } catch (error) {
             lastError = error;
@@ -996,7 +1008,7 @@
         if (!tableBody.dataset.hasLiveData) {
           tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:16px;">Canlı veri bekleniyor, birazdan tekrar denenecek...</td></tr>';
         }
-        syncInfo.innerText = 'Bağlantı yenileniyor...';
+        syncInfo.innerText = new Date().toLocaleDateString('tr-TR');
       } finally {
         marketRequestRunning = false;
       }
