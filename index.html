@@ -10,20 +10,99 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    :root {
-      --bg-base: #020605;
-      --card-glass: rgba(4, 15, 12, 0.82);
-      --card-border: rgba(212, 175, 55, 0.32);
-      --gold-primary: #d4af37;
-      --gold-light: #f7e8c3;
-      --gold-dark: #917222;
-      --text-pearl: #f7f6f2;
-      --text-muted: #a3b3ae;
-      --emerald-accent: #34d399;
-    }
+   .kur-alani {
+  padding: 40px 20px;
+  background: radial-gradient(circle at center, #0a110d 0%, #030504 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: var(--bg-base); background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg'); background-size: cover; background-position: center top; background-attachment: fixed; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; padding-bottom: 80px; }
+.kur-baslik {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.kur-baslik h2 {
+  color: #d4af37;
+  font-family: 'Cinzel', serif, sans-serif;
+  letter-spacing: 3px;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.canli-nokta {
+  width: 9px;
+  height: 9px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #2ecc71;
+  animation: yanip-son 1.5s infinite;
+}
+
+@keyframes yanip-son {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.kur-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.kur-kart {
+  background: linear-gradient(145deg, #0e1612, #070a08);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 6px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.kur-kart:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: translateY(-3px);
+}
+
+.kart-etiket {
+  color: #cfd8dc;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 6px;
+  font-weight: 500;
+}
+
+.fiyat-sirasi {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fiyat-kutu {
+  display: flex;
+  flex-direction: column;
+}
+
+.fiyat-tipi {
+  font-size: 0.7rem;
+  color: #8a9990;
+  letter-spacing: 1px;
+}
+
+.fiyat-deger {
+  color: #f1f2f6;
+  font-size: 1.15rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+}
 
     /* HEADER */
     header { width: 100%; background: rgba(2, 7, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--card-border); padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 3px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7); }
