@@ -22,454 +22,88 @@
       --emerald-accent: #34d399;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: var(--bg-base);
-      background-image: 
-        radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%),
-        url('arka-plan.jpg');
-      background-size: cover;
-      background-position: center top;
-      background-attachment: fixed;
-      color: var(--text-pearl);
-      font-family: 'Montserrat', sans-serif;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: var(--bg-base); background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg'); background-size: cover; background-position: center top; background-attachment: fixed; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; }
 
     /* 1. ÜST HEADER */
-    header {
-      width: 100%;
-      background: rgba(2, 7, 6, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
-    }
-
-    .brand-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 5px;
-      color: var(--gold-light);
-      text-decoration: none;
-      text-transform: uppercase;
-      text-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
-    }
-
-    .brand-sub {
-      font-size: 9px;
-      letter-spacing: 3px;
-      color: var(--emerald-accent);
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .header-location {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-top: 2px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-location i {
-      color: var(--gold-primary);
-      font-size: 10px;
-    }
+    header { width: 100%; background: rgba(2, 7, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--card-border); padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 3px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7); }
+    .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; letter-spacing: 5px; color: var(--gold-light); text-decoration: none; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
+    .brand-sub { font-size: 9px; letter-spacing: 3px; color: var(--emerald-accent); text-transform: uppercase; font-weight: 600; }
+    .header-location { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+    .header-location i { color: var(--gold-primary); font-size: 10px; }
 
     /* 2. DÜKKAN VİTRİN BANNERI */
-    .banner-container {
-      width: 100%;
-      max-width: 960px;
-      margin: 22px auto 0;
-      padding: 0 16px;
-    }
-
-    .hero-banner {
-      position: relative;
-      width: 100%;
-      height: 240px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.15);
-      background-color: var(--card-glass);
-    }
-
-    .hero-banner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 30%;
-      filter: contrast(108%) brightness(88%);
-    }
-
-    .banner-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(2, 7, 6, 0.1) 0%, rgba(2, 7, 6, 0.85) 100%);
-    }
-
-    .banner-badge {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(2, 10, 8, 0.88);
-      backdrop-filter: blur(10px);
-      padding: 6px 18px;
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
+    .banner-container { width: 100%; max-width: 960px; margin: 22px auto 0; padding: 0 16px; }
+    .hero-banner { position: relative; width: 100%; height: 240px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.15); background-color: var(--card-glass); }
+    .hero-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: contrast(108%) brightness(88%); }
+    .banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2, 7, 6, 0.1) 0%, rgba(2, 7, 6, 0.85) 100%); }
+    .banner-badge { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(2, 10, 8, 0.88); backdrop-filter: blur(10px); padding: 6px 18px; border: 1px solid var(--card-border); border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; white-space: nowrap; }
 
     /* 3. ANA İÇERİK KARTI */
-    .hero-main-content {
-      padding: 35px 20px 50px;
-      max-width: 760px;
-      margin: 20px auto 40px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--card-glass);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    }
-
-    .hero-tag {
-      font-size: 10.5px;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--emerald-accent);
-      margin-bottom: 14px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hero-tag::before, .hero-tag::after {
-      content: '';
-      width: 20px;
-      height: 1px;
-      background: var(--emerald-accent);
-      opacity: 0.6;
-    }
-
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 34px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: var(--text-pearl);
-      line-height: 1.25;
-      margin-bottom: 18px;
-    }
-
-    .hero-title span {
-      display: block;
-      color: var(--gold-light);
-      font-style: italic;
-      font-size: 32px;
-      background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-desc {
-      font-size: 13.5px;
-      font-weight: 300;
-      color: var(--text-muted);
-      line-height: 1.85;
-      margin-bottom: 26px;
-      max-width: 620px;
-    }
-
-    .hero-desc strong {
-      color: var(--gold-light);
-      font-weight: 500;
-    }
+    .hero-main-content { padding: 35px 20px 50px; max-width: 760px; margin: 20px auto 40px; text-align: center; display: flex; flex-direction: column; align-items: center; background: var(--card-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
+    .hero-tag { font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--emerald-accent); margin-bottom: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+    .hero-tag::before, .hero-tag::after { content: ''; width: 20px; height: 1px; background: var(--emerald-accent); opacity: 0.6; }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; letter-spacing: 1px; color: var(--text-pearl); line-height: 1.25; margin-bottom: 18px; }
+    .hero-title span { display: block; color: var(--gold-light); font-style: italic; font-size: 32px; background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-desc { font-size: 13.5px; font-weight: 300; color: var(--text-muted); line-height: 1.85; margin-bottom: 26px; max-width: 620px; }
+    .hero-desc strong { color: var(--gold-light); font-weight: 500; }
 
     /* 4. ARAMA ÇUBUĞU */
-    .search-wrapper {
-      width: 100%;
-      max-width: 500px;
-      margin-bottom: 25px;
-    }
-
-    .search-box {
-      display: flex;
-      background: rgba(2, 6, 5, 0.75);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s ease;
-    }
-
-    .search-box:focus-within {
-      border-color: var(--gold-primary);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-    }
-
-    .search-box input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text-pearl);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      padding: 13px 16px;
-    }
-
-    .search-box input::placeholder {
-      color: #6a7c76;
-    }
-
-    .search-box button {
-      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%);
-      border: none;
-      color: #020605;
-      padding: 0 22px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
+    .search-wrapper { width: 100%; max-width: 500px; margin-bottom: 25px; }
+    .search-box { display: flex; background: rgba(2, 6, 5, 0.75); border: 1px solid var(--card-border); border-radius: 6px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); transition: all 0.3s ease; }
+    .search-box:focus-within { border-color: var(--gold-primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.25); }
+    .search-box input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; font-size: 13px; padding: 13px 16px; }
+    .search-box input::placeholder { color: #6a7c76; }
+    .search-box button { background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 0 22px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
 
     /* 5. 2X2 BUTONLAR */
-    .action-grid {
-      width: 100%;
-      max-width: 500px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
+    .action-grid { width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+    .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; background: rgba(2, 6, 5, 0.65); border: 1px solid var(--card-border); }
+    .btn-wp { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
+    .btn-ig { color: #f77062; border-color: rgba(247, 112, 98, 0.4); }
+    .btn-tt { color: var(--text-pearl); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-map { color: var(--gold-light); border-color: var(--card-border); }
+    .btn-action:hover { transform: translateY(-2px); filter: brightness(1.2); border-color: var(--gold-primary); }
 
-    .btn-action {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      background: rgba(2, 6, 5, 0.65);
-      border: 1px solid var(--card-border);
-    }
-
-    .btn-wp {
-      color: #34d399;
-      border-color: rgba(52, 211, 153, 0.4);
-    }
-
-    .btn-ig {
-      color: #f77062;
-      border-color: rgba(247, 112, 98, 0.4);
-    }
-
-    .btn-tt {
-      color: var(--text-pearl);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-map {
-      color: var(--gold-light);
-      border-color: var(--card-border);
-    }
-
-    .btn-action:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.2);
-      border-color: var(--gold-primary);
-    }
-
-    /* 6. ŞUKOB CANLI PİYASA ENTEGRE PANELİ */
+    /* 6. BAĞMANCI CANLI PİYASA PANELİ (YENİ TEMİZ TASARIM) */
     .market-panel {
       width: 100%;
       max-width: 520px;
-      background: rgba(3, 10, 8, 0.92);
+      background: rgba(3, 10, 8, 0.9);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 18px 14px 12px;
+      border-radius: 10px;
+      padding: 18px 16px;
       margin-bottom: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
     }
-
-    .market-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-      padding-bottom: 12px;
-      margin-bottom: 14px;
-    }
-
-    .market-brand {
-      text-align: left;
-    }
-
-    .market-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      color: var(--gold-light);
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      display: block;
-      line-height: 1.1;
-    }
-
-    .market-sub {
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .market-live-indicator {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.35);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 9.5px;
-      color: var(--emerald-accent);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 600;
-    }
-
-    .pulse-dot {
-      width: 7px;
-      height: 7px;
-      background-color: var(--emerald-accent);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--emerald-accent);
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.9); opacity: 0.7; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.9); opacity: 0.7; }
-    }
-
-    /* ŞUKOB İFRAME PENCERESİ */
-    .market-frame-wrapper {
-      position: relative;
-      width: 100%;
-      height: 480px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      background: #000000;
-    }
-
-    .market-frame-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      filter: contrast(105%) brightness(95%);
-    }
-
-    .market-footer {
-      margin-top: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 9.5px;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
-      padding: 0 4px;
-    }
-
-    .market-source {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .market-source i {
-      color: var(--gold-primary);
-    }
+    .market-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); padding-bottom: 12px; margin-bottom: 12px; }
+    .market-brand { text-align: left; }
+    .market-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold-light); font-weight: 700; letter-spacing: 1.5px; display: block; line-height: 1.1; }
+    .market-sub { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .market-live-indicator { display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 9.5px; color: var(--emerald-accent); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+    .pulse-dot { width: 7px; height: 7px; background-color: var(--emerald-accent); border-radius: 50%; box-shadow: 0 0 8px var(--emerald-accent); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
+    .market-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .market-table th { color: var(--text-muted); font-weight: 500; text-align: right; padding: 8px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .market-table th:first-child { text-align: left; }
+    .market-table td { padding: 10px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); text-align: right; color: var(--gold-light); font-weight: 600; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+    .market-table td:first-child { text-align: left; color: var(--text-pearl); font-weight: 400; display: flex; align-items: center; gap: 6px; }
+    .market-table td:first-child i { color: var(--gold-primary); font-size: 11px; }
+    .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
+    .market-footer { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; color: var(--text-muted); letter-spacing: 0.5px; padding: 0 4px; }
+    .market-source { display: flex; align-items: center; gap: 4px; }
+    .market-source i { color: var(--gold-primary); }
 
     /* 7. ALT BİLGİ ROZETLERİ */
-    .features-list {
-      width: 100%;
-      max-width: 520px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(212, 175, 55, 0.2);
-    }
-
-    .feature-box h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      color: var(--gold-light);
-      margin-bottom: 3px;
-    }
-
-    .feature-box p {
-      font-size: 10.5px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
+    .features-list { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-top: 24px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
+    .feature-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold-light); margin-bottom: 3px; }
+    .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; }
 
     @media (min-width: 768px) {
-      .hero-banner {
-        height: 380px;
-      }
-      .hero-title {
-        font-size: 46px;
-      }
-      .hero-title span {
-        font-size: 42px;
-      }
-      .hero-desc {
-        font-size: 15px;
-      }
-      .market-frame-wrapper {
-        height: 520px;
-      }
+      .hero-banner { height: 380px; }
+      .hero-title { font-size: 46px; }
+      .hero-title span { font-size: 42px; }
+      .hero-desc { font-size: 15px; }
     }
   </style>
 </head>
@@ -517,7 +151,7 @@
 
     <!-- 2X2 BUTONLAR -->
     <div class="action-grid">
-      <a href="https://wa.me/905324341261?text=Merhaba,%20Bağmancı%20Kuyumculuk%20ürünleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-action btn-wp">
+      <a href="https://wa.me/905324341261" target="_blank" class="btn-action btn-wp">
         <i class="fa-brands fa-whatsapp"></i> WhatsApp
       </a>
       <a href="https://www.instagram.com/bagmanci_kuyumculuk/" target="_blank" class="btn-action btn-ig">
@@ -526,32 +160,41 @@
       <a href="https://www.tiktok.com/@bagmanciikuyumculuk" target="_blank" class="btn-action btn-tt">
         <i class="fa-brands fa-tiktok"></i> TikTok
       </a>
-      <a href="https://www.google.com/maps/search/?api=1&query=Bağmancı+Kuyumculuk+Eyyübiye+Şanlıurfa" target="_blank" class="btn-action btn-map">
+      <a href="https://www.google.com/maps/search/?api=1&query=Bağmancı+Kuyumculuk+Eyyübiye" target="_blank" class="btn-action btn-map">
         <i class="fa-solid fa-map-location-dot"></i> Konum
       </a>
     </div>
 
-    <!-- ŞUKOB CANLI PİYASA EKRANI (İFRAME ENTEGRE) -->
+    <!-- BAĞMANCI CANLI PİYASA PANELİ (ŞUKOB İFRAME'İ ÇÖPE ATILDI, TERTEMİZ KENDİ TASARIMIMIZ) -->
     <div class="market-panel">
       <div class="market-header">
         <div class="market-brand">
           <span class="market-title">Bağmancı Canlı Piyasa</span>
-          <span class="market-sub">Şanlıurfa Kuyumcular Odası Verileri</span>
+          <span class="market-sub">Şanlıurfa Kapalıçarşı Borsası</span>
         </div>
         <div class="market-live-indicator">
           <span class="pulse-dot"></span>
-          <span>Canlı Yayın</span>
+          <span>Canlı</span>
         </div>
       </div>
 
-      <!-- CANLI YAYIN PENCERESİ -->
-      <div class="market-frame-wrapper">
-        <iframe src="https://www.sukobfiyat.com/mobil.html#" loading="lazy" title="ŞUKOB Canlı Altın Fiyatları"></iframe>
-      </div>
+      <table class="market-table">
+        <thead>
+          <tr>
+            <th>Ürün</th>
+            <th>Alış</th>
+            <th>Satış</th>
+          </tr>
+        </thead>
+        <tbody id="bagmanci-market-body">
+          <!-- VERİLER ARKA PLANDAN OTOMATİK BURAYA DÖKÜLECEK -->
+          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Yükleniyor...</td></tr>
+        </tbody>
+      </table>
 
       <div class="market-footer">
-        <span class="market-source"><i class="fa-solid fa-shield-halved"></i> ŞUKOB Resmi Sistem Yayını</span>
-        <span id="market-time">Otomatik Güncellenir</span>
+        <span class="market-source"><i class="fa-solid fa-clock"></i> <span id="market-time">Güncelleniyor...</span></span>
+        <span>Mağaza Tavsiye Fiyatları</span>
       </div>
     </div>
 
@@ -571,6 +214,60 @@
       </div>
     </div>
   </main>
+
+  <!-- CANLI VERİ ENTEGRASYON SCRIPT'İ -->
+  <script>
+    async function fetchMarketData() {
+      const tableBody = document.getElementById('bagmanci-market-body');
+      const timeStampEl = document.getElementById('market-time');
+      
+      try {
+        // HAZIRLADIĞIMIZ GÖRÜNMEZ NETLIFY KURYEMİZİ ARZ EDELİM
+        const response = await fetch('/.netlify/functions/api');
+        
+        if (!response.ok) throw new Error('Ağ hatası');
+        const prices = await response.json();
+
+        if (prices.error) throw new Error(prices.error);
+
+        // TABLOYU TERTEMİZ BAĞMANCI TASARIMIYLA DOLDURALIM
+        tableBody.innerHTML = '';
+        prices.forEach(item => {
+          // İkonları marka diline göre belirleyelim
+          let icon = '<i class="fa-solid fa-coins"></i>';
+          if(item.name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
+          if(item.name.includes('Çeyrek') || item.name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
+          if(item.name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
+          if(item.name.includes('Dolar')) icon = '<i class="fa-solid fa-dollar-sign"></i>';
+          if(item.name.includes('Euro')) icon = '<i class="fa-solid fa-euro-sign"></i>';
+
+          tableBody.innerHTML += `
+            <tr>
+              <td>${icon} ${item.name}</td>
+              <td>${item.alis} ₺</td>
+              <td>${item.satis} ₺</td>
+            </tr>
+          `;
+        });
+
+        // Güncellenme saatini basalım
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        timeStampEl.innerText = 'Güncellendi: Bugün ' + timeStr;
+
+      } catch (error) {
+        console.error('Market verisi çekilemedi:', error);
+        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#f77062; padding:20px;">Canlı veri bağlantı hatası.<br>Lütfen dükkanla iletişime geçin.</td></tr>`;
+        timeStampEl.innerText = 'Bağlantı Sorunu';
+      }
+    }
+
+    // İLK AÇILIŞTA ÇALIŞTIR
+    fetchMarketData();
+
+    // HER 60 SANİYEDE BİR ARKA PLANDAN GÜNCELLE
+    setInterval(fetchMarketData, 60000);
+  </script>
 
 </body>
 </html>
