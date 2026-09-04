@@ -851,6 +851,8 @@
     </div>
   </div>
 
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <script src="supabase-config.js"></script>
       <script>
     let canliBilezikFiyati = 6350;
     let sepet = [];
@@ -1087,6 +1089,156 @@
       updateVisitorCount();
     }
 
+    function parseProductTable(text) {
+      const cleanText = text.replace(/^\uFEFF/, '').trim();
+      if (!cleanText) return [];
+
+      const firstLine = cleanText.split(/\r?\n/)[0] || '';
+      const delimiter = (firstLine.match(/;/g) || []).length >= (firstLine.match(/,/g) || []).length ? ';' : ',';
+      const rows = [];
+      let row = [];
+      let cell = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < cleanText.length; i++) {
+        const char = cleanText[i];
+        const next = cleanText[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            cell += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === delimiter && !inQuotes) {
+          row.push(cell.trim());
+          cell = '';
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (char === '\r' && next === '\n') i++;
+          row.push(cell.trim());
+          rows.push(row);
+          row = [];
+          cell = '';
+        } else {
+          cell += char;
+        }
+      }
+
+      row.push(cell.trim());
+      rows.push(row);
+
+      const headers = rows.shift().map(header => header.trim());
+      return rows
+        .filter(values => values.some(value => value.trim()))
+        .map(values => {
+          const item = {};
+          headers.forEach((header, index) => {
+            item[header] = values[index] || '';
+          });
+          return tableRowToProduct(item);
+        });
+    }
+
+    function toNumber(value) {
+      if (value === null || value === undefined || value === '') return null;
+      const number = Number(String(value).replace(',', '.'));
+      return Number.isFinite(number) ? number : null;
+    }
+
+    function field(row, camel, snake = camel) {
+      return row[camel] ?? row[snake] ?? '';
+    }
+
+    function tableRowToProduct(row) {
+      const rawImages = field(row, 'images');
+      const images = Array.isArray(rawImages)
+        ? rawImages.filter(Boolean)
+        : String(rawImages || '').split('|').map(image => image.trim()).filter(Boolean);
+      const gram = toNumber(field(row, 'gram'));
+      const fixedPrice = toNumber(field(row, 'fixedPrice', 'fixed_price'));
+      const labor = toNumber(field(row, 'labor')) || 0;
+      const category = field(row, 'category');
+      const sku = field(row, 'sku');
+      const material = field(row, 'material');
+      const ayar = field(row, 'ayar');
+      const renk = field(row, 'renk');
+      const tas = field(row, 'tas');
+      const olcu = field(row, 'olcu');
+      const stok = field(row, 'stok');
+      const shortDescription = field(row, 'shortDescription', 'short_description');
+      const description = field(row, 'description') || shortDescription;
+      const features = [
+        ['Kategori', category],
+        ['Stok Kodu', sku],
+        ['Materyal', material],
+        ['Ayar', ayar],
+        ['Gram', gram ? `${gram.toLocaleString('tr-TR')} gr` : ''],
+        ['Renk', renk],
+        ['Taş', tas],
+        ['Ölçü', olcu],
+        ['Stok', stok]
+      ].filter(([, value]) => value !== null && value !== undefined && String(value).trim())
+       .map(([label, value]) => ({ label, value: String(value) }));
+
+      return {
+        id: field(row, 'id'),
+        name: field(row, 'name'),
+        category,
+        sku,
+        badge: field(row, 'badge') || category,
+        priceMode: field(row, 'priceMode', 'price_mode') || (gram ? 'liveGram' : 'fixed'),
+        gram,
+        labor,
+        fixedPrice,
+        images,
+        shortDescription,
+        description,
+        features,
+        sections: [
+          {
+            title: 'Ürün Özellikleri',
+            items: features
+          }
+        ]
+      };
+    }
+
+    async function loadProductsFromSupabase() {
+      const cfg = window.BAGMANCI_SUPABASE || {};
+      if (!cfg.url || !cfg.anonKey || !window.supabase) return [];
+      const client = window.supabase.createClient(cfg.url, cfg.anonKey);
+      const { data, error } = await client
+        .from('products')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return (data || []).map(tableRowToProduct);
+    }
+
+    async function loadProductsData() {
+      try {
+        const supabaseProducts = await loadProductsFromSupabase();
+        if (supabaseProducts.length) return supabaseProducts;
+      } catch (error) {
+        console.warn('Supabase ürünleri okunamadı, yerel dosyalar deneniyor:', error);
+      }
+
+      try {
+        const csvResponse = await fetch('products.csv', { cache: 'no-store' });
+        if (csvResponse.ok) {
+          const csvProducts = parseProductTable(await csvResponse.text());
+          if (csvProducts.length) return csvProducts;
+        }
+      } catch (error) {
+        console.warn('products.csv okunamadı, products.json deneniyor:', error);
+      }
+
+      const jsonResponse = await fetch('products.json', { cache: 'no-store' });
+      if (!jsonResponse.ok) throw new Error(`products.json HTTP ${jsonResponse.status}`);
+      return jsonResponse.json();
+    }
     function productPrice(item) {
       if (item.priceMode === 'liveGram' && Number(item.gram)) {
         return Math.round((Number(item.gram) * canliBilezikFiyati) + Number(item.labor || 0));
@@ -1109,9 +1261,7 @@
     async function loadCatalogProducts() {
       if (productsLoaded) return catalogProducts;
       try {
-        const response = await fetch('products.json', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`products.json HTTP ${response.status}`);
-        catalogProducts = await response.json();
+        catalogProducts = await loadProductsData();
         productsLoaded = true;
       } catch (error) {
         console.warn('Ürün listesi yüklenemedi:', error);
