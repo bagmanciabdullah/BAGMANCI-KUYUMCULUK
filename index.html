@@ -517,6 +517,45 @@
       position: relative; 
     }
     .item-stage i { font-size: 34px; color: var(--gold-primary); }
+    .item-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 18px;
+      background: rgba(255,255,255,0.96);
+    }
+    .item-placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      color: var(--gold-primary);
+      font-size: 34px;
+    }
+    .item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      min-height: 34px;
+      line-height: 1.45;
+    }
+    .item-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-detail {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--card-border);
+      color: var(--gold-light);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
     .item-hallmark { 
       position: absolute; 
       top: 10px; 
@@ -818,6 +857,8 @@
     let currentVisitors = 14;
     let marketRequestRunning = false;
     let previousMarketPrices = {};
+    let catalogProducts = [];
+    let productsLoaded = false;
 
     const SUKOB_DIRECT_URL = 'https://www.sukobfiyat.com/api/prices/';
     const SUKOB_PROXY_URL = '/api/sukob'; // Vercel Serverless Function: SUKOB verisini CORS engeline takılmadan alır
@@ -932,16 +973,18 @@
       return '';
     }
 
-    function feedUrls() {
-      const cacheKey = Date.now().toString();
-      const direct = `${SUKOB_DIRECT_URL}?cache=${cacheKey}`;
-      const urls = [];
-      if (SUKOB_PROXY_URL.trim()) urls.push(`${SUKOB_PROXY_URL.trim()}?cache=${cacheKey}`);
-      urls.push(direct);
-      urls.push(`https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`);
-      return urls;
+    function liveApiUrl(query = '') {
+      const isLocalPreview = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const baseUrl = isLocalPreview
+        ? 'https://bagmancikuyumculuk.com.tr/api/sukob'
+        : SUKOB_PROXY_URL;
+      const separator = query ? '&' : '?';
+      return `${baseUrl}${query}${separator}cache=${Date.now()}`;
     }
 
+    function feedUrls() {
+      return [liveApiUrl()];
+    }
     async function fetchJsonWithTimeout(url) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 4500);
@@ -1029,10 +1072,7 @@
     }
 
     async function fetchVisitorCount() {
-      const direct = `https://www.sukobfiyat.com/api/countseen/?cache=${Date.now()}`;
-      const proxy = `/api/sukob?type=count&cache=${Date.now()}`;
-      const urls = [proxy, direct, `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`];
-
+      const urls = [liveApiUrl('?type=count')];
       for (const url of urls) {
         try {
           const response = await fetch(url, { cache: 'no-store' });
@@ -1047,38 +1087,84 @@
       updateVisitorCount();
     }
 
-    function katalogAc(kategoriAdi) {
+    function productPrice(item) {
+      if (item.priceMode === 'liveGram' && Number(item.gram)) {
+        return Math.round((Number(item.gram) * canliBilezikFiyati) + Number(item.labor || 0));
+      }
+      return Math.round(Number(item.fixedPrice || 0));
+    }
+
+    function formatCatalogPrice(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number) || number <= 0) return 'Fiyat için iletişim';
+      return number.toLocaleString('tr-TR');
+    }
+
+    function productImageHtml(item) {
+      const image = Array.isArray(item.images) && item.images.length ? item.images[0] : '';
+      if (!image) return '<div class="item-placeholder"><i class="fa-solid fa-gem"></i></div>';
+      return `<img src="${image}" alt="${item.name}" onerror="this.outerHTML='<div class=&quot;item-placeholder&quot;><i class=&quot;fa-solid fa-gem&quot;></i></div>'">`;
+    }
+
+    async function loadCatalogProducts() {
+      if (productsLoaded) return catalogProducts;
+      try {
+        const response = await fetch('products.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`products.json HTTP ${response.status}`);
+        catalogProducts = await response.json();
+        productsLoaded = true;
+      } catch (error) {
+        console.warn('Ürün listesi yüklenemedi:', error);
+        catalogProducts = [];
+      }
+      return catalogProducts;
+    }
+
+    async function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
       const innerView = document.getElementById('catalogItemsView');
       innerView.style.display = 'block';
       document.getElementById('currentCatTitle').innerText = 'BAĞMANCI • ' + kategoriAdi;
 
       const container = document.getElementById('catalogItemsContainer');
-      container.innerHTML = '';
+      container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Ürünler yükleniyor...</div>';
 
-      for (let i = 1; i <= 8; i++) {
-        const gr = 10 + (i * 2.5);
-        const fiyat = Math.round(gr * canliBilezikFiyati);
+      const products = await loadCatalogProducts();
+      const categoryProducts = products.filter(item => item.category === kategoriAdi);
 
-        container.innerHTML += `
+      if (!categoryProducts.length) {
+        container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Bu kategoriye ürün eklenmedi.</div>';
+        document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      container.innerHTML = categoryProducts.map(item => {
+        const price = productPrice(item);
+        const meta = item.priceMode === 'liveGram' && item.gram
+          ? `${Number(item.gram).toLocaleString('tr-TR')} Gr • Canlı SUKOB Kuru`
+          : item.sku || item.category;
+
+        return `
           <div class="item-card">
             <div class="item-stage">
-              <span class="item-hallmark">22 AYAR</span>
-              <i class="fa-solid fa-gem"></i>
-              <span style="font-size:9.5px; color:var(--gold-light); margin-top:8px;">Model #${i}</span>
+              <span class="item-hallmark">${item.badge || item.category}</span>
+              ${productImageHtml(item)}
             </div>
             <div class="item-body">
-              <div class="item-title">${kategoriAdi} #${i}</div>
-              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Canlı SUKOB Kuru</div>
-              <div class="item-price">${fiyat.toLocaleString('tr-TR')}</div>
-              <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
+              <div class="item-title">${item.name}</div>
+              <div class="item-meta">${meta}</div>
+              <div class="item-price">${formatCatalogPrice(price)}</div>
+              <div class="item-actions">
+                <a class="btn-detail" href="product.html?id=${encodeURIComponent(item.id)}">Detay</a>
+                <button class="btn-add" onclick="sepeteEkle('${item.name.replace(/'/g, "\\'")}', ${price})">Sepete Ekle</button>
+              </div>
             </div>
           </div>
         `;
-      }
+      }).join('');
+
       document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
     }
-
     function katalogKapat() {
       document.getElementById('catalogItemsView').style.display = 'none';
       document.getElementById('catalogCoversView').style.display = 'grid';
