@@ -337,65 +337,49 @@
       font-weight: 400; 
       display: table-cell;
     }
-    .market-table td:first-child i { color: var(--gold-primary); font-size: 12px; }
     .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
     .market-product-name {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
       min-width: 0;
       white-space: normal;
     }
     .market-price {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 5px;
+      display: inline-block;
       min-width: 86px;
-      padding: 3px 7px;
-      border-radius: 8px;
-      transition: color 0.45s ease, background-color 0.45s ease, box-shadow 0.45s ease, transform 0.45s ease;
-      will-change: transform, background-color, color;
+      transition: color 0.4s ease;
     }
-    .market-price.price-up {
-      color: #4ade80;
-      background: linear-gradient(90deg, rgba(74, 222, 128, 0.17), rgba(74, 222, 128, 0.045));
-      box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.22), 0 0 18px rgba(74, 222, 128, 0.08);
-      animation: priceRiseGlow 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+    .market-row-up td {
+      color: #bff7d4;
+      background: linear-gradient(90deg, rgba(34, 197, 94, 0.13), rgba(34, 197, 94, 0.035));
+      animation: rowUpFade 2.4s ease-out;
     }
-    .market-price.price-down {
-      color: #fb7185;
-      background: linear-gradient(90deg, rgba(251, 113, 133, 0.17), rgba(251, 113, 133, 0.045));
-      box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.24), 0 0 18px rgba(251, 113, 133, 0.08);
-      animation: priceDropGlow 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+    .market-row-down td {
+      color: #fecdd3;
+      background: linear-gradient(90deg, rgba(244, 63, 94, 0.13), rgba(244, 63, 94, 0.035));
+      animation: rowDownFade 2.4s ease-out;
     }
-    .market-arrow {
-      font-size: 8px;
-      line-height: 1;
-      opacity: 0.92;
-      transform: translateY(0);
+    .market-row-up td:first-child {
+      color: var(--text-pearl);
+      box-shadow: inset 3px 0 0 rgba(52, 211, 153, 0.85);
     }
-    .price-up .market-arrow { animation: arrowFloatUp 2.2s cubic-bezier(0.22, 1, 0.36, 1); }
-    .price-down .market-arrow { animation: arrowFloatDown 2.2s cubic-bezier(0.22, 1, 0.36, 1); }
-    @keyframes priceRiseGlow {
-      0% { transform: translateY(0); }
-      18% { transform: translateY(-1px); }
-      100% { transform: translateY(0); }
+    .market-row-down td:first-child {
+      color: var(--text-pearl);
+      box-shadow: inset 3px 0 0 rgba(248, 113, 113, 0.9);
     }
-    @keyframes priceDropGlow {
-      0% { transform: translateY(0); }
-      18% { transform: translateY(1px); }
-      100% { transform: translateY(0); }
+    .market-row-up .market-price {
+      color: #86efac;
     }
-    @keyframes arrowFloatUp {
-      0% { opacity: 0; transform: translateY(3px); }
-      20% { opacity: 1; transform: translateY(-1px); }
-      100% { opacity: 0.92; transform: translateY(0); }
+    .market-row-down .market-price {
+      color: #fda4af;
     }
-    @keyframes arrowFloatDown {
-      0% { opacity: 0; transform: translateY(-3px); }
-      20% { opacity: 1; transform: translateY(1px); }
-      100% { opacity: 0.92; transform: translateY(0); }
+    @keyframes rowUpFade {
+      0% { background-color: rgba(34, 197, 94, 0.18); }
+      100% { background-color: transparent; }
+    }
+    @keyframes rowDownFade {
+      0% { background-color: rgba(244, 63, 94, 0.18); }
+      100% { background-color: transparent; }
     }
     .market-footer { 
       margin-top: 14px; 
@@ -809,7 +793,7 @@
       <div id="cartItems" style="max-height:220px; overflow-y:auto; margin-bottom:16px; font-size:13px; color:var(--text-muted);">Sepetiniz boş.</div>
       <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold-light); border-top:1px solid var(--card-border); padding-top:12px; font-size:16px;">
         <span>TOPLAM:</span>
-        <span id="cartTotal">₺0</span>
+        <span id="cartTotal">0</span>
       </div>
       <button class="btn-add" style="margin-top:16px; padding:12px;" onclick="alert('Sipariş talebiniz Bağmancı Kuyumculuk\'a iletildi!'); sepet=[]; sepetGuncelle(); modalKapat('sepetModal');">Siparişi Onayla</button>
     </div>
@@ -915,19 +899,16 @@
     function formatPrice(value, type) {
       const number = Number(value);
       if (!Number.isFinite(number)) return '-';
-      return Math.round(number).toLocaleString('tr-TR') + ' ₺';
-    }
+      const key = String(type || '').toUpperCase();
 
-    function productIcon(item) {
-      const key = normalizeProductKey(item);
-      const text = (key + ' ' + (item.type || '')).toLocaleLowerCase('tr-TR');
-      if (text.includes('bilezik')) return '<i class="fa-solid fa-ring"></i>';
-      if (text.includes('çeyrek') || text.includes('ceyrek')) return '<i class="fa-solid fa-certificate"></i>';
-      if (text.includes('yarım') || text.includes('yarim')) return '<i class="fa-solid fa-circle-half-stroke"></i>';
-      if (text.includes('ziynet') || text.includes('ata')) return '<i class="fa-solid fa-gem"></i>';
-      if (text.includes('usd') || text.includes('eur')) return '<i class="fa-solid fa-money-bill-trend-up"></i>';
-      if (text.includes('gms') || text.includes('gümüş')) return '<i class="fa-solid fa-scale-balanced"></i>';
-      return '<i class="fa-solid fa-cube"></i>';
+      if (key === 'USD' || key === 'EUR') {
+        return number.toLocaleString('tr-TR', {
+          minimumFractionDigits: 3,
+          maximumFractionDigits: 3
+        });
+      }
+
+      return Math.round(number).toLocaleString('tr-TR');
     }
 
     function priceDirection(key, side, value) {
@@ -941,10 +922,14 @@
       return '';
     }
 
-    function priceCell(value, type, direction) {
-      const directionClass = direction === 'up' ? 'price-up' : direction === 'down' ? 'price-down' : '';
-      const arrow = direction === 'up' ? '<span class="market-arrow">▲</span>' : direction === 'down' ? '<span class="market-arrow">▼</span>' : '';
-      return `<span class="market-price ${directionClass}">${arrow}${formatPrice(value, type)}</span>`;
+    function priceCell(value, type) {
+      return `<span class="market-price">${formatPrice(value, type)}</span>`;
+    }
+
+    function rowDirection(buyDirection, sellDirection) {
+      if (buyDirection === 'up' || sellDirection === 'up') return 'up';
+      if (buyDirection === 'down' || sellDirection === 'down') return 'down';
+      return '';
     }
 
     function feedUrls() {
@@ -1027,11 +1012,14 @@
         if (key === '22_ayar_bilezik') canliBilezikFiyati = Math.round(Number(item.sellPrice));
         const buyDirection = priceDirection(key, 'buy', item.buyPrice);
         const sellDirection = priceDirection(key, 'sell', item.sellPrice);
+        const direction = rowDirection(buyDirection, sellDirection);
+        const rowClass = direction === 'up' ? 'market-row-up' : direction === 'down' ? 'market-row-down' : '';
+
         return `
-          <tr>
-            <td><span class="market-product-name">${productIcon(item)} ${displayProductName(item)}</span></td>
-            <td>${priceCell(item.buyPrice, item.type, buyDirection)}</td>
-            <td>${priceCell(item.sellPrice, item.type, sellDirection)}</td>
+          <tr class="${rowClass}">
+            <td><span class="market-product-name">${displayProductName(item)}</span></td>
+            <td>${priceCell(item.buyPrice, item.type)}</td>
+            <td>${priceCell(item.sellPrice, item.type)}</td>
           </tr>
         `;
       }).join('');
@@ -1082,7 +1070,7 @@
             <div class="item-body">
               <div class="item-title">${kategoriAdi} #${i}</div>
               <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Canlı SUKOB Kuru</div>
-              <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
+              <div class="item-price">${fiyat.toLocaleString('tr-TR')}</div>
               <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
             </div>
           </div>
@@ -1108,17 +1096,17 @@
       const list = document.getElementById('cartItems');
       if (!sepet.length) {
         list.innerHTML = 'Sepetiniz boş.';
-        document.getElementById('cartTotal').innerText = '₺0';
+        document.getElementById('cartTotal').innerText = '0';
         return;
       }
       let top = 0;
       let html = '';
       sepet.forEach((x) => {
         top += x.f;
-        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>${x.f.toLocaleString('tr-TR')}</strong></div>`;
       });
       list.innerHTML = html;
-      document.getElementById('cartTotal').innerText = '₺' + top.toLocaleString('tr-TR');
+      document.getElementById('cartTotal').innerText = top.toLocaleString('tr-TR');
     }
 
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
