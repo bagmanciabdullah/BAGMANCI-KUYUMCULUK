@@ -775,28 +775,171 @@
     </div>
   </div>
 
-  <script>
+    <script>
     let canliBilezikFiyati = 6350;
+    let sepet = [];
+    let currentVisitors = 14;
+    let marketRequestRunning = false;
 
-    // SANİYELİ CANLI SAAT
+    const SUKOB_DIRECT_URL = 'https://www.sukobfiyat.com/api/prices/';
+    const SUKOB_PROXY_URL = ''; // Cloudflare Worker kurarsan URL'i buraya yaz: https://...workers.dev/prices
+    const PRODUCT_ORDER = ['HAS', '22_ayar_bilezik', 'hurda', 'yeni_ceyrek', 'yeni_yarim', 'yeni_ziynet', 'USD', 'EUR'];
+    const PRODUCT_NAMES = {
+      HAS: 'Has Altın (Gr)',
+      '22_ayar_bilezik': '22 Ayar Bilezik',
+      hurda: '22 Ayar Hurda',
+      yeni_ceyrek: 'Yeni Çeyrek',
+      yeni_yarim: 'Yeni Yarım',
+      yeni_ziynet: 'Ata Lira (Ziynet)',
+      eski_ceyrek: 'Eski Çeyrek',
+      eski_yarim: 'Eski Yarım',
+      eski_ziynet: 'Eski Ziynet',
+      cnc: 'CNC',
+      sarnel: 'Şarnel',
+      GMS: 'Gümüş',
+      USD: 'Dolar',
+      EUR: 'Euro'
+    };
+
     function updateClock() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('live-clock').innerText = timeStr;
     }
-    setInterval(updateClock, 1000);
-    updateClock();
 
-    // CANLI KULLANICI SAYACI (Dinamik ve Akıcı)
-    let currentVisitors = Math.floor(Math.random() * 8) + 12;
-    function updateVisitorCount() {
-      const change = Math.floor(Math.random() * 3) - 1; // -1, 0 veya +1
-      currentVisitors = Math.max(9, Math.min(28, currentVisitors + change));
+    function updateVisitorCount(total) {
+      if (Number.isFinite(total) && total > 0) {
+        currentVisitors = total;
+      } else {
+        const change = Math.floor(Math.random() * 3) - 1;
+        currentVisitors = Math.max(9, Math.min(28, currentVisitors + change));
+      }
       document.getElementById('visitor-count').innerText = currentVisitors;
     }
-    setInterval(updateVisitorCount, 4500);
 
-    // KATALOG MOTORU
+    function formatPrice(value, type) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '-';
+      const decimals = type === 'USD' || type === 'EUR' ? 3 : 2;
+      return number.toLocaleString('tr-TR', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      }) + ' ₺';
+    }
+
+    function productIcon(item) {
+      const text = ((item.url || '') + ' ' + (item.type || '')).toLocaleLowerCase('tr-TR');
+      if (text.includes('bilezik')) return '<i class="fa-solid fa-ring"></i>';
+      if (text.includes('çeyrek') || text.includes('ceyrek')) return '<i class="fa-solid fa-certificate"></i>';
+      if (text.includes('yarım') || text.includes('yarim')) return '<i class="fa-solid fa-circle-half-stroke"></i>';
+      if (text.includes('ziynet') || text.includes('ata')) return '<i class="fa-solid fa-gem"></i>';
+      if (text.includes('usd') || text.includes('eur')) return '<i class="fa-solid fa-money-bill-trend-up"></i>';
+      if (text.includes('gms') || text.includes('gümüş')) return '<i class="fa-solid fa-scale-balanced"></i>';
+      return '<i class="fa-solid fa-cube"></i>';
+    }
+
+    function feedUrls() {
+      const cacheKey = Date.now().toString();
+      const direct = `${SUKOB_DIRECT_URL}?cache=${cacheKey}`;
+      const urls = [];
+      if (SUKOB_PROXY_URL.trim()) urls.push(`${SUKOB_PROXY_URL.trim()}?cache=${cacheKey}`);
+      urls.push(direct);
+      urls.push(`https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`);
+      return urls;
+    }
+
+    async function fetchJsonWithTimeout(url) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4500);
+      try {
+        const response = await fetch(url, {
+          cache: 'no-store',
+          signal: controller.signal,
+          headers: { Accept: 'application/json' }
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error('Beklenen liste formatı gelmedi');
+        return data;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function fetchMarketData() {
+      if (marketRequestRunning) return;
+      marketRequestRunning = true;
+
+      const tableBody = document.getElementById('bagmanci-market-body');
+      const syncInfo = document.getElementById('market-sync-info');
+      let lastError;
+
+      try {
+        for (const url of feedUrls()) {
+          try {
+            const data = await fetchJsonWithTimeout(url);
+            renderMarketRows(data);
+            const lastUpdate = data.find(item => item.lastUpdate)?.lastUpdate;
+            syncInfo.innerText = lastUpdate ? `SUKOB canlı veri: ${lastUpdate}` : 'SUKOB canlı fiyat akışı aktif';
+            return;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+        throw lastError || new Error('Canlı veri alınamadı');
+      } catch (error) {
+        console.warn('SUKOB canlı veri alınamadı:', error);
+        if (!tableBody.dataset.hasLiveData) {
+          tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:16px;">Canlı veri bekleniyor, birazdan tekrar denenecek...</td></tr>';
+        }
+        syncInfo.innerText = 'Bağlantı yenileniyor...';
+      } finally {
+        marketRequestRunning = false;
+      }
+    }
+
+    function renderMarketRows(data) {
+      const tableBody = document.getElementById('bagmanci-market-body');
+      const ordered = [...data].sort((a, b) => {
+        const aIndex = PRODUCT_ORDER.indexOf(a.url);
+        const bIndex = PRODUCT_ORDER.indexOf(b.url);
+        return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+      });
+
+      const rowsHtml = ordered.map(item => {
+        if (item.url === '22_ayar_bilezik') canliBilezikFiyati = Math.round(Number(item.sellPrice));
+        const name = PRODUCT_NAMES[item.url] || item.type || item.url;
+        return `
+          <tr>
+            <td>${productIcon(item)} ${name}</td>
+            <td>${formatPrice(item.buyPrice, item.type)}</td>
+            <td>${formatPrice(item.sellPrice, item.type)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      tableBody.innerHTML = rowsHtml;
+      tableBody.dataset.hasLiveData = '1';
+    }
+
+    async function fetchVisitorCount() {
+      const direct = `https://www.sukobfiyat.com/api/countseen/?cache=${Date.now()}`;
+      const urls = [direct, `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`];
+
+      for (const url of urls) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          updateVisitorCount(Number(data.total));
+          return;
+        } catch (error) {
+          // Bir sonraki kaynağı dene.
+        }
+      }
+      updateVisitorCount();
+    }
+
     function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
       const innerView = document.getElementById('catalogItemsView');
@@ -807,8 +950,8 @@
       container.innerHTML = '';
 
       for (let i = 1; i <= 8; i++) {
-        let gr = (10 + (i * 2.5));
-        let fiyat = Math.round(gr * canliBilezikFiyati);
+        const gr = 10 + (i * 2.5);
+        const fiyat = Math.round(gr * canliBilezikFiyati);
 
         container.innerHTML += `
           <div class="item-card">
@@ -819,7 +962,7 @@
             </div>
             <div class="item-body">
               <div class="item-title">${kategoriAdi} #${i}</div>
-              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Canlı Urfa Kuru</div>
+              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Canlı SUKOB Kuru</div>
               <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
               <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
             </div>
@@ -835,12 +978,10 @@
       document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // SEPET MOTORU
-    let sepet = [];
     function sepeteEkle(ad, f) {
       sepet.push({ ad, f });
       sepetGuncelle();
-      alert(ad + " sepete eklendi!");
+      alert(ad + ' sepete eklendi!');
     }
 
     function sepetGuncelle() {
@@ -851,191 +992,27 @@
         document.getElementById('cartTotal').innerText = '₺0';
         return;
       }
-      let top = 0, h = '';
+      let top = 0;
+      let html = '';
       sepet.forEach((x) => {
         top += x.f;
-        h += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
       });
-      list.innerHTML = h;
+      list.innerHTML = html;
       document.getElementById('cartTotal').innerText = '₺' + top.toLocaleString('tr-TR');
     }
 
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
-    // ÇOK KADEMELİ PROXY İLE PİYASA VERİSİ MOTORU
-// NOKTA DÜZELTME: KESİNTİSİZ CANLI PİYASA MOTORU
-    async function fetchMarketData() {
-      const tableBody = document.getElementById('bagmanci-market-body');
-      const syncInfo = document.getElementById('market-sync-info');
-
-      try {
-        // Canlı altın piyasa veri köprüsü (CORS engelsiz anlık JSON feed)
-        const res = await fetch('https://finans.truncgil.com/today.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error('Canlı kur sunucusuna ulaşılamadı');
-        
-        const data = await res.json();
-        
-        // Urfa piyasa verileri için ana referanslar (Gram Has Altın)
-        const gramData = data["gram-altin"] || data["GRA"];
-        if (!gramData) throw new Error('Veri formatı uyuşmadı');
-
-        // Canlı rakamları float'a çevir
-        const parsePrice = (val) => {
-          if (typeof val === 'number') return val;
-          return parseFloat(val.replace(/\./g, '').replace(',', '.'));
-        };
-
-        const hasAlis = parsePrice(gramData.Alış);
-        const hasSatis = parsePrice(gramData.Satış);
-
-        // Urfa Kuyumcular Çarşısı canlı formül katsayıları
-        const kurlar = [
-          {
-            ad: 'Has Altın (Gr)',
-            icon: '<i class="fa-solid fa-cube"></i>',
-            alis: hasAlis,
-            satis: hasSatis
-          },
-          {
-            ad: '22 Ayar Bilezik',
-            icon: '<i class="fa-solid fa-ring"></i>',
-            alis: hasAlis * 0.916 - 12,
-            satis: hasSatis * 0.916 + 25
-          },
-          {
-            ad: 'Yeni Çeyrek',
-            icon: '<i class="fa-solid fa-certificate"></i>',
-            alis: hasAlis * 1.605,
-            satis: hasSatis * 1.642
-          },
-          {
-            ad: 'Yeni Yarım',
-            icon: '<i class="fa-solid fa-circle-half-stroke"></i>',
-            alis: hasAlis * 3.21,
-            satis: hasSatis * 3.284
-          },
-          {
-            ad: 'Ata Lira (Ziynet)',
-            icon: '<i class="fa-solid fa-gem"></i>',
-            alis: hasAlis * 6.60,
-            satis: hasSatis * 6.72
-          }
-        ];
-
-        // 22 Ayar satışını katalog için hafızaya al
-        canliBilezikFiyati = Math.round(kurlar[1].satis);
-
-        // Tabloyu canlı HTML ile güncelle
-        let rowsHtml = '';
-        kurlar.forEach(k => {
-          rowsHtml += `
-            <tr>
-              <td>${k.icon} ${k.ad}</td>
-              <td>${k.alis.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</td>
-              <td>${k.satis.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</td>
-            </tr>
-          `;
-        });
-
-        tableBody.innerHTML = rowsHtml;
-        syncInfo.innerText = 'Bağmancı Canlı Fiyat Akışı Aktif';
-
-      } catch (err) {
-        console.warn("Veri çekilemedi, yeniden deneniyor...", err);
-      }
-    }
-
-    // İlk açılışta çek ve her 15 saniyede bir kuru yenile
+    updateClock();
+    updateVisitorCount();
     fetchMarketData();
-    setInterval(fetchMarketData, 15000);
-          // Bir sonraki proxy'ye geç
-        }
-      }
+    fetchVisitorCount();
 
-      try {
-        if (!rawHtml) throw new Error('Proxy bağlantısı tamamlanamadı');
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(rawHtml, 'text/html');
-        const rows = doc.querySelectorAll('table tr');
-
-        if (!rows || rows.length <= 1) throw new Error('Tablo parse edilemedi');
-
-        let rowsHtml = '';
-        let count = 0;
-
-        rows.forEach((row, index) => {
-          if (index === 0) return;
-          const cells = row.querySelectorAll('td');
-          if (cells.length >= 3) {
-            let rawName = cells[0].textContent.trim();
-            let alis = cells[1].textContent.trim().replace('TL', '').replace('₺', '').trim();
-            let satis = cells[2].textContent.trim().replace('TL', '').replace('₺', '').trim();
-
-            if (!rawName || !satis) return;
-
-            if (rawName.includes('22') && !rawName.includes('Hurda')) {
-              let parsed = parseFloat(satis.replace(/\./g, '').replace(',', '.'));
-              if (!isNaN(parsed) && parsed > 1000) {
-                canliBilezikFiyati = parsed;
-              }
-            }
-
-            let displayName = rawName;
-            let icon = '<i class="fa-solid fa-coins"></i>';
-
-            if (rawName.toUpperCase().includes('HAS')) {
-              displayName = 'Has Altın (Gr)';
-              icon = '<i class="fa-solid fa-cube"></i>';
-            } else if (rawName.toUpperCase().includes('22') && rawName.toUpperCase().includes('BİLEZİK')) {
-              displayName = '22 Ayar Bilezik';
-              icon = '<i class="fa-solid fa-ring"></i>';
-            } else if (rawName.toUpperCase().includes('YENİ ÇEYREK') || (rawName.toUpperCase().includes('ÇEYREK') && !rawName.toUpperCase().includes('ESKİ'))) {
-              displayName = 'Yeni Çeyrek';
-              icon = '<i class="fa-solid fa-certificate"></i>';
-            } else if (rawName.toUpperCase().includes('YENİ YARIM') || (rawName.toUpperCase().includes('YARIM') && !rawName.toUpperCase().includes('ESKİ'))) {
-              displayName = 'Yeni Yarım';
-              icon = '<i class="fa-solid fa-circle-half-stroke"></i>';
-            } else if (rawName.toUpperCase().includes('ATA') || rawName.toUpperCase().includes('CUMHURİYET')) {
-              displayName = 'Ata Lira (Ziynet)';
-              icon = '<i class="fa-solid fa-gem"></i>';
-            } else if (rawName.toUpperCase().includes('22') && rawName.toUpperCase().includes('HURDA')) {
-              displayName = '22 Ayar Hurda';
-              icon = '<i class="fa-solid fa-scale-balanced"></i>';
-            }
-
-            rowsHtml += `
-              <tr>
-                <td>${icon} ${displayName}</td>
-                <td>${alis} ₺</td>
-                <td>${satis} ₺</td>
-              </tr>
-            `;
-            count++;
-          }
-        });
-
-        if (count === 0) throw new Error('Ürün satırı bulunamadı');
-
-        tableBody.innerHTML = rowsHtml;
-        syncInfo.innerText = 'Canlı Veri Senkronize Edildi';
-
-      } catch (err) {
-        // Yedek Vitrin: Kesinti anında mağaza standart kurlarını şık şekilde korur
-        tableBody.innerHTML = `
-          <tr><td><i class="fa-solid fa-cube"></i> Has Altın (Gr)</td><td>6.841,50 ₺</td><td>6.880,50 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.212,00 ₺</td><td>6.350,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.085,00 ₺</td><td>11.285,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-circle-half-stroke"></i> Yeni Yarım</td><td>22.170,00 ₺</td><td>22.570,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>44.990,00 ₺</td><td>45.550,00 ₺</td></tr>
-        `;
-        syncInfo.innerText = 'Bağmancı Mağaza Kurları';
-      }
-    }
-
-    fetchMarketData();
-    setInterval(fetchMarketData, 30000);
+    setInterval(updateClock, 1000);
+    setInterval(fetchMarketData, 1000);
+    setInterval(fetchVisitorCount, 10000);
   </script>
 </body>
 </html>
