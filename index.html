@@ -477,37 +477,49 @@
 
     .catalog-inner-view { display: none; }
     .cat-back-bar { 
-      display: grid; 
-      grid-template-columns: auto minmax(120px, 1fr) auto; 
-      align-items: center; 
-      gap: 16px; 
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 78px;
       margin-bottom: 22px; 
-      padding: 14px 18px; 
-      background: var(--card-glass); 
+      padding: 16px 18px; 
+      background: linear-gradient(135deg, rgba(4, 15, 12, 0.94), rgba(3, 24, 18, 0.76)); 
       border: 1px solid var(--card-border); 
       border-radius: 10px; 
+      box-shadow: inset 0 1px 0 rgba(247, 232, 195, 0.08), 0 16px 34px rgba(0, 0, 0, 0.28);
     }
     .cat-title {
-      justify-self: center;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
       font-family: 'Cormorant Garamond', serif;
       color: var(--gold-light);
-      font-size: 25px;
+      font-size: 30px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 3px;
+      line-height: 1;
       text-align: center;
       text-transform: uppercase;
+      text-shadow: 0 0 22px rgba(212, 175, 55, 0.22);
     }
-    .cat-brand {
-      justify-self: end;
-      color: var(--gold-light);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 19px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      white-space: nowrap;
+    .cat-title::before,
+    .cat-title::after {
+      content: '';
+      width: 42px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.72));
     }
-    .btn-back { 
+    .cat-title::after {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.72), transparent);
+    }
+    .btn-back {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
       background: rgba(212, 175, 55, 0.1); 
       border: 1px solid var(--card-border); 
       color: var(--gold-light); 
@@ -624,11 +636,22 @@
 
     @media (max-width: 620px) {
       .cat-back-bar {
-        grid-template-columns: 1fr;
-        justify-items: center;
+        justify-content: center;
+        min-height: 112px;
+        padding-top: 54px;
         text-align: center;
       }
-      .cat-brand { justify-self: center; font-size: 16px; }
+      .btn-back {
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .cat-title {
+        font-size: 25px;
+        letter-spacing: 2px;
+      }
+      .cat-title::before,
+      .cat-title::after { width: 28px; }
       .item-stage { height: 190px; }
     }
 
@@ -836,7 +859,6 @@
       <div class="cat-back-bar">
         <button class="btn-back" onclick="katalogKapat()">← Kataloglara Dön</button>
         <h3 id="currentCatTitle" class="cat-title"></h3>
-        <div class="cat-brand">Bağmancı Kuyumculuk</div>
       </div>
       <div id="catalogItemsContainer" class="products-grid"></div>
     </div>
