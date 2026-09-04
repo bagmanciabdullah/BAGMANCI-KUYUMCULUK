@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bağmancı Kuyumculuk | Şanlıurfa Eyyübiye 1997</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #080a0a;
+      --bg-emerald-deep: #0b1413;
+      --card-bg: rgba(14, 23, 21, 0.75);
+      --gold-primary: #d4af37;
+      --gold-light: #f5e7c4;
+      --gold-dark: #9b7a24;
+      --text-pearl: #f7f6f2;
+      --text-muted: #9ba3a1;
+      --border-gold: rgba(212, 175, 55, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-pearl);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ÜST HEADER */
+    header {
+      width: 100%;
+      padding: 24px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      background: linear-gradient(to bottom, rgba(8, 10, 10, 0.95) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .brand-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--gold-light);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-badge {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 60px 80px;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(18, 38, 34, 0.45) 0%, rgba(8, 10, 10, 0.95) 70%),
+        linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-emerald-deep) 100%);
+      position: relative;
+    }
+
+    .hero-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* SOL BLOK */
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      margin-bottom: 18px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 25px;
+      height: 1px;
+      background: var(--gold-primary);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 54px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-pearl);
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--gold-light);
+      font-style: italic;
+      background: linear-gradient(135deg, #ffffff 0%, #f5e7c4 50%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 35px;
+      max-width: 580px;
+    }
+
+    .hero-desc strong {
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    /* ARAMA ÇUBUĞU */
+    .search-wrapper {
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(14, 23, 21, 0.85);
+      border: 1px solid var(--border-gold);
+      border-radius: 4px;
+      padding: 6px 8px 6px 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-pearl);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    .search-box input::placeholder {
+      color: #6b7573;
+    }
+
+    .search-box button {
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+      border: none;
+      color: #080a0a;
+      padding: 12px 22px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background: linear-gradient(135deg, #f5e7c4 0%, #d4af37 100%);
+    }
+
+    /* GÜVEN ROZETLERİ */
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 560px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .feature-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+    }
+
+    .feature-item p {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* SAĞ VİTRİN GÖRSELİ */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .image-frame {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 4/5;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(105%) brightness(95%);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .image-frame:hover img {
+      transform: scale(1.04);
+    }
+
+    .image-tag {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(8, 10, 10, 0.88);
+      backdrop-filter: blur(10px);
+      padding: 14px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .image-tag div strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: var(--gold-light);
+    }
+
+    .image-tag div span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .image-tag .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #25D366;
+    }
+
+    /* MOBİL UYUM */
+    @media (max-width: 992px) {
+      header {
+        padding: 20px 24px;
+      }
+      .hero-section {
+        padding: 120px 24px 60px;
+      }
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-title {
+        font-size: 38px;
+      }
+      .hero-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .image-frame {
+        max-width: 340px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand-wrap">
+      <a href="#" class="brand-logo">Bağmancı</a>
+      <span class="brand-sub">Kuyumculuk & Mücevherat</span>
+    </div>
+    <div class="header-info">
+      <span class="header-badge">Şanlıurfa • Eyyübiye</span>
+    </div>
+  </header>
+
+  <!-- HERO ALANI -->
+  <main class="hero-section">
+    <div class="hero-container">
+      
+      <!-- SOL: TARİHÇE + ARAMA -->
+      <div class="hero-content">
+        <div class="hero-tag">1997'den Günümüze Güvenle</div>
+        
+        <h1 class="hero-title">
+          Çeyrek Asırlık Güven,
+          <span>Ustalıkla İşlenen Değer.</span>
+        </h1>
+        
+        <p class="hero-desc">
+          <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de küçük bir vitrinle temelleri atılan Bağmancı Kuyumculuk; ilk günden bu yana dürüstlük, sadakat ve esnaflık ahlakından ödün vermeden yoluna devam ediyor. Yılların biriktirdiği köklü tecrübe, garantili ayar anlayışı ve zengin altın koleksiyonlarımızla değerinize değer katıyoruz.
+        </p>
+
+        <!-- ARAMA ÇUBUĞU -->
+        <div class="search-wrapper">
+          <form class="search-box" onsubmit="event.preventDefault();">
+            <input type="text" placeholder="Model, ayar veya gramaj ara... (Örn: 22 Ayar Burma, Ajda)">
+            <button type="button">Vitrinde Ara</button>
+          </form>
+        </div>
+
+        <!-- 3'LÜ TARİH VE GÜVEN ROZETİ -->
+        <div class="hero-features">
+          <div class="feature-item">
+            <h4>1997'den Beri</h4>
+            <p>Eyyübiye'de 25 yılı aşkın köklü esnaflık tecrübesi</p>
+          </div>
+          <div class="feature-item">
+            <h4>Darphane Garantisi</h4>
+            <p>Tüm 22 ayar ve has ürünlerde tam saflık güvencesi</p>
+          </div>
+          <div class="feature-item">
+            <h4>Anlık Piyasa</h4>
+            <p>Şeffaf kur ve otomatik işçilik hesaplama</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAĞ: VİTRİN GÖRSELİ -->
+      <div class="hero-visual">
+        <div class="image-frame">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80" alt="Bağmancı Kuyumculuk Vitrin">
+          <div class="image-tag">
+            <div>
+              <strong>Bağmancı Vitrin Seçkisi</strong>
+              <span>Eyyübiye Mağazası</span>
+            </div>
+            <div class="live-dot" title="Mağaza Açık"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
