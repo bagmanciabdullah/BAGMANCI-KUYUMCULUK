@@ -551,7 +551,7 @@
     }
 
     // ŞUKOB / Vercel Canlı Piyasa Motoru
-  async function fetchMarketData() {
+ async function fetchMarketData() {
       const timeStampEl = document.getElementById('market-time');
       let htmlText = '';
 
@@ -560,16 +560,6 @@
         if (res.ok) htmlText = await res.text();
       } catch (e) {}
 
-      if (!htmlText) {
-        try {
-          const proxyRes = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://sukobfiyat.com/'));
-          if (proxyRes.ok) {
-            const data = await proxyRes.json();
-            htmlText = data.contents;
-          }
-        } catch (e) {}
-      }
-
       if (htmlText) {
         try {
           const parser = new DOMParser();
@@ -577,14 +567,13 @@
           const rows = doc.querySelectorAll('tr');
 
           rows.forEach(r => {
-            const txt = r.textContent.toLocaleUpperCase('tr-TR');
-            const cells = r.querySelectorAll('td, th');
-            
-            if (cells.length >= 3) {
-              const alis = temizPara(cells[1].textContent);
-              const satis = temizPara(cells[2].textContent);
+            const txt = r.innerText.toLocaleUpperCase('tr-TR');
+            const cells = r.querySelectorAll('td');
 
-              // Boş hücre kontrolü
+            if (cells.length >= 3) {
+              const alis = temizPara(cells[1].innerText);
+              const satis = temizPara(cells[2].innerText);
+
               if (!alis || !satis) return;
 
               if (txt.includes('HAS') || (txt.includes('GRAM') && !txt.includes('22'))) {
@@ -611,12 +600,12 @@
           if (timeStampEl) {
             timeStampEl.innerText = 'ŞUKOB Canlı: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
           }
-          return;
         } catch (err) {
           console.error('Veri parse hatası:', err);
         }
       }
     }
+  
   </script>
 
 </body>
