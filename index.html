@@ -6,14 +6,14 @@
   <title>Bağmancı Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
       --bg-base: #020605;
-      --card-glass: rgba(4, 15, 12, 0.78);
-      --card-border: rgba(212, 175, 55, 0.28);
+      --card-glass: rgba(4, 15, 12, 0.82);
+      --card-border: rgba(212, 175, 55, 0.32);
       --gold-primary: #d4af37;
       --gold-light: #f7e8c3;
       --gold-dark: #917222;
@@ -30,9 +30,8 @@
 
     body {
       background-color: var(--bg-base);
-      /* ZÜMRÜT MERMER TABAN VE GÖZ YORMAYAN KARARTMA TÜLÜ */
       background-image: 
-        radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.72) 0%, rgba(2, 6, 5, 0.92) 80%),
+        radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%),
         url('arka-plan.jpg');
       background-size: cover;
       background-position: center top;
@@ -45,10 +44,10 @@
       min-height: 100vh;
     }
 
-    /* 1. ÜST HEADER (BUZLU ZÜMRÜT CAM) */
+    /* 1. ÜST HEADER */
     header {
       width: 100%;
-      background: rgba(2, 7, 6, 0.85);
+      background: rgba(2, 7, 6, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
@@ -65,7 +64,7 @@
 
     .brand-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 25px;
+      font-size: 26px;
       font-weight: 700;
       letter-spacing: 5px;
       color: var(--gold-light);
@@ -110,10 +109,10 @@
       position: relative;
       width: 100%;
       height: 240px;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--card-border);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.15);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.15);
       background-color: var(--card-glass);
     }
 
@@ -148,10 +147,10 @@
       white-space: nowrap;
     }
 
-    /* 3. ANA İÇERİK KARTI (GÖZ YORMAYAN CAM ARKA PLAN) */
+    /* 3. ANA İÇERİK KARTI */
     .hero-main-content {
-      padding: 35px 20px 60px;
-      max-width: 740px;
+      padding: 35px 20px 50px;
+      max-width: 760px;
       margin: 20px auto 40px;
       text-align: center;
       display: flex;
@@ -162,7 +161,7 @@
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }
 
     .hero-tag {
@@ -210,8 +209,8 @@
       font-weight: 300;
       color: var(--text-muted);
       line-height: 1.85;
-      margin-bottom: 28px;
-      max-width: 600px;
+      margin-bottom: 26px;
+      max-width: 620px;
     }
 
     .hero-desc strong {
@@ -222,8 +221,8 @@
     /* 4. ARAMA ÇUBUĞU */
     .search-wrapper {
       width: 100%;
-      max-width: 480px;
-      margin-bottom: 28px;
+      max-width: 500px;
+      margin-bottom: 25px;
     }
 
     .search-box {
@@ -260,7 +259,7 @@
       background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%);
       border: none;
       color: #020605;
-      padding: 0 20px;
+      padding: 0 22px;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1.5px;
@@ -271,11 +270,11 @@
     /* 5. 2X2 BUTONLAR */
     .action-grid {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
 
     .btn-action {
@@ -320,7 +319,118 @@
       border-color: var(--gold-primary);
     }
 
-    /* 6. ALT BİLGİ ROZETLERİ */
+    /* 6. ŞUKOB CANLI PİYASA ENTEGRE PANELİ */
+    .market-panel {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(3, 10, 8, 0.92);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 14px 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.1);
+    }
+
+    .market-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .market-brand {
+      text-align: left;
+    }
+
+    .market-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--gold-light);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .market-sub {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .market-live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 9.5px;
+      color: var(--emerald-accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--emerald-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--emerald-accent);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    /* ŞUKOB İFRAME PENCERESİ */
+    .market-frame-wrapper {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      background: #000000;
+    }
+
+    .market-frame-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: contrast(105%) brightness(95%);
+    }
+
+    .market-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9.5px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      padding: 0 4px;
+    }
+
+    .market-source {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .market-source i {
+      color: var(--gold-primary);
+    }
+
+    /* 7. ALT BİLGİ ROZETLERİ */
     .features-list {
       width: 100%;
       max-width: 520px;
@@ -357,11 +467,15 @@
       .hero-desc {
         font-size: 15px;
       }
+      .market-frame-wrapper {
+        height: 520px;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
     <a href="#" class="brand-logo">Bağmancı</a>
     <span class="brand-sub">Kuyumculuk & Saat</span>
@@ -371,6 +485,7 @@
     </div>
   </header>
 
+  <!-- BANNER VİTRİN -->
   <div class="banner-container">
     <div class="hero-banner">
       <img src="vitrin.jpg" alt="Bağmancı Kuyumculuk & Saat Vitrin">
@@ -379,6 +494,7 @@
     </div>
   </div>
 
+  <!-- İÇERİK -->
   <main class="hero-main-content">
     <div class="hero-tag">1997'den Beri Güvenle</div>
 
@@ -391,6 +507,7 @@
       <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan Bağmancı Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır değerinize değer katıyor.
     </p>
 
+    <!-- ARAMA -->
     <div class="search-wrapper">
       <form class="search-box" onsubmit="event.preventDefault();">
         <input type="text" placeholder="Bilezik, saat veya altın ara...">
@@ -398,6 +515,7 @@
       </form>
     </div>
 
+    <!-- 2X2 BUTONLAR -->
     <div class="action-grid">
       <a href="https://wa.me/905324341261?text=Merhaba,%20Bağmancı%20Kuyumculuk%20ürünleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-action btn-wp">
         <i class="fa-brands fa-whatsapp"></i> WhatsApp
@@ -413,6 +531,31 @@
       </a>
     </div>
 
+    <!-- ŞUKOB CANLI PİYASA EKRANI (İFRAME ENTEGRE) -->
+    <div class="market-panel">
+      <div class="market-header">
+        <div class="market-brand">
+          <span class="market-title">Bağmancı Canlı Piyasa</span>
+          <span class="market-sub">Şanlıurfa Kuyumcular Odası Verileri</span>
+        </div>
+        <div class="market-live-indicator">
+          <span class="pulse-dot"></span>
+          <span>Canlı Yayın</span>
+        </div>
+      </div>
+
+      <!-- CANLI YAYIN PENCERESİ -->
+      <div class="market-frame-wrapper">
+        <iframe src="https://www.sukobfiyat.com/mobil.html#" loading="lazy" title="ŞUKOB Canlı Altın Fiyatları"></iframe>
+      </div>
+
+      <div class="market-footer">
+        <span class="market-source"><i class="fa-solid fa-shield-halved"></i> ŞUKOB Resmi Sistem Yayını</span>
+        <span id="market-time">Otomatik Güncellenir</span>
+      </div>
+    </div>
+
+    <!-- ALT BİLGİ ROZETLERİ -->
     <div class="features-list">
       <div class="feature-box">
         <h4>1997'den Beri</h4>
