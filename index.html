@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bağmancı Kuyumculuk | Şanlıurfa Eyyübiye 1997</title>
+  <title>Bağmancı Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
@@ -35,7 +36,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ÜST HEADER */
+    /* HEADER */
     header {
       width: 100%;
       padding: 24px 60px;
@@ -66,27 +67,25 @@
     }
 
     .brand-sub {
-      font-size: 9px;
+      font-size: 10px;
       letter-spacing: 3px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .header-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
       color: var(--text-muted);
       text-transform: uppercase;
     }
 
-    .header-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-badge {
-      font-size: 11px;
-      letter-spacing: 2px;
+    .header-location i {
       color: var(--gold-primary);
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border: 1px solid var(--border-gold);
-      border-radius: 20px;
-      background: rgba(212, 175, 55, 0.05);
     }
 
     /* HERO SECTION */
@@ -111,7 +110,6 @@
       width: 100%;
     }
 
-    /* SOL BLOK */
     .hero-content {
       display: flex;
       flex-direction: column;
@@ -162,7 +160,7 @@
       font-weight: 300;
       color: var(--text-muted);
       line-height: 1.85;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
       max-width: 580px;
     }
 
@@ -175,7 +173,7 @@
     .search-wrapper {
       width: 100%;
       max-width: 520px;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
     }
 
     .search-box {
@@ -202,7 +200,6 @@
       color: var(--text-pearl);
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
-      letter-spacing: 0.5px;
     }
 
     .search-box input::placeholder {
@@ -223,8 +220,69 @@
       transition: all 0.3s ease;
     }
 
-    .search-box button:hover {
-      background: linear-gradient(135deg, #f5e7c4 0%, #d4af37 100%);
+    /* SOSYAL MEDYA & HARİTA BUTONLARI */
+    .action-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 35px;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .link-wp {
+      background: #25D366;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+    }
+
+    .link-wp:hover {
+      background: #20bd5a;
+      transform: translateY(-2px);
+    }
+
+    .link-ig {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2);
+    }
+
+    .link-ig:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .link-tt {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .link-tt:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .link-map {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-light);
+      border: 1px solid var(--border-gold);
+    }
+
+    .link-map:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-2px);
     }
 
     /* GÜVEN ROZETLERİ */
@@ -267,6 +325,7 @@
       overflow: hidden;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
       border: 1px solid rgba(212, 175, 55, 0.3);
+      background: #0d1615;
     }
 
     .image-frame img {
@@ -274,11 +333,11 @@
       height: 100%;
       object-fit: cover;
       filter: contrast(105%) brightness(95%);
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.6s ease;
     }
 
     .image-frame:hover img {
-      transform: scale(1.04);
+      transform: scale(1.03);
     }
 
     .image-tag {
@@ -316,7 +375,6 @@
       box-shadow: 0 0 10px #25D366;
     }
 
-    /* MOBİL UYUM */
     @media (max-width: 992px) {
       header {
         padding: 20px 24px;
@@ -347,10 +405,11 @@
   <header>
     <div class="brand-wrap">
       <a href="#" class="brand-logo">Bağmancı</a>
-      <span class="brand-sub">Kuyumculuk & Mücevherat</span>
+      <span class="brand-sub">Kuyumculuk & Saat</span>
     </div>
-    <div class="header-info">
-      <span class="header-badge">Şanlıurfa • Eyyübiye</span>
+    <div class="header-location">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Şanlıurfa • Eyyübiye</span>
     </div>
   </header>
 
@@ -358,52 +417,68 @@
   <main class="hero-section">
     <div class="hero-container">
       
-      <!-- SOL: TARİHÇE + ARAMA -->
+      <!-- SOL: BİLGİ, ARAMA, SOSYAL BUTONLAR -->
       <div class="hero-content">
         <div class="hero-tag">1997'den Günümüze Güvenle</div>
         
         <h1 class="hero-title">
           Çeyrek Asırlık Güven,
-          <span>Ustalıkla İşlenen Değer.</span>
+          <span>Zaman ve Altının Uyumu.</span>
         </h1>
         
         <p class="hero-desc">
-          <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de küçük bir vitrinle temelleri atılan Bağmancı Kuyumculuk; ilk günden bu yana dürüstlük, sadakat ve esnaflık ahlakından ödün vermeden yoluna devam ediyor. Yılların biriktirdiği köklü tecrübe, garantili ayar anlayışı ve zengin altın koleksiyonlarımızla değerinize değer katıyoruz.
+          <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan Bağmancı Kuyumculuk & Saat; dürüst esnaflık geleneği, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla yıllardır bölgenin güven kapısı olmaya devam ediyor.
         </p>
 
         <!-- ARAMA ÇUBUĞU -->
         <div class="search-wrapper">
           <form class="search-box" onsubmit="event.preventDefault();">
-            <input type="text" placeholder="Model, ayar veya gramaj ara... (Örn: 22 Ayar Burma, Ajda)">
-            <button type="button">Vitrinde Ara</button>
+            <input type="text" placeholder="Model, bilezik, saat veya altın ara...">
+            <button type="button">Ara</button>
           </form>
         </div>
 
-        <!-- 3'LÜ TARİH VE GÜVEN ROZETİ -->
+        <!-- SOSYAL MEDYA & İLETİŞİM BUTONLARI -->
+        <div class="action-links">
+          <a href="https://wa.me/905324341261?text=Merhaba,%20Bağmancı%20Kuyumculuk%20ürünleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="link-btn link-wp">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp Sipariş
+          </a>
+          <a href="https://www.instagram.com/bagmanci_kuyumculuk/" target="_blank" class="link-btn link-ig">
+            <i class="fa-brands fa-instagram"></i> Instagram
+          </a>
+          <a href="https://www.tiktok.com/@bagmanciikuyumculuk" target="_blank" class="link-btn link-tt">
+            <i class="fa-brands fa-tiktok"></i> TikTok
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Bağmancı+Kuyumculuk+Eyyübiye+Şanlıurfa" target="_blank" class="link-btn link-map">
+            <i class="fa-solid fa-map-location-dot"></i> Haritada Gör
+          </a>
+        </div>
+
+        <!-- 3'LÜ GÜVEN DAMGASI -->
         <div class="hero-features">
           <div class="feature-item">
             <h4>1997'den Beri</h4>
-            <p>Eyyübiye'de 25 yılı aşkın köklü esnaflık tecrübesi</p>
+            <p>Eyyübiye'de çeyrek asırlık köklü esnaflık tecrübesi</p>
           </div>
           <div class="feature-item">
-            <h4>Darphane Garantisi</h4>
-            <p>Tüm 22 ayar ve has ürünlerde tam saflık güvencesi</p>
+            <h4>Seçkin Saatler</h4>
+            <p>Orijinal mekanizmalar ve garantili modeller</p>
           </div>
           <div class="feature-item">
-            <h4>Anlık Piyasa</h4>
-            <p>Şeffaf kur ve otomatik işçilik hesaplama</p>
+            <h4>Tam Ayar Altın</h4>
+            <p>Darphane standartlarında saf ve güvenilir altın</p>
           </div>
         </div>
       </div>
 
-      <!-- SAĞ: VİTRİN GÖRSELİ -->
+      <!-- SAĞ: VİTRİN GÖRSELİ (vitrin.jpg dosyasını GitHub'a atınca otomatik o açılır) -->
       <div class="hero-visual">
         <div class="image-frame">
-          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80" alt="Bağmancı Kuyumculuk Vitrin">
+          <img src="vitrin.jpg" onerror="this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80'" alt="Bağmancı Kuyumculuk & Saat Vitrin">
           <div class="image-tag">
             <div>
-              <strong>Bağmancı Vitrin Seçkisi</strong>
-              <span>Eyyübiye Mağazası</span>
+              <strong>Bağmancı Koleksiyonu</strong>
+              <span>Kuyumculuk & Saat</span>
             </div>
             <div class="live-dot" title="Mağaza Açık"></div>
           </div>
