@@ -12,7 +12,7 @@
   <style>
     :root {
       --bg-base: #020605;
-      --card-glass: rgba(4, 15, 12, 0.85);
+      --card-glass: rgba(4, 15, 12, 0.82);
       --card-border: rgba(212, 175, 55, 0.32);
       --gold-primary: #d4af37;
       --gold-light: #f7e8c3;
@@ -23,40 +23,12 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background-color: var(--bg-base);
-      background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg');
-      background-size: cover;
-      background-position: center top;
-      background-attachment: fixed;
-      color: var(--text-pearl);
-      font-family: 'Montserrat', sans-serif;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
-      padding-bottom: 85px;
-    }
+    body { background-color: var(--bg-base); background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.75) 0%, rgba(2, 6, 5, 0.94) 85%), url('arka-plan.jpg'); background-size: cover; background-position: center top; background-attachment: fixed; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; padding-bottom: 80px; }
 
     /* HEADER */
-    header {
-      width: 100%;
-      background: rgba(2, 7, 6, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
-    }
-    .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; letter-spacing: 5px; color: var(--gold-light); text-decoration: none; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
-    .brand-sub { font-size: 9.5px; letter-spacing: 3px; color: var(--emerald-accent); text-transform: uppercase; font-weight: 600; }
+    header { width: 100%; background: rgba(2, 7, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--card-border); padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 3px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7); }
+    .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; letter-spacing: 5px; color: var(--gold-light); text-decoration: none; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
+    .brand-sub { font-size: 9px; letter-spacing: 3px; color: var(--emerald-accent); text-transform: uppercase; font-weight: 600; }
     .header-location { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
@@ -68,7 +40,7 @@
     .banner-badge { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(2, 10, 8, 0.88); backdrop-filter: blur(10px); padding: 6px 18px; border: 1px solid var(--card-border); border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; white-space: nowrap; }
 
     /* İÇERİK KARTI */
-    .hero-main-content { padding: 35px 20px 50px; max-width: 760px; margin: 20px auto 35px; text-align: center; display: flex; flex-direction: column; align-items: center; background: var(--card-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
+    .hero-main-content { padding: 35px 20px 50px; max-width: 760px; margin: 20px auto 40px; text-align: center; display: flex; flex-direction: column; align-items: center; background: var(--card-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
     .hero-tag { font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--emerald-accent); margin-bottom: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
     .hero-tag::before, .hero-tag::after { content: ''; width: 20px; height: 1px; background: var(--emerald-accent); opacity: 0.6; }
     .hero-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; letter-spacing: 1px; color: var(--text-pearl); line-height: 1.25; margin-bottom: 18px; }
@@ -78,78 +50,83 @@
 
     /* ARAMA ÇUBUĞU */
     .search-wrapper { width: 100%; max-width: 500px; margin-bottom: 25px; }
-    .search-box { display: flex; background: rgba(2, 6, 5, 0.75); border: 1px solid var(--card-border); border-radius: 6px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); }
+    .search-box { display: flex; background: rgba(2, 6, 5, 0.75); border: 1px solid var(--card-border); border-radius: 6px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); transition: all 0.3s ease; }
+    .search-box:focus-within { border-color: var(--gold-primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.25); }
     .search-box input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-pearl); font-family: 'Montserrat', sans-serif; font-size: 13px; padding: 13px 16px; }
     .search-box input::placeholder { color: #6a7c76; }
     .search-box button { background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 0 22px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
 
     /* BUTONLAR */
     .action-grid { width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-    .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; background: rgba(2, 6, 5, 0.65); border: 1px solid var(--card-border); }
+    .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; background: rgba(2, 6, 5, 0.65); border: 1px solid var(--card-border); }
     .btn-wp { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
     .btn-ig { color: #f77062; border-color: rgba(247, 112, 98, 0.4); }
     .btn-tt { color: var(--text-pearl); border-color: rgba(255, 255, 255, 0.2); }
     .btn-map { color: var(--gold-light); border-color: var(--card-border); }
+    .btn-action:hover { transform: translateY(-2px); filter: brightness(1.2); border-color: var(--gold-primary); }
 
-    /* BORSA PANELİ */
-    .market-panel { width: 100%; max-width: 520px; background: rgba(3, 10, 8, 0.9); border: 1px solid var(--card-border); border-radius: 10px; padding: 18px 16px; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
+    /* CANLI PİYASA PANELİ */
+    .market-panel {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(3, 10, 8, 0.9);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px 16px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
+    }
     .market-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); padding-bottom: 12px; margin-bottom: 12px; }
-    .market-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold-light); font-weight: 700; letter-spacing: 1.5px; }
-    .market-live-indicator { display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 9.5px; color: var(--emerald-accent); font-weight: 600; }
-    .pulse-dot { width: 7px; height: 7px; background-color: var(--emerald-accent); border-radius: 50%; box-shadow: 0 0 8px var(--emerald-accent); }
+    .market-brand { text-align: left; }
+    .market-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold-light); font-weight: 700; letter-spacing: 1.5px; display: block; line-height: 1.1; }
+    .market-sub { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .market-live-indicator { display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 9.5px; color: var(--emerald-accent); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+    .pulse-dot { width: 7px; height: 7px; background-color: var(--emerald-accent); border-radius: 50%; box-shadow: 0 0 8px var(--emerald-accent); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
     .market-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .market-table th { color: var(--text-muted); font-weight: 500; text-align: right; padding: 8px 6px; font-size: 10px; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .market-table th { color: var(--text-muted); font-weight: 500; text-align: right; padding: 8px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     .market-table th:first-child { text-align: left; }
-    .market-table td { padding: 10px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); text-align: right; color: var(--gold-light); font-weight: 600; }
+    .market-table td { padding: 10px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); text-align: right; color: var(--gold-light); font-weight: 600; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
     .market-table td:first-child { text-align: left; color: var(--text-pearl); font-weight: 400; display: flex; align-items: center; gap: 6px; }
     .market-table td:first-child i { color: var(--gold-primary); font-size: 11px; }
-    .market-footer { margin-top: 12px; display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-muted); }
+    .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
+    .market-footer { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; color: var(--text-muted); letter-spacing: 0.5px; padding: 0 4px; }
+    .market-source { display: flex; align-items: center; gap: 4px; }
+    .market-source i { color: var(--gold-primary); }
 
     /* ROZETLER */
     .features-list { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-top: 24px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
     .feature-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold-light); margin-bottom: 3px; }
     .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; }
 
-    /* KATALOG GENEL */
-    .catalog-section { width: 100%; max-width: 960px; margin: 10px auto 40px; padding: 0 16px; }
+    /* KATALOG BÖLÜMÜ */
+    .catalog-section { width: 100%; max-width: 760px; margin: 10px auto 40px; padding: 0 16px; }
     .catalog-header { text-align: center; margin-bottom: 25px; }
-    .catalog-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 700; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; }
-    .catalog-header p { font-size: 11px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .catalog-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; }
+    .catalog-header p { font-size: 10.5px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
 
-    /* KAPAKLAR */
-    .catalog-covers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
-    .catalog-cover-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; cursor: pointer; text-align: center; transition: all 0.3s ease; }
-    .catalog-cover-card:hover { border-color: var(--gold-primary); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(212,175,55,0.2); }
-    .cover-box { height: 130px; background: rgba(2, 6, 5, 0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); gap: 8px; }
-    .cover-box i { font-size: 32px; color: var(--gold-primary); }
-    .cover-info { padding: 14px 10px; }
-    .cover-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--text-pearl); margin-bottom: 8px; text-transform: uppercase; }
-    .btn-open { display: inline-block; padding: 6px 16px; border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+    .catalog-covers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .catalog-cover-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; cursor: pointer; text-align: center; transition: all 0.3s ease; }
+    .catalog-cover-card:hover { border-color: var(--gold-primary); transform: translateY(-3px); }
+    .cover-box { height: 120px; background: rgba(2, 6, 5, 0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); gap: 8px; }
+    .cover-box i { font-size: 30px; color: var(--gold-primary); }
+    .cover-info { padding: 12px 8px; }
+    .cover-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--text-pearl); margin-bottom: 8px; text-transform: uppercase; }
+    .btn-open { display: inline-block; padding: 5px 14px; border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 15px; font-size: 9.5px; font-weight: 600; text-transform: uppercase; }
 
-    /* İÇ VİTRİN VE 10 ÜRÜNLÜK GRİDLER */
     .catalog-inner-view { display: none; }
-    .cat-back-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 14px 20px; background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 10px; }
-    .btn-back { background: rgba(212, 175, 55, 0.12); border: 1px solid var(--card-border); color: var(--gold-light); padding: 8px 18px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 600; text-transform: uppercase; }
-    .btn-back:hover { background: var(--gold-primary); color: #020605; }
-    
-    .cat-group { display: none; }
-    .cat-group.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+    .cat-back-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 16px; background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 8px; }
+    .btn-back { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--card-border); color: var(--gold-light); padding: 6px 14px; border-radius: 6px; font-size: 11px; cursor: pointer; }
 
-    /* MÜCEVHER KARTI */
-    .item-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s; }
-    .item-card:hover { border-color: var(--gold-primary); transform: translateY(-3px); }
-    .item-stage { height: 160px; background: radial-gradient(circle, #08241d 0%, #020605 80%); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); position: relative; }
-    .item-stage img { width: 100%; height: 100%; object-fit: cover; }
-    .item-stage i { font-size: 34px; color: var(--gold-primary); opacity: 0.85; }
-    .item-hallmark { position: absolute; top: 8px; right: 8px; font-size: 8.5px; font-weight: 700; background: var(--gold-primary); color: #020605; padding: 2px 6px; border-radius: 3px; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+    .item-card { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+    .item-stage { height: 140px; background: rgba(2, 6, 5, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); position: relative; }
+    .item-stage i { font-size: 32px; color: var(--gold-primary); }
+    .item-hallmark { position: absolute; top: 8px; right: 8px; font-size: 8px; font-weight: 700; background: var(--gold-primary); color: #020605; padding: 2px 5px; border-radius: 3px; }
     .item-body { padding: 14px; text-align: center; }
-    .item-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 700; color: var(--text-pearl); margin-bottom: 4px; }
-    .item-meta { font-size: 10.5px; color: var(--text-muted); margin-bottom: 6px; }
-    .item-price { font-size: 17px; font-weight: 700; color: var(--gold-light); margin: 8px 0; }
-    .item-btns { display: flex; gap: 6px; }
-    .btn-add { flex: 1; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-primary); padding: 7px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; text-transform: uppercase; }
-    .btn-add:hover { background: var(--gold-primary); color: #020605; }
-    .btn-buy { flex: 1; background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 7px; border-radius: 4px; font-size: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+    .item-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--text-pearl); margin-bottom: 4px; }
+    .item-price { font-size: 16px; font-weight: 700; color: var(--gold-light); margin: 8px 0; }
+    .btn-add { width: 100%; background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); border: none; color: #020605; padding: 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; text-transform: uppercase; }
 
     /* ALT MENÜ */
     .app-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: rgba(2, 7, 6, 0.96); backdrop-filter: blur(10px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; }
@@ -158,7 +135,7 @@
 
     /* MODALLAR */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
-    .modal-box { background: rgba(4, 15, 12, 0.98); border: 1px solid var(--card-border); border-radius: 12px; width: 100%; max-width: 420px; padding: 22px; }
+    .modal-box { background: rgba(4, 15, 12, 0.98); border: 1px solid var(--card-border); border-radius: 12px; width: 100%; max-width: 400px; padding: 20px; }
 
     @media (min-width: 768px) {
       .hero-banner { height: 380px; }
@@ -242,16 +219,12 @@
           </tr>
         </thead>
         <tbody id="bagmanci-market-body">
-          <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>6.910,92 ₺</td><td>6.936,35 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.275,00 ₺</td><td>6.402,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.195,00 ₺</td><td>11.375,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>22.391,00 ₺</td><td>22.751,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>44.782,00 ₺</td><td>45.363,00 ₺</td></tr>
+          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Piyasa verileri alınıyor...</td></tr>
         </tbody>
       </table>
 
       <div class="market-footer">
-        <span class="market-source"><i class="fa-solid fa-clock"></i> <span id="market-time">Canlı Mağaza Kurları</span></span>
+        <span class="market-source"><i class="fa-solid fa-clock"></i> <span id="market-time">Güncelleniyor...</span></span>
         <span>Mağaza Tavsiye Fiyatları</span>
       </div>
     </div>
@@ -279,315 +252,247 @@
     </div>
 
     <div id="catalogCoversView" class="catalog-covers-grid">
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-bilezik', 'Bilezik')">
+      <div class="catalog-cover-card" onclick="katalogAc('Bilezik')">
         <div class="cover-box"><i class="fa-solid fa-ring"></i></div>
-        <div class="cover-info"><div class="cover-title">Bilezik</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Bilezik</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-yuzuk', 'Yüzük')">
+      <div class="catalog-cover-card" onclick="katalogAc('Yüzük')">
         <div class="cover-box"><i class="fa-solid fa-gem"></i></div>
-        <div class="cover-info"><div class="cover-title">Yüzük</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Yüzük</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-kupe', 'Küpe')">
+      <div class="catalog-cover-card" onclick="katalogAc('Küpe')">
         <div class="cover-box"><i class="fa-solid fa-certificate"></i></div>
-        <div class="cover-info"><div class="cover-title">Küpe</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Küpe</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-kolye', 'Kolye')">
+      <div class="catalog-cover-card" onclick="katalogAc('Kolye')">
         <div class="cover-box"><i class="fa-solid fa-heart"></i></div>
-        <div class="cover-info"><div class="cover-title">Kolye</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Kolye</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-madonna', 'Madonna')">
+      <div class="catalog-cover-card" onclick="katalogAc('Madonna')">
         <div class="cover-box"><i class="fa-solid fa-award"></i></div>
-        <div class="cover-info"><div class="cover-title">Madonna</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Madonna</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-frenk', 'Frenk Bağı')">
+      <div class="catalog-cover-card" onclick="katalogAc('Frenk Bağı')">
         <div class="cover-box"><i class="fa-solid fa-link"></i></div>
-        <div class="cover-info"><div class="cover-title">Frenk Bağı</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Frenk Bağı</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-akitma', 'Urfa Akıtması')">
+      <div class="catalog-cover-card" onclick="katalogAc('Urfa Akıtması')">
         <div class="cover-box"><i class="fa-solid fa-fingerprint"></i></div>
-        <div class="cover-info"><div class="cover-title">Urfa Akıtması</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Urfa Akıtması</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-bileklik', 'Bileklik')">
+      <div class="catalog-cover-card" onclick="katalogAc('Bileklik')">
         <div class="cover-box"><i class="fa-solid fa-hands-bound"></i></div>
-        <div class="cover-info"><div class="cover-title">Bileklik</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Bileklik</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-kelepce', 'Kelepçe')">
+      <div class="catalog-cover-card" onclick="katalogAc('Kelepçe')">
         <div class="cover-box"><i class="fa-solid fa-lock"></i></div>
-        <div class="cover-info"><div class="cover-title">Kelepçe</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Kelepçe</div><span class="btn-open">Aç</span></div>
       </div>
-      <div class="catalog-cover-card" onclick="katalogGoster('cat-saat', 'Saat & Aksesuar')">
+      <div class="catalog-cover-card" onclick="katalogAc('Saat & Aksesuar')">
         <div class="cover-box"><i class="fa-solid fa-clock"></i></div>
-        <div class="cover-info"><div class="cover-title">Saat & Aksesuar</div><span class="btn-open">Kataloğu Aç</span></div>
+        <div class="cover-info"><div class="cover-title">Saat & Aksesuar</div><span class="btn-open">Aç</span></div>
       </div>
     </div>
 
     <div id="catalogItemsView" class="catalog-inner-view">
       <div class="cat-back-bar">
-        <button class="btn-back" onclick="katalogGeri()"><i class="fa-solid fa-chevron-left"></i> Tüm Kataloglar</button>
-        <h3 id="currentCatTitle" style="font-family:'Cormorant Garamond', serif; color: var(--gold-light); font-size: 22px;"></h3>
+        <button class="btn-back" onclick="katalogKapat()">← Kataloglara Dön</button>
+        <h3 id="currentCatTitle" style="font-family:'Cormorant Garamond', serif; color: var(--gold-light); font-size: 20px;"></h3>
       </div>
+      <div id="catalogItemsContainer" class="products-grid"></div>
+    </div>
+  </section>
 
-      <div id="cat-bilezik" class="cat-group">
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Ajda Bilezik Klasik</div>
-            <div class="item-meta">10.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="10.0">₺64.020</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Ajda Bilezik Klasik (10 Gr)', 64020)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Ajda Bilezik Klasik (10 Gr)', 64020)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Çizgili Ajda Bilezik</div>
-            <div class="item-meta">12.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="12.0">₺76.824</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Çizgili Ajda Bilezik (12 Gr)', 76824)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Çizgili Ajda Bilezik (12 Gr)', 76824)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">İkili Burma Bilezik</div>
-            <div class="item-meta">15.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="15.0">₺96.030</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('İkili Burma Bilezik (15 Gr)', 96030)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('İkili Burma Bilezik (15 Gr)', 96030)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Üçlü Adana Burma</div>
-            <div class="item-meta">20.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="20.0">₺128.040</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Üçlü Adana Burma (20 Gr)', 128040)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Üçlü Adana Burma (20 Gr)', 128040)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Şarniyel Bilezik Geniş</div>
-            <div class="item-meta">18.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="18.0">₺115.236</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Şarniyel Bilezik Geniş (18 Gr)', 115236)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Şarniyel Bilezik Geniş (18 Gr)', 115236)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Erzurum Burması 22K</div>
-            <div class="item-meta">25.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="25.0">₺160.050</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Erzurum Burması 22K (25 Gr)', 160050)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Erzurum Burması 22K (25 Gr)', 160050)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Kibrit Çöpü Bilezik</div>
-            <div class="item-meta">10.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="10.0">₺64.020</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Kibrit Çöpü Bilezik (10 Gr)', 64020)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Kibrit Çöpü Bilezik (10 Gr)', 64020)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Mega Parlak Bilezik</div>
-            <div class="item-meta">30.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="30.0">₺192.060</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Mega Parlak Bilezik (30 Gr)', 192060)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Mega Parlak Bilezik (30 Gr)', 192060)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Mat & Parlak Halka</div>
-            <div class="item-meta">14.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="14.0">₺89.628</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Mat & Parlak Halka (14 Gr)', 89628)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Mat & Parlak Halka (14 Gr)', 89628)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-ring"></i></div>
-          <div class="item-body">
-            <div class="item-title">Geniş Trabzon Hasırı</div>
-            <div class="item-meta">40.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="40.0">₺256.080</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Geniş Trabzon Hasırı (40 Gr)', 256080)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Geniş Trabzon Hasırı (40 Gr)', 256080)">Satın Al</button></div>
-          </div>
-        </div>
+  <nav class="app-bar">
+    <button class="app-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <i class="fa-solid fa-house"></i>
+      <span>Ana Sayfa</span>
+    </button>
+    <button class="app-item" onclick="document.getElementById('borsa').scrollIntoView({behavior: 'smooth'})">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Borsa</span>
+    </button>
+    <button class="app-item" onclick="document.getElementById('katalog').scrollIntoView({behavior: 'smooth'})">
+      <i class="fa-solid fa-gem"></i>
+      <span>Katalog</span>
+    </button>
+    <button class="app-item" onclick="modalGoster('sepetModal')">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Sepet (<span id="cartCount">0</span>)</span>
+    </button>
+    <button class="app-item" onclick="modalGoster('uyeModal')">
+      <i class="fa-solid fa-user"></i>
+      <span>Giriş</span>
+    </button>
+  </nav>
+
+  <div class="modal-overlay" id="sepetModal">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:22px;">SEPETİNİZ</h3>
+        <button onclick="modalKapat('sepetModal')" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button>
       </div>
-
-      <div id="cat-yuzuk" class="cat-group">
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Klasik Altın Alyans</div>
-            <div class="item-meta">4.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="4.0">₺25.608</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Klasik Altın Alyans (4 Gr)', 25608)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Klasik Altın Alyans (4 Gr)', 25608)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Geniş Bombeli Alyans</div>
-            <div class="item-meta">6.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="6.0">₺38.412</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Geniş Bombeli Alyans (6 Gr)', 38412)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Geniş Bombeli Alyans (6 Gr)', 38412)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Telkari Motifli Yüzük</div>
-            <div class="item-meta">5.5 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="5.5">₺35.211</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Telkari Motifli Yüzük (5.5 Gr)', 35211)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Telkari Motifli Yüzük (5.5 Gr)', 35211)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Baget Taşlı Altın Yüzük</div>
-            <div class="item-meta">3.5 Gram • Aksesuar</div>
-            <div class="item-price">₺14.500</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Baget Taşlı Altın Yüzük', 14500)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Baget Taşlı Altın Yüzük', 14500)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Tektaş Altın Yüzük</div>
-            <div class="item-meta">2.8 Gram • Aksesuar</div>
-            <div class="item-price">₺11.800</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Tektaş Altın Yüzük', 11800)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Tektaş Altın Yüzük', 11800)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Tuğralı Fantezi Yüzük</div>
-            <div class="item-meta">7.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="7.0">₺44.814</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Tuğralı Fantezi Yüzük (7 Gr)', 44814)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Tuğralı Fantezi Yüzük (7 Gr)', 44814)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Dorika Toplu Yüzük</div>
-            <div class="item-meta">4.5 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="4.5">₺28.809</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Dorika Toplu Yüzük (4.5 Gr)', 28809)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Dorika Toplu Yüzük (4.5 Gr)', 28809)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Urfa Kalemli Yüzük</div>
-            <div class="item-meta">8.0 Gram • Canlı Kur</div>
-            <div class="item-price" data-gr="8.0">₺51.216</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Urfa Kalemli Yüzük (8 Gr)', 51216)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Urfa Kalemli Yüzük (8 Gr)', 51216)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Beştaş Zirkon Yüzük</div>
-            <div class="item-meta">4.2 Gram • Aksesuar</div>
-            <div class="item-price">₺16.200</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Beştaş Zirkon Yüzük', 16200)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Beştaş Zirkon Yüzük', 16200)">Satın Al</button></div>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-gem"></i></div>
-          <div class="item-body">
-            <div class="item-title">Çeyrekli Çerçeve Yüzük</div>
-            <div class="item-meta">5.0 Gram + Çeyrek</div>
-            <div class="item-price">₺43.500</div>
-            <div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Çeyrekli Çerçeve Yüzük', 43500)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Çeyrekli Çerçeve Yüzük', 43500)">Satın Al</button></div>
-          </div>
-        </div>
+      <div id="cartItems" style="max-height:200px; overflow-y:auto; margin-bottom:12px; font-size:12px; color:var(--text-muted);">Sepetiniz boş.</div>
+      <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold-light); border-top:1px solid var(--card-border); padding-top:10px;">
+        <span>TOPLAM:</span>
+        <span id="cartTotal">₺0</span>
       </div>
+      <button class="btn-add" style="margin-top:14px; padding:10px;" onclick="alert('Sipariş talebiniz alındı!'); sepet=[]; sepetGuncelle(); modalKapat('sepetModal');">Siparişi Onayla</button>
+    </div>
+  </div>
 
-      <div id="cat-kupe" class="cat-group">
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Halka Küpe Küçük</div><div class="item-meta">3.0 Gr • Canlı Kur</div><div class="item-price" data-gr="3.0">₺19.206</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Halka Küpe Küçük', 19206)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Halka Küpe Küçük', 19206)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Halka Küpe Orta</div><div class="item-meta">5.0 Gr • Canlı Kur</div><div class="item-price" data-gr="5.0">₺32.010</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Halka Küpe Orta', 32010)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Halka Küpe Orta', 32010)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Büyük Boy Burma Küpe</div><div class="item-meta">7.5 Gr • Canlı Kur</div><div class="item-price" data-gr="7.5">₺48.015</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Büyük Boy Burma Küpe', 48015)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Büyük Boy Burma Küpe', 48015)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Urfa Damla Küpe</div><div class="item-meta">6.0 Gr • Canlı Kur</div><div class="item-price" data-gr="6.0">₺38.412</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Urfa Damla Küpe', 38412)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Urfa Damla Küpe', 38412)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Baget Sallantılı Küpe</div><div class="item-meta">3.2 Gr • Aksesuar</div><div class="item-price">₺12.400</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Baget Sallantılı Küpe', 12400)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Baget Sallantılı Küpe', 12400)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Dorika Toplu Küpe</div><div class="item-meta">4.0 Gr • Canlı Kur</div><div class="item-price" data-gr="4.0">₺25.608</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Dorika Toplu Küpe', 25608)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Dorika Toplu Küpe', 25608)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Tuğralı Sarkıt Küpe</div><div class="item-meta">6.5 Gr • Canlı Kur</div><div class="item-price" data-gr="6.5">₺41.613</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Tuğralı Sarkıt Küpe', 41613)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Tuğralı Sarkıt Küpe', 41613)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Minimal Yıldız Küpe</div><div class="item-meta">2.0 Gr • Aksesuar</div><div class="item-price">₺8.900</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Minimal Yıldız Küpe', 8900)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Minimal Yıldız Küpe', 8900)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Japon Kilitli Küpe</div><div class="item-meta">4.8 Gr • Canlı Kur</div><div class="item-price" data-gr="4.8">₺30.729</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Japon Kilitli Küpe', 30729)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Japon Kilitli Küpe', 30729)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-certificate"></i></div>
-          <div class="item-body"><div class="item-title">Akıtma Uyumlu Küpe</div><div class="item-meta">8.5 Gr • Canlı Kur</div><div class="item-price" data-gr="8.5">₺54.417</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Akıtma Uyumlu Küpe', 54417)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Akıtma Uyumlu Küpe', 54417)">Satın Al</button></div></div>
-        </div>
+  <div class="modal-overlay" id="uyeModal">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:22px;">MÜŞTERİ GİRİŞİ</h3>
+        <button onclick="modalKapat('uyeModal')" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button>
       </div>
+      <input type="text" placeholder="Telefon No" style="width:100%; padding:9px; background:#020605; border:1px solid var(--card-border); border-radius:5px; color:#fff; margin-bottom:10px;">
+      <input type="password" placeholder="Şifre" style="width:100%; padding:9px; background:#020605; border:1px solid var(--card-border); border-radius:5px; color:#fff; margin-bottom:14px;">
+      <button class="btn-add" style="padding:9px;" onclick="alert('Giriş başarılı!'); modalKapat('uyeModal');">Giriş Yap</button>
+    </div>
+  </div>
 
-      <div id="cat-kolye" class="cat-group">
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Halat Zincir Kolye</div><div class="item-meta">10.0 Gr • Canlı Kur</div><div class="item-price" data-gr="10.0">₺64.020</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Halat Zincir Kolye', 64020)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Halat Zincir Kolye', 64020)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Pullu Zincir Kolye</div><div class="item-meta">12.0 Gr • Canlı Kur</div><div class="item-price" data-gr="12.0">₺76.824</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Pullu Zincir Kolye', 76824)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Pullu Zincir Kolye', 76824)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Tuğralı Kolye Ucu</div><div class="item-meta">8.0 Gr • Canlı Kur</div><div class="item-price" data-gr="8.0">₺51.216</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Tuğralı Kolye Ucu', 51216)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Tuğralı Kolye Ucu', 51216)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Baget Altın Kolye</div><div class="item-meta">3.8 Gr • Aksesuar</div><div class="item-price">₺15.200</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Baget Altın Kolye', 15200)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Baget Altın Kolye', 15200)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Çeyrekli Kolye Çerçeveli</div><div class="item-meta">6.5 Gr + Çeyrek</div><div class="item-price">₺52.800</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Çeyrekli Kolye Çerçeveli', 52800)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Çeyrekli Kolye Çerçeveli', 52800)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Kordon Zincir 60cm</div><div class="item-meta">15.0 Gr • Canlı Kur</div><div class="item-price" data-gr="15.0">₺96.030</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Kordon Zincir 60cm', 96030)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Kordon Zincir 60cm', 96030)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Dorika Üç Renk Kolye</div><div class="item-meta">9.0 Gr • Canlı Kur</div><div class="item-price" data-gr="9.0">₺57.618</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Dorika Üç Renk Kolye', 57618)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Dorika Üç Renk Kolye', 57618)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">14 AYAR</span><i class="fa-solid fa-heart"></i></div>
-          <div class="item-body"><div class="item-title">Nazar Boncuklu Kolye</div><div class="item-meta">2.5 Gr • Aksesuar</div><div class="item-price">₺10.500</div><div class="item-btns"><button class="btn-add" onclick="sepeteEkle('Nazar Boncuklu Kolye', 10500)">Sepete Ekle</button><button class="btn-buy" onclick="hemenAl('Nazar Boncuklu Kolye', 10500)">Satın Al</button></div></div>
-        </div>
-        <div class="item-card">
-          <div class="item-stage"><span class="item-hallmark">22 AYAR</span><i class="fa-solid fa-heart"></i></div>
+  <script>
+    let canliBilezikFiyati = 6402;
+
+    function katalogAc(kategoriAdi) {
+      document.getElementById('catalogCoversView').style.display = 'none';
+      const innerView = document.getElementById('catalogItemsView');
+      innerView.style.display = 'block';
+      document.getElementById('currentCatTitle').innerText = 'BAĞMANCI • ' + kategoriAdi;
+
+      const container = document.getElementById('catalogItemsContainer');
+      container.innerHTML = '';
+
+      for (let i = 1; i <= 10; i++) {
+        let gr = (8 + (i * 2));
+        let fiyat = Math.round(gr * canliBilezikFiyati);
+
+        container.innerHTML += `
+          <div class="item-card">
+            <div class="item-stage">
+              <span class="item-hallmark">22 AYAR</span>
+              <i class="fa-solid fa-gem"></i>
+              <span style="font-size:9px; color:var(--gold-light); margin-top:6px;">Model #${i}</span>
+            </div>
+            <div class="item-body">
+              <div class="item-title">${kategoriAdi} #${i}</div>
+              <div style="font-size:10px; color:var(--text-muted);">${gr} Gram • Canlı Kur</div>
+              <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
+              <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
+            </div>
+          </div>
+        `;
+      }
+      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function katalogKapat() {
+      document.getElementById('catalogItemsView').style.display = 'none';
+      document.getElementById('catalogCoversView').style.display = 'grid';
+      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    let sepet = [];
+    function sepeteEkle(ad, f) {
+      sepet.push({ ad, f });
+      sepetGuncelle();
+      alert(ad + " sepete eklendi!");
+    }
+
+    function sepetGuncelle() {
+      document.getElementById('cartCount').innerText = sepet.length;
+      const list = document.getElementById('cartItems');
+      if (!sepet.length) {
+        list.innerHTML = 'Sepetiniz boş.';
+        document.getElementById('cartTotal').innerText = '₺0';
+        return;
+      }
+      let top = 0, h = '';
+      sepet.forEach((x) => {
+        top += x.f;
+        h += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${x.ad}</span><strong>₺${x.f.toLocaleString('tr-TR')}</strong></div>`;
+      });
+      list.innerHTML = h;
+      document.getElementById('cartTotal').innerText = '₺' + top.toLocaleString('tr-TR');
+    }
+
+    function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
+    function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
+
+    async function fetchMarketData() {
+      const tableBody = document.getElementById('bagmanci-market-body');
+      const timeStampEl = document.getElementById('market-time');
+      
+      const targetUrl = encodeURIComponent('https://www.sukobfiyat.com/mobil.html');
+      const proxyUrl = `https://api.allorigins.win/get?url=${targetUrl}`;
+
+      try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error('Ağ hatası');
+        const data = await response.json();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        const rows = doc.querySelectorAll('table tr');
+
+        if (!rows || rows.length <= 1) throw new Error('Tablo bulunamadı');
+
+        tableBody.innerHTML = '';
+        rows.forEach((row, index) => {
+          if (index === 0) return;
+          const cells = row.querySelectorAll('td');
+          if (cells.length >= 3) {
+            let name = cells[0].textContent.trim();
+            const alis = cells[1].textContent.trim().replace('TL', '').trim();
+            const satis = cells[2].textContent.trim().replace('TL', '').trim();
+
+            if (name.includes('22') && !name.includes('Hurda')) {
+              let p = parseFloat(satis.replace('.', '').replace(',', '.'));
+              if (!isNaN(p)) canliBilezikFiyati = p;
+            }
+
+            if (name.includes('HAS')) name = 'Has Altın (Gr)';
+            else if (name.includes('22')) name = '22 Ayar Bilezik';
+            else if (name.includes('ÇEYREK')) name = 'Yeni Çeyrek';
+            else if (name.includes('YARIM')) name = 'Yeni Yarım';
+            else if (name.includes('ATA')) name = 'Ata Lira (Ziynet)';
+
+            let icon = '<i class="fa-solid fa-coins"></i>';
+            if (name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
+            if (name.includes('Çeyrek') || name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
+            if (name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
+
+            tableBody.innerHTML += `
+              <tr>
+                <td>${icon} ${name}</td>
+                <td>${alis} ₺</td>
+                <td>${satis} ₺</td>
+              </tr>
+            `;
+          }
+        });
+
+        const now = new Date();
+        timeStampEl.innerText = 'Güncellendi: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      } catch (err) {
+        console.error(err);
+        tableBody.innerHTML = `
+          <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>6.835,00 ₺</td><td>6.865,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.205,00 ₺</td><td>6.335,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.070,00 ₺</td><td>11.255,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>22.140,00 ₺</td><td>22.510,00 ₺</td></tr>
+          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>45.490,00 ₺</td><td>46.060,00 ₺</td></tr>
+        `;
+        timeStampEl.innerText = 'Canlı Mağaza Kurları';
+      }
+    }
+
+    fetchMarketData();
+    setInterval(fetchMarketData, 60000);
+  </script>
+
+</body>
+</html>
