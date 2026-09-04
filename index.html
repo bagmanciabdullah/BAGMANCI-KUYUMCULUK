@@ -5,23 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bağmancı Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --bg-main: #030a08;
-      --bg-emerald-deep: #051612;
-      --bg-surface: rgba(6, 26, 21, 0.85);
-      --emerald-glow: rgba(16, 185, 129, 0.18);
+      --bg-base: #020605;
+      --card-glass: rgba(4, 15, 12, 0.78);
+      --card-border: rgba(212, 175, 55, 0.28);
       --gold-primary: #d4af37;
       --gold-light: #f7e8c3;
       --gold-dark: #917222;
       --text-pearl: #f7f6f2;
-      --text-muted: #8ea39c;
-      --border-emerald: rgba(16, 185, 129, 0.25);
-      --border-gold: rgba(212, 175, 55, 0.35);
+      --text-muted: #a3b3ae;
+      --emerald-accent: #34d399;
     }
 
     * {
@@ -31,10 +29,14 @@
     }
 
     body {
-      background-color: var(--bg-main);
+      background-color: var(--bg-base);
+      /* ZÜMRÜT MERMER TABAN VE GÖZ YORMAYAN KARARTMA TÜLÜ */
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(13, 59, 46, 0.45) 0%, transparent 60%),
-        radial-gradient(circle at 50% 65%, rgba(6, 40, 31, 0.35) 0%, transparent 70%);
+        radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.72) 0%, rgba(2, 6, 5, 0.92) 80%),
+        url('arka-plan.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
       color: var(--text-pearl);
       font-family: 'Montserrat', sans-serif;
       line-height: 1.6;
@@ -43,21 +45,22 @@
       min-height: 100vh;
     }
 
-    /* 1. ÜST HEADER (ZÜMRÜT & ALTIN DETAYLI) */
+    /* 1. ÜST HEADER (BUZLU ZÜMRÜT CAM) */
     header {
       width: 100%;
-      background: rgba(3, 10, 8, 0.94);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-emerald);
-      padding: 18px 20px;
+      background: rgba(2, 7, 6, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 16px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
     }
 
     .brand-logo {
@@ -68,13 +71,13 @@
       color: var(--gold-light);
       text-decoration: none;
       text-transform: uppercase;
-      text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
     }
 
     .brand-sub {
       font-size: 9px;
       letter-spacing: 3px;
-      color: #34d399;
+      color: var(--emerald-accent);
       text-transform: uppercase;
       font-weight: 600;
     }
@@ -84,7 +87,7 @@
       letter-spacing: 2px;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-top: 3px;
+      margin-top: 2px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -95,10 +98,10 @@
       font-size: 10px;
     }
 
-    /* 2. DÜKKAN VİTRİN BANNERI (ZÜMRÜT IŞILTILI ÇERÇEVE) */
+    /* 2. DÜKKAN VİTRİN BANNERI */
     .banner-container {
       width: 100%;
-      max-width: 1000px;
+      max-width: 960px;
       margin: 22px auto 0;
       padding: 0 16px;
     }
@@ -106,12 +109,12 @@
     .hero-banner {
       position: relative;
       width: 100%;
-      height: 250px;
+      height: 240px;
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid var(--border-gold);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.8), 0 0 25px var(--emerald-glow);
-      background-color: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.15);
+      background-color: var(--card-glass);
     }
 
     .hero-banner img {
@@ -125,43 +128,48 @@
     .banner-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(3, 10, 8, 0.15) 0%, rgba(3, 15, 12, 0.85) 100%);
+      background: linear-gradient(180deg, rgba(2, 7, 6, 0.1) 0%, rgba(2, 7, 6, 0.85) 100%);
     }
 
     .banner-badge {
       position: absolute;
-      bottom: 14px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(4, 20, 16, 0.9);
+      background: rgba(2, 10, 8, 0.88);
       backdrop-filter: blur(10px);
       padding: 6px 18px;
-      border: 1px solid var(--border-emerald);
+      border: 1px solid var(--card-border);
       border-radius: 20px;
       font-size: 10px;
-      letter-spacing: 2.5px;
+      letter-spacing: 2px;
       color: var(--gold-light);
       text-transform: uppercase;
       white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 
-    /* 3. ANA METİN ALANI */
+    /* 3. ANA İÇERİK KARTI (GÖZ YORMAYAN CAM ARKA PLAN) */
     .hero-main-content {
       padding: 35px 20px 60px;
       max-width: 740px;
-      margin: 0 auto;
+      margin: 20px auto 40px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+      background: var(--card-glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
     }
 
     .hero-tag {
-      font-size: 11px;
+      font-size: 10.5px;
       letter-spacing: 3.5px;
       text-transform: uppercase;
-      color: #34d399;
+      color: var(--emerald-accent);
       margin-bottom: 14px;
       font-weight: 600;
       display: inline-flex;
@@ -171,9 +179,9 @@
 
     .hero-tag::before, .hero-tag::after {
       content: '';
-      width: 18px;
+      width: 20px;
       height: 1px;
-      background: #34d399;
+      background: var(--emerald-accent);
       opacity: 0.6;
     }
 
@@ -192,17 +200,17 @@
       color: var(--gold-light);
       font-style: italic;
       font-size: 32px;
-      background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 40%, #d4af37 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-desc {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 300;
       color: var(--text-muted);
       line-height: 1.85;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       max-width: 600px;
     }
 
@@ -211,26 +219,26 @@
       font-weight: 500;
     }
 
-    /* 4. ARAMA ÇUBUĞU (ZÜMRÜT VURGULU) */
+    /* 4. ARAMA ÇUBUĞU */
     .search-wrapper {
       width: 100%;
-      max-width: 500px;
-      margin-bottom: 30px;
+      max-width: 480px;
+      margin-bottom: 28px;
     }
 
     .search-box {
       display: flex;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-emerald);
+      background: rgba(2, 6, 5, 0.75);
+      border: 1px solid var(--card-border);
       border-radius: 6px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       transition: all 0.3s ease;
     }
 
     .search-box:focus-within {
       border-color: var(--gold-primary);
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
     }
 
     .search-box input {
@@ -241,17 +249,17 @@
       color: var(--text-pearl);
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
-      padding: 14px 16px;
+      padding: 13px 16px;
     }
 
     .search-box input::placeholder {
-      color: #6d857d;
+      color: #6a7c76;
     }
 
     .search-box button {
       background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%);
       border: none;
-      color: #030a08;
+      color: #020605;
       padding: 0 20px;
       font-size: 11px;
       font-weight: 600;
@@ -260,14 +268,14 @@
       cursor: pointer;
     }
 
-    /* 5. BUTONLAR (ZÜMRÜT DERİNLİĞİ) */
+    /* 5. 2X2 BUTONLAR */
     .action-grid {
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
     }
 
     .btn-action {
@@ -275,55 +283,52 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 13px 14px;
+      padding: 12px 14px;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 500;
       letter-spacing: 1px;
       text-decoration: none;
       transition: all 0.3s ease;
-      backdrop-filter: blur(8px);
+      background: rgba(2, 6, 5, 0.65);
+      border: 1px solid var(--card-border);
     }
 
     .btn-wp {
-      background: rgba(16, 185, 129, 0.15);
       color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+      border-color: rgba(52, 211, 153, 0.4);
     }
 
     .btn-ig {
-      background: rgba(220, 39, 67, 0.12);
       color: #f77062;
-      border: 1px solid rgba(220, 39, 67, 0.35);
+      border-color: rgba(247, 112, 98, 0.4);
     }
 
     .btn-tt {
-      background: rgba(6, 26, 21, 0.7);
       color: var(--text-pearl);
-      border: 1px solid var(--border-emerald);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .btn-map {
-      background: rgba(212, 175, 55, 0.12);
       color: var(--gold-light);
-      border: 1px solid var(--border-gold);
+      border-color: var(--card-border);
     }
 
     .btn-action:hover {
       transform: translateY(-2px);
-      filter: brightness(1.15);
+      filter: brightness(1.2);
+      border-color: var(--gold-primary);
     }
 
-    /* 6. GÜVEN ROZETLERİ */
+    /* 6. ALT BİLGİ ROZETLERİ */
     .features-list {
       width: 100%;
-      max-width: 540px;
+      max-width: 520px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
-      padding-top: 26px;
-      border-top: 1px solid var(--border-emerald);
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
     }
 
     .feature-box h4 {
@@ -344,10 +349,10 @@
         height: 380px;
       }
       .hero-title {
-        font-size: 48px;
+        font-size: 46px;
       }
       .hero-title span {
-        font-size: 44px;
+        font-size: 42px;
       }
       .hero-desc {
         font-size: 15px;
