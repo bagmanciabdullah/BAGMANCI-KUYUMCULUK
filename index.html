@@ -551,22 +551,18 @@
     }
 
     // ŞUKOB / Vercel Canlı Piyasa Motoru
-    async function fetchMarketData() {
+  async function fetchMarketData() {
       const timeStampEl = document.getElementById('market-time');
       let htmlText = '';
 
-      // 1. Yol: Vercel Serverless API'miz
       try {
         const res = await fetch('/api/kur');
-        if (res.ok) {
-          htmlText = await res.text();
-        }
+        if (res.ok) htmlText = await res.text();
       } catch (e) {}
 
-      // 2. Yol: Alternatif doğrudan proxy hattı
       if (!htmlText) {
         try {
-          const proxyRes = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.sukobfiyat.com/mobil.html'));
+          const proxyRes = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://sukobfiyat.com/'));
           if (proxyRes.ok) {
             const data = await proxyRes.json();
             htmlText = data.contents;
@@ -578,31 +574,33 @@
         try {
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlText, 'text/html');
-          const rows = doc.querySelectorAll('table tr');
+          const rows = doc.querySelectorAll('tr');
 
           rows.forEach(r => {
-            const txt = r.innerText.toUpperCase();
+            const txt = r.textContent.toLocaleUpperCase('tr-TR');
             const cells = r.querySelectorAll('td, th');
+            
             if (cells.length >= 3) {
-              const alis = temizPara(cells[1].innerText);
-              const satis = temizPara(cells[2].innerText);
+              const alis = temizPara(cells[1].textContent);
+              const satis = temizPara(cells[2].textContent);
 
-              if ((txt.includes('HAS') || txt.includes('GRAM')) && !txt.includes('22')) {
+              // Boş hücre kontrolü
+              if (!alis || !satis) return;
+
+              if (txt.includes('HAS') || (txt.includes('GRAM') && !txt.includes('22'))) {
                 hucreGuncelle('row-has', 'has-alis', alis);
                 hucreGuncelle('row-has', 'has-satis', satis);
               } else if (txt.includes('22') && !txt.includes('HURDA')) {
                 hucreGuncelle('row-22', 'bz-alis', alis);
                 hucreGuncelle('row-22', 'bz-satis', satis);
-                if (satis && satis.sayisal > 1000) {
-                  canliBilezikFiyati = satis.sayisal;
-                }
+                if (satis && satis.sayisal > 1000) canliBilezikFiyati = satis.sayisal;
               } else if (txt.includes('ÇEYREK') || txt.includes('CEYREK')) {
                 hucreGuncelle('row-ceyrek', 'cy-alis', alis);
                 hucreGuncelle('row-ceyrek', 'cy-satis', satis);
-              } else if (txt.includes('YARIM') || txt.includes('YARIM')) {
+              } else if (txt.includes('YARIM')) {
                 hucreGuncelle('row-yarim', 'yr-alis', alis);
                 hucreGuncelle('row-yarim', 'yr-satis', satis);
-              } else if (txt.includes('ATA') || txt.includes('ZİYNET') || txt.includes('LİRA')) {
+              } else if (txt.includes('ATA') || txt.includes('ZİYNET')) {
                 hucreGuncelle('row-ata', 'ata-alis', alis);
                 hucreGuncelle('row-ata', 'ata-satis', satis);
               }
@@ -615,13 +613,10 @@
           }
           return;
         } catch (err) {
-          console.error('Borsa parse hatası:', err);
+          console.error('Veri parse hatası:', err);
         }
       }
     }
-
-    fetchMarketData();
-    setInterval(fetchMarketData, 3000); // 3 saniyede bir canlı tazele
   </script>
 
 </body>
