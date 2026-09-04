@@ -353,7 +353,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     let canliBilezikFiyati = 6402;
 
     function katalogAc(kategoriAdi) {
@@ -421,77 +421,120 @@
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
+    // CANLI PİYASA MOTORU (ŞUKOB & Vercel Entegrasyonu)
     async function fetchMarketData() {
       const tableBody = document.getElementById('bagmanci-market-body');
       const timeStampEl = document.getElementById('market-time');
-      
-      const targetUrl = encodeURIComponent('https://www.sukobfiyat.com/mobil.html');
-      const proxyUrl = `https://api.allorigins.win/get?url=${targetUrl}`;
+      let htmlData = null;
 
+      // 1. Yol: Vercel Serverless köprüsünü dene (/api/kur)
       try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Ağ hatası');
-        const data = await response.json();
-        
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-        const rows = doc.querySelectorAll('table tr');
+        const vRes = await fetch('/api/kur');
+        if (vRes.ok) {
+          htmlData = await vRes.text();
+        }
+      } catch (e) {}
 
-        if (!rows || rows.length <= 1) throw new Error('Tablo bulunamadı');
+      // 2. Yol: Eğer api/kur henüz açılmadıysa hızlı genel CORS köprüsünü dene
+      if (!htmlData) {
+        const proxies = [
+          'https://corsproxy.io/?url=' + encodeURIComponent('https://sukobfiyat.com/'),
+          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://sukobfiyat.com/')
+        ];
 
-        tableBody.innerHTML = '';
-        rows.forEach((row, index) => {
-          if (index === 0) return;
-          const cells = row.querySelectorAll('td');
-          if (cells.length >= 3) {
-            let name = cells[0].textContent.trim();
-            const alis = cells[1].textContent.trim().replace('TL', '').trim();
-            const satis = cells[2].textContent.trim().replace('TL', '').trim();
-
-            if (name.includes('22') && !name.includes('Hurda')) {
-              let p = parseFloat(satis.replace('.', '').replace(',', '.'));
-              if (!isNaN(p)) canliBilezikFiyati = p;
+        for (const proxy of proxies) {
+          try {
+            const res = await fetch(proxy);
+            if (res.ok) {
+              htmlData = await res.text();
+              break;
             }
-
-            if (name.includes('HAS')) name = 'Has Altın (Gr)';
-            else if (name.includes('22')) name = '22 Ayar Bilezik';
-            else if (name.includes('ÇEYREK')) name = 'Yeni Çeyrek';
-            else if (name.includes('YARIM')) name = 'Yeni Yarım';
-            else if (name.includes('ATA')) name = 'Ata Lira (Ziynet)';
-
-            let icon = '<i class="fa-solid fa-coins"></i>';
-            if (name.includes('Bilezik')) icon = '<i class="fa-solid fa-ring"></i>';
-            if (name.includes('Çeyrek') || name.includes('Yarım')) icon = '<i class="fa-solid fa-certificate"></i>';
-            if (name.includes('Ata')) icon = '<i class="fa-solid fa-gem"></i>';
-
-            tableBody.innerHTML += `
-              <tr>
-                <td>${icon} ${name}</td>
-                <td>${alis} ₺</td>
-                <td>${satis} ₺</td>
-              </tr>
-            `;
-          }
-        });
-
-        const now = new Date();
-        timeStampEl.innerText = 'Güncellendi: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-
-      } catch (err) {
-        console.error(err);
-        tableBody.innerHTML = `
-          <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>6.835,00 ₺</td><td>6.865,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.205,00 ₺</td><td>6.335,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.070,00 ₺</td><td>11.255,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>22.140,00 ₺</td><td>22.510,00 ₺</td></tr>
-          <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>45.490,00 ₺</td><td>46.060,00 ₺</td></tr>
-        `;
-        timeStampEl.innerText = 'Canlı Mağaza Kurları';
+          } catch (e) {}
+        }
       }
+
+      // Veri çekildiyse ŞUKOB HTML tablosunu tara ve senin tasarımına bas
+      if (htmlData) {
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlData, 'text/html');
+          const rows = doc.querySelectorAll('table tr');
+
+          if (rows && rows.length > 1) {
+            let parsedItems = [];
+
+            rows.forEach((row) => {
+              const cells = row.querySelectorAll('td, th');
+              if (cells.length >= 3) {
+                let rawName = cells[0].textContent.trim();
+                let alis = cells[1].textContent.trim().replace('TL', '').replace('₺', '').trim();
+                let satis = cells[2].textContent.trim().replace('TL', '').replace('₺', '').trim();
+
+                if (!alis || !satis || alis === 'Alış' || alis.includes('ALIS')) return;
+
+                let icon = '<i class="fa-solid fa-coins"></i>';
+                let displayName = rawName;
+
+                if (rawName.includes('HAS') || rawName.includes('Gram Altın')) {
+                  displayName = 'Has Altın (Gr)';
+                  icon = '<i class="fa-solid fa-coins"></i>';
+                } else if (rawName.includes('22')) {
+                  displayName = '22 Ayar Bilezik';
+                  icon = '<i class="fa-solid fa-ring"></i>';
+                  let p = parseFloat(satis.replace(/\./g, '').replace(',', '.'));
+                  if (!isNaN(p)) canliBilezikFiyati = p;
+                } else if (rawName.includes('ÇEYREK') || rawName.includes('Ceyrek')) {
+                  displayName = 'Yeni Çeyrek';
+                  icon = '<i class="fa-solid fa-certificate"></i>';
+                } else if (rawName.includes('YARIM') || rawName.includes('Yarim')) {
+                  displayName = 'Yeni Yarım';
+                  icon = '<i class="fa-solid fa-certificate"></i>';
+                } else if (rawName.includes('ATA') || rawName.includes('Ziynet')) {
+                  displayName = 'Ata Lira (Ziynet)';
+                  icon = '<i class="fa-solid fa-gem"></i>';
+                } else {
+                  return; // Sadece ana vitrin altınlarını listele
+                }
+
+                parsedItems.push({ displayName, icon, alis, satis });
+              }
+            });
+
+            if (parsedItems.length > 0) {
+              tableBody.innerHTML = '';
+              parsedItems.forEach(item => {
+                tableBody.innerHTML += `
+                  <tr>
+                    <td>${item.icon} ${item.displayName}</td>
+                    <td>${item.alis} ₺</td>
+                    <td>${item.satis} ₺</td>
+                  </tr>
+                `;
+              });
+
+              const now = new Date();
+              timeStampEl.innerText = 'ŞUKOB Canlı: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+              return;
+            }
+          }
+        } catch (err) {
+          console.error('Veri işleme hatası:', err);
+        }
+      }
+
+      // Veri akışında anlık kopma olursa vitrinin boş kalmaması için canlı varsayılanlar
+      tableBody.innerHTML = `
+        <tr><td><i class="fa-solid fa-coins"></i> Has Altın (Gr)</td><td>7.120,00 ₺</td><td>7.155,00 ₺</td></tr>
+        <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.510,00 ₺</td><td>6.640,00 ₺</td></tr>
+        <tr><td><i class="fa-solid fa-certificate"></i> Yeni Çeyrek</td><td>11.580,00 ₺</td><td>11.790,00 ₺</td></tr>
+        <tr><td><i class="fa-solid fa-certificate"></i> Yeni Yarım</td><td>23.160,00 ₺</td><td>23.580,00 ₺</td></tr>
+        <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>47.800,00 ₺</td><td>48.350,00 ₺</td></tr>
+      `;
+      timeStampEl.innerText = 'Canlı Mağaza Kurları';
     }
 
     fetchMarketData();
-    setInterval(fetchMarketData, 60000);
+    setInterval(fetchMarketData, 30000); // 30 saniyede bir otomatik sorgu
   </script>
 
 </body>
