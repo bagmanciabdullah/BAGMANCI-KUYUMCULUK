@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bağmancı Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -39,16 +39,16 @@
     /* HEADER */
     header {
       width: 100%;
-      padding: 24px 60px;
+      padding: 22px 50px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 20;
-      background: linear-gradient(to bottom, rgba(8, 10, 10, 0.95) 0%, transparent 100%);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      z-index: 30;
+      background: linear-gradient(to bottom, rgba(8, 10, 10, 0.9) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
     }
 
     .brand-wrap {
@@ -88,62 +88,81 @@
       color: var(--gold-primary);
     }
 
-    /* HERO SECTION */
-    .hero-section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 140px 60px 80px;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(18, 38, 34, 0.45) 0%, rgba(8, 10, 10, 0.95) 70%),
-        linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-emerald-deep) 100%);
+    /* ÜST PANORAMİK BANNER */
+    .hero-banner {
       position: relative;
-    }
-
-    .hero-container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 60px;
-      align-items: center;
       width: 100%;
+      height: 52vh;
+      min-height: 380px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-gold);
     }
 
-    .hero-content {
+    .hero-banner img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      filter: contrast(108%) brightness(85%);
+      transform: scale(1.02);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-banner:hover img {
+      transform: scale(1.05);
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(8, 10, 10, 0.6) 0%, rgba(8, 10, 10, 0.3) 50%, var(--bg-dark) 100%);
+      z-index: 1;
+    }
+
+    .banner-badge {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 25px;
+      background: rgba(8, 10, 10, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 8px 24px;
+      border: 1px solid var(--border-gold);
+      border-radius: 30px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    /* İÇERİK BÖLÜMÜ */
+    .hero-main-content {
+      padding: 40px 24px 80px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .hero-tag {
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--gold-primary);
-      margin-bottom: 18px;
-      font-weight: 500;
-      display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 25px;
-      height: 1px;
-      background: var(--gold-primary);
+      text-align: center;
+      background: radial-gradient(circle at 50% 10%, rgba(18, 38, 34, 0.4) 0%, var(--bg-dark) 70%);
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 54px;
+      font-size: 52px;
       font-weight: 600;
       letter-spacing: 2px;
       color: var(--text-pearl);
-      line-height: 1.15;
-      margin-bottom: 22px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 900px;
     }
 
     .hero-title span {
@@ -160,8 +179,8 @@
       font-weight: 300;
       color: var(--text-muted);
       line-height: 1.85;
-      margin-bottom: 30px;
-      max-width: 580px;
+      margin-bottom: 35px;
+      max-width: 720px;
     }
 
     .hero-desc strong {
@@ -172,7 +191,7 @@
     /* ARAMA ÇUBUĞU */
     .search-wrapper {
       width: 100%;
-      max-width: 520px;
+      max-width: 600px;
       margin-bottom: 35px;
     }
 
@@ -182,14 +201,14 @@
       background: rgba(14, 23, 21, 0.85);
       border: 1px solid var(--border-gold);
       border-radius: 4px;
-      padding: 6px 8px 6px 18px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      padding: 6px 8px 6px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
       transition: all 0.3s ease;
     }
 
     .search-box:focus-within {
       border-color: var(--gold-primary);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
     }
 
     .search-box input {
@@ -199,7 +218,7 @@
       outline: none;
       color: var(--text-pearl);
       font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     .search-box input::placeholder {
@@ -210,7 +229,7 @@
       background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
       border: none;
       color: #080a0a;
-      padding: 12px 22px;
+      padding: 13px 26px;
       border-radius: 3px;
       font-size: 12px;
       font-weight: 600;
@@ -220,19 +239,24 @@
       transition: all 0.3s ease;
     }
 
-    /* SOSYAL MEDYA & HARİTA BUTONLARI */
+    .search-box button:hover {
+      background: linear-gradient(135deg, #f5e7c4 0%, #d4af37 100%);
+    }
+
+    /* SOSYAL VE İLETİŞİM BUTONLARI */
     .action-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 35px;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 50px;
     }
 
     .link-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
+      padding: 12px 22px;
       font-size: 12px;
       font-weight: 500;
       letter-spacing: 1px;
@@ -244,7 +268,7 @@
     .link-wp {
       background: #25D366;
       color: #ffffff;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
     }
 
     .link-wp:hover {
@@ -255,7 +279,7 @@
     .link-ig {
       background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
       color: #ffffff;
-      box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2);
+      box-shadow: 0 4px 15px rgba(220, 39, 67, 0.25);
     }
 
     .link-ig:hover {
@@ -285,116 +309,54 @@
       transform: translateY(-2px);
     }
 
-    /* GÜVEN ROZETLERİ */
+    /* 3'LÜ GÜVEN DAMGASI */
     .hero-features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 30px;
       width: 100%;
-      max-width: 560px;
-      padding-top: 25px;
+      max-width: 850px;
+      padding-top: 35px;
       border-top: 1px solid rgba(212, 175, 55, 0.15);
     }
 
     .feature-item h4 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
+      font-size: 22px;
       color: var(--gold-light);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .feature-item p {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    /* SAĞ VİTRİN GÖRSELİ */
-    .hero-visual {
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
-
-    .image-frame {
-      position: relative;
-      width: 100%;
-      max-width: 440px;
-      aspect-ratio: 4/5;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      background: #0d1615;
-    }
-
-    .image-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: contrast(105%) brightness(95%);
-      transition: transform 0.6s ease;
-    }
-
-    .image-frame:hover img {
-      transform: scale(1.03);
-    }
-
-    .image-tag {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      background: rgba(8, 10, 10, 0.88);
-      backdrop-filter: blur(10px);
-      padding: 14px 18px;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 4px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .image-tag div strong {
-      display: block;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      color: var(--gold-light);
-    }
-
-    .image-tag div span {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .image-tag .live-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #25D366;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #25D366;
-    }
-
-    @media (max-width: 992px) {
+    @media (max-width: 768px) {
       header {
-        padding: 20px 24px;
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 8px;
       }
-      .hero-section {
-        padding: 120px 24px 60px;
-      }
-      .hero-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
+      .hero-banner {
+        height: 38vh;
+        min-height: 260px;
       }
       .hero-title {
-        font-size: 38px;
+        font-size: 34px;
       }
       .hero-features {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 20px;
       }
-      .image-frame {
-        max-width: 340px;
+      .action-links {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+      }
+      .link-btn {
+        justify-content: center;
       }
     }
   </style>
@@ -413,78 +375,62 @@
     </div>
   </header>
 
-  <!-- HERO ALANI -->
-  <main class="hero-section">
-    <div class="hero-container">
-      
-      <!-- SOL: BİLGİ, ARAMA, SOSYAL BUTONLAR -->
-      <div class="hero-content">
-        <div class="hero-tag">1997'den Günümüze Güvenle</div>
-        
-        <h1 class="hero-title">
-          Çeyrek Asırlık Güven,
-          <span>Zaman ve Altının Uyumu.</span>
-        </h1>
-        
-        <p class="hero-desc">
-          <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan Bağmancı Kuyumculuk & Saat; dürüst esnaflık geleneği, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla yıllardır bölgenin güven kapısı olmaya devam ediyor.
-        </p>
+  <!-- ÜST VİTRİN BANNER ALANI -->
+  <section class="hero-banner">
+    <img src="vitrin.jpeg" onerror="this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=80'" alt="Bağmancı Kuyumculuk & Saat Vitrin">
+    <div class="banner-overlay"></div>
+    <div class="banner-badge">Şanlıurfa Eyyübiye Mağazası</div>
+  </section>
 
-        <!-- ARAMA ÇUBUĞU -->
-        <div class="search-wrapper">
-          <form class="search-box" onsubmit="event.preventDefault();">
-            <input type="text" placeholder="Model, bilezik, saat veya altın ara...">
-            <button type="button">Ara</button>
-          </form>
-        </div>
+  <!-- İÇERİK & ARAMA & BUTONLAR -->
+  <main class="hero-main-content">
+    <h1 class="hero-title">
+      Çeyrek Asırlık Güven,
+      <span>Zaman ve Altının Kusursuz Uyumu.</span>
+    </h1>
+    
+    <p class="hero-desc">
+      <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan Bağmancı Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır bölgenin güven kapısı olmaya devam ediyor.
+    </p>
 
-        <!-- SOSYAL MEDYA & İLETİŞİM BUTONLARI -->
-        <div class="action-links">
-          <a href="https://wa.me/905324341261?text=Merhaba,%20Bağmancı%20Kuyumculuk%20ürünleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="link-btn link-wp">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp Sipariş
-          </a>
-          <a href="https://www.instagram.com/bagmanci_kuyumculuk/" target="_blank" class="link-btn link-ig">
-            <i class="fa-brands fa-instagram"></i> Instagram
-          </a>
-          <a href="https://www.tiktok.com/@bagmanciikuyumculuk" target="_blank" class="link-btn link-tt">
-            <i class="fa-brands fa-tiktok"></i> TikTok
-          </a>
-          <a href="https://www.google.com/maps/search/?api=1&query=Bağmancı+Kuyumculuk+Eyyübiye+Şanlıurfa" target="_blank" class="link-btn link-map">
-            <i class="fa-solid fa-map-location-dot"></i> Haritada Gör
-          </a>
-        </div>
+    <!-- ARAMA ÇUBUĞU -->
+    <div class="search-wrapper">
+      <form class="search-box" onsubmit="event.preventDefault();">
+        <input type="text" placeholder="Model, bilezik, saat veya altın ara...">
+        <button type="button">Vitrinde Ara</button>
+      </form>
+    </div>
 
-        <!-- 3'LÜ GÜVEN DAMGASI -->
-        <div class="hero-features">
-          <div class="feature-item">
-            <h4>1997'den Beri</h4>
-            <p>Eyyübiye'de çeyrek asırlık köklü esnaflık tecrübesi</p>
-          </div>
-          <div class="feature-item">
-            <h4>Seçkin Saatler</h4>
-            <p>Orijinal mekanizmalar ve garantili modeller</p>
-          </div>
-          <div class="feature-item">
-            <h4>Tam Ayar Altın</h4>
-            <p>Darphane standartlarında saf ve güvenilir altın</p>
-          </div>
-        </div>
+    <!-- SOSYAL MEDYA & HARİTA BUTONLARI -->
+    <div class="action-links">
+      <a href="https://wa.me/905324341261?text=Merhaba,%20Bağmancı%20Kuyumculuk%20ürünleri%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="link-btn link-wp">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp Sipariş
+      </a>
+      <a href="https://www.instagram.com/bagmanci_kuyumculuk/" target="_blank" class="link-btn link-ig">
+        <i class="fa-brands fa-instagram"></i> Instagram
+      </a>
+      <a href="https://www.tiktok.com/@bagmanciikuyumculuk" target="_blank" class="link-btn link-tt">
+        <i class="fa-brands fa-tiktok"></i> TikTok
+      </a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Bağmancı+Kuyumculuk+Eyyübiye+Şanlıurfa" target="_blank" class="link-btn link-map">
+        <i class="fa-solid fa-map-location-dot"></i> Haritada Gör
+      </a>
+    </div>
+
+    <!-- 3'LÜ GÜVEN DAMGASI -->
+    <div class="hero-features">
+      <div class="feature-item">
+        <h4>1997'den Beri</h4>
+        <p>Eyyübiye'de 25 yılı aşkın köklü esnaflık tecrübesi</p>
       </div>
-
-      <!-- SAĞ: VİTRİN GÖRSELİ (vitrin.jpg dosyasını GitHub'a atınca otomatik o açılır) -->
-      <div class="hero-visual">
-        <div class="image-frame">
-          <img src="vitrin.jpg" onerror="this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80'" alt="Bağmancı Kuyumculuk & Saat Vitrin">
-          <div class="image-tag">
-            <div>
-              <strong>Bağmancı Koleksiyonu</strong>
-              <span>Kuyumculuk & Saat</span>
-            </div>
-            <div class="live-dot" title="Mağaza Açık"></div>
-          </div>
-        </div>
+      <div class="feature-item">
+        <h4>Seçkin Saatler</h4>
+        <p>Orijinal mekanizmalar ve garantili modeller</p>
       </div>
-
+      <div class="feature-item">
+        <h4>Tam Ayar Altın</h4>
+        <p>Darphane standartlarında saf ve güvenilir altın</p>
+      </div>
     </div>
   </main>
 
