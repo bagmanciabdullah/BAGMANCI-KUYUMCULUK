@@ -529,40 +529,47 @@
       cursor: pointer; 
     }
 
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-    .item-card { 
-      background: var(--card-glass); 
-      border: 1px solid var(--card-border); 
-      border-radius: 12px; 
-      overflow: hidden; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    .item-card {
+      background: linear-gradient(180deg, rgba(5, 18, 14, 0.96), rgba(2, 7, 6, 0.98));
+      border: 1px solid rgba(212, 175, 55, 0.34);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       cursor: pointer;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34);
+      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
     }
     .item-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(247, 232, 195, 0.45);
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.42);
+      transform: translateY(-4px);
+      border-color: rgba(247, 232, 195, 0.58);
+      box-shadow: 0 22px 46px rgba(0, 0, 0, 0.48);
     }
     .item-stage {
-      height: 205px;
-      background: rgba(255, 255, 255, 0.97); 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15); 
-      position: relative; 
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      min-height: 260px;
+      background: #f7f4ee;
+      display: grid;
+      place-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+      overflow: hidden;
     }
     .item-stage i { font-size: 34px; color: var(--gold-primary); }
     .item-stage img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      padding: 8px;
-      background: transparent;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: #f7f4ee;
     }
     .item-placeholder {
       display: grid;
@@ -572,27 +579,64 @@
       color: var(--gold-primary);
       font-size: 34px;
     }
+    .item-hallmark {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      background: linear-gradient(135deg, #f7d55c, #c79816);
+      color: #020605;
+      padding: 4px 8px;
+      border-radius: 6px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+    }
+    .item-body {
+      padding: 18px 18px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .item-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text-pearl);
+      min-height: 24px;
+    }
     .item-meta {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--text-muted);
-      min-height: 34px;
-      line-height: 1.45;
+      min-height: 18px;
+      line-height: 1.35;
+    }
+    .item-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin: 6px 0 2px;
+      letter-spacing: 0.2px;
     }
     .item-actions {
       display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 8px;
-      margin-top: 10px;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      margin-top: 8px;
     }
     .btn-fav {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--card-border);
+      min-height: 40px;
+      border: 1px solid rgba(212, 175, 55, 0.45);
       color: var(--gold-light);
       background: rgba(212, 175, 55, 0.08);
-      border-radius: 6px;
-      font-size: 15px;
+      border-radius: 7px;
+      font-size: 16px;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
@@ -601,37 +645,19 @@
       border-color: var(--gold-primary);
       color: var(--gold-primary);
     }
-    .item-hallmark { 
-      position: absolute; 
-      top: 10px; 
-      right: 10px; 
-      font-size: 8.5px; 
-      font-weight: 700; 
-      background: var(--gold-primary); 
-      color: #020605; 
-      padding: 2px 6px; 
-      border-radius: 4px; 
-    }
-    .item-body { padding: 16px; text-align: center; }
-    .item-title { 
-      font-family: 'Cormorant Garamond', serif; 
-      font-size: 19px; 
-      font-weight: 700; 
-      color: var(--text-pearl); 
-      margin-bottom: 4px; 
-    }
-    .item-price { font-size: 17px; font-weight: 700; color: var(--gold-light); margin: 8px 0; }
-    .btn-add { 
-      width: 100%; 
-      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); 
-      border: none; 
-      color: #020605; 
-      padding: 9px; 
-      border-radius: 6px; 
-      font-size: 11px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      text-transform: uppercase; 
+    .btn-add {
+      width: 100%;
+      min-height: 40px;
+      background: linear-gradient(135deg, #d4af37 0%, #b88b17 100%);
+      border: none;
+      color: #020605;
+      padding: 10px 12px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     @media (max-width: 620px) {
@@ -652,9 +678,9 @@
       }
       .cat-title::before,
       .cat-title::after { width: 28px; }
-      .item-stage { height: 190px; }
+      .products-grid { grid-template-columns: minmax(0, 1fr); }
+      .item-stage { min-height: 250px; }
     }
-
     /* BAR */
     .app-bar { 
       position: fixed; 
@@ -1357,7 +1383,7 @@
       container.innerHTML = categoryProducts.map(item => {
         const price = productPrice(item);
         const meta = item.priceMode === 'liveGram' && item.gram
-          ? `${Number(item.gram).toLocaleString('tr-TR')} Gr • Canlı SUKOB Kuru`
+          ? `${Number(item.gram).toLocaleString('tr-TR')} Gr`
           : item.sku || item.category;
 
         return `
