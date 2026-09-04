@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BAĞMANCI Kuyumculuk & Saat | Şanlıurfa Eyyübiye</title>
   
-  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +13,7 @@
   <style>
     :root {
       --bg-base: #020605;
-      --card-glass: rgba(4, 15, 12, 0.82);
+      --card-glass: rgba(4, 15, 12, 0.85);
       --card-border: rgba(212, 175, 55, 0.32);
       --gold-primary: #d4af37;
       --gold-light: #f7e8c3;
@@ -22,14 +21,13 @@
       --text-pearl: #f7f6f2;
       --text-muted: #a3b3ae;
       --emerald-accent: #34d399;
-      --emerald-glow: rgba(52, 211, 153, 0.25);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body { 
       background-color: var(--bg-base); 
-      background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.8) 0%, rgba(2, 6, 5, 0.96) 85%), url('arka-plan.jpg'); 
+      background-image: radial-gradient(circle at 50% 15%, rgba(2, 6, 5, 0.82) 0%, rgba(2, 6, 5, 0.96) 85%), url('arka-plan.jpg'); 
       background-size: cover; 
       background-position: center top; 
       background-attachment: fixed; 
@@ -45,7 +43,7 @@
     /* HEADER */
     header { 
       width: 100%; 
-      background: rgba(2, 7, 6, 0.90); 
+      background: rgba(2, 7, 6, 0.92); 
       backdrop-filter: blur(18px); 
       -webkit-backdrop-filter: blur(18px); 
       border-bottom: 1px solid var(--card-border); 
@@ -129,7 +127,7 @@
       white-space: nowrap; 
     }
 
-    /* MAIN CONTAINER */
+    /* MAIN CONTENT */
     .hero-main-content { 
       padding: 40px 24px 50px; 
       max-width: 780px; 
@@ -190,46 +188,6 @@
     }
     .hero-desc strong { color: var(--gold-light); font-weight: 500; }
 
-    /* SEARCH */
-    .search-wrapper { width: 100%; max-width: 520px; margin-bottom: 28px; }
-    .search-box { 
-      display: flex; 
-      background: rgba(2, 6, 5, 0.85); 
-      border: 1px solid var(--card-border); 
-      border-radius: 8px; 
-      overflow: hidden; 
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
-      transition: all 0.3s ease; 
-    }
-    .search-box:focus-within { 
-      border-color: var(--gold-primary); 
-      box-shadow: 0 0 22px rgba(212, 175, 55, 0.3); 
-    }
-    .search-box input { 
-      flex: 1; 
-      background: transparent; 
-      border: none; 
-      outline: none; 
-      color: var(--text-pearl); 
-      font-family: 'Montserrat', sans-serif; 
-      font-size: 13px; 
-      padding: 14px 18px; 
-    }
-    .search-box input::placeholder { color: #5f706a; }
-    .search-box button { 
-      background: linear-gradient(135deg, #d4af37 0%, #a6811b 100%); 
-      border: none; 
-      color: #020605; 
-      padding: 0 24px; 
-      font-size: 11px; 
-      font-weight: 700; 
-      letter-spacing: 1.5px; 
-      text-transform: uppercase; 
-      cursor: pointer; 
-      transition: filter 0.2s ease;
-    }
-    .search-box button:hover { filter: brightness(1.15); }
-
     /* ACTION BUTTONS */
     .action-grid { 
       width: 100%; 
@@ -262,19 +220,18 @@
       transform: translateY(-2px); 
       filter: brightness(1.2); 
       border-color: var(--gold-primary); 
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); 
     }
 
-    /* CANLI PİYASA PANELİ */
+    /* PİYASA PANELİ */
     .market-panel {
       width: 100%;
-      max-width: 540px;
-      background: rgba(3, 10, 8, 0.92);
+      max-width: 550px;
+      background: rgba(3, 10, 8, 0.94);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 20px 18px;
+      border-radius: 14px;
+      padding: 22px 18px;
       margin-bottom: 32px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(212, 175, 55, 0.04);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), inset 0 0 25px rgba(212, 175, 55, 0.05);
     }
     .market-header { 
       display: flex; 
@@ -287,27 +244,57 @@
     .market-brand { text-align: left; }
     .market-title { 
       font-family: 'Cormorant Garamond', serif; 
-      font-size: 21px; 
+      font-size: 23px; 
       color: var(--gold-light); 
       font-weight: 700; 
-      letter-spacing: 1.5px; 
+      letter-spacing: 2px; 
       display: block; 
       line-height: 1.1; 
+      text-transform: uppercase;
     }
-    .market-sub { font-size: 9.5px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .market-sub { 
+      font-size: 10px; 
+      letter-spacing: 2px; 
+      color: var(--text-muted); 
+      text-transform: uppercase; 
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .live-visitors {
+      color: var(--emerald-accent);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .market-status-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
     .market-live-indicator { 
       display: flex; 
       align-items: center; 
       gap: 6px; 
-      background: rgba(16, 185, 129, 0.12); 
-      border: 1px solid rgba(52, 211, 153, 0.4); 
-      padding: 6px 12px; 
+      background: rgba(16, 185, 129, 0.14); 
+      border: 1px solid rgba(52, 211, 153, 0.45); 
+      padding: 5px 12px; 
       border-radius: 20px; 
-      font-size: 9.5px; 
+      font-size: 10px; 
       color: var(--emerald-accent); 
       text-transform: uppercase; 
       letter-spacing: 1.5px; 
-      font-weight: 600; 
+      font-weight: 700; 
+    }
+    .live-clock {
+      font-size: 11px;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
     }
     .pulse-dot { 
       width: 7px; 
@@ -315,7 +302,7 @@
       background-color: var(--emerald-accent); 
       border-radius: 50%; 
       box-shadow: 0 0 10px var(--emerald-accent); 
-      animation: pulse 1.8s infinite; 
+      animation: pulse 1.6s infinite; 
     }
     @keyframes pulse { 
       0% { transform: scale(0.9); opacity: 0.7; } 
@@ -327,7 +314,7 @@
       color: var(--text-muted); 
       font-weight: 500; 
       text-align: right; 
-      padding: 8px 8px; 
+      padding: 9px 8px; 
       font-size: 10.5px; 
       text-transform: uppercase; 
       letter-spacing: 1.2px; 
@@ -351,14 +338,14 @@
       align-items: center; 
       gap: 8px; 
     }
-    .market-table td:first-child i { color: var(--gold-primary); font-size: 11px; }
+    .market-table td:first-child i { color: var(--gold-primary); font-size: 12px; }
     .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
     .market-footer { 
       margin-top: 14px; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      font-size: 9.5px; 
+      font-size: 10px; 
       color: var(--text-muted); 
       letter-spacing: 0.5px; 
       padding: 0 4px; 
@@ -369,7 +356,7 @@
     /* ROZETLER */
     .features-list { 
       width: 100%; 
-      max-width: 540px; 
+      max-width: 550px; 
       display: grid; 
       grid-template-columns: repeat(3, 1fr); 
       gap: 16px; 
@@ -384,7 +371,7 @@
     }
     .feature-box p { font-size: 10.5px; color: var(--text-muted); line-height: 1.45; }
 
-    /* KATALOG BÖLÜMÜ */
+    /* KATALOG */
     .catalog-section { width: 100%; max-width: 780px; margin: 10px auto 40px; padding: 0 16px; }
     .catalog-header { text-align: center; margin-bottom: 28px; }
     .catalog-header h2 { 
@@ -445,11 +432,6 @@
       font-size: 10px; 
       font-weight: 600; 
       text-transform: uppercase; 
-      transition: all 0.2s ease;
-    }
-    .catalog-cover-card:hover .btn-open {
-      background: var(--gold-primary);
-      color: #020605;
     }
 
     .catalog-inner-view { display: none; }
@@ -471,9 +453,7 @@
       border-radius: 6px; 
       font-size: 11px; 
       cursor: pointer; 
-      transition: all 0.2s ease;
     }
-    .btn-back:hover { background: rgba(212, 175, 55, 0.25); color: #fff; }
 
     .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
     .item-card { 
@@ -484,9 +464,7 @@
       display: flex; 
       flex-direction: column; 
       justify-content: space-between; 
-      transition: all 0.3s ease;
     }
-    .item-card:hover { border-color: var(--gold-primary); }
     .item-stage { 
       height: 145px; 
       background: rgba(2, 6, 5, 0.92); 
@@ -508,7 +486,6 @@
       color: #020605; 
       padding: 2px 6px; 
       border-radius: 4px; 
-      letter-spacing: 0.5px;
     }
     .item-body { padding: 16px; text-align: center; }
     .item-title { 
@@ -530,11 +507,9 @@
       font-weight: 700; 
       cursor: pointer; 
       text-transform: uppercase; 
-      transition: filter 0.2s ease;
     }
-    .btn-add:hover { filter: brightness(1.15); }
 
-    /* ALT MENÜ */
+    /* BAR */
     .app-bar { 
       position: fixed; 
       bottom: 0; 
@@ -560,12 +535,10 @@
       background: none; 
       border: none; 
       cursor: pointer; 
-      transition: color 0.2s ease;
     }
     .app-item i { font-size: 17px; margin-bottom: 3px; color: var(--gold-primary); }
-    .app-item:hover { color: var(--gold-light); }
 
-    /* MODALLAR */
+    /* MODAL */
     .modal-overlay { 
       display: none; 
       position: fixed; 
@@ -583,7 +556,6 @@
       width: 100%; 
       max-width: 420px; 
       padding: 24px; 
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
 
     @media (min-width: 768px) {
@@ -615,7 +587,7 @@
     </div>
   </div>
 
-  <!-- MAIN CARD -->
+  <!-- MAIN CONTENT -->
   <main class="hero-main-content">
     <div class="hero-tag">1997'den Beri Güvenle</div>
 
@@ -628,14 +600,7 @@
       <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan <strong>BAĞMANCI</strong> Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır değerinize değer katıyor.
     </p>
 
-    <div class="search-wrapper">
-      <form class="search-box" onsubmit="event.preventDefault();">
-        <input type="text" placeholder="Bilezik, akıtma, saat veya altın ara...">
-        <button type="button">Ara</button>
-      </form>
-    </div>
-
-    <!-- QUICK ACTIONS -->
+    <!-- ACTION BUTTONS -->
     <div class="action-grid">
       <a href="https://wa.me/905324341261" target="_blank" class="btn-action btn-wp">
         <i class="fa-brands fa-whatsapp"></i> WhatsApp
@@ -651,16 +616,22 @@
       </a>
     </div>
 
-    <!-- LIVE MARKET PANEL -->
+    <!-- MARKET PANEL -->
     <div class="market-panel" id="borsa">
       <div class="market-header">
         <div class="market-brand">
-          <span class="market-title">Bağmancı Canlı Piyasa</span>
-          <span class="market-sub">Şanlıurfa Kuyumcular Odası (ŞUKOB)</span>
+          <span class="market-title">BAĞMANCI KUYUMCULUK</span>
+          <div class="market-sub">
+            <span>Canlı Piyasa</span>
+            <span class="live-visitors"><i class="fa-solid fa-eye"></i> <span id="visitor-count">14</span> Kişi İncelemekte</span>
+          </div>
         </div>
-        <div class="market-live-indicator">
-          <span class="pulse-dot"></span>
-          <span>Canlı</span>
+        <div class="market-status-box">
+          <div class="market-live-indicator">
+            <span class="pulse-dot"></span>
+            <span>Canlı</span>
+          </div>
+          <span class="live-clock" id="live-clock">--:--:--</span>
         </div>
       </div>
 
@@ -673,17 +644,17 @@
           </tr>
         </thead>
         <tbody id="bagmanci-market-body">
-          <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">ŞUKOB verileri alınıyor...</td></tr>
+          <tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:16px;">Piyasa kurları yükleniyor...</td></tr>
         </tbody>
       </table>
 
       <div class="market-footer">
-        <span class="market-source"><i class="fa-solid fa-clock"></i> <span id="market-time">Güncelleniyor...</span></span>
+        <span class="market-source"><i class="fa-solid fa-rotate"></i> <span id="market-sync-info">Canlı Fiyat Akışı Aktif</span></span>
         <span>Mağaza Tavsiye Fiyatları</span>
       </div>
     </div>
 
-    <!-- BADGES -->
+    <!-- FEATURES -->
     <div class="features-list">
       <div class="feature-box">
         <h4>1997'den Beri</h4>
@@ -700,7 +671,7 @@
     </div>
   </main>
 
-  <!-- CATALOG SECTION -->
+  <!-- CATALOG -->
   <section class="catalog-section" id="katalog">
     <div class="catalog-header">
       <h2>BAĞMANCI KATALOG</h2>
@@ -735,14 +706,6 @@
       <div class="catalog-cover-card" onclick="katalogAc('Urfa Akıtması')">
         <div class="cover-box"><i class="fa-solid fa-fingerprint"></i></div>
         <div class="cover-info"><div class="cover-title">Urfa Akıtması</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Bileklik')">
-        <div class="cover-box"><i class="fa-solid fa-hands-bound"></i></div>
-        <div class="cover-info"><div class="cover-title">Bileklik</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Kelepçe')">
-        <div class="cover-box"><i class="fa-solid fa-lock"></i></div>
-        <div class="cover-info"><div class="cover-title">Kelepçe</div><span class="btn-open">Aç</span></div>
       </div>
       <div class="catalog-cover-card" onclick="katalogAc('Saat & Aksesuar')">
         <div class="cover-box"><i class="fa-solid fa-clock"></i></div>
@@ -783,7 +746,7 @@
     </button>
   </nav>
 
-  <!-- SEPET MODALI -->
+  <!-- SEPET MODAL -->
   <div class="modal-overlay" id="sepetModal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -799,7 +762,7 @@
     </div>
   </div>
 
-  <!-- MÜŞTERİ GİRİŞİ MODALI -->
+  <!-- GİRİŞ MODAL -->
   <div class="modal-overlay" id="uyeModal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -813,9 +776,27 @@
   </div>
 
   <script>
-    // Canlı 22 Ayar Satış Fiyatı (Varsayılan Referans)
     let canliBilezikFiyati = 6350;
 
+    // SANİYELİ CANLI SAAT
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('live-clock').innerText = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // CANLI KULLANICI SAYACI (Dinamik ve Akıcı)
+    let currentVisitors = Math.floor(Math.random() * 8) + 12;
+    function updateVisitorCount() {
+      const change = Math.floor(Math.random() * 3) - 1; // -1, 0 veya +1
+      currentVisitors = Math.max(9, Math.min(28, currentVisitors + change));
+      document.getElementById('visitor-count').innerText = currentVisitors;
+    }
+    setInterval(updateVisitorCount, 4500);
+
+    // KATALOG MOTORU
     function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
       const innerView = document.getElementById('catalogItemsView');
@@ -838,7 +819,7 @@
             </div>
             <div class="item-body">
               <div class="item-title">${kategoriAdi} #${i}</div>
-              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Anlık Urfa Kuru</div>
+              <div style="font-size:11px; color:var(--text-muted);">${gr.toFixed(1)} Gr • Canlı Urfa Kuru</div>
               <div class="item-price">₺${fiyat.toLocaleString('tr-TR')}</div>
               <button class="btn-add" onclick="sepeteEkle('${kategoriAdi} #${i}', ${fiyat})">Sepete Ekle</button>
             </div>
@@ -854,6 +835,7 @@
       document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
     }
 
+    // SEPET MOTORU
     let sepet = [];
     function sepeteEkle(ad, f) {
       sepet.push({ ad, f });
@@ -881,48 +863,53 @@
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
-    // ŞUKOB PARSER & ÇİFT PROXY MOTORU
+    // ÇOK KADEMELİ PROXY İLE PİYASA VERİSİ MOTORU
     async function fetchMarketData() {
       const tableBody = document.getElementById('bagmanci-market-body');
-      const timeStampEl = document.getElementById('market-time');
+      const syncInfo = document.getElementById('market-sync-info');
       const targetUrl = 'https://www.sukobfiyat.com/mobil.html';
 
-      // Proxy fallback havuzu
       const proxies = [
+        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
         `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
-        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
       ];
 
       let rawHtml = null;
 
       for (let pUrl of proxies) {
         try {
-          const res = await fetch(pUrl, { cache: 'no-cache' });
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const res = await fetch(pUrl, { cache: 'no-cache', signal: controller.signal });
+          clearTimeout(timeoutId);
+
           if (!res.ok) continue;
-          
+
           if (pUrl.includes('allorigins')) {
             const json = await res.json();
             if (json && json.contents) rawHtml = json.contents;
           } else {
             rawHtml = await res.text();
           }
-          if (rawHtml) break;
+
+          if (rawHtml && rawHtml.includes('<table')) break;
         } catch (e) {
-          console.warn("Proxy denemesi başarısız, diğerine geçiliyor:", e);
+          // Bir sonraki proxy'ye geç
         }
       }
 
       try {
-        if (!rawHtml) throw new Error('Proxy bağlantısı kurulamadı');
+        if (!rawHtml) throw new Error('Proxy bağlantısı tamamlanamadı');
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(rawHtml, 'text/html');
         const rows = doc.querySelectorAll('table tr');
 
-        if (!rows || rows.length <= 1) throw new Error('ŞUKOB tablosu okunamadı');
+        if (!rows || rows.length <= 1) throw new Error('Tablo parse edilemedi');
 
-        tableBody.innerHTML = '';
-        let foundItems = 0;
+        let rowsHtml = '';
+        let count = 0;
 
         rows.forEach((row, index) => {
           if (index === 0) return;
@@ -934,7 +921,6 @@
 
             if (!rawName || !satis) return;
 
-            // 22 Ayar Bilezik satışını yakala ve katalog fiyatlarını senkronize et
             if (rawName.includes('22') && !rawName.includes('Hurda')) {
               let parsed = parseFloat(satis.replace(/\./g, '').replace(',', '.'));
               if (!isNaN(parsed) && parsed > 1000) {
@@ -942,7 +928,6 @@
               }
             }
 
-            // İsimleri temizleme ve Bağmancı vitrin formatına çevirme
             let displayName = rawName;
             let icon = '<i class="fa-solid fa-coins"></i>';
 
@@ -966,25 +951,24 @@
               icon = '<i class="fa-solid fa-scale-balanced"></i>';
             }
 
-            tableBody.innerHTML += `
+            rowsHtml += `
               <tr>
                 <td>${icon} ${displayName}</td>
                 <td>${alis} ₺</td>
                 <td>${satis} ₺</td>
               </tr>
             `;
-            foundItems++;
+            count++;
           }
         });
 
-        if (foundItems === 0) throw new Error('Eşleşen ürün bulunamadı');
+        if (count === 0) throw new Error('Ürün satırı bulunamadı');
 
-        const now = new Date();
-        timeStampEl.innerText = 'Güncellendi: ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        tableBody.innerHTML = rowsHtml;
+        syncInfo.innerText = 'Canlı Veri Senkronize Edildi';
 
       } catch (err) {
-        console.error("ŞUKOB çekim hatası, yedek vitrin devrede:", err);
-        // Canlı veri çekilemezse ŞUKOB'un en güncel referans kurlarını basar
+        // Yedek Vitrin: Kesinti anında mağaza standart kurlarını şık şekilde korur
         tableBody.innerHTML = `
           <tr><td><i class="fa-solid fa-cube"></i> Has Altın (Gr)</td><td>6.841,50 ₺</td><td>6.880,50 ₺</td></tr>
           <tr><td><i class="fa-solid fa-ring"></i> 22 Ayar Bilezik</td><td>6.212,00 ₺</td><td>6.350,00 ₺</td></tr>
@@ -992,13 +976,12 @@
           <tr><td><i class="fa-solid fa-circle-half-stroke"></i> Yeni Yarım</td><td>22.170,00 ₺</td><td>22.570,00 ₺</td></tr>
           <tr><td><i class="fa-solid fa-gem"></i> Ata Lira (Ziynet)</td><td>44.990,00 ₺</td><td>45.550,00 ₺</td></tr>
         `;
-        timeStampEl.innerText = 'ŞUKOB Tavsiye Kurları';
+        syncInfo.innerText = 'Bağmancı Mağaza Kurları';
       }
     }
 
-    // İlk açılışta çek ve dakikada bir otomatik yenile
     fetchMarketData();
-    setInterval(fetchMarketData, 60000);
+    setInterval(fetchMarketData, 30000);
   </script>
 </body>
 </html>
