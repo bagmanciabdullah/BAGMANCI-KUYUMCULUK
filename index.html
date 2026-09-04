@@ -340,6 +340,50 @@
     }
     .market-table td:first-child i { color: var(--gold-primary); font-size: 12px; }
     .market-table tr:hover td { background: rgba(212, 175, 55, 0.04); }
+    .market-table td:first-child { display: table-cell; }
+    .market-product-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      white-space: normal;
+    }
+    .market-price {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      min-width: 96px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      transition: color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .market-price.price-up {
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.28);
+      animation: priceUpFlash 1.25s ease;
+    }
+    .market-price.price-down {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.30);
+      animation: priceDownFlash 1.25s ease;
+    }
+    .market-arrow {
+      font-size: 9px;
+      line-height: 1;
+    }
+    @keyframes priceUpFlash {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.045); }
+      100% { transform: scale(1); }
+    }
+    @keyframes priceDownFlash {
+      0% { transform: scale(1); }
+      35% { transform: scale(0.965); }
+      100% { transform: scale(1); }
+    }
     .market-footer { 
       margin-top: 14px; 
       display: flex; 
@@ -775,22 +819,38 @@
     </div>
   </div>
 
-    <script>
+      <script>
     let canliBilezikFiyati = 6350;
     let sepet = [];
     let currentVisitors = 14;
     let marketRequestRunning = false;
+    let previousMarketPrices = {};
 
     const SUKOB_DIRECT_URL = 'https://www.sukobfiyat.com/api/prices/';
-    const SUKOB_PROXY_URL = '/api/sukob';
-    const PRODUCT_ORDER = ['HAS', '22_ayar_bilezik', 'hurda', 'yeni_ceyrek', 'yeni_yarim', 'yeni_ziynet', 'USD', 'EUR'];
+    const SUKOB_PROXY_URL = '/api/sukob'; // Vercel Serverless Function: SUKOB verisini CORS engeline takılmadan alır
+    const PRODUCT_ORDER = [
+      'HAS',
+      '22_ayar_bilezik',
+      'hurda',
+      'yeni_ceyrek',
+      'yeni_yarim',
+      'yeni_ziynet',
+      'eski_ceyrek',
+      'eski_yarim',
+      'eski_ziynet',
+      'cnc',
+      'sarnel',
+      'GMS',
+      'USD',
+      'EUR'
+    ];
     const PRODUCT_NAMES = {
       HAS: 'Has Altın (Gr)',
       '22_ayar_bilezik': '22 Ayar Bilezik',
       hurda: '22 Ayar Hurda',
       yeni_ceyrek: 'Yeni Çeyrek',
       yeni_yarim: 'Yeni Yarım',
-      yeni_ziynet: 'Ata Lira (Ziynet)',
+      yeni_ziynet: 'Yeni Ziynet',
       eski_ceyrek: 'Eski Çeyrek',
       eski_yarim: 'Eski Yarım',
       eski_ziynet: 'Eski Ziynet',
@@ -817,6 +877,32 @@
       document.getElementById('visitor-count').innerText = currentVisitors;
     }
 
+    function normalizeProductKey(item) {
+      const url = String(item.url || '').trim();
+      const type = String(item.type || '').trim().toLocaleLowerCase('tr-TR');
+      if (url) return url;
+      if (type.includes('has')) return 'HAS';
+      if (type.includes('22') && type.includes('bilezik')) return '22_ayar_bilezik';
+      if (type.includes('hurda')) return 'hurda';
+      if (type.includes('yeni') && type.includes('çeyrek')) return 'yeni_ceyrek';
+      if (type.includes('yeni') && type.includes('yarım')) return 'yeni_yarim';
+      if (type.includes('yeni') && type.includes('ziynet')) return 'yeni_ziynet';
+      if (type.includes('eski') && type.includes('çeyrek')) return 'eski_ceyrek';
+      if (type.includes('eski') && type.includes('yarım')) return 'eski_yarim';
+      if (type.includes('eski') && type.includes('ziynet')) return 'eski_ziynet';
+      if (type.includes('cnc')) return 'cnc';
+      if (type.includes('şarnel') || type.includes('sarnel')) return 'sarnel';
+      if (type.includes('gümüş')) return 'GMS';
+      if (type.includes('usd') || type.includes('dolar')) return 'USD';
+      if (type.includes('eur') || type.includes('euro')) return 'EUR';
+      return item.type || item.url || 'urun';
+    }
+
+    function displayProductName(item) {
+      const key = normalizeProductKey(item);
+      return PRODUCT_NAMES[key] || item.type || key;
+    }
+
     function formatPrice(value, type) {
       const number = Number(value);
       if (!Number.isFinite(number)) return '-';
@@ -828,7 +914,8 @@
     }
 
     function productIcon(item) {
-      const text = ((item.url || '') + ' ' + (item.type || '')).toLocaleLowerCase('tr-TR');
+      const key = normalizeProductKey(item);
+      const text = (key + ' ' + (item.type || '')).toLocaleLowerCase('tr-TR');
       if (text.includes('bilezik')) return '<i class="fa-solid fa-ring"></i>';
       if (text.includes('çeyrek') || text.includes('ceyrek')) return '<i class="fa-solid fa-certificate"></i>';
       if (text.includes('yarım') || text.includes('yarim')) return '<i class="fa-solid fa-circle-half-stroke"></i>';
@@ -836,6 +923,23 @@
       if (text.includes('usd') || text.includes('eur')) return '<i class="fa-solid fa-money-bill-trend-up"></i>';
       if (text.includes('gms') || text.includes('gümüş')) return '<i class="fa-solid fa-scale-balanced"></i>';
       return '<i class="fa-solid fa-cube"></i>';
+    }
+
+    function priceDirection(key, side, value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '';
+      const previous = previousMarketPrices[`${key}_${side}`];
+      previousMarketPrices[`${key}_${side}`] = number;
+      if (!Number.isFinite(previous)) return '';
+      if (number > previous) return 'up';
+      if (number < previous) return 'down';
+      return '';
+    }
+
+    function priceCell(value, type, direction) {
+      const directionClass = direction === 'up' ? 'price-up' : direction === 'down' ? 'price-down' : '';
+      const arrow = direction === 'up' ? '<span class="market-arrow">▲</span>' : direction === 'down' ? '<span class="market-arrow">▼</span>' : '';
+      return `<span class="market-price ${directionClass}">${arrow}${formatPrice(value, type)}</span>`;
     }
 
     function feedUrls() {
@@ -901,19 +1005,21 @@
     function renderMarketRows(data) {
       const tableBody = document.getElementById('bagmanci-market-body');
       const ordered = [...data].sort((a, b) => {
-        const aIndex = PRODUCT_ORDER.indexOf(a.url);
-        const bIndex = PRODUCT_ORDER.indexOf(b.url);
+        const aIndex = PRODUCT_ORDER.indexOf(normalizeProductKey(a));
+        const bIndex = PRODUCT_ORDER.indexOf(normalizeProductKey(b));
         return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
       });
 
       const rowsHtml = ordered.map(item => {
-        if (item.url === '22_ayar_bilezik') canliBilezikFiyati = Math.round(Number(item.sellPrice));
-        const name = PRODUCT_NAMES[item.url] || item.type || item.url;
+        const key = normalizeProductKey(item);
+        if (key === '22_ayar_bilezik') canliBilezikFiyati = Math.round(Number(item.sellPrice));
+        const buyDirection = priceDirection(key, 'buy', item.buyPrice);
+        const sellDirection = priceDirection(key, 'sell', item.sellPrice);
         return `
           <tr>
-            <td>${productIcon(item)} ${name}</td>
-            <td>${formatPrice(item.buyPrice, item.type)}</td>
-            <td>${formatPrice(item.sellPrice, item.type)}</td>
+            <td><span class="market-product-name">${productIcon(item)} ${displayProductName(item)}</span></td>
+            <td>${priceCell(item.buyPrice, item.type, buyDirection)}</td>
+            <td>${priceCell(item.sellPrice, item.type, sellDirection)}</td>
           </tr>
         `;
       }).join('');
@@ -924,7 +1030,8 @@
 
     async function fetchVisitorCount() {
       const direct = `https://www.sukobfiyat.com/api/countseen/?cache=${Date.now()}`;
-      const urls = [direct, `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`];
+      const proxy = `/api/sukob?type=count&cache=${Date.now()}`;
+      const urls = [proxy, direct, `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`];
 
       for (const url of urls) {
         try {
