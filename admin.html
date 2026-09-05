@@ -82,6 +82,10 @@
       header { align-items: flex-start; flex-direction: column; }
       .grid { grid-template-columns: 1fr; }
       .product-row { grid-template-columns: 1fr; }
+      .section-head, .order-top { grid-template-columns: 1fr; }
+      .order-total { text-align: left; }
+      .order-grid, .order-actions { grid-template-columns: 1fr; }
+      .order-badge { justify-self: start; }
     }
 
     .admin-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
@@ -90,6 +94,27 @@
     .message-row strong, .announcement-row strong { color: var(--gold-light); display: block; }
     .message-row small, .announcement-row small { color: var(--muted); display: block; margin-top: 3px; }
     .message-answer { min-height: 76px; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .section-tools { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .orders-list { display: grid; gap: 14px; margin-top: 14px; }
+    .order-card { border: 1px solid rgba(212, 175, 55, 0.18); background: linear-gradient(145deg, rgba(2, 6, 5, 0.82), rgba(4, 20, 15, 0.74)); border-radius: 10px; padding: 16px; display: grid; gap: 14px; }
+    .order-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+    .order-title { color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: 25px; line-height: 1; }
+    .order-meta { color: var(--muted); font-size: 12px; margin-top: 5px; line-height: 1.55; }
+    .order-total { text-align: right; color: var(--gold-light); font-weight: 800; font-size: 20px; }
+    .order-badge { justify-self: end; width: max-content; border: 1px solid rgba(212, 175, 55, 0.28); color: var(--gold-light); background: rgba(212, 175, 55, 0.1); border-radius: 999px; padding: 6px 10px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; }
+    .order-badge.cancelled { border-color: rgba(251, 113, 133, 0.36); color: #fecdd3; background: rgba(251, 113, 133, 0.1); }
+    .order-badge.completed, .order-badge.shipped, .order-badge.paid { border-color: rgba(52, 211, 153, 0.34); color: #bbf7d0; background: rgba(52, 211, 153, 0.08); }
+    .order-items { display: grid; gap: 8px; }
+    .order-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; border: 1px solid rgba(212, 175, 55, 0.12); border-radius: 8px; padding: 10px 12px; background: rgba(255,255,255,0.025); }
+    .order-item strong { color: var(--text); display: block; }
+    .order-item span { color: var(--muted); font-size: 12px; }
+    .order-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .order-field { border: 1px solid rgba(212, 175, 55, 0.12); border-radius: 8px; padding: 10px 12px; background: rgba(2, 6, 5, 0.5); min-width: 0; }
+    .order-field b { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 5px; }
+    .order-field span { color: var(--gold-light); font-size: 13px; overflow-wrap: anywhere; }
+    .order-field.full { grid-column: 1 / -1; }
+    .order-actions { display: grid; grid-template-columns: minmax(180px, 260px) auto auto auto; gap: 10px; align-items: center; }
     @media (max-width: 900px) { .admin-sections { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -212,10 +237,24 @@
     </section>
 
 
+
+    <section class="panel hidden" id="orders-panel">
+      <div class="section-head">
+        <div>
+          <h2>Siparişler</h2>
+          <p class="muted">Müşteri siparişleri, fatura bilgileri ve kargo adresleri burada görünecek.</p>
+        </div>
+        <div class="section-tools">
+          <button class="secondary" onclick="loadOrders()">Yenile</button>
+        </div>
+      </div>
+      <div class="status" id="orders-status"></div>
+      <div class="orders-list" id="orders-list"></div>
+    </section>
     <div class="admin-sections hidden" id="content-panels">
       <section class="panel">
         <h2>Müşteri Soruları</h2>
-        <p class="muted">Sitedeki zarf alanından gelen soruları buradan yanıtlayacaksın.</p>
+        <p class="muted">Ürün sayfalarından gelecek müşteri sorularını buradan yanıtlayacaksın.</p>
         <div class="products" id="questions-list" style="margin-top:14px;"></div>
       </section>
 
@@ -253,6 +292,17 @@
     let supabaseClient = null;
     let session = null;
     let products = [];
+    let orders = [];
+
+    const orderStatusLabels = {
+      new: 'Yeni sipariş',
+      payment_waiting: 'Havale bekleniyor',
+      paid: 'Ödeme alındı',
+      preparing: 'Hazırlanıyor',
+      shipped: 'Kargoya verildi',
+      completed: 'Tamamlandı',
+      cancelled: 'İptal edildi'
+    };
 
     const ids = ['id', 'name', 'category', 'sku', 'badge', 'price_mode', 'gram', 'labor_type', 'labor', 'fixed_price', 'material', 'ayar', 'renk', 'tas', 'olcu', 'stok', 'short_description', 'description'];
 
@@ -278,6 +328,8 @@
       document.getElementById('login-panel').classList.toggle('hidden', !configured() || isLoggedIn);
       document.getElementById('admin-panel').classList.toggle('hidden', !isLoggedIn);
       document.getElementById('products-panel').classList.toggle('hidden', !isLoggedIn);
+      const ordersPanel = document.getElementById('orders-panel');
+      if (ordersPanel) ordersPanel.classList.toggle('hidden', !isLoggedIn);
       const contentPanels = document.getElementById('content-panels');
       if (contentPanels) contentPanels.classList.toggle('hidden', !isLoggedIn);
     }
@@ -320,6 +372,7 @@
       setStatus('login-status', 'Giriş başarılı.', 'ok');
       showApp(true);
       loadProducts();
+      loadOrders();
       loadQuestions();
       loadAnnouncementsAdmin();
     }
@@ -407,6 +460,7 @@
         setStatus('save-status', 'Ürün kaydedildi.', 'ok');
         clearForm();
         loadProducts();
+      loadOrders();
       loadQuestions();
       loadAnnouncementsAdmin();
       } catch (error) {
@@ -461,6 +515,7 @@
         return;
       }
       loadProducts();
+      loadOrders();
       loadQuestions();
       loadAnnouncementsAdmin();
     }
@@ -540,6 +595,142 @@
       const { error } = await supabaseClient.from('announcements').delete().eq('id', id);
       if (error) alert(error.message); else loadAnnouncementsAdmin();
     }
+    function formatTL(value) {
+      return `${Math.round(Number(value) || 0).toLocaleString('tr-TR')} TL`;
+    }
+
+    function shortOrderId(id) {
+      return String(id || '').slice(0, 8).toUpperCase() || 'YENI';
+    }
+
+    function orderStatusText(status) {
+      return orderStatusLabels[status] || 'Yeni sipariş';
+    }
+
+    function orderStatusOptions(current) {
+      return Object.entries(orderStatusLabels).map(([value, label]) => `<option value="${value}" ${value === current ? 'selected' : ''}>${label}</option>`).join('');
+    }
+
+    function orderItems(items) {
+      if (Array.isArray(items)) return items;
+      if (typeof items === 'string') {
+        try { return JSON.parse(items); } catch (error) { return []; }
+      }
+      return [];
+    }
+
+    function orderItemName(item) {
+      return item.ad || item.name || item.title || item.sku || item.id || 'Ürün';
+    }
+
+    function orderItemPrice(item) {
+      return Number(item.f ?? item.price ?? item.total ?? 0) || 0;
+    }
+
+    function orderText(order) {
+      const items = orderItems(order.items).map(item => `- ${orderItemName(item)} (${item.sku || item.id || 'kod yok'}): ${formatTL(orderItemPrice(item))}`).join('\n');
+      return [
+        `Sipariş #${shortOrderId(order.id)}`,
+        `Durum: ${orderStatusText(order.status)}`,
+        `Müşteri: ${order.customer_name}`,
+        `Telefon: ${order.phone}`,
+        order.email ? `E-posta: ${order.email}` : '',
+        `Toplam: ${formatTL(order.total)}`,
+        '',
+        'Ürünler:',
+        items || '- Ürün bilgisi yok',
+        '',
+        `Fatura adı/ünvan: ${order.invoice_name}`,
+        `TC/Vergi No: ${order.invoice_identity_no || 'Yazılmamış'}`,
+        `Fatura adresi: ${order.invoice_address}`,
+        `Kargo adresi: ${order.shipping_address}`,
+        order.note ? `Not: ${order.note}` : ''
+      ].filter(Boolean).join('\n');
+    }
+
+    async function copyOrder(id) {
+      const order = orders.find(item => item.id === id);
+      if (!order) return;
+      const text = orderText(order);
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('orders-status', 'Sipariş bilgisi kopyalandı.', 'ok');
+      } catch (error) {
+        setStatus('orders-status', 'Kopyalanamadı; tarayıcı izin vermedi.', 'err');
+      }
+    }
+
+    function renderOrders() {
+      const list = document.getElementById('orders-list');
+      if (!list) return;
+      list.innerHTML = orders.map(order => {
+        const items = orderItems(order.items);
+        const created = order.created_at ? new Date(order.created_at).toLocaleString('tr-TR') : '';
+        const itemHtml = items.map(item => `<div class="order-item"><div><strong>${escapeHtml(orderItemName(item))}</strong><span>${escapeHtml(item.sku || item.id || 'Ürün kodu yok')}</span></div><strong>${formatTL(orderItemPrice(item))}</strong></div>`).join('') || '<p class="muted">Ürün bilgisi yok.</p>';
+        return `<article class="order-card">
+          <div class="order-top">
+            <div>
+              <div class="order-title">Sipariş #${shortOrderId(order.id)}</div>
+              <div class="order-meta">${escapeHtml(created)} • ${escapeHtml(order.customer_name)} • ${escapeHtml(order.phone)}</div>
+            </div>
+            <div>
+              <div class="order-total">${formatTL(order.total)}</div>
+              <div class="order-badge ${escapeHtml(order.status)}">${escapeHtml(orderStatusText(order.status))}</div>
+            </div>
+          </div>
+          <div class="order-items">${itemHtml}</div>
+          <div class="order-grid">
+            <div class="order-field"><b>Müşteri</b><span>${escapeHtml(order.customer_name)}</span></div>
+            <div class="order-field"><b>Telefon</b><span>${escapeHtml(order.phone)}</span></div>
+            <div class="order-field"><b>E-posta</b><span>${escapeHtml(order.email || 'Yok')}</span></div>
+            <div class="order-field"><b>Ödeme</b><span>Havale / EFT</span></div>
+            <div class="order-field"><b>Fatura Adı / Ünvan</b><span>${escapeHtml(order.invoice_name)}</span></div>
+            <div class="order-field"><b>TC / Vergi No</b><span>${escapeHtml(order.invoice_identity_no || 'Yazılmamış')}</span></div>
+            <div class="order-field full"><b>Fatura Adresi</b><span>${escapeHtml(order.invoice_address)}</span></div>
+            <div class="order-field full"><b>Kargo Gönderim Adresi</b><span>${escapeHtml(order.shipping_address)}</span></div>
+            <div class="order-field full"><b>Sipariş Notu</b><span>${escapeHtml(order.note || 'Not yok')}</span></div>
+          </div>
+          <div class="order-actions">
+            <select id="order-status-${order.id}">${orderStatusOptions(order.status || 'new')}</select>
+            <button class="primary" onclick="updateOrderStatus('${order.id}')">Durumu Kaydet</button>
+            <button class="secondary" onclick="copyOrder('${order.id}')">Kopyala</button>
+            <button class="danger" onclick="deleteOrder('${order.id}')">Sil</button>
+          </div>
+        </article>`;
+      }).join('') || '<p class="muted">Henüz sipariş yok.</p>';
+    }
+
+    async function loadOrders() {
+      const list = document.getElementById('orders-list');
+      if (!list || !session) return;
+      setStatus('orders-status', 'Siparişler yükleniyor...');
+      list.innerHTML = '';
+      const { data, error } = await supabaseClient.from('orders').select('*').order('created_at', { ascending: false }).limit(100);
+      if (error) {
+        setStatus('orders-status', 'Sipariş tablosu hazır değil. Supabase SQL kurulum dosyasını tekrar çalıştırman gerekiyor.', 'err');
+        list.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
+        return;
+      }
+      orders = data || [];
+      setStatus('orders-status', orders.length ? `${orders.length} sipariş listelendi.` : 'Henüz sipariş yok.', orders.length ? 'ok' : '');
+      renderOrders();
+    }
+
+    async function updateOrderStatus(id) {
+      const value = document.getElementById(`order-status-${id}`).value;
+      const { error } = await supabaseClient.from('orders').update({ status: value }).eq('id', id);
+      if (error) { setStatus('orders-status', error.message, 'err'); return; }
+      setStatus('orders-status', 'Sipariş durumu güncellendi.', 'ok');
+      loadOrders();
+    }
+
+    async function deleteOrder(id) {
+      if (!confirm('Bu siparişi silmek istiyor musun?')) return;
+      const { error } = await supabaseClient.from('orders').delete().eq('id', id);
+      if (error) { setStatus('orders-status', error.message, 'err'); return; }
+      setStatus('orders-status', 'Sipariş silindi.', 'ok');
+      loadOrders();
+    }
     async function init() {
       if (!initSupabase()) {
         showApp(false);
@@ -551,8 +742,9 @@
       togglePriceFields();
       if (session) {
         loadProducts();
-        loadQuestions();
-        loadAnnouncementsAdmin();
+      loadOrders();
+      loadQuestions();
+      loadAnnouncementsAdmin();
       }
     }
 
@@ -560,3 +752,4 @@
   </script>
 </body>
 </html>
+
