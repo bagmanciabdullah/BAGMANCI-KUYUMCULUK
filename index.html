@@ -891,6 +891,47 @@
     .header-action-btn:hover { transform: translateY(-2px); border-color: rgba(247, 232, 195, 0.7); box-shadow: 0 10px 26px rgba(0,0,0,0.35), 0 0 22px rgba(212, 175, 55, 0.14); }
     .header-action-btn i { font-size: 16px; }
     .notice-dot { position: absolute; top: 7px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--emerald-accent); box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.12), 0 0 14px rgba(52, 211, 153, 0.8); }
+    .header-count-badge { position: absolute; top: -5px; right: -5px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; display: none; place-items: center; background: var(--gold-primary); color: #020605; font-size: 10px; font-weight: 900; line-height: 19px; border: 1px solid rgba(247, 232, 195, 0.75); box-shadow: 0 6px 16px rgba(212, 175, 55, 0.28); }
+    .header-action-btn.has-unread .header-count-badge { display: grid; }
+    .header-action-btn.bell-alert { animation: bellAttention 1.8s ease-in-out 2; transform-origin: 50% 10%; }
+    @keyframes bellAttention { 0%,100% { transform: translateY(-50%) rotate(0deg) scale(1); } 14% { transform: translateY(-50%) rotate(-10deg) scale(1.08); } 28% { transform: translateY(-50%) rotate(9deg) scale(1.08); } 42% { transform: translateY(-50%) rotate(-6deg) scale(1.04); } 58% { transform: translateY(-50%) rotate(4deg) scale(1.02); } }
+    .message-page-overlay, .notification-page-overlay { align-items: stretch; justify-content: center; padding: 0; overflow-y: auto; background: rgba(0,0,0,0.96); }
+    .message-page, .notification-page { width: min(980px, 100%); min-height: 100vh; max-height: none; overflow: visible; border-radius: 0; border-top: 0; border-bottom: 0; box-shadow: none; padding: 0; background: #f7f5f0; color: #1f2422; }
+    .page-topbar { position: sticky; top: 0; z-index: 3; min-height: 72px; display: grid; grid-template-columns: 54px 1fr 54px; align-items: center; background: #fff; border-bottom: 1px solid #e8e4dc; }
+    .page-topbar h3 { margin: 0; text-align: center; color: #262b29; font-size: 23px; font-weight: 700; letter-spacing: 0; }
+    .page-close { width: 46px; height: 46px; border: 0; background: transparent; color: #5e6661; font-size: 26px; cursor: pointer; }
+    .page-tabs { display: flex; gap: 10px; overflow-x: auto; padding: 14px 20px 12px; background: #fff; border-bottom: 1px solid #ece7dd; }
+    .page-tab { flex: 0 0 auto; border: 1px solid #e3ded5; border-radius: 10px; background: #fff; color: #333; padding: 12px 18px; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .page-tab.active { color: #9a6f08; border-color: #d4af37; box-shadow: inset 0 -3px 0 #d4af37, 0 3px 12px rgba(212,175,55,0.12); }
+    .page-content { padding: 18px 20px 110px; }
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+    .notification-list, .seller-message-list { display: grid; background: #fff; border: 1px solid #ece7dd; border-radius: 12px; overflow: hidden; }
+    .notice-row, .seller-message-row { width: 100%; display: grid; grid-template-columns: 14px 52px 1fr auto; gap: 14px; align-items: center; border: 0; border-bottom: 1px solid #eee7dc; background: #fff; text-align: left; padding: 17px 18px; cursor: pointer; font-family: inherit; }
+    .notice-row:last-child, .seller-message-row:last-child { border-bottom: 0; }
+    .notice-row.unread, .seller-message-row.unread { background: #eef1ee; }
+    .notice-dot-gold { width: 8px; height: 8px; border-radius: 50%; background: transparent; }
+    .unread .notice-dot-gold { background: #d4af37; box-shadow: 0 0 0 4px rgba(212,175,55,0.12); }
+    .notice-avatar, .seller-avatar { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #e3d6ad; background: linear-gradient(135deg, #08130f, #163428); color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-weight: 800; letter-spacing: 1px; }
+    .notice-copy strong, .seller-copy strong { display: block; color: #242927; font-size: 16px; margin-bottom: 4px; }
+    .notice-copy p, .seller-copy p { color: #626c68; font-size: 14px; line-height: 1.45; max-width: 680px; }
+    .notice-date { color: #9a6f08; font-weight: 800; font-size: 13px; white-space: nowrap; }
+    .empty-page-state { min-height: 280px; display: grid; place-items: center; text-align: center; background: #fff; border: 1px solid #ece7dd; border-radius: 12px; padding: 28px; }
+    .empty-page-state i { color: #d4af37; font-size: 38px; margin-bottom: 12px; }
+    .empty-page-state strong { display: block; color: #252b28; font-size: 20px; margin-bottom: 6px; }
+    .empty-page-state p { color: #68716d; font-size: 14px; line-height: 1.55; }
+    .notification-settings { display: grid; gap: 0; background: #fff; border: 1px solid #ece7dd; border-radius: 12px; overflow: hidden; }
+    .setting-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 14px; align-items: center; padding: 18px; border-bottom: 1px solid #eee7dc; }
+    .setting-row:last-child { border-bottom: 0; }
+    .setting-row i { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: #fff7db; color: #b5870e; }
+    .setting-row strong { display: block; color: #252b28; font-size: 16px; margin-bottom: 3px; }
+    .setting-row p { color: #68716d; font-size: 13px; line-height: 1.45; }
+    .toggle-pill { position: relative; width: 48px; height: 28px; border-radius: 999px; border: 0; background: #cfd4d1; cursor: pointer; transition: background .2s ease; }
+    .toggle-pill::after { content: ''; position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .2s ease; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+    .toggle-pill.on { background: #d4af37; }
+    .toggle-pill.on::after { transform: translateX(20px); }
+    .message-chip-count { display: block; margin-top: 4px; color: #8b8071; font-size: 12px; font-weight: 500; }
+    @media (max-width: 680px) { .page-content { padding: 14px 12px 102px; } .page-tabs { padding: 12px; } .page-tab { padding: 10px 13px; font-size: 13px; } .notice-row, .seller-message-row { grid-template-columns: 10px 44px 1fr; gap: 10px; padding: 15px 12px; } .notice-date { grid-column: 3; font-size: 12px; } .notice-avatar, .seller-avatar { width: 42px; height: 42px; } }
     .banner-content { position: absolute; left: 26px; bottom: 24px; z-index: 2; max-width: 430px; text-align: left; }
     .banner-content span { display: inline-flex; margin-bottom: 8px; color: var(--emerald-accent); font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
     .banner-content strong { display: block; font-family: 'Cormorant Garamond', serif; color: var(--gold-light); font-size: clamp(28px, 4vw, 46px); line-height: 0.98; letter-spacing: 1.6px; text-shadow: 0 18px 38px rgba(0,0,0,0.7); }
@@ -990,8 +1031,8 @@
       <span>Şanlıurfa • Eyyübiye</span>
     </div>
     <div class="header-actions" aria-label="Müşteri işlemleri">
-      <button class="header-action-btn" type="button" onclick="openQuestionModal()" title="Mesajlarım" aria-label="Mesajlarım"><i class="fa-regular fa-envelope"></i></button>
-      <button class="header-action-btn" type="button" onclick="openAnnouncementModal()" title="Duyurular" aria-label="Duyurular"><i class="fa-regular fa-bell"></i><span class="notice-dot"></span></button>
+      <button class="header-action-btn" id="messageButton" type="button" onclick="openQuestionModal()" title="Mesajlarım" aria-label="Mesajlarım"><i class="fa-regular fa-envelope"></i></button>
+      <button class="header-action-btn" id="notificationButton" type="button" onclick="openAnnouncementModal()" title="Bildirimler" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="header-count-badge" id="notificationBadge"></span></button>
     </div>  </header>
 
   <!-- BANNER -->
@@ -1280,29 +1321,38 @@
       </div>
     </div>
   </div>
-  <!-- MESAJ MODAL -->
-  <div class="modal-overlay" id="soruModal">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">MESAJLARIM</h3>
-        <button onclick="modalKapat('soruModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
+  <!-- MESAJLAR SAYFASI -->
+  <div class="modal-overlay message-page-overlay" id="soruModal">
+    <div class="modal-box message-page">
+      <div class="page-topbar"><button class="page-close" onclick="modalKapat('soruModal')" aria-label="Mesajları kapat">‹</button><h3>Satıcı Mesajlarım</h3><span></span></div>
+      <div class="page-tabs" role="tablist" aria-label="Mesaj türleri">
+        <button class="page-tab active" type="button" data-message-tab="seller" onclick="showMessageTab('seller')">Satıcı Duyurularım <span class="message-chip-count" id="sellerUnreadLabel">0 Okunmamış Duyuru</span></button>
+        <button class="page-tab" type="button" data-message-tab="product" onclick="showMessageTab('product')">Ürün Sorularım <span class="message-chip-count">0 Okunmamış Soru</span></button>
+        <button class="page-tab" type="button" data-message-tab="order" onclick="showMessageTab('order')">Sipariş Sorularım <span class="message-chip-count">0 Okunmamış Mesaj</span></button>
       </div>
-      <div style="border:1px solid var(--card-border); border-radius:10px; background:rgba(2,6,5,0.62); padding:24px 16px; text-align:center;">
-        <i class="fa-regular fa-envelope" style="font-size:34px; color:var(--gold-primary); margin-bottom:12px;"></i>
-        <strong style="display:block; color:var(--gold-light); font-family:'Cormorant Garamond', serif; font-size:23px; margin-bottom:6px;">Mesajınız yoktur</strong>
-        <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">Size özel cevaplar ve bilgilendirmeler burada görünecek.</p>
+      <div class="page-content">
+        <section class="page-section active" id="messageSellerSection"><div class="seller-message-list" id="sellerMessagesList"></div></section>
+        <section class="page-section" id="messageProductSection"><div class="empty-page-state"><div><i class="fa-regular fa-comments"></i><strong>Ürün sorunuz yoktur</strong><p>Ürün detayından sorduğunuz sorular ve cevapları burada görünecek.</p></div></div></section>
+        <section class="page-section" id="messageOrderSection"><div class="empty-page-state"><div><i class="fa-regular fa-message"></i><strong>Sipariş mesajınız yoktur</strong><p>Siparişinizle ilgili kişisel cevaplarınız burada tutulacak.</p></div></div></section>
       </div>
     </div>
   </div>
 
-  <!-- DUYURU MODAL -->
-  <div class="modal-overlay" id="duyuruModal">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">DUYURULAR</h3>
-        <button onclick="modalKapat('duyuruModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
+  <!-- BİLDİRİMLER SAYFASI -->
+  <div class="modal-overlay notification-page-overlay" id="duyuruModal">
+    <div class="modal-box notification-page">
+      <div class="page-topbar"><button class="page-close" onclick="modalKapat('duyuruModal')" aria-label="Bildirimleri kapat">×</button><h3>Bildirimlerim</h3><button class="page-close" onclick="markAllAnnouncementsRead()" title="Tümünü okundu yap" aria-label="Tüm bildirimleri okundu yap"><i class="fa-regular fa-circle-check" style="font-size:20px;"></i></button></div>
+      <div class="page-tabs" role="tablist" aria-label="Bildirimler">
+        <button class="page-tab active" type="button" data-notification-tab="all" onclick="showNotificationTab('all')">Tümü</button>
+        <button class="page-tab" type="button" data-notification-tab="seller" onclick="showNotificationTab('seller')">Satıcıdan</button>
+        <button class="page-tab" type="button" data-notification-tab="orders" onclick="showNotificationTab('orders')">Siparişlerim</button>
+        <button class="page-tab" type="button" data-notification-tab="settings" onclick="showNotificationTab('settings')">Ayarlar</button>
       </div>
-      <div class="announcement-list" id="announcementList"><p style="color:var(--text-muted); font-size:13px;">Duyurular yükleniyor...</p></div>
+      <div class="page-content">
+        <section class="page-section active" id="notificationAllSection"><div class="notification-list" id="announcementList"><p style="color:#68716d; font-size:14px; padding:18px;">Bildirimler yükleniyor...</p></div></section>
+        <section class="page-section" id="notificationOrdersSection"><div class="empty-page-state"><div><i class="fa-solid fa-box-open"></i><strong>Sipariş bildiriminiz yoktur</strong><p>Sipariş durumunuzla ilgili bilgilendirmeler burada görünecek.</p></div></div></section>
+        <section class="page-section" id="notificationSettingsSection"><div class="notification-settings" id="notificationSettings"></div></section>
+      </div>
     </div>
   </div>
       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1313,7 +1363,11 @@
     let currentVisitors = 14;
     let marketRequestRunning = false;
     let previousMarketPrices = {};
-    const turkeyCities = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
+    let publicAnnouncements = [];
+    let notificationsLoaded = false;
+    const READ_ANNOUNCEMENTS_KEY = 'bagmanciReadAnnouncements';
+    const NOTIFICATION_SETTINGS_KEY = 'bagmanciNotificationSettings';
+    const defaultNotificationSettings = { seller: true, product: true, order: true, price: true, campaign: true };    const turkeyCities = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
     const turkeyDistricts = {
       'Adana': ['Aladağ','Ceyhan','Çukurova','Feke','İmamoğlu','Karaisalı','Karataş','Kozan','Pozantı','Saimbeyli','Sarıçam','Seyhan','Tufanbeyli','Yumurtalık','Yüreğir'],
       'Adıyaman': ['Besni','Çelikhan','Gerger','Gölbaşı','Kahta','Merkez','Samsat','Sincik','Tut'],
@@ -2175,24 +2229,102 @@
       return siteContentClient;
     }
 
-    function openQuestionModal() {
-      modalGoster('soruModal');
+    function getReadAnnouncements() { try { return JSON.parse(localStorage.getItem(READ_ANNOUNCEMENTS_KEY) || '[]'); } catch (_) { return []; } }
+    function saveReadAnnouncements(ids) { localStorage.setItem(READ_ANNOUNCEMENTS_KEY, JSON.stringify([...new Set(ids)])); }
+    function announcementKey(item, index) { return item.id || `${item.created_at || 'date'}-${item.title || 'bildirim'}-${index}`; }
+    function getUnreadAnnouncements() { const read = getReadAnnouncements(); return publicAnnouncements.filter((item, index) => !read.includes(announcementKey(item, index))); }
+    function escapeText(value) { const div = document.createElement('div'); div.textContent = value == null ? '' : String(value); return div.innerHTML; }
+    function shortDate(value) { const date = new Date(value || Date.now()); return date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }); }
+    function updateNotificationBadge() {
+      const button = document.getElementById('notificationButton');
+      const badge = document.getElementById('notificationBadge');
+      if (!button || !badge) return;
+      const unreadCount = getUnreadAnnouncements().length;
+      button.classList.toggle('has-unread', unreadCount > 0);
+      badge.textContent = unreadCount > 9 ? '9+' : String(unreadCount);
+      if (unreadCount > 0 && !sessionStorage.getItem('bagmanciBellAnimated')) {
+        button.classList.add('bell-alert');
+        sessionStorage.setItem('bagmanciBellAnimated', '1');
+        setTimeout(() => button.classList.remove('bell-alert'), 3800);
+      }
     }
-    async function openAnnouncementModal() {
-      modalGoster('duyuruModal');
-      await loadPublicAnnouncements();
+    function renderAnnouncementRows() {
+      const list = document.getElementById('announcementList');
+      const sellerList = document.getElementById('sellerMessagesList');
+      const label = document.getElementById('sellerUnreadLabel');
+      const read = getReadAnnouncements();
+      const unreadCount = getUnreadAnnouncements().length;
+      if (label) label.textContent = `${unreadCount} Okunmamış Duyuru`;
+      if (!publicAnnouncements.length) {
+        const empty = '<div class="empty-page-state"><div><i class="fa-regular fa-bell"></i><strong>Bildirim yoktur</strong><p>Size özel duyurular ve mağaza bilgilendirmeleri burada görünecek.</p></div></div>';
+        if (list) list.innerHTML = empty;
+        if (sellerList) sellerList.innerHTML = '<div class="empty-page-state"><div><i class="fa-regular fa-envelope"></i><strong>Mesajınız yoktur</strong><p>Size özel cevaplar ve satıcı duyuruları burada görünecek.</p></div></div>';
+        updateNotificationBadge();
+        return;
+      }
+      const rows = publicAnnouncements.map((item, index) => {
+        const key = announcementKey(item, index);
+        const unread = !read.includes(key);
+        const title = escapeText(item.title || 'Bağmancı Bildirim');
+        const message = escapeText(item.message || 'Yeni bilgilendirme yayınlandı.');
+        const date = escapeText(shortDate(item.created_at));
+        return `<button class="notice-row ${unread ? 'unread' : ''}" type="button" onclick="markAnnouncementRead('${encodeURIComponent(key)}')"><span class="notice-dot-gold"></span><span class="notice-avatar">B</span><span class="notice-copy"><strong>${title}</strong><p>${message}</p></span><span class="notice-date">${date}</span></button>`;
+      }).join('');
+      const messageRows = publicAnnouncements.map((item, index) => {
+        const key = announcementKey(item, index);
+        const unread = !read.includes(key);
+        const title = escapeText(item.title || 'Bağmancı Kuyumculuk');
+        const message = escapeText(item.message || 'Yeni satıcı duyurusu yayınlandı.');
+        const date = escapeText(shortDate(item.created_at));
+        return `<button class="seller-message-row ${unread ? 'unread' : ''}" type="button" onclick="markAnnouncementRead('${encodeURIComponent(key)}')"><span class="notice-dot-gold"></span><span class="seller-avatar">B</span><span class="seller-copy"><strong>Bağmancı Kuyumculuk</strong><p>${title} - ${message}</p></span><span class="notice-date">${date}</span></button>`;
+      }).join('');
+      if (list) list.innerHTML = rows;
+      if (sellerList) sellerList.innerHTML = messageRows;
+      updateNotificationBadge();
     }
-
+    function markAnnouncementRead(encodedKey) { const key = decodeURIComponent(encodedKey); const read = getReadAnnouncements(); if (!read.includes(key)) saveReadAnnouncements([...read, key]); renderAnnouncementRows(); }
+    function markAllAnnouncementsRead() { saveReadAnnouncements(publicAnnouncements.map((item, index) => announcementKey(item, index))); renderAnnouncementRows(); }
+    function getNotificationSettings() { try { return { ...defaultNotificationSettings, ...JSON.parse(localStorage.getItem(NOTIFICATION_SETTINGS_KEY) || '{}') }; } catch (_) { return { ...defaultNotificationSettings }; } }
+    function toggleNotificationSetting(key) { const settings = getNotificationSettings(); settings[key] = !settings[key]; localStorage.setItem(NOTIFICATION_SETTINGS_KEY, JSON.stringify(settings)); renderNotificationSettings(); }
+    function renderNotificationSettings() {
+      const box = document.getElementById('notificationSettings');
+      if (!box) return;
+      const settings = getNotificationSettings();
+      const rows = [
+        ['seller', 'Satıcı Bildirimleri', 'Bağmancı Kuyumculuk tarafından gönderilen duyuruları al.', 'fa-store'],
+        ['product', 'Ürün Soruları', 'Ürün detayından sorduğun soruların cevaplarını göster.', 'fa-comments'],
+        ['order', 'Sipariş Bilgilendirmeleri', 'Sipariş durumu ve mağaza cevapları için bildirimleri açık tut.', 'fa-box'],
+        ['price', 'Fiyat Güncellemeleri', 'Canlı kur ve seçili ürün fiyat değişimlerinden haberdar ol.', 'fa-chart-line'],
+        ['campaign', 'Fırsatlar ve Tanıtımlar', 'Yeni koleksiyon ve mağaza fırsatlarını kaçırma.', 'fa-gem']
+      ];
+      box.innerHTML = rows.map(([key, title, text, icon]) => `<div class="setting-row"><i class="fa-solid ${icon}"></i><span><strong>${title}</strong><p>${text}</p></span><button class="toggle-pill ${settings[key] ? 'on' : ''}" type="button" onclick="toggleNotificationSetting('${key}')" aria-label="${title}"></button></div>`).join('');
+    }
+    function showNotificationTab(tab) {
+      document.querySelectorAll('[data-notification-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.notificationTab === tab));
+      document.getElementById('notificationAllSection')?.classList.toggle('active', tab === 'all' || tab === 'seller');
+      document.getElementById('notificationOrdersSection')?.classList.toggle('active', tab === 'orders');
+      document.getElementById('notificationSettingsSection')?.classList.toggle('active', tab === 'settings');
+      if (tab === 'settings') renderNotificationSettings();
+    }
+    function showMessageTab(tab) {
+      document.querySelectorAll('[data-message-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.messageTab === tab));
+      document.getElementById('messageSellerSection')?.classList.toggle('active', tab === 'seller');
+      document.getElementById('messageProductSection')?.classList.toggle('active', tab === 'product');
+      document.getElementById('messageOrderSection')?.classList.toggle('active', tab === 'order');
+    }
+    async function openQuestionModal() { modalGoster('soruModal'); showMessageTab('seller'); await loadPublicAnnouncements(); }
+    async function openAnnouncementModal() { modalGoster('duyuruModal'); showNotificationTab('all'); await loadPublicAnnouncements(); }
     async function loadPublicAnnouncements() {
       const list = document.getElementById('announcementList');
       const client = getSiteContentClient();
       if (!list) return;
-      if (!client) { list.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Duyuru sistemi hazırlanıyor.</p>'; return; }
-      list.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Duyurular yükleniyor...</p>';
-      const { data, error } = await client.from('announcements').select('title,message,created_at').eq('active', true).order('created_at', { ascending: false }).limit(10);
-      if (error) { list.innerHTML = `<p style="color:#fb7185; font-size:13px;">${error.message}</p>`; return; }
-      if (!data || !data.length) { list.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Şu an aktif duyuru yok.</p>'; return; }
-      list.innerHTML = data.map(item => `<div class="announcement-card"><strong>${item.title || 'Bağmancı Duyuru'}</strong><p>${item.message || ''}</p></div>`).join('');
+      if (!client) { publicAnnouncements = []; notificationsLoaded = true; renderAnnouncementRows(); return; }
+      if (!notificationsLoaded) list.innerHTML = '<p style="color:#68716d; font-size:14px; padding:18px;">Bildirimler yükleniyor...</p>';
+      const { data, error } = await client.from('announcements').select('id,title,message,created_at').eq('active', true).order('created_at', { ascending: false }).limit(30);
+      if (error) { list.innerHTML = `<p style="color:#b42318; font-size:14px; padding:18px;">${escapeText(error.message)}</p>`; return; }
+      publicAnnouncements = data || [];
+      notificationsLoaded = true;
+      renderAnnouncementRows();
     }
     function modalGoster(id) {
       document.getElementById(id).style.display = 'flex';
@@ -2206,6 +2338,8 @@
     renderCustomerProfile();
     setActiveNav('home');
     renderCatalogCovers();
+    renderNotificationSettings();
+    loadPublicAnnouncements().catch(() => { publicAnnouncements = []; renderAnnouncementRows(); });
     loadCatalogProducts().then(renderCatalogCovers).catch(() => renderCatalogCovers());
     updateClock();
     updateVisitorCount();
