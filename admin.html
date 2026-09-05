@@ -164,6 +164,28 @@
       <div class="status" id="login-status"></div>
     </section>
 
+    <section class="panel hidden" id="mfa-panel">
+      <div class="panel-kicker">İki Faktörlü Koruma</div>
+      <h2 id="mfa-title">Admin Doğrulama</h2>
+      <p class="muted" id="mfa-help">Telefonundaki doğrulama uygulamasından 6 haneli kodu gir.</p>
+      <div class="mfa-layout">
+        <div id="mfa-enroll-box" class="hidden">
+          <div class="mfa-qr-box"><img id="mfa-qr" alt="2FA QR kodu"></div>
+          <div class="mfa-secret"><strong>Manuel kod:</strong> <span id="mfa-secret"></span></div>
+        </div>
+        <div>
+          <div class="mfa-note" id="mfa-note">Şifren doğru. Admin panelini açmak için ikinci kod gerekiyor.</div>
+          <label style="margin-top:14px;">6 Haneli Kod
+            <input id="mfa-code" class="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+          </label>
+          <div class="actions">
+            <button class="primary" onclick="verifyMfa()">Doğrula ve Devam Et</button>
+            <button class="secondary" onclick="logout()">Vazgeç</button>
+          </div>
+          <div class="status" id="mfa-status"></div>
+        </div>
+      </div>
+    </section>
 
     <nav class="admin-nav hidden" id="admin-nav">
       <div class="admin-nav-left">
@@ -360,6 +382,8 @@
     let session = null;
     let products = [];
     let orders = [];
+    let pendingMfaFactorId = '';
+    let pendingMfaMode = 'challenge';
 
     const orderStatusLabels = {
       new: 'Yeni sipariş',
@@ -418,20 +442,102 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function hideAdminPages() {
+      adminPageIds().forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+    }
+
     function showApp(isLoggedIn) {
       document.getElementById('setup-panel').classList.toggle('hidden', configured());
       document.getElementById('login-panel').classList.toggle('hidden', !configured() || isLoggedIn);
+      document.getElementById('mfa-panel').classList.add('hidden');
       const nav = document.getElementById('admin-nav');
       if (nav) nav.classList.toggle('hidden', !isLoggedIn);
-      if (isLoggedIn) {
-        showAdminPage('dashboard');
-      } else {
-        adminPageIds().forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.classList.add('hidden');
-        });
-      }
+      if (isLoggedIn) showAdminPage('dashboard');
+      else hideAdminPages();
     }
+
+    function showMfaPanel(mode) {
+      pendingMfaMode = mode;
+      document.getElementById('setup-panel').classList.add('hidden');
+      document.getElementById('login-panel').classList.add('hidden');
+      document.getElementById('admin-nav').classList.add('hidden');
+      hideAdminPages();
+      document.getElementById('mfa-panel').classList.remove('hidden');
+      document.getElementById('mfa-enroll-box').classList.toggle('hidden', mode !== 'enroll');
+      document.getElementById('mfa-title').innerText = mode === 'enroll' ? '2FA Kurulumu' : '2FA Doğrulama';
+      document.getElementById('mfa-help').innerText = mode === 'enroll'
+        ? 'Authenticator uygulamasından QR kodu okut, sonra gelen 6 haneli kodu yaz.'
+        : 'Telefonundaki Authenticator uygulamasından gelen 6 haneli kodu gir.';
+      document.getElementById('mfa-note').innerText = mode === 'enroll'
+        ? 'Bu adım sadece ilk kurulumda yapılır. Bundan sonra admin girişinde her seferinde telefon kodu istenir.'
+        : 'Şifren doğru. Admin panelini açmak için ikinci kod gerekiyor.';
+      document.getElementById('mfa-code').value = '';
+      setStatus('mfa-status', '');
+      setTimeout(() => document.getElementById('mfa-code').focus(), 50);
+    }
+
+    function qrImageSource(qr) {
+      const value = String(qr || '');
+      if (value.trim().startsWith('<svg')) return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(value)}`;
+      return value;
+    }
+
+    function loadAdminData() {
+      loadProducts();
+      loadOrders();
+      loadQuestions();
+      loadAnnouncementsAdmin();
+    }
+
+    async function unlockAdmin() {
+      const { data } = await supabaseClient.auth.getSession();
+      session = data.session;
+      showApp(true);
+      loadAdminData();
+    }
+
+    async function startMfaEnrollment() {
+      setStatus('login-status', 'İlk 2FA kurulumu hazırlanıyor...');
+      const { data, error } = await supabaseClient.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Bağmancı Admin' });
+      if (error) { setStatus('login-status', error.message, 'err'); return; }
+      pendingMfaFactorId = data.id;
+      document.getElementById('mfa-qr').src = qrImageSource(data.totp.qr_code);
+      document.getElementById('mfa-secret').innerText = data.totp.secret || data.totp.uri || '';
+      showMfaPanel('enroll');
+    }
+
+    async function requireMfa() {
+      const assurance = await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (assurance.error) { setStatus('login-status', assurance.error.message, 'err'); return; }
+      if (assurance.data.currentLevel === 'aal2') { await unlockAdmin(); return; }
+
+      const factors = await supabaseClient.auth.mfa.listFactors();
+      if (factors.error) { setStatus('login-status', factors.error.message, 'err'); return; }
+      const verifiedFactor = (factors.data.totp || []).find(item => item.status === 'verified');
+      if (verifiedFactor && assurance.data.nextLevel === 'aal2') {
+        pendingMfaFactorId = verifiedFactor.id;
+        showMfaPanel('challenge');
+        return;
+      }
+      await startMfaEnrollment();
+    }
+
+    async function verifyMfa() {
+      const code = document.getElementById('mfa-code').value.trim();
+      if (!/^\d{6}$/.test(code)) { setStatus('mfa-status', '6 haneli kodu yazman gerekiyor.', 'err'); return; }
+      if (!pendingMfaFactorId) { setStatus('mfa-status', '2FA faktörü bulunamadı. Tekrar giriş yap.', 'err'); return; }
+      setStatus('mfa-status', 'Kod kontrol ediliyor...');
+      const challenge = await supabaseClient.auth.mfa.challenge({ factorId: pendingMfaFactorId });
+      if (challenge.error) { setStatus('mfa-status', challenge.error.message, 'err'); return; }
+      const verified = await supabaseClient.auth.mfa.verify({ factorId: pendingMfaFactorId, challengeId: challenge.data.id, code });
+      if (verified.error) { setStatus('mfa-status', 'Kod hatalı veya süresi doldu. Yeni kodu dene.', 'err'); return; }
+      setStatus('mfa-status', pendingMfaMode === 'enroll' ? '2FA kuruldu. Admin paneli açılıyor...' : 'Doğrulama başarılı. Admin paneli açılıyor...', 'ok');
+      await unlockAdmin();
+    }
+
     function slugify(text) {
       return text
         .toLocaleLowerCase('tr-TR')
@@ -467,17 +573,14 @@
         return;
       }
       session = data.session;
-      setStatus('login-status', 'Giriş başarılı.', 'ok');
-      showApp(true);
-      loadProducts();
-      loadOrders();
-      loadQuestions();
-      loadAnnouncementsAdmin();
+      setStatus('login-status', 'Şifre doğru. 2FA kontrol ediliyor...');
+      await requireMfa();
     }
 
     async function logout() {
       await supabaseClient.auth.signOut();
       session = null;
+      pendingMfaFactorId = '';
       showApp(false);
     }
 
@@ -855,6 +958,7 @@
   </script>
 </body>
 </html>
+
 
 
 
