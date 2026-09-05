@@ -447,7 +447,7 @@
         <div class="member-stat"><strong id="members-total">0</strong><span>Toplam üye</span></div>
         <div class="member-stat"><strong id="members-email">0</strong><span>E-posta kayıtlı</span></div>
         <div class="member-stat"><strong id="members-phone">0</strong><span>Telefon kayıtlı</span></div>
-        <div class="member-stat"><strong id="members-jewelry">0</strong><span>Ölçü bilgisi</span></div>
+        <div class="member-stat"><strong id="site-clicks">0</strong><span>Site tıklanması</span></div>
       </div>
       <div class="products" id="members-list"></div>
       <div class="status" id="members-status"></div>
@@ -1008,6 +1008,25 @@
     }
 
 
+
+    function liveCountUrl() {
+      return window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'https://bagmancikuyumculuk.com.tr/api/sukob?type=count'
+        : '/api/sukob?type=count';
+    }
+
+    async function loadSiteClicks() {
+      const el = document.getElementById('site-clicks');
+      if (!el) return;
+      try {
+        const response = await fetch(liveCountUrl(), { cache: 'no-store' });
+        if (!response.ok) throw new Error('count failed');
+        const data = await response.json();
+        el.textContent = Number(data.total || 0).toLocaleString('tr-TR');
+      } catch (_) {
+        el.textContent = '-';
+      }
+    }
     function memberDisplayName(member) {
       return member.full_name || member.email || member.phone || 'İsimsiz müşteri';
     }
@@ -1018,8 +1037,7 @@
       const total = members.length;
       const withEmail = members.filter(member => member.email).length;
       const withPhone = members.filter(member => member.phone).length;
-      const withJewelry = members.filter(member => member.ring_size || member.bracelet_size).length;
-      const pairs = [['members-total', total], ['members-email', withEmail], ['members-phone', withPhone], ['members-jewelry', withJewelry]];
+      const pairs = [['members-total', total], ['members-email', withEmail], ['members-phone', withPhone]];
       pairs.forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.textContent = value; });
       list.innerHTML = members.map(member => {
         const created = member.created_at ? new Date(member.created_at).toLocaleString('tr-TR') : 'Tarih yok';
@@ -1036,6 +1054,7 @@
       const list = document.getElementById('members-list');
       if (!list || !session) return;
       setStatus('members-status', 'Müşteriler yükleniyor...');
+      loadSiteClicks();
       const { data, error } = await supabaseClient.from('customer_profiles').select('*').order('created_at', { ascending: false }).limit(200);
       if (error) {
         members = [];

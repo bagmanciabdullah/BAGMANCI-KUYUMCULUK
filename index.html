@@ -1027,7 +1027,7 @@
     .page-tabs { background: rgba(2, 7, 6, 0.88) !important; border-bottom: 1px solid rgba(212, 175, 55, 0.18) !important; }
     .page-tab { background: rgba(4, 15, 12, 0.9) !important; color: var(--text-muted) !important; border-color: rgba(212, 175, 55, 0.22) !important; }
     .page-tab.active { color: var(--gold-light) !important; border-color: var(--gold-primary) !important; box-shadow: inset 0 -3px 0 var(--gold-primary), 0 12px 24px rgba(0,0,0,0.22) !important; }
-    .notification-list, .seller-message-list, .notification-settings, .account-panel, .account-menu, .account-auth-card { background: rgba(4, 15, 12, 0.88) !important; border: 1px solid rgba(212,175,55,0.22) !important; border-radius: 12px; overflow: hidden; }
+    .notification-list, .seller-message-list, .notification-settings, .account-panel, .account-menu, .account-auth-card, .account-detail-panel { background: rgba(4, 15, 12, 0.88) !important; border: 1px solid rgba(212,175,55,0.22) !important; border-radius: 12px; overflow: hidden; }
     .notice-row, .seller-message-row { background: rgba(2, 6, 5, 0.72) !important; border-bottom: 1px solid rgba(212,175,55,0.13) !important; color: var(--text-pearl) !important; }
     .notice-row.unread, .seller-message-row.unread { background: linear-gradient(90deg, rgba(54, 56, 52, 0.98), rgba(5, 24, 18, 0.86)) !important; }
     .notice-copy strong, .seller-copy strong, .empty-page-state strong, .setting-row strong { color: var(--gold-light) !important; }
@@ -1038,7 +1038,19 @@
     .setting-row i { background: rgba(212, 175, 55, 0.11) !important; color: var(--gold-primary) !important; }
     #uyeModal.account-page-overlay { align-items: stretch; justify-content: center; padding: 0; overflow-y: auto; background: rgba(0,0,0,0.96); }
     .account-page { width: min(1080px, 100%) !important; min-height: 100vh; max-height: none; overflow: visible; border-radius: 0 !important; padding: 0 !important; box-shadow: none !important; }
-    .account-hero { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; padding: 24px clamp(16px, 4vw, 34px); border-bottom: 1px solid rgba(212,175,55,0.18); }
+    .account-hero { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 24px clamp(16px, 4vw, 34px); border-bottom: 1px solid rgba(212,175,55,0.18); }
+    .account-hero-main { display: flex; align-items: center; gap: 16px; min-width: 0; }
+    .account-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .join-pill { border: 1px solid rgba(212,175,55,0.42); background: linear-gradient(135deg, rgba(212,175,55,0.98), rgba(166,129,27,0.96)); color: #020605; border-radius: 999px; padding: 9px 16px; font-weight: 900; cursor: pointer; letter-spacing: 0.5px; }
+    .account-section { display: none; }
+    .account-section.active { display: block; }
+    .account-detail-panel { padding: 18px; }
+    .auth-provider-stack { display: grid; gap: 10px; margin-top: 14px; }
+    .auth-provider { min-height: 48px; border: 1px solid rgba(212,175,55,0.24); border-radius: 9px; background: rgba(2,6,5,0.76); color: var(--gold-light); display: flex; align-items: center; justify-content: center; gap: 11px; font-weight: 900; cursor: pointer; font-family: inherit; }
+    .auth-provider i { font-size: 18px; color: var(--gold-primary); }
+    .auth-divider { display: flex; align-items: center; gap: 12px; color: var(--text-muted); margin: 16px 0 8px; font-size: 13px; }
+    .auth-divider::before, .auth-divider::after { content: ''; height: 1px; flex: 1; background: rgba(212,175,55,0.18); }
+    .account-back { width: max-content; margin-bottom: 12px; border: 1px solid rgba(212,175,55,0.28); background: rgba(212,175,55,0.08); color: var(--gold-light); border-radius: 999px; padding: 8px 12px; font-weight: 800; cursor: pointer; }
     .account-avatar { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; color: #020605; font-weight: 900; font-size: 24px; background: radial-gradient(circle at 30% 25%, #f7e8c3, #d4af37 54%, #7a5b11); border: 2px solid rgba(247,232,195,0.8); box-shadow: 0 0 24px rgba(212,175,55,0.2); }
     .account-email { color: var(--gold-light); font-weight: 800; font-size: 16px; word-break: break-word; }
     .account-complete { color: var(--emerald-accent); font-size: 13px; font-weight: 800; margin-top: 4px; }
@@ -1068,7 +1080,7 @@
     .security-note div { border: 1px solid rgba(212,175,55,0.15); border-radius: 10px; padding: 12px; background: rgba(2,6,5,0.46); }
     .security-note strong { color: var(--gold-light); display: block; margin-bottom: 4px; }
     .security-note p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
-    @media (max-width: 720px) { .account-hero { grid-template-columns: auto 1fr; } .account-hero .verify-pill { grid-column: 1 / -1; width: 100%; } .account-auth-grid, .account-shortcut-grid, .account-form-grid { grid-template-columns: 1fr; } .account-full { grid-column: auto; } }
+    @media (max-width: 720px) { .account-hero { grid-template-columns: 1fr; } .account-hero .join-pill { width: 100%; } .account-auth-grid, .account-shortcut-grid, .account-form-grid { grid-template-columns: 1fr; } .account-full { grid-column: auto; } }
   </style>
 </head>
 <body>
@@ -1363,65 +1375,85 @@
     <div class="modal-box account-page">
       <div class="page-topbar"><button class="page-close" onclick="modalKapat('uyeModal')" aria-label="Hesabımı kapat">×</button><h3>Hesabım</h3><button class="page-close" onclick="openAnnouncementModal()" aria-label="Bildirimler"><i class="fa-regular fa-bell" style="font-size:20px;"></i></button></div>
       <div class="account-hero">
-        <div class="account-avatar" id="accountAvatar">B</div>
-        <div><div class="account-email" id="accountEmail">Giriş yapılmadı</div><div class="account-complete" id="accountCompletion">Profilini tamamla</div></div>
-        <button class="verify-pill" type="button" onclick="sendCustomerEmailOtp()">DOĞRULA ›</button>
+        <div class="account-hero-main">
+          <div class="account-avatar" id="accountAvatar">B</div>
+          <div><div class="account-title-row"><div class="account-email" id="accountEmail">Giriş yapılmadı</div></div><div class="account-complete" id="accountCompletion">Profilini tamamla</div></div>
+        </div>
+        <button class="join-pill" id="accountJoinButton" type="button" onclick="openAccountSection('auth')">Üye Ol</button>
       </div>
       <div class="account-body">
-        <section class="account-auth-card">
-          <div class="panel-kicker">Güvenli Üyelik</div>
-          <h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold-light);font-size:28px;">E-posta ve Telefon Doğrulama</h3>
-          <p class="cart-subtitle">Satıcıya soru sormak, siparişlerini görmek ve adres bilgilerini kaydetmek için doğrulanmış üyelik kullanılır.</p>
-          <div class="account-auth-grid">
-            <label>E-posta<input class="checkout-field" id="customerEmailInput" type="email" placeholder="ornek@mail.com"></label>
-            <label>Telefon<input class="checkout-field" id="customerPhoneInput" type="tel" placeholder="+905xxxxxxxxx"></label>
-            <button class="cart-btn secondary" type="button" onclick="sendCustomerEmailOtp()"><i class="fa-regular fa-envelope"></i> E-posta Linki Gönder</button>
-            <button class="cart-btn secondary" type="button" onclick="sendCustomerPhoneOtp()"><i class="fa-solid fa-mobile-screen"></i> Telefon Kodu Gönder</button>
-            <label>SMS Kodu<input class="checkout-field" id="customerPhoneCode" inputmode="numeric" placeholder="6 haneli kod"></label>
-            <button class="cart-btn primary" type="button" onclick="verifyCustomerPhoneOtp()"><i class="fa-solid fa-shield-halved"></i> Kodu Onayla</button>
+        <section class="account-section active" id="accountHomeSection">
+          <div class="account-shortcut-grid">
+            <button class="account-shortcut" onclick="modalKapat('uyeModal'); modalGoster('sepetModal');"><i class="fa-solid fa-box"></i><b>Tüm Siparişlerim</b><span>Havale siparişleri ve durumları</span></button>
+            <button class="account-shortcut" onclick="setAccountStatus('Önceden gezdiklerin burada tutulacak.', '')"><i class="fa-regular fa-clock"></i><b>Önceden Gezdiklerim</b><span>Son baktığın ürünler</span></button>
+            <button class="account-shortcut" onclick="setAccountStatus('İndirim kuponları yakında aktif olacak.', '')"><i class="fa-solid fa-ticket"></i><b>İndirim Kuponlarım</b><span>Sana özel fırsatlar</span></button>
+            <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal();"><i class="fa-regular fa-envelope"></i><b>Satıcı Bildirimleri</b><span>Duyuru ve cevaplar</span></button>
+            <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal(); showMessageTab('product');"><i class="fa-regular fa-comment-dots"></i><b>Ürün & Sipariş Yorumlarım</b><span>Yaptığın yorumlar</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('assistant')"><i class="fa-solid fa-headset"></i><b>Bağmancı Asistan</b><span>Satıcıya özel soru sor</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('settings')"><i class="fa-solid fa-gear"></i><b>Hesap Ayarlarım</b><span>Profil, ölçü ve adres</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('security')"><i class="fa-solid fa-shield-halved"></i><b>Güvenlik</b><span>2FA ve oturum koruması</span></button>
           </div>
-          <div class="account-status" id="customerAuthStatus"></div>
+          <div class="account-status" id="accountStatus"></div>
         </section>
-        <div class="account-shortcut-grid">
-          <button class="account-shortcut" onclick="modalKapat('uyeModal'); modalGoster('sepetModal');"><i class="fa-solid fa-box"></i><b>Tüm Siparişlerim</b><span>Havale siparişleri ve durumları</span></button>
-          <button class="account-shortcut" onclick="setAccountStatus('Önceden gezdiklerin burada tutulacak.', '')"><i class="fa-regular fa-clock"></i><b>Önceden Gezdiklerim</b><span>Son baktığın ürünler</span></button>
-          <button class="account-shortcut" onclick="setAccountStatus('İndirim kuponları yakında aktif olacak.', '')"><i class="fa-solid fa-ticket"></i><b>İndirim Kuponlarım</b><span>Sana özel fırsatlar</span></button>
-          <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal();"><i class="fa-regular fa-envelope"></i><b>Satıcı Bildirimleri</b><span>Duyuru ve cevaplar</span></button>
-          <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal(); showMessageTab('product');"><i class="fa-regular fa-comment-dots"></i><b>Ürün & Sipariş Yorumlarım</b><span>Yaptığın yorumlar</span></button>
-          <button class="account-shortcut" onclick="document.getElementById('assistantQuestion')?.focus();"><i class="fa-solid fa-headset"></i><b>Bağmancı Asistan</b><span>Satıcıya özel soru sor</span></button>
-        </div>
-        <section class="account-panel">
-          <div class="panel-kicker">Hesap Ayarlarım</div>
-          <div class="account-form-grid">
-            <label>Ad Soyad<input id="accountFullName" placeholder="Adınız Soyadınız"></label>
-            <label>E-posta<input id="accountEmailEdit" type="email" placeholder="E-posta adresiniz"></label>
-            <label>Telefon<input id="accountPhoneEdit" type="tel" placeholder="Telefon numaranız"></label>
-            <label>Yüzük Parmak Ölçüsü<input id="accountRingSize" placeholder="Örn. 14"></label>
-            <label>Bilezik Ölçüsü<input id="accountBraceletSize" placeholder="Örn. 18 cm"></label>
-            <label class="account-full">Kayıtlı Adres<textarea id="accountAddressEdit" placeholder="Teslimat adresiniz"></textarea></label>
-            <button class="cart-btn primary account-full" type="button" onclick="saveCustomerJewelryProfile()">Bilgilerimi Kaydet</button>
+        <section class="account-section" id="accountAuthSection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Üye Ol / Giriş Yap</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold-light);font-size:30px;">Giriş Yap veya Üye Ol</h3>
+            <div class="auth-provider-stack">
+              <button class="auth-provider" type="button" onclick="signInWithProvider('apple')"><i class="fa-brands fa-apple"></i> Apple ile devam et</button>
+              <button class="auth-provider" type="button" onclick="signInWithProvider('google')"><i class="fa-brands fa-google"></i> Google ile devam et</button>
+              <button class="auth-provider" type="button" onclick="signInWithProvider('facebook')"><i class="fa-brands fa-facebook-f"></i> Facebook ile devam et</button>
+            </div>
+            <div class="auth-divider">veya</div>
+            <div class="account-auth-grid">
+              <label>Telefon<input class="checkout-field" id="customerPhoneInput" type="tel" placeholder="+905xxxxxxxxx"></label>
+              <button class="cart-btn secondary" type="button" onclick="sendCustomerPhoneOtp()"><i class="fa-solid fa-mobile-screen"></i> Telefon Kodu Gönder</button>
+              <label>SMS Kodu<input class="checkout-field" id="customerPhoneCode" inputmode="numeric" placeholder="6 haneli kod"></label>
+              <button class="cart-btn primary" type="button" onclick="verifyCustomerPhoneOtp()"><i class="fa-solid fa-shield-halved"></i> Kodu Onayla</button>
+            </div>
+            <div class="account-status" id="customerAuthStatus"></div>
           </div>
         </section>
-        <section class="account-panel">
-          <div class="panel-kicker">Bağmancı Asistan</div>
-          <p class="cart-subtitle">Satıcıya soru göndermek için üyelik girişi gerekir. Cevaplar Mesajlarım alanına düşer.</p>
-          <div class="account-form-grid"><label class="account-full">Sorunuz<textarea id="assistantQuestion" placeholder="Ürün, ölçü, kargo veya sipariş hakkında sorunuzu yazın"></textarea></label><button class="cart-btn primary account-full" onclick="submitAssistantQuestion()">Satıcıya Sor</button></div>
-        </section>
-        <section class="account-panel">
-          <div class="panel-kicker">Güvenlik</div>
-          <div class="account-menu">
-            <button class="account-menu-row" onclick="setAccountStatus('Şifre değişikliği e-posta girişinden sonra güvenli bağlantıyla yapılacak.', '')"><i class="fa-solid fa-lock"></i><span><strong>Şifre Değişikliği</strong><em>Hesap güvenliği</em></span><b>›</b></button>
-            <button class="account-menu-row" onclick="setAccountStatus('Başarılı ve başarısız giriş kayıtları üyelik sistemiyle birlikte tutulacak.', '')"><i class="fa-solid fa-unlock-keyhole"></i><span><strong>Başarılı / Başarısız Girişler</strong><em>Giriş geçmişi</em></span><b>›</b></button>
-            <button class="account-menu-row" onclick="setAccountStatus('Aktif oturumlar doğrulanmış hesaplara bağlanacak.', '')"><i class="fa-solid fa-laptop"></i><span><strong>Aktif Oturumlar</strong><em>Cihaz kontrolü</em></span><b>›</b></button>
-            <button class="account-menu-row" onclick="setAccountStatus('İki faktörlü doğrulama müşteri hesapları için ek güvenlik katmanı olarak planlandı.', 'ok')"><i class="fa-solid fa-shield-halved"></i><span><strong>İki Faktörlü Doğrulama</strong><em>Ek güvenlik katmanı</em></span><b>›</b></button>
+        <section class="account-section" id="accountSettingsSection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Hesap Ayarlarım</div>
+            <div class="account-form-grid">
+              <label>Ad Soyad<input id="accountFullName" placeholder="Adınız Soyadınız"></label>
+              <label>E-posta<input id="accountEmailEdit" type="email" placeholder="E-posta adresiniz"></label>
+              <label>Telefon<input id="accountPhoneEdit" type="tel" placeholder="Telefon numaranız"></label>
+              <label>Yüzük Parmak Ölçüsü<input id="accountRingSize" placeholder="Örn. 14"></label>
+              <label>Bilezik Ölçüsü<input id="accountBraceletSize" placeholder="Örn. 6.2 ölçü (çap)"></label>
+              <label class="account-full">Kayıtlı Adres<textarea id="accountAddressEdit" placeholder="Teslimat adresiniz"></textarea></label>
+              <button class="cart-btn primary account-full" type="button" onclick="saveCustomerJewelryProfile()">Bilgilerimi Kaydet</button>
+            </div>
           </div>
-          <div class="security-note"><div><strong>Güvenlik sistemi</strong><p>E-posta doğrulama, telefon kodu, iki faktörlü doğrulama, kayıtlı cihaz takibi ve admin onaylı sipariş süreci birlikte çalışır. Ödeme havale/EFT olduğu için sipariş, mağaza teyidi ve resmi fatura bilgileri alınmadan tamamlanmış sayılmaz.</p></div></div>
         </section>
-        <div class="account-status" id="accountStatus"></div>
+        <section class="account-section" id="accountAssistantSection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Bağmancı Asistan</div>
+            <p class="cart-subtitle">Satıcıya soru göndermek için üyelik girişi gerekir. Cevaplar Mesajlarım alanına düşer.</p>
+            <div class="account-form-grid"><label class="account-full">Sorunuz<textarea id="assistantQuestion" placeholder="Ürün, ölçü, kargo veya sipariş hakkında sorunuzu yazın"></textarea></label><button class="cart-btn primary account-full" onclick="submitAssistantQuestion()">Satıcıya Sor</button></div>
+          </div>
+        </section>
+        <section class="account-section" id="accountSecuritySection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Güvenlik</div>
+            <div class="account-menu">
+              <button class="account-menu-row" onclick="setAccountStatus('Şifre değişikliği e-posta girişinden sonra güvenli bağlantıyla yapılacak.', '')"><i class="fa-solid fa-lock"></i><span><strong>Şifre Değişikliği</strong><em>Hesap güvenliği</em></span><b>›</b></button>
+              <button class="account-menu-row" onclick="setAccountStatus('Başarılı ve başarısız giriş kayıtları üyelik sistemiyle birlikte tutulacak.', '')"><i class="fa-solid fa-unlock-keyhole"></i><span><strong>Başarılı / Başarısız Girişler</strong><em>Giriş geçmişi</em></span><b>›</b></button>
+              <button class="account-menu-row" onclick="setAccountStatus('Aktif oturumlar doğrulanmış hesaplara bağlanacak.', '')"><i class="fa-solid fa-laptop"></i><span><strong>Aktif Oturumlar</strong><em>Cihaz kontrolü</em></span><b>›</b></button>
+              <button class="account-menu-row" onclick="setAccountStatus('İki faktörlü doğrulama müşteri hesapları için ek güvenlik katmanı olarak planlandı.', 'ok')"><i class="fa-solid fa-shield-halved"></i><span><strong>İki Faktörlü Doğrulama</strong><em>Ek güvenlik katmanı</em></span><b>›</b></button>
+            </div>
+            <div class="security-note"><div><strong>Güvenlik sistemi</strong><p>E-posta doğrulama, telefon kodu, iki faktörlü doğrulama, kayıtlı cihaz takibi ve admin onaylı sipariş süreci birlikte çalışır. Ödeme havale/EFT olduğu için sipariş, mağaza teyidi ve resmi fatura bilgileri alınmadan tamamlanmış sayılmaz.</p></div></div>
+          </div>
+        </section>
       </div>
     </div>
-  </div>
-  <!-- MESAJLAR SAYFASI -->
+  </div>  <!-- MESAJLAR SAYFASI -->
   <div class="modal-overlay message-page-overlay" id="soruModal">
     <div class="modal-box message-page">
       <div class="page-topbar"><button class="page-close" onclick="modalKapat('soruModal')" aria-label="Mesajları kapat">‹</button><h3>Satıcı Mesajlarım</h3><span></span></div>
@@ -2174,7 +2206,7 @@
     }
 
     function safeJson(key, fallback = null) { try { return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback; } catch (_) { return fallback; } }
-    function setAccountStatus(message, type = '') { const el = document.getElementById('accountStatus') || document.getElementById('customerAuthStatus'); if (el) { el.textContent = message; el.className = `account-status ${type}`; } }
+    function setAccountStatus(message, type = '') { ['accountStatus', 'customerAuthStatus'].forEach(id => { const el = document.getElementById(id); if (el) { el.textContent = message; el.className = `account-status ${type}`; } }); }
     function customerProfileData() {
       const checkout = safeJson('bagmanciCheckoutProfile', {}) || {};
       const jewelry = safeJson(CUSTOMER_JEWELRY_KEY, {}) || {};
@@ -2207,9 +2239,29 @@
       if (avatar) avatar.textContent = (profile.name || profile.email || 'B').trim().charAt(0).toLocaleUpperCase('tr-TR');
       if (emailBox) emailBox.textContent = email;
       if (complete) complete.textContent = customerSession ? `%${percent} profil tamamlandı` : 'Üye ol veya doğrulama ile devam et';
-      [['customerEmailInput', profile.email], ['customerPhoneInput', profile.phone], ['accountFullName', profile.name], ['accountEmailEdit', profile.email], ['accountPhoneEdit', profile.phone], ['accountRingSize', profile.ringSize], ['accountBraceletSize', profile.braceletSize], ['accountAddressEdit', profile.address]].forEach(([id, value]) => { const el = document.getElementById(id); if (el && !el.value && value) el.value = value; });
+      [['customerPhoneInput', profile.phone], ['accountFullName', profile.name], ['accountEmailEdit', profile.email], ['accountPhoneEdit', profile.phone], ['accountRingSize', profile.ringSize], ['accountBraceletSize', profile.braceletSize], ['accountAddressEdit', profile.address]].forEach(([id, value]) => { const el = document.getElementById(id); if (el && !el.value && value) el.value = value; });
       const box = document.getElementById('customerProfileBox');
       if (box) box.innerHTML = profile.email ? `<strong>${profile.name || 'Müşteri'}</strong>${profile.phone || ''}<br>${profile.email}<br>${[profile.district, profile.city].filter(Boolean).join(' / ')}<br>${profile.address || ''}` : 'Kayıtlı müşteri bilginiz yok.';
+    }
+    function openAccountSection(section = 'home') {
+      const sections = {
+        home: 'accountHomeSection',
+        auth: 'accountAuthSection',
+        settings: 'accountSettingsSection',
+        assistant: 'accountAssistantSection',
+        security: 'accountSecuritySection'
+      };
+      Object.values(sections).forEach(id => document.getElementById(id)?.classList.remove('active'));
+      document.getElementById(sections[section] || sections.home)?.classList.add('active');
+      renderCustomerProfile();
+      if (section === 'assistant') setTimeout(() => document.getElementById('assistantQuestion')?.focus(), 80);
+    }
+
+    async function signInWithProvider(provider) {
+      const client = getSiteContentClient();
+      if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca sosyal giriş aktif olacak.', 'err'); return; }
+      const { error } = await client.auth.signInWithOAuth({ provider, options: { redirectTo: window.location.href } });
+      if (error) setAccountStatus(error.message, 'err');
     }
     async function sendCustomerEmailOtp() {
       const client = getSiteContentClient();
@@ -2246,7 +2298,7 @@
       localStorage.setItem(CUSTOMER_JEWELRY_KEY, JSON.stringify(profile));
       localStorage.setItem('bagmanciCheckoutProfile', JSON.stringify({ name: profile.name, phone: profile.phone, email: profile.email, city: '', district: '', address: profile.address }));
       await saveCustomerProfileToSupabase(profile);
-      setAccountStatus('Hesap bilgilerin kaydedildi.', 'ok'); renderCustomerProfile();
+      setAccountStatus('Hesap bilgilerin kaydedildi.', 'ok'); renderCustomerProfile(); openAccountSection('home');
     }
     async function loadCustomerQuestions() {
       const list = document.getElementById('customerQuestionsList');
@@ -2270,7 +2322,7 @@
       if (error) { setAccountStatus(error.message, 'err'); return; }
       document.getElementById('assistantQuestion').value = '';
       await loadCustomerQuestions();
-      setAccountStatus('Sorun satıcıya gönderildi. Cevap geldiğinde Mesajlarım alanında görünecek.', 'ok');
+      setAccountStatus('Sorun satıcıya gönderildi. Cevap geldiğinde Mesajlarım alanında görünecek.', 'ok'); openAccountSection('home');
     }
     function showCartStep(step) {
       const steps = ['cart', 'checkout', 'payment'];
@@ -2525,7 +2577,7 @@
     function modalGoster(id) {
       document.getElementById(id).style.display = 'flex';
       if (id === 'sepetModal') { populateCityDatalist(); loadCheckoutProfile(); toggleConditionalFields(); sepetGuncelle(); showCartStep('cart'); setActiveNav('sepet'); }
-      if (id === 'uyeModal') { renderCustomerProfile(); initCustomerSession().catch(() => renderCustomerProfile()); }
+      if (id === 'uyeModal') { openAccountSection('home'); renderCustomerProfile(); initCustomerSession().catch(() => renderCustomerProfile()); }
     }
     function modalKapat(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; if (id === 'sepetModal') setActiveNav(''); }
 
