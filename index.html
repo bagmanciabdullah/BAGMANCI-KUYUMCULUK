@@ -919,7 +919,7 @@
       <span>Şanlıurfa • Eyyübiye</span>
     </div>
     <div class="header-actions" aria-label="Müşteri işlemleri">
-      <button class="header-action-btn" type="button" onclick="openQuestionModal()" title="Soru sor" aria-label="Soru sor"><i class="fa-regular fa-envelope"></i></button>
+      <button class="header-action-btn" type="button" onclick="openQuestionModal()" title="Mesajlarım" aria-label="Mesajlarım"><i class="fa-regular fa-envelope"></i></button>
       <button class="header-action-btn" type="button" onclick="openAnnouncementModal()" title="Duyurular" aria-label="Duyurular"><i class="fa-regular fa-bell"></i><span class="notice-dot"></span></button>
     </div>  </header>
 
@@ -928,11 +928,7 @@
     <div class="hero-banner">
       <img src="vitrin.jpg" alt="Bağmancı Kuyumculuk & Saat Vitrin">
       <div class="banner-overlay"></div>
-      <div class="banner-content">
-        <span>Canlı borsa ve mağaza seçkisi</span>
-        <strong>Altın, saat ve özel üretimde güvenli vitrin.</strong>
-      </div>      <div class="banner-badge">Eyyübiye Mağazamız</div>
-    </div>
+</div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -1087,18 +1083,18 @@
   </div>
 
 
-  <!-- SORU MODAL -->
+  <!-- MESAJ MODAL -->
   <div class="modal-overlay" id="soruModal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">SORU SOR</h3>
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">MESAJLARIM</h3>
         <button onclick="modalKapat('soruModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
       </div>
-      <input id="questionName" class="modal-field" type="text" placeholder="Adınız soyadınız">
-      <input id="questionPhone" class="modal-field" type="tel" placeholder="Telefon / WhatsApp">
-      <textarea id="questionText" class="modal-field" placeholder="Merak ettiğiniz ürünü veya sorunuzu yazın"></textarea>
-      <button class="btn-add" style="padding:12px;" onclick="sendCustomerQuestion()">Soruyu Gönder</button>
-      <div class="modal-status" id="questionStatus"></div>
+      <div style="border:1px solid var(--card-border); border-radius:10px; background:rgba(2,6,5,0.62); padding:24px 16px; text-align:center;">
+        <i class="fa-regular fa-envelope" style="font-size:34px; color:var(--gold-primary); margin-bottom:12px;"></i>
+        <strong style="display:block; color:var(--gold-light); font-family:'Cormorant Garamond', serif; font-size:23px; margin-bottom:6px;">Mesajınız yoktur</strong>
+        <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">Size özel cevaplar ve bilgilendirmeler burada görünecek.</p>
+      </div>
     </div>
   </div>
 
@@ -1705,29 +1701,7 @@
 
     function openQuestionModal() {
       modalGoster('soruModal');
-      const status = document.getElementById('questionStatus');
-      if (status) { status.textContent = ''; status.className = 'modal-status'; }
     }
-
-    async function sendCustomerQuestion() {
-      const client = getSiteContentClient();
-      const name = document.getElementById('questionName').value.trim();
-      const phone = document.getElementById('questionPhone').value.trim();
-      const question = document.getElementById('questionText').value.trim();
-      const status = document.getElementById('questionStatus');
-      status.className = 'modal-status';
-      if (!question) { status.textContent = 'Sorunu yazman gerekiyor.'; status.classList.add('err'); return; }
-      if (!client) { status.textContent = 'Mesaj sistemi şu an hazırlanıyor. WhatsApp üzerinden yazabilirsiniz.'; status.classList.add('err'); return; }
-      status.textContent = 'Gönderiliyor...';
-      const { error } = await client.from('customer_questions').insert({ name, phone, question });
-      if (error) { status.textContent = error.message || 'Soru gönderilemedi.'; status.classList.add('err'); return; }
-      document.getElementById('questionName').value = '';
-      document.getElementById('questionPhone').value = '';
-      document.getElementById('questionText').value = '';
-      status.textContent = 'Sorunuz alındı. En kısa sürede dönüş yapılacak.';
-      status.classList.add('ok');
-    }
-
     async function openAnnouncementModal() {
       modalGoster('duyuruModal');
       await loadPublicAnnouncements();
