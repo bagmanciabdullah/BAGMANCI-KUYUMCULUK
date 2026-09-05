@@ -906,6 +906,50 @@
     .announcement-card strong { color: var(--gold-light); display: block; margin-bottom: 5px; }
     .announcement-card p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
     @media (max-width: 700px) { header { padding-right: 86px; padding-left: 86px; min-height: 112px; } .header-actions { right: 12px; gap: 7px; } .header-action-btn { width: 36px; height: 36px; } .brand-logo { font-size: 25px; letter-spacing: 4px; } .banner-content { left: 18px; right: 18px; bottom: 52px; } .banner-content strong { font-size: 31px; } .banner-badge { right: 16px !important; bottom: 14px !important; } }
+  
+    /* Premium sepet ve havale siparis akisi */
+    .checkout-modal { width: min(760px, calc(100vw - 28px)) !important; max-height: min(86vh, 760px); overflow-y: auto; padding: 0 !important; border-radius: 14px !important; }
+    .cart-head { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 22px 24px 16px; background: linear-gradient(180deg, rgba(4,15,12,0.98), rgba(4,15,12,0.9)); border-bottom: 1px solid rgba(212,175,55,0.18); }
+    .cart-title { font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:30px; line-height:1; letter-spacing:1px; }
+    .cart-subtitle { color:var(--text-muted); font-size:12px; margin-top:6px; }
+    .cart-close { width:38px; height:38px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,0.72); color:var(--text-muted); font-size:22px; cursor:pointer; }
+    .cart-steps { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:16px 24px 0; }
+    .cart-step { border:1px solid rgba(212,175,55,0.18); border-radius:999px; padding:9px 12px; color:var(--text-muted); font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; text-align:center; }
+    .cart-step.active { color:#020605; background:linear-gradient(135deg,#f4d35e,#b9911c); border-color:transparent; }
+    .cart-view { display:none; padding:18px 24px 24px; }
+    .cart-view.active { display:block; }
+    .premium-cart-list { display:grid; gap:10px; max-height:300px; overflow-y:auto; padding-right:4px; }
+    .premium-cart-item { display:grid; grid-template-columns:56px 1fr auto; gap:12px; align-items:center; border:1px solid rgba(212,175,55,0.16); border-radius:10px; background:rgba(2,6,5,0.48); padding:10px; }
+    .premium-cart-img { width:56px; height:56px; border-radius:8px; object-fit:cover; border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
+    .premium-cart-fallback { width:56px; height:56px; border-radius:8px; display:grid; place-items:center; color:var(--gold-primary); border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
+    .premium-cart-item strong { color:var(--gold-light); display:block; font-size:14px; }
+    .premium-cart-item span { color:var(--text-muted); font-size:12px; }
+    .cart-item-side { display:grid; gap:8px; justify-items:end; }
+    .cart-item-price { color:var(--text-pearl); font-weight:900; font-size:14px; }
+    .cart-remove { border:1px solid rgba(251,113,133,0.28); background:rgba(251,113,133,0.08); color:#fecdd3; border-radius:999px; padding:5px 9px; font-size:11px; cursor:pointer; }
+    .cart-empty { border:1px solid rgba(212,175,55,0.18); border-radius:12px; padding:28px 16px; text-align:center; color:var(--text-muted); background:rgba(2,6,5,0.42); }
+    .cart-summary { margin-top:14px; border:1px solid rgba(212,175,55,0.24); border-radius:12px; padding:15px; background:linear-gradient(135deg,rgba(212,175,55,0.09),rgba(2,6,5,0.62)); }
+    .cart-summary-row { display:flex; justify-content:space-between; gap:12px; color:var(--text-muted); font-size:13px; margin-bottom:8px; }
+    .cart-summary-row.total { color:var(--gold-light); font-size:20px; font-weight:900; margin-bottom:0; padding-top:10px; border-top:1px solid rgba(212,175,55,0.16); }
+    .cart-action-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+    .cart-wide { grid-column:1 / -1; }
+    .cart-btn { min-height:44px; border-radius:8px; padding:0 14px; font-family:inherit; font-size:12px; font-weight:900; letter-spacing:.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+    .cart-btn.primary { border:none; color:#020605; background:linear-gradient(135deg,#f1d15b 0%,#b88d16 100%); }
+    .cart-btn.secondary { border:1px solid var(--card-border); color:var(--gold-light); background:rgba(212,175,55,0.08); }
+    .cart-btn.danger { border:1px solid rgba(251,113,133,.34); color:#fecdd3; background:rgba(251,113,133,.09); }
+    .checkout-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .checkout-grid label { display:grid; gap:6px; color:var(--text-muted); font-size:12px; letter-spacing:.3px; }
+    .checkout-field { width:100%; border:1px solid rgba(212,175,55,.24); border-radius:8px; background:rgba(2,6,5,.74); color:var(--text-pearl); padding:12px; outline:none; font-family:inherit; }
+    .checkout-field:focus { border-color:var(--gold-primary); box-shadow:0 0 0 3px rgba(212,175,55,.08); }
+    textarea.checkout-field { min-height:82px; resize:vertical; }
+    .checkout-full { grid-column:1 / -1; }
+    .bank-box { margin-top:14px; border:1px solid rgba(52,211,153,.22); border-radius:12px; padding:14px; background:rgba(52,211,153,.06); }
+    .bank-box strong { color:var(--gold-light); display:block; margin-bottom:6px; }
+    .bank-box p { color:var(--text-muted); font-size:13px; line-height:1.55; }
+    .checkout-status { min-height:22px; color:var(--text-muted); font-size:13px; margin-top:12px; }
+    .checkout-status.ok { color:var(--emerald-accent); }
+    .checkout-status.err { color:#fb7185; }
+    @media (max-width:620px) { .checkout-modal { width:calc(100vw - 18px) !important; max-height:88vh; } .cart-head { padding:18px 16px 14px; } .cart-steps { padding:14px 16px 0; } .cart-view { padding:16px; } .premium-cart-item { grid-template-columns:48px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:48px; height:48px; } .cart-action-grid,.checkout-grid { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
   </style>
 </head>
 <body>
@@ -1055,20 +1099,70 @@
 
   <!-- SEPET MODAL -->
   <div class="modal-overlay" id="sepetModal">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">SEPETİNİZ</h3>
-        <button onclick="modalKapat('sepetModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
+    <div class="modal-box checkout-modal">
+      <div class="cart-head">
+        <div>
+          <h3 class="cart-title">Sepetiniz</h3>
+          <p class="cart-subtitle">Ürünlerinizi kontrol edin, sepeti paylaşın veya havale ile sipariş oluşturun.</p>
+        </div>
+        <button class="cart-close" onclick="modalKapat('sepetModal')" aria-label="Sepeti kapat">×</button>
       </div>
-      <div id="cartItems" style="max-height:220px; overflow-y:auto; margin-bottom:16px; font-size:13px; color:var(--text-muted);">Sepetiniz boş.</div>
-      <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold-light); border-top:1px solid var(--card-border); padding-top:12px; font-size:16px;">
-        <span>TOPLAM:</span>
-        <span id="cartTotal">0</span>
+      <div class="cart-steps">
+        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">Sepet</button>
+        <button class="cart-step" id="cartStepCheckout" onclick="showCartStep('checkout')">Sipariş Bilgileri</button>
       </div>
-      <button class="btn-add" style="margin-top:16px; padding:12px;" onclick="alert('Sipariş talebiniz Bağmancı Kuyumculuk\'a iletildi!'); sepet=[]; localStorage.setItem('bagmanciSepet', JSON.stringify(sepet)); sepetGuncelle(); modalKapat('sepetModal');">Sipariş Oluştur</button>
+      <div class="cart-view active" id="cartViewCart">
+        <div id="cartItems" class="premium-cart-list"></div>
+        <div class="cart-summary">
+          <div class="cart-summary-row"><span>Ürün adedi</span><strong id="cartItemCount">0</strong></div>
+          <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
+          <div class="cart-summary-row total"><span>TOPLAM</span><strong id="cartTotal">0</strong></div>
+        </div>
+        <div class="cart-action-grid">
+          <button class="cart-btn secondary" onclick="shareCart()"><i class="fa-solid fa-share-nodes"></i> Sepeti Paylaş</button>
+          <button class="cart-btn danger" onclick="clearCart()"><i class="fa-regular fa-trash-can"></i> Sepeti Temizle</button>
+          <button class="cart-btn primary cart-wide" onclick="goCheckout()"><i class="fa-solid fa-building-columns"></i> Havale ile Sipariş Oluştur</button>
+        </div>
+      </div>
+      <div class="cart-view" id="cartViewCheckout">
+        <div class="checkout-grid">
+          <label>Ad Soyad
+            <input id="orderName" class="checkout-field" autocomplete="name" placeholder="Adınız soyadınız">
+          </label>
+          <label>Telefon / WhatsApp
+            <input id="orderPhone" class="checkout-field" autocomplete="tel" placeholder="05xx xxx xx xx">
+          </label>
+          <label>E-posta <span style="color:var(--text-muted);">(opsiyonel)</span>
+            <input id="orderEmail" class="checkout-field" autocomplete="email" placeholder="mail adresiniz">
+          </label>
+          <label>Fatura Adı / Ünvan
+            <input id="invoiceName" class="checkout-field" placeholder="Kişi adı veya firma ünvanı">
+          </label>
+          <label>TC Kimlik / Vergi No
+            <input id="invoiceIdentity" class="checkout-field" inputmode="numeric" placeholder="Fatura için gerekli">
+          </label>
+          <label class="checkout-full">Fatura Adresi
+            <textarea id="invoiceAddress" class="checkout-field" placeholder="Fatura için açık adres"></textarea>
+          </label>
+          <label class="checkout-full">Kargo Gönderim Adresi
+            <textarea id="shippingAddress" class="checkout-field" placeholder="Teslimat için açık adres"></textarea>
+          </label>
+          <label class="checkout-full">Sipariş Notu <span style="color:var(--text-muted);">(opsiyonel)</span>
+            <textarea id="orderNote" class="checkout-field" placeholder="Ölçü, hediye paketi, teslimat notu vb."></textarea>
+          </label>
+        </div>
+        <div class="bank-box">
+          <strong>Havale / EFT ile ödeme</strong>
+          <p>IBAN bilgisi mağaza tarafından paylaşılacaktır. Havale alındıktan sonra fatura ve sipariş hazırlığı başlatılır.</p>
+        </div>
+        <div class="cart-action-grid">
+          <button class="cart-btn secondary" onclick="showCartStep('cart')"><i class="fa-solid fa-arrow-left"></i> Sepete Dön</button>
+          <button class="cart-btn primary" onclick="submitOrder()"><i class="fa-solid fa-check"></i> Siparişi Gönder</button>
+        </div>
+        <div class="checkout-status" id="checkoutStatus"></div>
+      </div>
     </div>
   </div>
-
   <!-- GİRİŞ MODAL -->
   <div class="modal-overlay" id="uyeModal">
     <div class="modal-box">
@@ -1648,34 +1742,127 @@
       localStorage.setItem(key, JSON.stringify(favoriler));
     }
 
-    function sepeteEkle(event, ad, f) {
+    function sepeteEkle(event, ad, f, image = '', sku = '') {
       event.stopPropagation();
-      sepet.push({ ad, f });
+      sepet.push({ ad, f: Number(f) || 0, image, sku });
       localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
       sepetGuncelle();
-      alert(ad + ' sepete eklendi!');
+      modalGoster('sepetModal');
+      showCartStep('cart');
+    }
+
+    function cartMoney(value) {
+      const number = Number(value) || 0;
+      return number.toLocaleString('tr-TR');
+    }
+
+    function cartText() {
+      if (!sepet.length) return 'Bağmancı Kuyumculuk sepetim boş.';
+      const lines = sepet.map((x, index) => `${index + 1}. ${x.ad} - ${cartMoney(x.f)}`);
+      const total = sepet.reduce((sum, x) => sum + (Number(x.f) || 0), 0);
+      return `Bağmancı Kuyumculuk sepetim:\n${lines.join('\n')}\nToplam: ${cartMoney(total)}\n${window.location.origin || 'bagmancikuyumculuk.com.tr'}`;
     }
 
     function sepetGuncelle() {
       document.getElementById('cartCount').innerText = sepet.length;
       const list = document.getElementById('cartItems');
+      const count = document.getElementById('cartItemCount');
+      const totalEl = document.getElementById('cartTotal');
+      if (!list || !count || !totalEl) return;
+      count.innerText = sepet.length;
       if (!sepet.length) {
-        list.innerHTML = 'Sepetiniz boş.';
-        document.getElementById('cartTotal').innerText = '0';
+        list.innerHTML = '<div class="cart-empty"><i class="fa-solid fa-cart-shopping" style="color:var(--gold-primary); font-size:30px; margin-bottom:10px;"></i><strong style="display:block; color:var(--gold-light); margin-bottom:4px;">Sepetiniz boş</strong><span>Beğendiğiniz ürünleri sepete ekleyerek sipariş oluşturabilirsiniz.</span></div>';
+        totalEl.innerText = '0';
         return;
       }
       let top = 0;
-      let html = '';
-      sepet.forEach((x) => {
-        top += x.f;
-        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${x.ad}</span><strong>${x.f.toLocaleString('tr-TR')}</strong></div>`;
-      });
-      list.innerHTML = html;
-      document.getElementById('cartTotal').innerText = top.toLocaleString('tr-TR');
+      list.innerHTML = sepet.map((x, index) => {
+        const price = Number(x.f) || 0;
+        top += price;
+        const image = x.image ? `<img class="premium-cart-img" src="${x.image}" alt="${x.ad}">` : '<div class="premium-cart-fallback"><i class="fa-solid fa-gem"></i></div>';
+        return `<div class="premium-cart-item">${image}<div><strong>${x.ad}</strong><span>${x.sku || 'Bağmancı seçkisi'}</span></div><div class="cart-item-side"><div class="cart-item-price">${cartMoney(price)}</div><button class="cart-remove" onclick="removeCartItem(${index})">Kaldır</button></div></div>`;
+      }).join('');
+      totalEl.innerText = cartMoney(top);
     }
 
+    function removeCartItem(index) {
+      sepet.splice(index, 1);
+      localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
+      sepetGuncelle();
+    }
 
-    function scrollToSectionTop(id) {
+    function clearCart() {
+      if (!sepet.length) return;
+      if (!confirm('Sepeti temizlemek istiyor musun?')) return;
+      sepet = [];
+      localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
+      sepetGuncelle();
+    }
+
+    async function shareCart() {
+      const text = cartText();
+      try {
+        if (navigator.share) await navigator.share({ title: 'Bağmancı Kuyumculuk Sepetim', text });
+        else { await navigator.clipboard.writeText(text); alert('Sepet bilgisi kopyalandı.'); }
+      } catch (error) {}
+    }
+
+    function showCartStep(step) {
+      document.getElementById('cartViewCart').classList.toggle('active', step === 'cart');
+      document.getElementById('cartViewCheckout').classList.toggle('active', step === 'checkout');
+      document.getElementById('cartStepCart').classList.toggle('active', step === 'cart');
+      document.getElementById('cartStepCheckout').classList.toggle('active', step === 'checkout');
+    }
+
+    function goCheckout() {
+      if (!sepet.length) { alert('Sepetiniz boş.'); return; }
+      showCartStep('checkout');
+    }
+
+    function checkoutValue(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    async function submitOrder() {
+      const status = document.getElementById('checkoutStatus');
+      status.className = 'checkout-status';
+      if (!sepet.length) { status.textContent = 'Sepetiniz boş.'; status.classList.add('err'); return; }
+      const required = [
+        ['orderName', 'Ad soyad'],
+        ['orderPhone', 'Telefon'],
+        ['invoiceName', 'Fatura adı/ünvan'],
+        ['invoiceIdentity', 'TC Kimlik / Vergi No'],
+        ['invoiceAddress', 'Fatura adresi'],
+        ['shippingAddress', 'Kargo gönderim adresi']
+      ];
+      const missing = required.find(([id]) => !checkoutValue(id));
+      if (missing) { status.textContent = `${missing[1]} alanını doldurman gerekiyor.`; status.classList.add('err'); return; }
+      const total = sepet.reduce((sum, x) => sum + (Number(x.f) || 0), 0);
+      const order = {
+        customer_name: checkoutValue('orderName'),
+        phone: checkoutValue('orderPhone'),
+        email: checkoutValue('orderEmail'),
+        invoice_name: checkoutValue('invoiceName'),
+        invoice_identity_no: checkoutValue('invoiceIdentity'),
+        invoice_address: checkoutValue('invoiceAddress'),
+        shipping_address: checkoutValue('shippingAddress'),
+        note: checkoutValue('orderNote'),
+        payment_method: 'havale_eft',
+        total,
+        items: sepet
+      };
+      const client = getSiteContentClient();
+      status.textContent = 'Sipariş gönderiliyor...';
+      if (client) {
+        const { error } = await client.from('orders').insert(order);
+        if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
+      }
+      status.textContent = 'Siparişiniz alındı. Havale bilgisi için mağaza sizinle iletişime geçecek.';
+      status.classList.add('ok');
+      sepet = [];
+      localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
+      sepetGuncelle();
+    }function scrollToSectionTop(id) {
       const el = document.getElementById(id);
       if (!el) return;
       const header = document.querySelector('header');
@@ -1718,9 +1905,13 @@
       if (!data || !data.length) { list.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Şu an aktif duyuru yok.</p>'; return; }
       list.innerHTML = data.map(item => `<div class="announcement-card"><strong>${item.title || 'Bağmancı Duyuru'}</strong><p>${item.message || ''}</p></div>`).join('');
     }
-    function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
+    function modalGoster(id) {
+      document.getElementById(id).style.display = 'flex';
+      if (id === 'sepetModal') { sepetGuncelle(); showCartStep('cart'); }
+    }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
+    if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
     renderCatalogCovers();
     loadCatalogProducts().then(renderCatalogCovers).catch(() => renderCatalogCovers());
     updateClock();
