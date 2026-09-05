@@ -400,3 +400,73 @@ create policy "MFA admins can delete security events"
 on public.admin_security_events for delete
 to authenticated
 using ((auth.jwt() ->> 'aal') = 'aal2');
+-- MUSTERI UYELIK PROFILLERI
+-- Musteri e-posta/telefon dogrulamasindan sonra profil bilgileri burada tutulur.
+create table if not exists public.customer_profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  phone text,
+  full_name text,
+  ring_size text,
+  bracelet_size text,
+  default_address text,
+  notification_preferences jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists customer_profiles_set_updated_at on public.customer_profiles;
+create trigger customer_profiles_set_updated_at
+before update on public.customer_profiles
+for each row execute function public.set_updated_at();
+
+alter table public.customer_profiles enable row level security;
+
+drop policy if exists "Customers can insert own profile" on public.customer_profiles;
+create policy "Customers can insert own profile"
+on public.customer_profiles for insert
+to authenticated
+with check (auth.uid() = user_id);
+
+drop policy if exists "Customers can read own profile" on public.customer_profiles;
+create policy "Customers can read own profile"
+on public.customer_profiles for select
+to authenticated
+using (auth.uid() = user_id);
+
+drop policy if exists "Customers can update own profile" on public.customer_profiles;
+create policy "Customers can update own profile"
+on public.customer_profiles for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+drop policy if exists "MFA admins can read customer profiles" on public.customer_profiles;
+create policy "MFA admins can read customer profiles"
+on public.customer_profiles for select
+to authenticated
+using ((auth.jwt() ->> 'aal') = 'aal2');
+
+drop policy if exists "MFA admins can delete customer profiles" on public.customer_profiles;
+create policy "MFA admins can delete customer profiles"
+on public.customer_profiles for delete
+to authenticated
+using ((auth.jwt() ->> 'aal') = 'aal2');
+
+alter table public.customer_questions add column if not exists customer_id uuid references auth.users(id) on delete set null;
+alter table public.customer_questions add column if not exists email text;
+alter table public.customer_questions add column if not exists product_id text;
+alter table public.customer_questions add column if not exists product_name text;
+
+drop policy if exists "Public can send customer questions" on public.customer_questions;
+drop policy if exists "Customers can send own customer questions" on public.customer_questions;
+create policy "Customers can send own customer questions"
+on public.customer_questions for insert
+to authenticated
+with check (auth.uid() = customer_id and char_length(question) between 2 and 2000);
+
+drop policy if exists "Customers can read own customer questions" on public.customer_questions;
+create policy "Customers can read own customer questions"
+on public.customer_questions for select
+to authenticated
+using (auth.uid() = customer_id);

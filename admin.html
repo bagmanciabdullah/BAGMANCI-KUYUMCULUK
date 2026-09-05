@@ -90,6 +90,14 @@
     .menu-index { width: 34px; height: 34px; border-radius: 999px; display: inline-grid; place-items: center; border: 1px solid rgba(212, 175, 55, 0.34); color: var(--gold-light); background: rgba(212, 175, 55, 0.08); font-size: 13px; font-weight: 800; }
     .panel-kicker { color: var(--gold); font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 800; margin-bottom: 6px; }
     .empty-panel { border: 1px dashed rgba(212, 175, 55, 0.24); border-radius: 10px; padding: 18px; color: var(--muted); background: rgba(2, 6, 5, 0.42); line-height: 1.65; margin-top: 14px; }
+    .member-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+    .member-stat { border: 1px solid rgba(212, 175, 55, 0.18); border-radius: 10px; padding: 14px; background: rgba(2, 6, 5, 0.54); }
+    .member-stat strong { color: var(--gold-light); font-size: 24px; display: block; }
+    .member-stat span { color: var(--muted); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; }
+    .member-row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) auto; gap: 12px; align-items: start; border: 1px solid rgba(212, 175, 55, 0.16); background: linear-gradient(145deg, rgba(2, 6, 5, 0.72), rgba(5, 24, 18, 0.58)); border-radius: 10px; padding: 14px; }
+    .member-row strong { color: var(--gold-light); display: block; font-size: 16px; }
+    .member-row span, .member-row small { color: var(--muted); font-size: 12px; line-height: 1.55; display: block; overflow-wrap: anywhere; }
+    .member-badge { border: 1px solid rgba(52, 211, 153, 0.26); color: #bbf7d0; background: rgba(52, 211, 153, 0.07); border-radius: 999px; padding: 7px 10px; font-size: 11px; font-weight: 800; white-space: nowrap; }
     @media (max-width: 760px) {
       body { padding: 14px; }
       header { align-items: flex-start; flex-direction: column; }
@@ -243,7 +251,7 @@
         <button class="dashboard-card" onclick="showAdminPage('members')">
           <span class="menu-index">04</span>
           <strong>Site Müşterileri</strong>
-          <span>Üyelik sistemi hazır olduğunda kayıtlı müşterilerin burada toplanacak.</span>
+          <span>Siteye üye olan müşterileri, doğrulama durumlarını ve kuyumcu profil bilgilerini yönet.</span>
         </button>
       </div>
     </section>
@@ -427,11 +435,22 @@
       </div>
     </section>
     <section class="panel hidden" id="members-panel">
-      <div class="panel-kicker">Müşteri Alanı</div>
-      <h2>Site Müşterileri</h2>
-      <div class="empty-panel">
-        Şimdilik burası hazırlık alanı. Üyelik sistemi detaylandırılınca siteye kayıt olan müşteriler, favorileri ve geçmiş siparişleri burada yönetilecek.
+      <div class="section-head">
+        <div>
+          <div class="panel-kicker">Müşteri Alanı</div>
+          <h2>Site Müşterileri</h2>
+          <p class="muted">E-posta/telefon ile giriş yapan müşteriler ve kayıtlı profil bilgileri burada görünür.</p>
+        </div>
+        <button class="secondary" onclick="loadMembers()">Yenile</button>
       </div>
+      <div class="member-stats">
+        <div class="member-stat"><strong id="members-total">0</strong><span>Toplam üye</span></div>
+        <div class="member-stat"><strong id="members-email">0</strong><span>E-posta kayıtlı</span></div>
+        <div class="member-stat"><strong id="members-phone">0</strong><span>Telefon kayıtlı</span></div>
+        <div class="member-stat"><strong id="members-jewelry">0</strong><span>Ölçü bilgisi</span></div>
+      </div>
+      <div class="products" id="members-list"></div>
+      <div class="status" id="members-status"></div>
     </section>
     <section class="panel hidden" id="products-panel">
       <div class="panel-kicker">Kayıtlı Ürünler</div>
@@ -447,6 +466,7 @@
     let session = null;
     let products = [];
     let orders = [];
+    let members = [];
     let pendingMfaFactorId = '';
     let pendingMfaMode = 'challenge';
     let notifyLoginAfterMfa = false;
@@ -511,6 +531,7 @@
       if (page === 'orders') loadOrders();
       if (page === 'content') { loadQuestions(); loadAnnouncementsAdmin(); }
       if (page === 'settings') renderSecuritySettings();
+      if (page === 'members') loadMembers();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -986,6 +1007,47 @@
       return String(text || '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
     }
 
+
+    function memberDisplayName(member) {
+      return member.full_name || member.email || member.phone || 'İsimsiz müşteri';
+    }
+
+    function renderMembers() {
+      const list = document.getElementById('members-list');
+      if (!list) return;
+      const total = members.length;
+      const withEmail = members.filter(member => member.email).length;
+      const withPhone = members.filter(member => member.phone).length;
+      const withJewelry = members.filter(member => member.ring_size || member.bracelet_size).length;
+      const pairs = [['members-total', total], ['members-email', withEmail], ['members-phone', withPhone], ['members-jewelry', withJewelry]];
+      pairs.forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.textContent = value; });
+      list.innerHTML = members.map(member => {
+        const created = member.created_at ? new Date(member.created_at).toLocaleString('tr-TR') : 'Tarih yok';
+        const updated = member.updated_at ? new Date(member.updated_at).toLocaleString('tr-TR') : 'Güncelleme yok';
+        return `<article class="member-row">
+          <div><strong>${escapeHtml(memberDisplayName(member))}</strong><span>${escapeHtml(member.email || 'E-posta yok')}</span><span>${escapeHtml(member.phone || 'Telefon yok')}</span></div>
+          <div><small>Yüzük ölçüsü: ${escapeHtml(member.ring_size || 'Yok')}</small><small>Bilezik ölçüsü: ${escapeHtml(member.bracelet_size || 'Yok')}</small><small>Adres: ${escapeHtml(member.default_address || 'Kayıtlı adres yok')}</small></div>
+          <div><span class="member-badge">Üye</span><small>${escapeHtml(created)}</small><small>Son kayıt: ${escapeHtml(updated)}</small></div>
+        </article>`;
+      }).join('') || '<div class="empty-panel">Henüz kayıtlı müşteri yok. Müşteri e-posta veya telefon doğrulamasıyla giriş yaptığında burada görünecek.</div>';
+    }
+
+    async function loadMembers() {
+      const list = document.getElementById('members-list');
+      if (!list || !session) return;
+      setStatus('members-status', 'Müşteriler yükleniyor...');
+      const { data, error } = await supabaseClient.from('customer_profiles').select('*').order('created_at', { ascending: false }).limit(200);
+      if (error) {
+        members = [];
+        renderMembers();
+        setStatus('members-status', 'Müşteri tablosu hazır değil. Supabase SQL kurulum dosyasını tekrar çalıştırman gerekiyor.', 'err');
+        list.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
+        return;
+      }
+      members = data || [];
+      renderMembers();
+      setStatus('members-status', members.length ? `${members.length} müşteri listelendi.` : 'Henüz kayıtlı müşteri yok.', members.length ? 'ok' : '');
+    }
     async function loadQuestions() {
       const list = document.getElementById('questions-list');
       if (!list || !session) return;
@@ -1195,6 +1257,7 @@
         loadOrders();
         loadQuestions();
         loadAnnouncementsAdmin();
+        loadMembers();
       }
     }
 
