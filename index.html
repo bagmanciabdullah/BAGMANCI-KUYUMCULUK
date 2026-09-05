@@ -907,49 +907,63 @@
     .announcement-card p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
     @media (max-width: 700px) { header { padding-right: 86px; padding-left: 86px; min-height: 112px; } .header-actions { right: 12px; gap: 7px; } .header-action-btn { width: 36px; height: 36px; } .brand-logo { font-size: 25px; letter-spacing: 4px; } .banner-content { left: 18px; right: 18px; bottom: 52px; } .banner-content strong { font-size: 31px; } .banner-badge { right: 16px !important; bottom: 14px !important; } }
   
-    /* Premium sepet ve havale siparis akisi */
-    .checkout-modal { width: min(760px, calc(100vw - 28px)) !important; max-height: min(86vh, 760px); overflow-y: auto; padding: 0 !important; border-radius: 14px !important; }
-    .cart-head { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 22px 24px 16px; background: linear-gradient(180deg, rgba(4,15,12,0.98), rgba(4,15,12,0.9)); border-bottom: 1px solid rgba(212,175,55,0.18); }
-    .cart-title { font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:30px; line-height:1; letter-spacing:1px; }
-    .cart-subtitle { color:var(--text-muted); font-size:12px; margin-top:6px; }
-    .cart-close { width:38px; height:38px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,0.72); color:var(--text-muted); font-size:22px; cursor:pointer; }
-    .cart-steps { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:16px 24px 0; }
-    .cart-step { border:1px solid rgba(212,175,55,0.18); border-radius:999px; padding:9px 12px; color:var(--text-muted); font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; text-align:center; }
+    /* Premium sepet sayfasi ve havale siparis akisi */
+    #sepetModal.modal-overlay { align-items: stretch; justify-content: center; padding: 0; overflow-y: auto; background: radial-gradient(circle at 50% 0%, rgba(20, 47, 37, 0.76), rgba(0, 0, 0, 0.94) 58%), rgba(0,0,0,0.96); }
+    .checkout-modal { width: min(1180px, 100%) !important; min-height: 100vh; max-height: none; overflow: visible; padding: 0 !important; border-radius: 0 !important; border-left: 1px solid rgba(212,175,55,.2) !important; border-right: 1px solid rgba(212,175,55,.2) !important; border-top: 0 !important; border-bottom: 0 !important; box-shadow: none !important; background: linear-gradient(180deg, rgba(2, 8, 7, 0.98), rgba(1, 4, 4, 0.98)); }
+    .cart-head { position: sticky; top: 0; z-index: 4; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 22px clamp(18px, 4vw, 48px); background: rgba(2, 6, 5, 0.94); border-bottom: 1px solid rgba(212,175,55,0.2); backdrop-filter: blur(14px); }
+    .cart-title { font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:clamp(30px,4vw,44px); line-height:1; letter-spacing:1.2px; }
+    .cart-subtitle { color:var(--text-muted); font-size:13px; margin-top:7px; line-height:1.55; }
+    .cart-close { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,0.72); color:var(--text-muted); font-size:24px; cursor:pointer; }
+    .cart-steps { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:18px clamp(18px,4vw,48px) 0; }
+    .cart-step { border:1px solid rgba(212,175,55,0.2); border-radius:999px; padding:12px 14px; color:var(--text-muted); background:rgba(2,6,5,.45); font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; text-align:center; cursor:pointer; }
     .cart-step.active { color:#020605; background:linear-gradient(135deg,#f4d35e,#b9911c); border-color:transparent; }
-    .cart-view { display:none; padding:18px 24px 24px; }
+    .cart-view { display:none; padding:24px clamp(18px,4vw,48px) 120px; }
     .cart-view.active { display:block; }
-    .premium-cart-list { display:grid; gap:10px; max-height:300px; overflow-y:auto; padding-right:4px; }
-    .premium-cart-item { display:grid; grid-template-columns:56px 1fr auto; gap:12px; align-items:center; border:1px solid rgba(212,175,55,0.16); border-radius:10px; background:rgba(2,6,5,0.48); padding:10px; }
-    .premium-cart-img { width:56px; height:56px; border-radius:8px; object-fit:cover; border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
-    .premium-cart-fallback { width:56px; height:56px; border-radius:8px; display:grid; place-items:center; color:var(--gold-primary); border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
-    .premium-cart-item strong { color:var(--gold-light); display:block; font-size:14px; }
+    .cart-layout, .checkout-layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr); gap:18px; align-items:start; }
+    .cart-panel, .checkout-panel, .cart-summary { border:1px solid rgba(212,175,55,.24); border-radius:14px; background:linear-gradient(145deg,rgba(4,15,12,.92),rgba(2,6,5,.76)); padding:18px; box-shadow:0 20px 48px rgba(0,0,0,.32); }
+    .cart-panel-title { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+    .cart-panel-title h4 { font-family:'Cormorant Garamond',serif; color:var(--gold-light); font-size:26px; line-height:1; }
+    .cart-panel-title span { color:var(--text-muted); font-size:12px; }
+    .premium-cart-list { display:grid; gap:12px; }
+    .premium-cart-item { display:grid; grid-template-columns:72px 1fr auto; gap:14px; align-items:center; border:1px solid rgba(212,175,55,0.16); border-radius:12px; background:rgba(2,6,5,0.5); padding:12px; }
+    .premium-cart-img { width:72px; height:72px; border-radius:10px; object-fit:cover; border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
+    .premium-cart-fallback { width:72px; height:72px; border-radius:10px; display:grid; place-items:center; color:var(--gold-primary); border:1px solid rgba(212,175,55,0.24); background:rgba(212,175,55,0.08); }
+    .premium-cart-item strong { color:var(--gold-light); display:block; font-size:15px; }
     .premium-cart-item span { color:var(--text-muted); font-size:12px; }
     .cart-item-side { display:grid; gap:8px; justify-items:end; }
-    .cart-item-price { color:var(--text-pearl); font-weight:900; font-size:14px; }
-    .cart-remove { border:1px solid rgba(251,113,133,0.28); background:rgba(251,113,133,0.08); color:#fecdd3; border-radius:999px; padding:5px 9px; font-size:11px; cursor:pointer; }
-    .cart-empty { border:1px solid rgba(212,175,55,0.18); border-radius:12px; padding:28px 16px; text-align:center; color:var(--text-muted); background:rgba(2,6,5,0.42); }
-    .cart-summary { margin-top:14px; border:1px solid rgba(212,175,55,0.24); border-radius:12px; padding:15px; background:linear-gradient(135deg,rgba(212,175,55,0.09),rgba(2,6,5,0.62)); }
-    .cart-summary-row { display:flex; justify-content:space-between; gap:12px; color:var(--text-muted); font-size:13px; margin-bottom:8px; }
-    .cart-summary-row.total { color:var(--gold-light); font-size:20px; font-weight:900; margin-bottom:0; padding-top:10px; border-top:1px solid rgba(212,175,55,0.16); }
+    .cart-item-price { color:var(--text-pearl); font-weight:900; font-size:15px; }
+    .cart-remove { border:1px solid rgba(251,113,133,0.28); background:rgba(251,113,133,0.08); color:#fecdd3; border-radius:999px; padding:6px 10px; font-size:11px; cursor:pointer; }
+    .cart-empty { border:1px dashed rgba(212,175,55,0.22); border-radius:12px; padding:34px 16px; text-align:center; color:var(--text-muted); background:rgba(2,6,5,0.42); }
+    .cart-summary { position:sticky; top:110px; }
+    .cart-summary-row { display:flex; justify-content:space-between; gap:12px; color:var(--text-muted); font-size:13px; margin-bottom:10px; }
+    .cart-summary-row.total { color:var(--gold-light); font-size:22px; font-weight:900; margin-bottom:0; padding-top:12px; border-top:1px solid rgba(212,175,55,0.16); }
     .cart-action-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
     .cart-wide { grid-column:1 / -1; }
-    .cart-btn { min-height:44px; border-radius:8px; padding:0 14px; font-family:inherit; font-size:12px; font-weight:900; letter-spacing:.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+    .cart-btn { min-height:46px; border-radius:9px; padding:0 15px; font-family:inherit; font-size:12px; font-weight:900; letter-spacing:.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; }
     .cart-btn.primary { border:none; color:#020605; background:linear-gradient(135deg,#f1d15b 0%,#b88d16 100%); }
     .cart-btn.secondary { border:1px solid var(--card-border); color:var(--gold-light); background:rgba(212,175,55,0.08); }
     .cart-btn.danger { border:1px solid rgba(251,113,133,.34); color:#fecdd3; background:rgba(251,113,133,.09); }
-    .checkout-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-    .checkout-grid label { display:grid; gap:6px; color:var(--text-muted); font-size:12px; letter-spacing:.3px; }
-    .checkout-field { width:100%; border:1px solid rgba(212,175,55,.24); border-radius:8px; background:rgba(2,6,5,.74); color:var(--text-pearl); padding:12px; outline:none; font-family:inherit; }
+    .checkout-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+    .checkout-grid label, .check-row { display:grid; gap:7px; color:var(--text-muted); font-size:12px; letter-spacing:.3px; }
+    .checkout-grid label strong { color:var(--gold-light); font-size:13px; }
+    .checkout-field { width:100%; border:1px solid rgba(212,175,55,.24); border-radius:9px; background:rgba(2,6,5,.74); color:var(--text-pearl); padding:13px 12px; outline:none; font-family:inherit; font-size:14px; }
     .checkout-field:focus { border-color:var(--gold-primary); box-shadow:0 0 0 3px rgba(212,175,55,.08); }
-    textarea.checkout-field { min-height:82px; resize:vertical; }
+    textarea.checkout-field { min-height:92px; resize:vertical; line-height:1.5; }
     .checkout-full { grid-column:1 / -1; }
-    .bank-box { margin-top:14px; border:1px solid rgba(52,211,153,.22); border-radius:12px; padding:14px; background:rgba(52,211,153,.06); }
+    .check-row { grid-column:1 / -1; grid-template-columns:auto 1fr; align-items:center; border:1px solid rgba(212,175,55,.16); border-radius:10px; padding:12px; background:rgba(212,175,55,.045); cursor:pointer; }
+    .check-row input { width:18px; height:18px; accent-color:#d4af37; }
+    .conditional-fields { display:none; grid-column:1 / -1; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; padding:13px; border:1px solid rgba(212,175,55,.18); border-radius:12px; background:rgba(2,6,5,.42); }
+    .conditional-fields.open { display:grid; }
+    .bank-box { margin-top:14px; border:1px solid rgba(52,211,153,.22); border-radius:12px; padding:15px; background:rgba(52,211,153,.06); }
     .bank-box strong { color:var(--gold-light); display:block; margin-bottom:6px; }
     .bank-box p { color:var(--text-muted); font-size:13px; line-height:1.55; }
     .checkout-status { min-height:22px; color:var(--text-muted); font-size:13px; margin-top:12px; }
     .checkout-status.ok { color:var(--emerald-accent); }
     .checkout-status.err { color:#fb7185; }
-    @media (max-width:620px) { .checkout-modal { width:calc(100vw - 18px) !important; max-height:88vh; } .cart-head { padding:18px 16px 14px; } .cart-steps { padding:14px 16px 0; } .cart-view { padding:16px; } .premium-cart-item { grid-template-columns:48px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:48px; height:48px; } .cart-action-grid,.checkout-grid { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
+    .profile-box { border:1px solid rgba(212,175,55,.18); border-radius:12px; padding:14px; background:rgba(212,175,55,.055); color:var(--text-muted); font-size:13px; line-height:1.55; }
+    .profile-box strong { display:block; color:var(--gold-light); margin-bottom:4px; }
+    @media (max-width:860px) { .checkout-modal { width:100% !important; } .cart-layout,.checkout-layout { grid-template-columns:1fr; } .cart-summary { position:static; } }
+    @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-steps { padding:14px 16px 0; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
   </style>
 </head>
 <body>
@@ -1093,90 +1107,138 @@
     </button>
     <button class="app-item" onclick="modalGoster('uyeModal')">
       <i class="fa-solid fa-user"></i>
-      <span>Giriş</span>
+      <span>Hesabım</span>
     </button>
   </nav>
 
-  <!-- SEPET MODAL -->
+  <!-- SEPET SAYFASI -->
   <div class="modal-overlay" id="sepetModal">
     <div class="modal-box checkout-modal">
       <div class="cart-head">
         <div>
-          <h3 class="cart-title">Sepetiniz</h3>
-          <p class="cart-subtitle">Ürünlerinizi kontrol edin, sepeti paylaşın veya havale ile sipariş oluşturun.</p>
+          <h3 class="cart-title">Sepet ve Sipariş</h3>
+          <p class="cart-subtitle">Sepetinizi kontrol edin, ardından teslimat ve fatura bilgilerini tamamlayın.</p>
         </div>
         <button class="cart-close" onclick="modalKapat('sepetModal')" aria-label="Sepeti kapat">×</button>
       </div>
       <div class="cart-steps">
-        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">Sepet</button>
-        <button class="cart-step" id="cartStepCheckout" onclick="showCartStep('checkout')">Sipariş Bilgileri</button>
+        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">1. Sepet Onayı</button>
+        <button class="cart-step" id="cartStepCheckout" onclick="showCartStep('checkout')">2. Sipariş Bilgileri</button>
       </div>
       <div class="cart-view active" id="cartViewCart">
-        <div id="cartItems" class="premium-cart-list"></div>
-        <div class="cart-summary">
-          <div class="cart-summary-row"><span>Ürün adedi</span><strong id="cartItemCount">0</strong></div>
-          <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
-          <div class="cart-summary-row total"><span>TOPLAM</span><strong id="cartTotal">0</strong></div>
-        </div>
-        <div class="cart-action-grid">
-          <button class="cart-btn secondary" onclick="shareCart()"><i class="fa-solid fa-share-nodes"></i> Sepeti Paylaş</button>
-          <button class="cart-btn danger" onclick="clearCart()"><i class="fa-regular fa-trash-can"></i> Sepeti Temizle</button>
-          <button class="cart-btn primary cart-wide" onclick="goCheckout()"><i class="fa-solid fa-building-columns"></i> Havale ile Sipariş Oluştur</button>
+        <div class="cart-layout">
+          <section class="cart-panel">
+            <div class="cart-panel-title">
+              <h4>Sepetiniz</h4>
+              <span>Ürünleri onayladıktan sonra bilgi ekranına geçin.</span>
+            </div>
+            <div id="cartItems" class="premium-cart-list"></div>
+          </section>
+          <aside class="cart-summary">
+            <div class="cart-summary-row"><span>Ürün adedi</span><strong id="cartItemCount">0</strong></div>
+            <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
+            <div class="cart-summary-row total"><span>TOPLAM</span><strong id="cartTotal">0</strong></div>
+            <div class="cart-action-grid">
+              <button class="cart-btn secondary" onclick="shareCart()"><i class="fa-solid fa-share-nodes"></i> Sepeti Paylaş</button>
+              <button class="cart-btn danger" onclick="clearCart()"><i class="fa-regular fa-trash-can"></i> Temizle</button>
+              <button class="cart-btn primary cart-wide" onclick="goCheckout()"><i class="fa-solid fa-arrow-right"></i> Sipariş Bilgilerine Geç</button>
+            </div>
+          </aside>
         </div>
       </div>
       <div class="cart-view" id="cartViewCheckout">
-        <div class="checkout-grid">
-          <label>Ad Soyad
-            <input id="orderName" class="checkout-field" autocomplete="name" placeholder="Adınız soyadınız">
-          </label>
-          <label>Telefon / WhatsApp
-            <input id="orderPhone" class="checkout-field" autocomplete="tel" placeholder="05xx xxx xx xx">
-          </label>
-          <label>E-posta <span style="color:var(--text-muted);">(opsiyonel)</span>
-            <input id="orderEmail" class="checkout-field" autocomplete="email" placeholder="mail adresiniz">
-          </label>
-          <label>Fatura Adı / Ünvan
-            <input id="invoiceName" class="checkout-field" placeholder="Kişi adı veya firma ünvanı">
-          </label>
-          <label>TC Kimlik / Vergi No
-            <input id="invoiceIdentity" class="checkout-field" inputmode="numeric" placeholder="Fatura için gerekli">
-          </label>
-          <label class="checkout-full">Fatura Adresi
-            <textarea id="invoiceAddress" class="checkout-field" placeholder="Fatura için açık adres"></textarea>
-          </label>
-          <label class="checkout-full">Kargo Gönderim Adresi
-            <textarea id="shippingAddress" class="checkout-field" placeholder="Teslimat için açık adres"></textarea>
-          </label>
-          <label class="checkout-full">Sipariş Notu <span style="color:var(--text-muted);">(opsiyonel)</span>
-            <textarea id="orderNote" class="checkout-field" placeholder="Ölçü, hediye paketi, teslimat notu vb."></textarea>
-          </label>
+        <div class="checkout-layout">
+          <section class="checkout-panel">
+            <div class="cart-panel-title">
+              <h4>Teslimat Bilgileri</h4>
+              <span>Zorunlu alanları eksiksiz doldurun.</span>
+            </div>
+            <div class="checkout-grid">
+              <label><strong>Ad Soyad</strong>
+                <input id="orderName" class="checkout-field" autocomplete="name" placeholder="Adınız soyadınız">
+              </label>
+              <label><strong>Telefon Numarası</strong>
+                <input id="orderPhone" class="checkout-field" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx">
+              </label>
+              <label><strong>E-posta</strong>
+                <input id="orderEmail" class="checkout-field" autocomplete="email" inputmode="email" placeholder="mail adresiniz">
+              </label>
+              <label><strong>İl</strong>
+                <input id="orderCity" class="checkout-field" list="cityList" autocomplete="address-level1" oninput="handleCityInput()" placeholder="İl ara">
+                <datalist id="cityList"></datalist>
+              </label>
+              <label><strong>İlçe</strong>
+                <input id="orderDistrict" class="checkout-field" list="districtList" autocomplete="address-level2" placeholder="İlçe ara">
+                <datalist id="districtList"></datalist>
+              </label>
+              <label class="checkout-full"><strong>Teslimat Adresi</strong>
+                <textarea id="deliveryAddress" class="checkout-field" autocomplete="street-address" placeholder="Mahalle, cadde/sokak, bina, daire gibi açık adres"></textarea>
+              </label>
+              <label class="checkout-full"><strong>Sipariş Notu <span style="color:var(--text-muted); font-weight:500;">(opsiyonel)</span></strong>
+                <textarea id="orderNote" class="checkout-field" placeholder="Ölçü, hediye paketi, teslimat notu vb."></textarea>
+              </label>
+              <label class="check-row">
+                <input id="saveCheckoutProfile" type="checkbox">
+                <span>Bu adresi ve iletişim bilgilerimi bir dahaki alışveriş için kaydet</span>
+              </label>
+              <label class="check-row">
+                <input id="corporateInvoice" type="checkbox" onchange="toggleConditionalFields()">
+                <span>Kurumsal fatura istiyorum</span>
+              </label>
+              <div class="conditional-fields" id="corporateFields">
+                <label><strong>Fatura Adı / Ünvan</strong>
+                  <input id="invoiceName" class="checkout-field" placeholder="Kişi adı veya firma ünvanı">
+                </label>
+                <label><strong>Vergi No / TCKN</strong>
+                  <input id="invoiceIdentity" class="checkout-field" inputmode="numeric" placeholder="Fatura için gerekli">
+                </label>
+                <label class="checkout-full"><strong>Vergi Dairesi</strong>
+                  <input id="taxOffice" class="checkout-field" placeholder="Vergi dairesi">
+                </label>
+              </div>
+              <label class="check-row">
+                <input id="invoiceDifferent" type="checkbox" onchange="toggleConditionalFields()">
+                <span>Fatura adresim farklı</span>
+              </label>
+              <label class="checkout-full hidden" id="invoiceAddressField"><strong>Fatura Adresi</strong>
+                <textarea id="invoiceAddress" class="checkout-field" placeholder="Fatura için farklı adres"></textarea>
+              </label>
+            </div>
+          </section>
+          <aside class="cart-summary">
+            <div class="cart-panel-title">
+              <h4>Sipariş Özeti</h4>
+            </div>
+            <div class="cart-summary-row"><span>Ürün adedi</span><strong id="checkoutItemCount">0</strong></div>
+            <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
+            <div class="cart-summary-row total"><span>TOPLAM</span><strong id="checkoutTotal">0</strong></div>
+            <div class="bank-box">
+              <strong>Havale / EFT ile ödeme</strong>
+              <p>IBAN bilgisi mağaza tarafından paylaşılacaktır. Havale alındıktan sonra fatura ve sipariş hazırlığı başlatılır.</p>
+            </div>
+            <div class="cart-action-grid">
+              <button class="cart-btn secondary" onclick="showCartStep('cart')"><i class="fa-solid fa-arrow-left"></i> Sepete Dön</button>
+              <button class="cart-btn primary" onclick="submitOrder()"><i class="fa-solid fa-check"></i> Siparişi Gönder</button>
+            </div>
+            <div class="checkout-status" id="checkoutStatus"></div>
+          </aside>
         </div>
-        <div class="bank-box">
-          <strong>Havale / EFT ile ödeme</strong>
-          <p>IBAN bilgisi mağaza tarafından paylaşılacaktır. Havale alındıktan sonra fatura ve sipariş hazırlığı başlatılır.</p>
-        </div>
-        <div class="cart-action-grid">
-          <button class="cart-btn secondary" onclick="showCartStep('cart')"><i class="fa-solid fa-arrow-left"></i> Sepete Dön</button>
-          <button class="cart-btn primary" onclick="submitOrder()"><i class="fa-solid fa-check"></i> Siparişi Gönder</button>
-        </div>
-        <div class="checkout-status" id="checkoutStatus"></div>
       </div>
     </div>
-  </div>
-  <!-- GİRİŞ MODAL -->
+  </div>  <!-- GİRİŞ MODAL -->
   <div class="modal-overlay" id="uyeModal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">MÜŞTERİ GİRİŞİ</h3>
+        <h3 style="font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:24px;">MÜŞTERİ ALANI</h3>
         <button onclick="modalKapat('uyeModal')" style="background:none; border:none; color:var(--text-muted); font-size:24px; cursor:pointer;">×</button>
       </div>
-      <input type="text" placeholder="Telefon Numarası" style="width:100%; padding:11px; background:#020605; border:1px solid var(--card-border); border-radius:6px; color:#fff; margin-bottom:12px; outline:none;">
-      <input type="password" placeholder="Şifre" style="width:100%; padding:11px; background:#020605; border:1px solid var(--card-border); border-radius:6px; color:#fff; margin-bottom:16px; outline:none;">
-      <button class="btn-add" style="padding:11px;" onclick="alert('Giriş başarılı!'); modalKapat('uyeModal');">Giriş Yap</button>
+      <div class="profile-box" id="customerProfileBox">Kayıtlı müşteri bilginiz yok.</div>
+      <div class="cart-action-grid" style="margin-top:14px;">
+        <button class="cart-btn secondary" onclick="modalKapat('uyeModal'); modalGoster('sepetModal'); goCheckout();">Sipariş Bilgilerime Git</button>
+        <button class="cart-btn danger" onclick="clearCheckoutProfile()">Kaydı Sil</button>
+      </div>
     </div>
   </div>
-
-
   <!-- MESAJ MODAL -->
   <div class="modal-overlay" id="soruModal">
     <div class="modal-box">
@@ -1210,6 +1272,23 @@
     let currentVisitors = 14;
     let marketRequestRunning = false;
     let previousMarketPrices = {};
+    const turkeyCities = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
+    const turkeyDistricts = {
+      'Adana': ['Aladağ','Ceyhan','Çukurova','Feke','İmamoğlu','Karaisalı','Karataş','Kozan','Pozantı','Saimbeyli','Sarıçam','Seyhan','Tufanbeyli','Yumurtalık','Yüreğir'],
+      'Adıyaman': ['Besni','Çelikhan','Gerger','Gölbaşı','Kahta','Merkez','Samsat','Sincik','Tut'],
+      'Ankara': ['Altındağ','Ayaş','Bala','Beypazarı','Çankaya','Çubuk','Elmadağ','Etimesgut','Gölbaşı','Keçiören','Mamak','Polatlı','Pursaklar','Sincan','Yenimahalle'],
+      'Antalya': ['Aksu','Alanya','Demre','Döşemealtı','Elmalı','Finike','Gazipaşa','Kaş','Kemer','Kepez','Konyaaltı','Kumluca','Manavgat','Muratpaşa','Serik'],
+      'Bursa': ['Gemlik','Gürsu','İnegöl','Karacabey','Mudanya','Mustafakemalpaşa','Nilüfer','Osmangazi','Yıldırım'],
+      'Diyarbakır': ['Bağlar','Bismil','Çermik','Çınar','Dicle','Eğil','Ergani','Kayapınar','Kulp','Lice','Silvan','Sur','Yenişehir'],
+      'Gaziantep': ['Araban','İslahiye','Karkamış','Nizip','Nurdağı','Oğuzeli','Şahinbey','Şehitkamil','Yavuzeli'],
+      'İstanbul': ['Adalar','Arnavutköy','Ataşehir','Avcılar','Bağcılar','Bahçelievler','Bakırköy','Başakşehir','Bayrampaşa','Beşiktaş','Beykoz','Beylikdüzü','Beyoğlu','Büyükçekmece','Çekmeköy','Esenler','Esenyurt','Eyüpsultan','Fatih','Gaziosmanpaşa','Güngören','Kadıköy','Kağıthane','Kartal','Küçükçekmece','Maltepe','Pendik','Sancaktepe','Sarıyer','Silivri','Sultanbeyli','Sultangazi','Şile','Şişli','Tuzla','Ümraniye','Üsküdar','Zeytinburnu'],
+      'İzmir': ['Aliağa','Balçova','Bayındır','Bayraklı','Bergama','Bornova','Buca','Çeşme','Çiğli','Dikili','Foça','Gaziemir','Güzelbahçe','Karabağlar','Karaburun','Karşıyaka','Kemalpaşa','Konak','Menderes','Menemen','Narlıdere','Ödemiş','Seferihisar','Selçuk','Tire','Torbalı','Urla'],
+      'Konya': ['Akşehir','Beyşehir','Cihanbeyli','Çumra','Ereğli','Ilgın','Karatay','Meram','Selçuklu','Seydişehir'],
+      'Mersin': ['Akdeniz','Anamur','Aydıncık','Bozyazı','Çamlıyayla','Erdemli','Gülnar','Mezitli','Mut','Silifke','Tarsus','Toroslar','Yenişehir'],
+      'Şanlıurfa': ['Akçakale','Birecik','Bozova','Ceylanpınar','Eyyübiye','Halfeti','Haliliye','Harran','Hilvan','Karaköprü','Siverek','Suruç','Viranşehir']
+    };
+    const allKnownDistricts = [...new Set(Object.values(turkeyDistricts).flat())].sort((a, b) => a.localeCompare(b, 'tr'));
+
     let catalogProducts = [];
     let productsLoaded = false;
     const catalogCategories = [
@@ -1770,9 +1849,11 @@
       const totalEl = document.getElementById('cartTotal');
       if (!list || !count || !totalEl) return;
       count.innerText = sepet.length;
+      if (checkoutCount) checkoutCount.innerText = sepet.length;
       if (!sepet.length) {
         list.innerHTML = '<div class="cart-empty"><i class="fa-solid fa-cart-shopping" style="color:var(--gold-primary); font-size:30px; margin-bottom:10px;"></i><strong style="display:block; color:var(--gold-light); margin-bottom:4px;">Sepetiniz boş</strong><span>Beğendiğiniz ürünleri sepete ekleyerek sipariş oluşturabilirsiniz.</span></div>';
         totalEl.innerText = '0';
+        if (checkoutTotal) checkoutTotal.innerText = '0';
         return;
       }
       let top = 0;
@@ -1783,6 +1864,7 @@
         return `<div class="premium-cart-item">${image}<div><strong>${x.ad}</strong><span>${x.sku || 'Bağmancı seçkisi'}</span></div><div class="cart-item-side"><div class="cart-item-price">${cartMoney(price)}</div><button class="cart-remove" onclick="removeCartItem(${index})">Kaldır</button></div></div>`;
       }).join('');
       totalEl.innerText = cartMoney(top);
+      if (checkoutTotal) checkoutTotal.innerText = cartMoney(top);
     }
 
     function removeCartItem(index) {
@@ -1807,6 +1889,91 @@
       } catch (error) {}
     }
 
+    function normalizeTR(text) {
+      return String(text || '').toLocaleLowerCase('tr-TR').replaceAll('ı','i').replaceAll('İ','i').replaceAll('ğ','g').replaceAll('ü','u').replaceAll('ş','s').replaceAll('ö','o').replaceAll('ç','c');
+    }
+
+    function fillDatalist(id, values) {
+      const list = document.getElementById(id);
+      if (!list) return;
+      list.innerHTML = values.map(value => `<option value="${value}"></option>`).join('');
+    }
+
+    function findCityKey(value) {
+      const normalized = normalizeTR(value);
+      return turkeyCities.find(city => normalizeTR(city) === normalized) || '';
+    }
+
+    function populateCityDatalist() {
+      fillDatalist('cityList', turkeyCities);
+      populateDistrictDatalist();
+    }
+
+    function populateDistrictDatalist() {
+      const city = findCityKey(document.getElementById('orderCity')?.value || '');
+      fillDatalist('districtList', turkeyDistricts[city] || allKnownDistricts);
+    }
+
+    function handleCityInput() {
+      const district = document.getElementById('orderDistrict');
+      if (district) district.value = '';
+      populateDistrictDatalist();
+    }
+
+    function toggleConditionalFields() {
+      const corporate = document.getElementById('corporateInvoice')?.checked;
+      const invoiceDifferent = document.getElementById('invoiceDifferent')?.checked;
+      document.getElementById('corporateFields')?.classList.toggle('open', Boolean(corporate));
+      document.getElementById('invoiceAddressField')?.classList.toggle('hidden', !invoiceDifferent);
+    }
+
+    function checkoutProfileData() {
+      return {
+        name: checkoutValue('orderName'),
+        phone: checkoutValue('orderPhone'),
+        email: checkoutValue('orderEmail'),
+        city: checkoutValue('orderCity'),
+        district: checkoutValue('orderDistrict'),
+        address: checkoutValue('deliveryAddress')
+      };
+    }
+
+    function loadCheckoutProfile() {
+      const saved = JSON.parse(localStorage.getItem('bagmanciCheckoutProfile') || 'null');
+      if (!saved) { renderCustomerProfile(); return; }
+      const pairs = [
+        ['orderName', saved.name], ['orderPhone', saved.phone], ['orderEmail', saved.email],
+        ['orderCity', saved.city], ['orderDistrict', saved.district], ['deliveryAddress', saved.address]
+      ];
+      pairs.forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el && !el.value && value) el.value = value;
+      });
+      const save = document.getElementById('saveCheckoutProfile');
+      if (save) save.checked = true;
+      populateDistrictDatalist();
+      renderCustomerProfile();
+    }
+
+    function saveCheckoutProfileIfWanted() {
+      if (!document.getElementById('saveCheckoutProfile')?.checked) return;
+      localStorage.setItem('bagmanciCheckoutProfile', JSON.stringify(checkoutProfileData()));
+      renderCustomerProfile();
+    }
+
+    function clearCheckoutProfile() {
+      localStorage.removeItem('bagmanciCheckoutProfile');
+      renderCustomerProfile();
+      alert('Kayıtlı müşteri bilgileri silindi.');
+    }
+
+    function renderCustomerProfile() {
+      const box = document.getElementById('customerProfileBox');
+      if (!box) return;
+      const saved = JSON.parse(localStorage.getItem('bagmanciCheckoutProfile') || 'null');
+      if (!saved) { box.innerHTML = 'Kayıtlı müşteri bilginiz yok.'; return; }
+      box.innerHTML = `<strong>${saved.name || 'Müşteri'}</strong>${saved.phone || ''}<br>${saved.email || ''}<br>${[saved.district, saved.city].filter(Boolean).join(' / ')}<br>${saved.address || ''}`;
+    }
     function showCartStep(step) {
       document.getElementById('cartViewCart').classList.toggle('active', step === 'cart');
       document.getElementById('cartViewCheckout').classList.toggle('active', step === 'checkout');
@@ -1816,6 +1983,9 @@
 
     function goCheckout() {
       if (!sepet.length) { alert('Sepetiniz boş.'); return; }
+      populateCityDatalist();
+      loadCheckoutProfile();
+      toggleConditionalFields();
       showCartStep('checkout');
     }
 
@@ -1827,25 +1997,39 @@
       const status = document.getElementById('checkoutStatus');
       status.className = 'checkout-status';
       if (!sepet.length) { status.textContent = 'Sepetiniz boş.'; status.classList.add('err'); return; }
+
+      const corporate = document.getElementById('corporateInvoice').checked;
+      const invoiceDifferent = document.getElementById('invoiceDifferent').checked;
       const required = [
         ['orderName', 'Ad soyad'],
-        ['orderPhone', 'Telefon'],
-        ['invoiceName', 'Fatura adı/ünvan'],
-        ['invoiceIdentity', 'TC Kimlik / Vergi No'],
-        ['invoiceAddress', 'Fatura adresi'],
-        ['shippingAddress', 'Kargo gönderim adresi']
+        ['orderPhone', 'Telefon numarası'],
+        ['orderEmail', 'E-posta'],
+        ['orderCity', 'İl'],
+        ['orderDistrict', 'İlçe'],
+        ['deliveryAddress', 'Teslimat adresi']
       ];
+      if (corporate) required.push(['invoiceName', 'Fatura adı/ünvan'], ['invoiceIdentity', 'Vergi No / TCKN'], ['taxOffice', 'Vergi dairesi']);
+      if (invoiceDifferent) required.push(['invoiceAddress', 'Fatura adresi']);
+
       const missing = required.find(([id]) => !checkoutValue(id));
       if (missing) { status.textContent = `${missing[1]} alanını doldurman gerekiyor.`; status.classList.add('err'); return; }
+      if (!/^\S+@\S+\.\S+$/.test(checkoutValue('orderEmail'))) { status.textContent = 'Geçerli bir e-posta adresi yazman gerekiyor.'; status.classList.add('err'); return; }
+
       const total = sepet.reduce((sum, x) => sum + (Number(x.f) || 0), 0);
+      const deliveryAddress = checkoutValue('deliveryAddress');
       const order = {
         customer_name: checkoutValue('orderName'),
         phone: checkoutValue('orderPhone'),
         email: checkoutValue('orderEmail'),
-        invoice_name: checkoutValue('invoiceName'),
-        invoice_identity_no: checkoutValue('invoiceIdentity'),
-        invoice_address: checkoutValue('invoiceAddress'),
-        shipping_address: checkoutValue('shippingAddress'),
+        city: checkoutValue('orderCity'),
+        district: checkoutValue('orderDistrict'),
+        invoice_name: corporate ? checkoutValue('invoiceName') : checkoutValue('orderName'),
+        invoice_identity_no: corporate ? checkoutValue('invoiceIdentity') : '',
+        tax_office: corporate ? checkoutValue('taxOffice') : '',
+        corporate_invoice: corporate,
+        invoice_address_different: invoiceDifferent,
+        invoice_address: invoiceDifferent ? checkoutValue('invoiceAddress') : deliveryAddress,
+        shipping_address: deliveryAddress,
         note: checkoutValue('orderNote'),
         payment_method: 'havale_eft',
         total,
@@ -1857,12 +2041,16 @@
         const { error } = await client.from('orders').insert(order);
         if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
       }
+      saveCheckoutProfileIfWanted();
       status.textContent = 'Siparişiniz alındı. Havale bilgisi için mağaza sizinle iletişime geçecek.';
       status.classList.add('ok');
       sepet = [];
       localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
       sepetGuncelle();
-    }function scrollToSectionTop(id) {
+      showCartStep('cart');
+    }
+
+    function scrollToSectionTop(id) {
       const el = document.getElementById(id);
       if (!el) return;
       const header = document.querySelector('header');
@@ -1907,11 +2095,14 @@
     }
     function modalGoster(id) {
       document.getElementById(id).style.display = 'flex';
-      if (id === 'sepetModal') { sepetGuncelle(); showCartStep('cart'); }
+      if (id === 'sepetModal') { populateCityDatalist(); loadCheckoutProfile(); toggleConditionalFields(); sepetGuncelle(); showCartStep('cart'); }
+      if (id === 'uyeModal') renderCustomerProfile();
     }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
     if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
+    populateCityDatalist();
+    renderCustomerProfile();
     renderCatalogCovers();
     loadCatalogProducts().then(renderCatalogCovers).catch(() => renderCatalogCovers());
     updateClock();
@@ -1925,3 +2116,5 @@
   </script>
 </body>
 </html>
+
+
