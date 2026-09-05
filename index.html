@@ -964,6 +964,19 @@
     .profile-box strong { display:block; color:var(--gold-light); margin-bottom:4px; }
     @media (max-width:860px) { .checkout-modal { width:100% !important; } .cart-layout,.checkout-layout { grid-template-columns:1fr; } .cart-summary { position:static; } }
     @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-steps { padding:14px 16px 0; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
+    .app-item.active { color: var(--emerald-accent); background: rgba(52, 211, 153, 0.09); border-radius: 14px; }
+    .app-item.active i, .app-item.active span { color: var(--emerald-accent); }
+    #sepetModal.modal-overlay { z-index: 140; bottom: 72px; align-items: stretch; }
+    #sepetModal .checkout-modal { min-height: calc(100vh - 72px); }
+    #sepetModal .cart-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .payment-method-card { display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: start; border: 1px solid rgba(52,211,153,.28); border-radius: 14px; padding: 16px; background: linear-gradient(135deg, rgba(52,211,153,.12), rgba(2,6,5,.72)); }
+    .payment-method-card strong { color: var(--gold-light); display: block; font-size: 16px; margin-bottom: 6px; }
+    .payment-method-card p { color: var(--text-muted); font-size: 13px; line-height: 1.65; }
+    .payment-icon { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: var(--emerald-accent); border: 1px solid rgba(52,211,153,.34); background: rgba(52,211,153,.08); font-size: 20px; }
+    .payment-note { margin-top: 14px; border: 1px solid rgba(212,175,55,.2); border-radius: 12px; padding: 14px; background: rgba(212,175,55,.055); display: grid; gap: 6px; }
+    .payment-note strong { color: var(--gold-light); }
+    .payment-note span { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+    @media (max-width:620px) { #sepetModal.modal-overlay { bottom: 76px; } #sepetModal .checkout-modal { min-height: calc(100vh - 76px); } #sepetModal .cart-steps { grid-template-columns: 1fr; } .payment-method-card { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -1087,25 +1100,25 @@
     </div>
   </section>
 
-  <!-- BOTTOM BAR -->
+    <!-- BOTTOM BAR -->
   <nav class="app-bar">
-    <button class="app-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <button class="app-item active" data-nav="home" onclick="goHomeNav()">
       <i class="fa-solid fa-house"></i>
       <span>Ana Sayfa</span>
     </button>
-    <button class="app-item" onclick="scrollToSectionTop('borsa')">
+    <button class="app-item" data-nav="borsa" onclick="scrollToSectionTop('borsa')">
       <i class="fa-solid fa-chart-line"></i>
       <span>Borsa</span>
     </button>
-    <button class="app-item" onclick="scrollToSectionTop('katalog')">
+    <button class="app-item" data-nav="katalog" onclick="scrollToSectionTop('katalog')">
       <i class="fa-solid fa-gem"></i>
       <span>Katalog</span>
     </button>
-    <button class="app-item" onclick="modalGoster('sepetModal')">
+    <button class="app-item" data-nav="sepet" onclick="openCartPage()">
       <i class="fa-solid fa-cart-shopping"></i>
       <span>Sepet (<span id="cartCount">0</span>)</span>
     </button>
-    <button class="app-item" onclick="modalGoster('uyeModal')">
+    <button class="app-item" data-nav="hesabim" onclick="openAccountModal()">
       <i class="fa-solid fa-user"></i>
       <span>Hesabım</span>
     </button>
@@ -1116,32 +1129,34 @@
     <div class="modal-box checkout-modal">
       <div class="cart-head">
         <div>
-          <h3 class="cart-title">Sepet ve Sipariş</h3>
-          <p class="cart-subtitle">Sepetinizi kontrol edin, ardından teslimat ve fatura bilgilerini tamamlayın.</p>
+          <h3 class="cart-title">Sepetim</h3>
+          <p class="cart-subtitle">Önce ürünleri onaylayın, sonra adres ve ödeme bilgilerini tamamlayın.</p>
         </div>
         <button class="cart-close" onclick="modalKapat('sepetModal')" aria-label="Sepeti kapat">×</button>
       </div>
       <div class="cart-steps">
-        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">1. Sepet Onayı</button>
-        <button class="cart-step" id="cartStepCheckout" onclick="showCartStep('checkout')">2. Sipariş Bilgileri</button>
+        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">1. Sepet</button>
+        <button class="cart-step" id="cartStepCheckout" onclick="goCheckout()">2. Adres</button>
+        <button class="cart-step" id="cartStepPayment" onclick="goPayment()">3. Ödeme</button>
       </div>
       <div class="cart-view active" id="cartViewCart">
         <div class="cart-layout">
           <section class="cart-panel">
             <div class="cart-panel-title">
-              <h4>Sepetiniz</h4>
-              <span>Ürünleri onayladıktan sonra bilgi ekranına geçin.</span>
+              <h4>Sepetindeki Ürünler</h4>
+              <span>Ürünleri kontrol edip sepeti onaylayın.</span>
             </div>
             <div id="cartItems" class="premium-cart-list"></div>
           </section>
           <aside class="cart-summary">
             <div class="cart-summary-row"><span>Ürün adedi</span><strong id="cartItemCount">0</strong></div>
-            <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
+            <div class="cart-summary-row"><span>Kargo</span><strong>Mağaza teyitli</strong></div>
+            <div class="cart-summary-row"><span>Ödeme</span><strong>Havale / EFT</strong></div>
             <div class="cart-summary-row total"><span>TOPLAM</span><strong id="cartTotal">0</strong></div>
             <div class="cart-action-grid">
               <button class="cart-btn secondary" onclick="shareCart()"><i class="fa-solid fa-share-nodes"></i> Sepeti Paylaş</button>
               <button class="cart-btn danger" onclick="clearCart()"><i class="fa-regular fa-trash-can"></i> Temizle</button>
-              <button class="cart-btn primary cart-wide" onclick="goCheckout()"><i class="fa-solid fa-arrow-right"></i> Sipariş Bilgilerine Geç</button>
+              <button class="cart-btn primary cart-wide" onclick="goCheckout()"><i class="fa-solid fa-arrow-right"></i> Sepeti Onayla</button>
             </div>
           </aside>
         </div>
@@ -1150,8 +1165,8 @@
         <div class="checkout-layout">
           <section class="checkout-panel">
             <div class="cart-panel-title">
-              <h4>Teslimat Bilgileri</h4>
-              <span>Zorunlu alanları eksiksiz doldurun.</span>
+              <h4>Adres Bilgileri</h4>
+              <span>Teslimat ve fatura bilgilerini girin.</span>
             </div>
             <div class="checkout-grid">
               <label><strong>Ad Soyad</strong>
@@ -1204,23 +1219,49 @@
                 <textarea id="invoiceAddress" class="checkout-field" placeholder="Fatura için farklı adres"></textarea>
               </label>
             </div>
-          </section>
-          <aside class="cart-summary">
-            <div class="cart-panel-title">
-              <h4>Sipariş Özeti</h4>
-            </div>
-            <div class="cart-summary-row"><span>Ürün adedi</span><strong id="checkoutItemCount">0</strong></div>
-            <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
-            <div class="cart-summary-row total"><span>TOPLAM</span><strong id="checkoutTotal">0</strong></div>
-            <div class="bank-box">
-              <strong>Havale / EFT ile ödeme</strong>
-              <p>IBAN bilgisi mağaza tarafından paylaşılacaktır. Havale alındıktan sonra fatura ve sipariş hazırlığı başlatılır.</p>
-            </div>
             <div class="cart-action-grid">
               <button class="cart-btn secondary" onclick="showCartStep('cart')"><i class="fa-solid fa-arrow-left"></i> Sepete Dön</button>
-              <button class="cart-btn primary" onclick="submitOrder()"><i class="fa-solid fa-check"></i> Siparişi Gönder</button>
+              <button class="cart-btn primary" onclick="goPayment()"><i class="fa-solid fa-arrow-right"></i> Onayla ve Bitir</button>
             </div>
             <div class="checkout-status" id="checkoutStatus"></div>
+          </section>
+          <aside class="cart-summary">
+            <div class="cart-panel-title"><h4>Sipariş Özeti</h4></div>
+            <div class="cart-summary-row"><span>Ürün adedi</span><strong id="checkoutItemCount">0</strong></div>
+            <div class="cart-summary-row"><span>Teslimat</span><strong>Adres teyitli</strong></div>
+            <div class="cart-summary-row total"><span>TOPLAM</span><strong id="checkoutTotal">0</strong></div>
+          </aside>
+        </div>
+      </div>
+      <div class="cart-view" id="cartViewPayment">
+        <div class="checkout-layout">
+          <section class="checkout-panel payment-panel">
+            <div class="cart-panel-title">
+              <h4>Ödeme Bilgileri</h4>
+              <span>Kredi kartı alınmaz, sipariş mağaza teyidiyle tamamlanır.</span>
+            </div>
+            <div class="payment-method-card">
+              <div class="payment-icon"><i class="fa-solid fa-building-columns"></i></div>
+              <div>
+                <strong>Havale / EFT ile ödeme</strong>
+                <p>Siparişiniz bize düşer. Mağaza sizinle iletişime geçip IBAN ve ödeme açıklamasını paylaşır. Havale alındıktan sonra sipariş hazırlığı başlatılır.</p>
+              </div>
+            </div>
+            <div class="payment-note">
+              <strong>Bağmancı usulü güvenli alışveriş</strong>
+              <span>Fiyat ve stok bilgisi mağaza tarafından son kez teyit edilir. Böylece canlı kur değişimlerinde müşteriye yanlış fiyat yansıtılmaz.</span>
+            </div>
+            <div class="cart-action-grid">
+              <button class="cart-btn secondary" onclick="showCartStep('checkout')"><i class="fa-solid fa-arrow-left"></i> Adrese Dön</button>
+              <button class="cart-btn primary" onclick="submitOrder()"><i class="fa-solid fa-check"></i> Siparişi Tamamla</button>
+            </div>
+            <div class="checkout-status" id="paymentStatus"></div>
+          </section>
+          <aside class="cart-summary">
+            <div class="cart-panel-title"><h4>Ödenecek Tutar</h4></div>
+            <div class="cart-summary-row"><span>Ürün adedi</span><strong id="paymentItemCount">0</strong></div>
+            <div class="cart-summary-row"><span>Ödeme yöntemi</span><strong>Havale / EFT</strong></div>
+            <div class="cart-summary-row total"><span>TOPLAM</span><strong id="paymentTotal">0</strong></div>
           </aside>
         </div>
       </div>
@@ -1846,14 +1887,20 @@
       document.getElementById('cartCount').innerText = sepet.length;
       const list = document.getElementById('cartItems');
       const count = document.getElementById('cartItemCount');
+      const checkoutCount = document.getElementById('checkoutItemCount');
+      const paymentCount = document.getElementById('paymentItemCount');
       const totalEl = document.getElementById('cartTotal');
+      const checkoutTotal = document.getElementById('checkoutTotal');
+      const paymentTotal = document.getElementById('paymentTotal');
       if (!list || !count || !totalEl) return;
       count.innerText = sepet.length;
       if (checkoutCount) checkoutCount.innerText = sepet.length;
+      if (paymentCount) paymentCount.innerText = sepet.length;
       if (!sepet.length) {
         list.innerHTML = '<div class="cart-empty"><i class="fa-solid fa-cart-shopping" style="color:var(--gold-primary); font-size:30px; margin-bottom:10px;"></i><strong style="display:block; color:var(--gold-light); margin-bottom:4px;">Sepetiniz boş</strong><span>Beğendiğiniz ürünleri sepete ekleyerek sipariş oluşturabilirsiniz.</span></div>';
         totalEl.innerText = '0';
         if (checkoutTotal) checkoutTotal.innerText = '0';
+        if (paymentTotal) paymentTotal.innerText = '0';
         return;
       }
       let top = 0;
@@ -1865,6 +1912,7 @@
       }).join('');
       totalEl.innerText = cartMoney(top);
       if (checkoutTotal) checkoutTotal.innerText = cartMoney(top);
+      if (paymentTotal) paymentTotal.innerText = cartMoney(top);
     }
 
     function removeCartItem(index) {
@@ -1975,10 +2023,18 @@
       box.innerHTML = `<strong>${saved.name || 'Müşteri'}</strong>${saved.phone || ''}<br>${saved.email || ''}<br>${[saved.district, saved.city].filter(Boolean).join(' / ')}<br>${saved.address || ''}`;
     }
     function showCartStep(step) {
-      document.getElementById('cartViewCart').classList.toggle('active', step === 'cart');
-      document.getElementById('cartViewCheckout').classList.toggle('active', step === 'checkout');
-      document.getElementById('cartStepCart').classList.toggle('active', step === 'cart');
-      document.getElementById('cartStepCheckout').classList.toggle('active', step === 'checkout');
+      const steps = ['cart', 'checkout', 'payment'];
+      steps.forEach(name => {
+        document.getElementById(`cartView${name === 'cart' ? 'Cart' : name === 'checkout' ? 'Checkout' : 'Payment'}`)?.classList.toggle('active', step === name);
+      });
+      document.getElementById('cartStepCart')?.classList.toggle('active', step === 'cart');
+      document.getElementById('cartStepCheckout')?.classList.toggle('active', step === 'checkout');
+      document.getElementById('cartStepPayment')?.classList.toggle('active', step === 'payment');
+      setActiveNav('sepet');
+      const status = document.getElementById('checkoutStatus');
+      if (status && step !== 'checkout') { status.textContent = ''; status.className = 'checkout-status'; }
+      const paymentStatus = document.getElementById('paymentStatus');
+      if (paymentStatus && step !== 'payment') { paymentStatus.textContent = ''; paymentStatus.className = 'checkout-status'; }
     }
 
     function goCheckout() {
@@ -1989,15 +2045,21 @@
       showCartStep('checkout');
     }
 
-    function checkoutValue(id) {
-      return document.getElementById(id).value.trim();
+    function goPayment() {
+      if (!sepet.length) { alert('Sepetiniz boş.'); return; }
+      if (!validateAddressStep('checkoutStatus')) return;
+      saveCheckoutProfileIfWanted();
+      sepetGuncelle();
+      showCartStep('payment');
     }
 
-    async function submitOrder() {
-      const status = document.getElementById('checkoutStatus');
-      status.className = 'checkout-status';
-      if (!sepet.length) { status.textContent = 'Sepetiniz boş.'; status.classList.add('err'); return; }
+    function checkoutStatusEl() {
+      return document.getElementById('checkoutStatus') || document.getElementById('paymentStatus');
+    }
 
+    function validateAddressStep(targetId = 'checkoutStatus') {
+      const status = document.getElementById(targetId) || checkoutStatusEl();
+      if (status) status.className = 'checkout-status';
       const corporate = document.getElementById('corporateInvoice').checked;
       const invoiceDifferent = document.getElementById('invoiceDifferent').checked;
       const required = [
@@ -2010,11 +2072,30 @@
       ];
       if (corporate) required.push(['invoiceName', 'Fatura adı/ünvan'], ['invoiceIdentity', 'Vergi No / TCKN'], ['taxOffice', 'Vergi dairesi']);
       if (invoiceDifferent) required.push(['invoiceAddress', 'Fatura adresi']);
-
       const missing = required.find(([id]) => !checkoutValue(id));
-      if (missing) { status.textContent = `${missing[1]} alanını doldurman gerekiyor.`; status.classList.add('err'); return; }
-      if (!/^\S+@\S+\.\S+$/.test(checkoutValue('orderEmail'))) { status.textContent = 'Geçerli bir e-posta adresi yazman gerekiyor.'; status.classList.add('err'); return; }
+      if (missing) {
+        if (status) { status.textContent = `${missing[1]} alanını doldurman gerekiyor.`; status.classList.add('err'); }
+        return false;
+      }
+      if (!/^\S+@\S+\.\S+$/.test(checkoutValue('orderEmail'))) {
+        if (status) { status.textContent = 'Geçerli bir e-posta adresi yazman gerekiyor.'; status.classList.add('err'); }
+        return false;
+      }
+      if (status) status.textContent = '';
+      return true;
+    }
+    function checkoutValue(id) {
+      return document.getElementById(id).value.trim();
+    }
 
+    async function submitOrder() {
+      const status = document.getElementById('paymentStatus') || document.getElementById('checkoutStatus');
+      status.className = 'checkout-status';
+      if (!sepet.length) { status.textContent = 'Sepetiniz boş.'; status.classList.add('err'); return; }
+      if (!validateAddressStep('paymentStatus')) { showCartStep('checkout'); return; }
+
+      const corporate = document.getElementById('corporateInvoice').checked;
+      const invoiceDifferent = document.getElementById('invoiceDifferent').checked;
       const total = sepet.reduce((sum, x) => sum + (Number(x.f) || 0), 0);
       const deliveryAddress = checkoutValue('deliveryAddress');
       const order = {
@@ -2042,20 +2123,40 @@
         if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
       }
       saveCheckoutProfileIfWanted();
-      status.textContent = 'Siparişiniz alındı. Havale bilgisi için mağaza sizinle iletişime geçecek.';
+      status.textContent = 'Siparişiniz alındı. Mağaza ödeme bilgisi için sizinle iletişime geçecek.';
       status.classList.add('ok');
       sepet = [];
       localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
       sepetGuncelle();
-      showCartStep('cart');
     }
 
+    function setActiveNav(name) {
+      document.querySelectorAll('.app-item[data-nav]').forEach(item => item.classList.toggle('active', item.dataset.nav === name));
+    }
+
+    function goHomeNav() {
+      modalKapat('sepetModal');
+      setActiveNav('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openCartPage() {
+      modalGoster('sepetModal');
+      setActiveNav('sepet');
+    }
+
+    function openAccountModal() {
+      modalGoster('uyeModal');
+      setActiveNav('hesabim');
+    }
     function scrollToSectionTop(id) {
       const el = document.getElementById(id);
       if (!el) return;
       const header = document.querySelector('header');
       const offset = (header ? header.offsetHeight : 0) + 12;
       const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      modalKapat('sepetModal');
+      setActiveNav(id === 'borsa' ? 'borsa' : id === 'katalog' ? 'katalog' : '');
       window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     }
 
@@ -2095,14 +2196,15 @@
     }
     function modalGoster(id) {
       document.getElementById(id).style.display = 'flex';
-      if (id === 'sepetModal') { populateCityDatalist(); loadCheckoutProfile(); toggleConditionalFields(); sepetGuncelle(); showCartStep('cart'); }
+      if (id === 'sepetModal') { populateCityDatalist(); loadCheckoutProfile(); toggleConditionalFields(); sepetGuncelle(); showCartStep('cart'); setActiveNav('sepet'); }
       if (id === 'uyeModal') renderCustomerProfile();
     }
-    function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
+    function modalKapat(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; if (id === 'sepetModal') setActiveNav(''); }
 
     if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
     populateCityDatalist();
     renderCustomerProfile();
+    setActiveNav('home');
     renderCatalogCovers();
     loadCatalogProducts().then(renderCatalogCovers).catch(() => renderCatalogCovers());
     updateClock();
@@ -2116,5 +2218,6 @@
   </script>
 </body>
 </html>
+
 
 
