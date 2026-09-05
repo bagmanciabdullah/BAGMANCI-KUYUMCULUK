@@ -83,6 +83,14 @@
       .grid { grid-template-columns: 1fr; }
       .product-row { grid-template-columns: 1fr; }
     }
+
+    .admin-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .admin-sections.hidden { display: none; }
+    .message-row, .announcement-row { border: 1px solid rgba(212, 175, 55, 0.14); background: rgba(2, 6, 5, 0.46); border-radius: 8px; padding: 14px; display: grid; gap: 10px; }
+    .message-row strong, .announcement-row strong { color: var(--gold-light); display: block; }
+    .message-row small, .announcement-row small { color: var(--muted); display: block; margin-top: 3px; }
+    .message-answer { min-height: 76px; }
+    @media (max-width: 900px) { .admin-sections { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -203,6 +211,36 @@
       <div class="status" id="save-status"></div>
     </section>
 
+
+    <div class="admin-sections hidden" id="content-panels">
+      <section class="panel">
+        <h2>Müşteri Soruları</h2>
+        <p class="muted">Sitedeki zarf alanından gelen soruları buradan yanıtlayacaksın.</p>
+        <div class="products" id="questions-list" style="margin-top:14px;"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Duyuru Gönder</h2>
+        <p class="muted">Sitedeki zil alanında müşterilere görünecek bilgilendirmeyi buradan yayınla.</p>
+        <div class="grid" style="margin-top:14px;">
+          <label class="full">Başlık
+            <input id="announcement-title" placeholder="Bugüne özel bilgilendirme">
+          </label>
+          <label class="full">Duyuru Metni
+            <textarea id="announcement-message" placeholder="Müşterilere göstermek istediğin açıklama"></textarea>
+          </label>
+          <label>Durum
+            <select id="announcement-active">
+              <option value="true">Aktif yayınla</option>
+              <option value="false">Pasif kaydet</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions"><button class="primary" onclick="saveAnnouncement()">Duyuruyu Yayınla</button></div>
+        <div class="status" id="announcement-status"></div>
+        <div class="products" id="announcements-admin-list" style="margin-top:14px;"></div>
+      </section>
+    </div>
     <section class="panel hidden" id="products-panel">
       <h2>Ürünler</h2>
       <div class="products" id="products-list" style="margin-top:14px;"></div>
@@ -240,6 +278,8 @@
       document.getElementById('login-panel').classList.toggle('hidden', !configured() || isLoggedIn);
       document.getElementById('admin-panel').classList.toggle('hidden', !isLoggedIn);
       document.getElementById('products-panel').classList.toggle('hidden', !isLoggedIn);
+      const contentPanels = document.getElementById('content-panels');
+      if (contentPanels) contentPanels.classList.toggle('hidden', !isLoggedIn);
     }
 
     function slugify(text) {
@@ -280,6 +320,8 @@
       setStatus('login-status', 'Giriş başarılı.', 'ok');
       showApp(true);
       loadProducts();
+      loadQuestions();
+      loadAnnouncementsAdmin();
     }
 
     async function logout() {
@@ -365,6 +407,8 @@
         setStatus('save-status', 'Ürün kaydedildi.', 'ok');
         clearForm();
         loadProducts();
+      loadQuestions();
+      loadAnnouncementsAdmin();
       } catch (error) {
         setStatus('save-status', error.message || 'Ürün kaydedilemedi.', 'err');
       }
@@ -417,6 +461,8 @@
         return;
       }
       loadProducts();
+      loadQuestions();
+      loadAnnouncementsAdmin();
     }
 
     async function loadProducts() {
@@ -435,6 +481,65 @@
       `).join('') || '<p class="muted">Henüz ürün yok.</p>';
     }
 
+
+    function escapeHtml(text) {
+      return String(text || '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+    }
+
+    async function loadQuestions() {
+      const list = document.getElementById('questions-list');
+      if (!list || !session) return;
+      list.innerHTML = '<p class="muted">Sorular yükleniyor...</p>';
+      const { data, error } = await supabaseClient.from('customer_questions').select('*').order('created_at', { ascending: false }).limit(50);
+      if (error) { list.innerHTML = `<p class="muted">${error.message}</p>`; return; }
+      list.innerHTML = (data || []).map(item => `<div class="message-row"><div><strong>${escapeHtml(item.name || 'İsimsiz müşteri')}</strong><small>${escapeHtml(item.phone || 'Telefon yazılmadı')} • ${new Date(item.created_at).toLocaleString('tr-TR')}</small></div><p class="muted">${escapeHtml(item.question)}</p><textarea class="message-answer" id="answer-${item.id}" placeholder="Bu soruya cevabını yaz">${escapeHtml(item.answer || '')}</textarea><div class="actions" style="margin-top:0;"><button class="primary" onclick="answerQuestion('${item.id}')">Cevabı Kaydet</button><button class="danger" onclick="deleteQuestion('${item.id}')">Sil</button></div></div>`).join('') || '<p class="muted">Henüz soru yok.</p>';
+    }
+
+    async function answerQuestion(id) {
+      const answer = document.getElementById(`answer-${id}`).value.trim();
+      const { error } = await supabaseClient.from('customer_questions').update({ answer, status: answer ? 'answered' : 'new', answered_at: answer ? new Date().toISOString() : null }).eq('id', id);
+      if (error) alert(error.message); else loadQuestions();
+    }
+
+    async function deleteQuestion(id) {
+      if (!confirm('Bu soruyu silmek istiyor musun?')) return;
+      const { error } = await supabaseClient.from('customer_questions').delete().eq('id', id);
+      if (error) alert(error.message); else loadQuestions();
+    }
+
+    async function saveAnnouncement() {
+      const title = document.getElementById('announcement-title').value.trim();
+      const message = document.getElementById('announcement-message').value.trim();
+      const active = document.getElementById('announcement-active').value === 'true';
+      if (!title || !message) { setStatus('announcement-status', 'Başlık ve duyuru metni zorunlu.', 'err'); return; }
+      setStatus('announcement-status', 'Yayınlanıyor...');
+      const { error } = await supabaseClient.from('announcements').insert({ title, message, active });
+      if (error) { setStatus('announcement-status', error.message, 'err'); return; }
+      document.getElementById('announcement-title').value = '';
+      document.getElementById('announcement-message').value = '';
+      setStatus('announcement-status', 'Duyuru kaydedildi.', 'ok');
+      loadAnnouncementsAdmin();
+    }
+
+    async function loadAnnouncementsAdmin() {
+      const list = document.getElementById('announcements-admin-list');
+      if (!list || !session) return;
+      list.innerHTML = '<p class="muted">Duyurular yükleniyor...</p>';
+      const { data, error } = await supabaseClient.from('announcements').select('*').order('created_at', { ascending: false }).limit(20);
+      if (error) { list.innerHTML = `<p class="muted">${error.message}</p>`; return; }
+      list.innerHTML = (data || []).map(item => `<div class="announcement-row"><div><strong>${escapeHtml(item.title)}</strong><small>${item.active ? 'Aktif' : 'Pasif'} • ${new Date(item.created_at).toLocaleString('tr-TR')}</small></div><p class="muted">${escapeHtml(item.message)}</p><div class="actions" style="margin-top:0;"><button class="secondary" onclick="toggleAnnouncement('${item.id}', ${!item.active})">${item.active ? 'Pasife Al' : 'Aktif Yap'}</button><button class="danger" onclick="deleteAnnouncement('${item.id}')">Sil</button></div></div>`).join('') || '<p class="muted">Henüz duyuru yok.</p>';
+    }
+
+    async function toggleAnnouncement(id, active) {
+      const { error } = await supabaseClient.from('announcements').update({ active }).eq('id', id);
+      if (error) alert(error.message); else loadAnnouncementsAdmin();
+    }
+
+    async function deleteAnnouncement(id) {
+      if (!confirm('Bu duyuruyu silmek istiyor musun?')) return;
+      const { error } = await supabaseClient.from('announcements').delete().eq('id', id);
+      if (error) alert(error.message); else loadAnnouncementsAdmin();
+    }
     async function init() {
       if (!initSupabase()) {
         showApp(false);
@@ -444,7 +549,11 @@
       session = data.session;
       showApp(Boolean(session));
       togglePriceFields();
-      if (session) loadProducts();
+      if (session) {
+        loadProducts();
+        loadQuestions();
+        loadAnnouncementsAdmin();
+      }
     }
 
     init();
