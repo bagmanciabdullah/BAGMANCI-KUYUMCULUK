@@ -736,6 +736,49 @@
       .hero-title span { font-size: 42px; }
       .hero-desc { font-size: 15px; }
     }
+
+    /* Katalog mobil kart ve scroll duzeltmeleri */
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    .catalog-section, .market-panel { scroll-margin-top: 96px; }
+    .btn-back { left: 18px !important; right: auto !important; }
+    @media (max-width: 620px) {
+      .cat-back-bar {
+        justify-content: center !important;
+        min-height: 96px !important;
+        padding: 46px 14px 16px !important;
+      }
+      .btn-back {
+        top: 12px !important;
+        left: 14px !important;
+        transform: none !important;
+        padding: 7px 12px !important;
+        font-size: 10.5px !important;
+      }
+      .cat-title { font-size: 27px !important; }
+      .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+      }
+      .item-card { border-radius: 8px !important; box-shadow: 0 12px 24px rgba(0,0,0,0.34) !important; }
+      .item-stage {
+        min-height: 0 !important;
+        aspect-ratio: 3 / 4 !important;
+      }
+      .item-stage img { object-fit: cover !important; object-position: center !important; }
+      .item-hallmark { top: 8px !important; right: 8px !important; font-size: 8px !important; padding: 3px 7px !important; }
+      .item-body { padding: 10px 9px 12px !important; gap: 5px !important; }
+      .item-title { font-size: 15.5px !important; min-height: 36px !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .item-meta { font-size: 10.5px !important; min-height: 15px !important; }
+      .item-price { font-size: 16px !important; margin: 3px 0 2px !important; }
+      .item-actions { grid-template-columns: 38px 1fr !important; gap: 7px !important; }
+      .btn-fav, .btn-add { min-height: 36px !important; border-radius: 7px !important; }
+      .btn-add { font-size: 10px !important; padding: 0 8px !important; }
+    }
+    @media (max-width: 360px) {
+      .products-grid { gap: 8px !important; }
+      .item-title { font-size: 14px !important; }
+      .btn-add { font-size: 9px !important; }
+    }
   </style>
 </head>
 <body>
@@ -896,11 +939,11 @@
       <i class="fa-solid fa-house"></i>
       <span>Ana Sayfa</span>
     </button>
-    <button class="app-item" onclick="document.getElementById('borsa').scrollIntoView({behavior: 'smooth'})">
+    <button class="app-item" onclick="scrollToSectionTop('borsa')">
       <i class="fa-solid fa-chart-line"></i>
       <span>Borsa</span>
     </button>
-    <button class="app-item" onclick="document.getElementById('katalog').scrollIntoView({behavior: 'smooth'})">
+    <button class="app-item" onclick="scrollToSectionTop('katalog')">
       <i class="fa-solid fa-gem"></i>
       <span>Katalog</span>
     </button>
@@ -1380,7 +1423,7 @@
 
       if (!categoryProducts.length) {
         container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Bu kategoriye ürün eklenmedi.</div>';
-        document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+        scrollToSectionTop('katalog');
         return;
       }
 
@@ -1389,6 +1432,7 @@
         const meta = item.priceMode === 'liveGram' && item.gram
           ? `${Number(item.gram).toLocaleString('tr-TR')} Gr`
           : item.sku || item.category;
+        const favActive = favoriAktifMi(item.id);
 
         return `
           <div class="item-card" onclick="urunDetayAc('${encodeURIComponent(item.id)}')">
@@ -1401,7 +1445,7 @@
               <div class="item-meta">${meta}</div>
               <div class="item-price">${formatCatalogPrice(price)}</div>
               <div class="item-actions">
-                <button class="btn-fav" onclick="favorilereEkle(event, '${item.id.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}')" title="Favorilere ekle" aria-label="Favorilere ekle"><i class="fa-regular fa-heart"></i></button>
+                <button class="btn-fav ${favActive ? 'active' : ''}" onclick="favorilereEkle(event, '${item.id.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}')" title="Favorilere ekle" aria-label="Favorilere ekle"><i class="fa-${favActive ? 'solid' : 'regular'} fa-heart"></i></button>
                 <button class="btn-add" onclick="sepeteEkle(event, '${item.name.replace(/'/g, "\\'")}', ${price})">Sepete Ekle</button>
               </div>
             </div>
@@ -1409,30 +1453,34 @@
         `;
       }).join('');
 
-      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+      scrollToSectionTop('katalog');
     }
     function katalogKapat() {
       document.getElementById('catalogItemsView').style.display = 'none';
       document.getElementById('catalogCoversView').style.display = 'grid';
-      document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+      scrollToSectionTop('katalog');
     }
 
     function urunDetayAc(id) {
       window.location.href = `product.html?id=${id}`;
     }
 
-    function favorilereEkle(event, id, ad) {
+        function favorilereEkle(event, id, ad) {
       event.stopPropagation();
       const key = 'bagmanciFavoriler';
       const favoriler = JSON.parse(localStorage.getItem(key) || '[]');
-      if (!favoriler.some(item => item.id === id)) {
-        favoriler.push({ id, ad });
-        localStorage.setItem(key, JSON.stringify(favoriler));
-      }
+      const index = favoriler.findIndex(item => item.id === id);
       const button = event.currentTarget;
-      button.classList.add('active');
-      button.innerHTML = '<i class="fa-solid fa-heart"></i>';
-      alert(ad + ' favorilere eklendi!');
+      if (index >= 0) {
+        favoriler.splice(index, 1);
+        button.classList.remove('active');
+        button.innerHTML = '<i class="fa-regular fa-heart"></i>';
+      } else {
+        favoriler.push({ id, ad });
+        button.classList.add('active');
+        button.innerHTML = '<i class="fa-solid fa-heart"></i>';
+      }
+      localStorage.setItem(key, JSON.stringify(favoriler));
     }
 
     function sepeteEkle(event, ad, f) {
@@ -1461,6 +1509,20 @@
       document.getElementById('cartTotal').innerText = top.toLocaleString('tr-TR');
     }
 
+
+    function scrollToSectionTop(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const header = document.querySelector('header');
+      const offset = (header ? header.offsetHeight : 0) + 12;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+
+    function favoriAktifMi(id) {
+      const favoriler = JSON.parse(localStorage.getItem('bagmanciFavoriler') || '[]');
+      return favoriler.some(item => item.id === id);
+    }
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
