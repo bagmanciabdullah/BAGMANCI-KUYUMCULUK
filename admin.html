@@ -153,8 +153,14 @@
         <label id="gram-field">Gram
           <input id="gram" type="number" step="0.01" placeholder="24.5">
         </label>
-        <label id="labor-field">İşçilik / Ek Tutar
-          <input id="labor" type="number" step="1" placeholder="0">
+        <label id="labor-type-field">İşçilik Tipi
+          <select id="labor_type" onchange="togglePriceFields()">
+            <option value="gram">Gram olarak</option>
+            <option value="money">Para olarak</option>
+          </select>
+        </label>
+        <label id="labor-field"><span id="labor-label">İşçilik (gr)</span>
+          <input id="labor" type="number" step="0.01" placeholder="1.25">
         </label>
         <label id="fixed-field">Sabit Fiyat
           <input id="fixed_price" type="number" step="1" placeholder="26800">
@@ -208,7 +214,7 @@
     let session = null;
     let products = [];
 
-    const ids = ['id', 'name', 'category', 'sku', 'badge', 'price_mode', 'gram', 'labor', 'fixed_price', 'material', 'ayar', 'renk', 'tas', 'olcu', 'stok', 'short_description', 'description'];
+    const ids = ['id', 'name', 'category', 'sku', 'badge', 'price_mode', 'gram', 'labor_type', 'labor', 'fixed_price', 'material', 'ayar', 'renk', 'tas', 'olcu', 'stok', 'short_description', 'description'];
 
     function configured() {
       const cfg = window.BAGMANCI_SUPABASE || {};
@@ -249,9 +255,14 @@
 
     function togglePriceFields() {
       const fixed = document.getElementById('price_mode').value === 'fixed';
+      const laborType = document.getElementById('labor_type').value || 'gram';
       document.getElementById('gram-field').style.display = fixed ? 'none' : 'grid';
+      document.getElementById('labor-type-field').style.display = fixed ? 'none' : 'grid';
       document.getElementById('labor-field').style.display = fixed ? 'none' : 'grid';
       document.getElementById('fixed-field').style.display = fixed ? 'grid' : 'none';
+      document.getElementById('labor-label').innerText = laborType === 'money' ? 'İşçilik (TL)' : 'İşçilik (gr)';
+      document.getElementById('labor').placeholder = laborType === 'money' ? '1500' : '1.25';
+      document.getElementById('labor').step = laborType === 'money' ? '1' : '0.01';
     }
 
     async function login() {
@@ -305,6 +316,7 @@
 
     function productPayload(images) {
       const priceMode = formValue('price_mode');
+      const laborType = formValue('labor_type') || 'gram';
       const id = formValue('id') || slugify(formValue('name'));
       return {
         id,
@@ -314,6 +326,7 @@
         badge: formValue('badge'),
         price_mode: priceMode,
         gram: priceMode === 'liveGram' ? numberValue('gram') : null,
+        labor_type: priceMode === 'liveGram' ? laborType : 'gram',
         labor: priceMode === 'liveGram' ? (numberValue('labor') || 0) : 0,
         fixed_price: priceMode === 'fixed' ? numberValue('fixed_price') : null,
         images,
@@ -362,6 +375,7 @@
       });
       document.getElementById('category').value = 'Bilezik';
       document.getElementById('price_mode').value = 'liveGram';
+      document.getElementById('labor_type').value = 'gram';
       document.getElementById('labor').value = '0';
       document.getElementById('images').value = '';
       togglePriceFields();
@@ -378,6 +392,7 @@
       document.getElementById('badge').value = item.badge || '';
       document.getElementById('price_mode').value = item.price_mode || 'fixed';
       document.getElementById('gram').value = item.gram || '';
+      document.getElementById('labor_type').value = item.labor_type || 'gram';
       document.getElementById('labor').value = item.labor || 0;
       document.getElementById('fixed_price').value = item.fixed_price || '';
       document.getElementById('material').value = item.material || '';
