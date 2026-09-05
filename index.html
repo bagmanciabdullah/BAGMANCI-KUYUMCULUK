@@ -946,6 +946,25 @@
     .announcement-card { border: 1px solid rgba(212, 175, 55, 0.22); border-radius: 9px; background: rgba(2, 8, 7, 0.62); padding: 13px; }
     .announcement-card strong { color: var(--gold-light); display: block; margin-bottom: 5px; }
     .announcement-card p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+    .legal-footer {
+      max-width: 960px;
+      margin: 24px auto 112px;
+      padding: 16px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px 18px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid rgba(212, 175, 55, 0.18);
+    }
+    .legal-footer a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .legal-footer a:hover { color: var(--emerald-accent); }
     @media (max-width: 700px) { header { padding-right: 86px; padding-left: 86px; min-height: 112px; } .header-actions { right: 12px; gap: 7px; } .header-action-btn { width: 36px; height: 36px; } .brand-logo { font-size: 25px; letter-spacing: 4px; } .banner-content { left: 18px; right: 18px; bottom: 52px; } .banner-content strong { font-size: 31px; } .banner-badge { right: 16px !important; bottom: 14px !important; } }
 
     /* Premium sepet sayfasi ve havale siparis akisi */
@@ -1203,7 +1222,12 @@
       <div id="catalogItemsContainer" class="products-grid"></div>
     </div>
   </section>
-
+  <footer class="legal-footer" aria-label="Yasal bağlantılar">
+    <span>Bağmancı Kuyumculuk & Saat</span>
+    <a href="gizlilik/">Gizlilik Politikası</a>
+    <a href="kullanim-sartlari/">Kullanım Şartları</a>
+    <a href="mailto:bagmanciabdullah93@gmail.com">bagmanciabdullah93@gmail.com</a>
+  </footer>
     <!-- BOTTOM BAR -->
   <nav class="app-bar">
     <button class="app-item active" data-nav="home" onclick="goHomeNav()">
