@@ -779,6 +779,111 @@
       .item-title { font-size: 14px !important; }
       .btn-add { font-size: 9px !important; }
     }
+  
+    /* Premium katalog kapaklari */
+    .catalog-section {
+      max-width: 1060px !important;
+    }
+    .catalog-covers-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 14px !important;
+    }
+    .catalog-cover-card {
+      position: relative !important;
+      min-height: 236px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      background: linear-gradient(180deg, rgba(4, 16, 13, 0.96), rgba(1, 8, 7, 0.99)) !important;
+      border: 1px solid rgba(212, 175, 55, 0.34) !important;
+      border-radius: 10px !important;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 245, 215, 0.06) !important;
+    }
+    .catalog-cover-card:hover {
+      transform: translateY(-5px) !important;
+      border-color: rgba(245, 204, 71, 0.78) !important;
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.44), 0 0 0 1px rgba(245, 204, 71, 0.12) !important;
+    }
+    .cover-box {
+      position: relative !important;
+      height: 168px !important;
+      overflow: hidden !important;
+      background: #06100d !important;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+    }
+    .cover-box::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.18) 45%, rgba(0, 0, 0, 0.58)) !important;
+      pointer-events: none !important;
+    }
+    .cover-box img {
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      transform: scale(1.01) !important;
+      transition: transform 0.55s ease, filter 0.55s ease !important;
+    }
+    .catalog-cover-card:hover .cover-box img {
+      transform: scale(1.07) !important;
+      filter: saturate(1.05) contrast(1.06) !important;
+    }
+    .cover-box i { display: none !important; }
+    .cover-kicker {
+      position: absolute !important;
+      left: 12px !important;
+      top: 12px !important;
+      z-index: 2 !important;
+      padding: 5px 9px !important;
+      border: 1px solid rgba(255, 230, 150, 0.36) !important;
+      border-radius: 999px !important;
+      background: rgba(1, 8, 7, 0.54) !important;
+      color: var(--gold-light) !important;
+      font-size: 9px !important;
+      font-weight: 800 !important;
+      letter-spacing: 1.5px !important;
+      text-transform: uppercase !important;
+      backdrop-filter: blur(8px) !important;
+    }
+    .cover-info {
+      position: relative !important;
+      flex: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+      padding: 13px 13px 14px !important;
+      text-align: left !important;
+    }
+    .cover-title {
+      margin: 0 !important;
+      font-size: 18px !important;
+      letter-spacing: 1.1px !important;
+      line-height: 1.1 !important;
+    }
+    .btn-open {
+      flex: 0 0 auto !important;
+      padding: 7px 11px !important;
+      border-radius: 999px !important;
+      background: rgba(212, 175, 55, 0.12) !important;
+      font-size: 9px !important;
+      letter-spacing: 1px !important;
+    }
+    @media (max-width: 860px) {
+      .catalog-covers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (max-width: 620px) {
+      .catalog-section { padding: 0 14px !important; }
+      .catalog-covers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+      .catalog-cover-card { min-height: 204px !important; border-radius: 9px !important; }
+      .cover-box { height: 145px !important; }
+      .cover-info { padding: 11px 10px 12px !important; }
+      .cover-title { font-size: 15.5px !important; letter-spacing: 0.8px !important; }
+      .btn-open { padding: 6px 9px !important; font-size: 8.5px !important; }
+      .cover-kicker { left: 9px !important; top: 9px !important; font-size: 8px !important; padding: 4px 7px !important; }
+    }
   </style>
 </head>
 <body>
@@ -889,40 +994,7 @@
       <p>Özel İmalat • Sarrafiye • Yöresel Takı • Saat</p>
     </div>
 
-    <div id="catalogCoversView" class="catalog-covers-grid">
-      <div class="catalog-cover-card" onclick="katalogAc('Bilezik')">
-        <div class="cover-box"><i class="fa-solid fa-ring"></i></div>
-        <div class="cover-info"><div class="cover-title">Bilezik</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Yüzük')">
-        <div class="cover-box"><i class="fa-solid fa-gem"></i></div>
-        <div class="cover-info"><div class="cover-title">Yüzük</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Küpe')">
-        <div class="cover-box"><i class="fa-solid fa-certificate"></i></div>
-        <div class="cover-info"><div class="cover-title">Küpe</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Kolye')">
-        <div class="cover-box"><i class="fa-solid fa-heart"></i></div>
-        <div class="cover-info"><div class="cover-title">Kolye</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Madonna')">
-        <div class="cover-box"><i class="fa-solid fa-award"></i></div>
-        <div class="cover-info"><div class="cover-title">Madonna</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Frenk Bağı')">
-        <div class="cover-box"><i class="fa-solid fa-link"></i></div>
-        <div class="cover-info"><div class="cover-title">Frenk Bağı</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Urfa Akıtması')">
-        <div class="cover-box"><i class="fa-solid fa-fingerprint"></i></div>
-        <div class="cover-info"><div class="cover-title">Urfa Akıtması</div><span class="btn-open">Aç</span></div>
-      </div>
-      <div class="catalog-cover-card" onclick="katalogAc('Saat & Aksesuar')">
-        <div class="cover-box"><i class="fa-solid fa-clock"></i></div>
-        <div class="cover-info"><div class="cover-title">Saat & Aksesuar</div><span class="btn-open">Aç</span></div>
-      </div>
-    </div>
+    <div id="catalogCoversView" class="catalog-covers-grid"></div>
 
     <div id="catalogItemsView" class="catalog-inner-view">
       <div class="cat-back-bar">
@@ -996,6 +1068,18 @@
     let previousMarketPrices = {};
     let catalogProducts = [];
     let productsLoaded = false;
+    const catalogCategories = [
+      { name: 'Yüzük', kicker: 'Koleksiyon', fallback: 'vitrin.jpg' },
+      { name: 'Küpe', kicker: 'Koleksiyon', fallback: 'vitrin.jpg' },
+      { name: 'Bilezik', kicker: '22 Ayar', fallback: 'vitrin.jpg' },
+      { name: 'Bileklik', kicker: 'Seçki', fallback: 'vitrin.jpg' },
+      { name: 'Kolye', kicker: 'Özel Seri', fallback: 'vitrin.jpg' },
+      { name: 'Madonna', kicker: 'İmalat', fallback: 'vitrin.jpg' },
+      { name: 'Frenk Bağı', kicker: 'Yöresel', fallback: 'vitrin.jpg' },
+      { name: 'Urfa Akıtması', kicker: 'Yöresel', fallback: 'vitrin.jpg' },
+      { name: 'Saat', kicker: 'Saat', fallback: 'vitrin.jpg' },
+      { name: 'Aksesuar', kicker: 'Aksesuar', fallback: 'vitrin.jpg' }
+    ];
 
     const SUKOB_DIRECT_URL = 'https://www.sukobfiyat.com/api/prices/';
     const SUKOB_PROXY_URL = '/api/sukob'; // Vercel Serverless Function: SUKOB verisini CORS engeline takılmadan alır
@@ -1409,6 +1493,37 @@
       return catalogProducts;
     }
 
+
+    function normalizeCategoryName(value) {
+      const name = String(value || '').trim();
+      if (name === 'Saat & Aksesuar') return 'Saat';
+      return name;
+    }
+
+    function catalogCoverImage(category, products) {
+      const found = products.find(item => normalizeCategoryName(item.category) === category.name && Array.isArray(item.images) && item.images.length && item.images[0]);
+      return found ? found.images[0] : category.fallback;
+    }
+
+    function renderCatalogCovers(products = catalogProducts) {
+      const container = document.getElementById('catalogCoversView');
+      if (!container) return;
+      container.innerHTML = catalogCategories.map(category => {
+        const image = catalogCoverImage(category, products);
+        return `
+          <div class="catalog-cover-card" onclick="katalogAc('${category.name.replace(/'/g, "\\'")}')">
+            <div class="cover-box">
+              <img src="${image}" alt="${category.name}" onerror="this.src='vitrin.jpg'">
+              <span class="cover-kicker">${category.kicker}</span>
+            </div>
+            <div class="cover-info">
+              <div class="cover-title">${category.name}</div>
+              <span class="btn-open">İncele</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
     async function katalogAc(kategoriAdi) {
       document.getElementById('catalogCoversView').style.display = 'none';
       const innerView = document.getElementById('catalogItemsView');
@@ -1419,7 +1534,7 @@
       container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Ürünler yükleniyor...</div>';
 
       const products = await loadCatalogProducts();
-      const categoryProducts = products.filter(item => item.category === kategoriAdi);
+      const categoryProducts = products.filter(item => normalizeCategoryName(item.category) === kategoriAdi);
 
       if (!categoryProducts.length) {
         container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Bu kategoriye ürün eklenmedi.</div>';
@@ -1526,6 +1641,8 @@
     function modalGoster(id) { document.getElementById(id).style.display = 'flex'; }
     function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
 
+    renderCatalogCovers();
+    loadCatalogProducts().then(renderCatalogCovers).catch(() => renderCatalogCovers());
     updateClock();
     updateVisitorCount();
     fetchMarketData();
