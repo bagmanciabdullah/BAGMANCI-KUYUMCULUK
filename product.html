@@ -385,6 +385,10 @@
       .product-search { grid-template-columns: 30px minmax(0, 1fr) 42px 42px; }
       .price { font-size: 34px; }
     }
+
+    /* Favori ve kucuk gorsel duzeltmeleri */
+    .thumb img { object-fit: cover !important; padding: 0 !important; object-position: center !important; }
+    .gallery-fav.active i { color: var(--gold-primary); }
   </style>
 </head>
 <body>
@@ -635,7 +639,8 @@
       const src = productImages[currentImageIndex];
       const main = document.getElementById('main-image');
       if (!src) { main.innerHTML = '<div class="image-fallback"><i class="fa-solid fa-gem"></i><strong>Ürün görseli yakında</strong></div>'; return; }
-      main.innerHTML = `<button class="gallery-fav" type="button" onclick="toggleFavorite(event)" title="Favori" aria-label="Favori"><i class="fa-regular fa-heart"></i></button><img id="main-product-img" src="${src}" alt="${escapeHtml(product.name)}"><div class="zoom-lens" id="zoom-lens"></div>`;
+      const favoriteActive = isFavorite(product.id);
+      main.innerHTML = `<button class="gallery-fav ${favoriteActive ? 'active' : ''}" type="button" onclick="toggleFavorite(event)" title="Favori" aria-label="Favori"><i class="fa-${favoriteActive ? 'solid' : 'regular'} fa-heart"></i></button><img id="main-product-img" src="${src}" alt="${escapeHtml(product.name)}"><div class="zoom-lens" id="zoom-lens"></div>`;
       const img = document.getElementById('main-product-img');
       img.onclick = () => openLightbox(currentImageIndex);
       img.onerror = () => {
@@ -711,17 +716,23 @@
       alert('Ürün linki kopyalandı.');
     }
 
+    function isFavorite(id) {
+      const favoriler = JSON.parse(localStorage.getItem('bagmanciFavoriler') || '[]');
+      return favoriler.some(item => item.id === id);
+    }
+
     function toggleFavorite(event) {
       if (event) event.stopPropagation();
       const key = 'bagmanciFavoriler';
       const favoriler = JSON.parse(localStorage.getItem(key) || '[]');
-      if (!favoriler.some(item => item.id === product.id)) {
-        favoriler.push({ id: product.id, ad: product.name });
-        localStorage.setItem(key, JSON.stringify(favoriler));
-      }
+      const index = favoriler.findIndex(item => item.id === product.id);
+      const adding = index < 0;
+      if (adding) favoriler.push({ id: product.id, ad: product.name });
+      else favoriler.splice(index, 1);
+      localStorage.setItem(key, JSON.stringify(favoriler));
       document.querySelectorAll('.gallery-fav, .fav').forEach(button => {
-        button.classList.add('active');
-        button.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        button.classList.toggle('active', adding);
+        button.innerHTML = `<i class="fa-${adding ? 'solid' : 'regular'} fa-heart"></i>`;
       });
     }
 
@@ -804,6 +815,7 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
       const [products] = await Promise.all([loadProductsData(), loadLivePrice()]);
+      allProducts = products;
       product = products.find(item => item.id === id) || products[0];
       renderProduct();
       if (livePriceTimer) clearInterval(livePriceTimer);
