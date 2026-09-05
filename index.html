@@ -926,7 +926,7 @@
         <span>TOPLAM:</span>
         <span id="cartTotal">0</span>
       </div>
-      <button class="btn-add" style="margin-top:16px; padding:12px;" onclick="alert('Sipariş talebiniz Bağmancı Kuyumculuk\'a iletildi!'); sepet=[]; sepetGuncelle(); modalKapat('sepetModal');">Siparişi Onayla</button>
+      <button class="btn-add" style="margin-top:16px; padding:12px;" onclick="alert('Sipariş talebiniz Bağmancı Kuyumculuk\'a iletildi!'); sepet=[]; localStorage.setItem('bagmanciSepet', JSON.stringify(sepet)); sepetGuncelle(); modalKapat('sepetModal');">Sipariş Oluştur</button>
     </div>
   </div>
 
@@ -947,7 +947,7 @@
       <script src="supabase-config.js"></script>
       <script>
     let canliBilezikFiyati = 6350;
-    let sepet = [];
+    let sepet = JSON.parse(localStorage.getItem('bagmanciSepet') || '[]');
     let currentVisitors = 14;
     let marketRequestRunning = false;
     let previousMarketPrices = {};
@@ -1250,6 +1250,7 @@
       const gram = toNumber(field(row, 'gram'));
       const fixedPrice = toNumber(field(row, 'fixedPrice', 'fixed_price'));
       const labor = toNumber(field(row, 'labor')) || 0;
+      const laborType = field(row, 'laborType', 'labor_type') || 'gram';
       const category = field(row, 'category');
       const sku = field(row, 'sku');
       const material = field(row, 'material');
@@ -1282,6 +1283,7 @@
         priceMode: field(row, 'priceMode', 'price_mode') || (gram ? 'liveGram' : 'fixed'),
         gram,
         labor,
+        laborType,
         fixedPrice,
         images,
         shortDescription,
@@ -1333,7 +1335,9 @@
     }
     function productPrice(item) {
       if (item.priceMode === 'liveGram' && Number(item.gram)) {
-        return Math.round((Number(item.gram) * canliBilezikFiyati) + Number(item.labor || 0));
+        const basePrice = Number(item.gram || 0) * canliBilezikFiyati;
+        const laborPrice = item.laborType === 'money' ? Number(item.labor || 0) : Number(item.labor || 0) * canliBilezikFiyati;
+        return Math.round(basePrice + laborPrice);
       }
       return Math.round(Number(item.fixedPrice || 0));
     }
@@ -1434,6 +1438,7 @@
     function sepeteEkle(event, ad, f) {
       event.stopPropagation();
       sepet.push({ ad, f });
+      localStorage.setItem('bagmanciSepet', JSON.stringify(sepet));
       sepetGuncelle();
       alert(ad + ' sepete eklendi!');
     }
