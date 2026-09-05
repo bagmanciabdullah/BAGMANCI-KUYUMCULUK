@@ -733,19 +733,21 @@
         `Müşteri: ${order.customer_name}`,
         `Telefon: ${order.phone}`,
         order.email ? `E-posta: ${order.email}` : '',
+        `İl / İlçe: ${[order.city, order.district].filter(Boolean).join(' / ') || 'Yazılmamış'}`,
         `Toplam: ${formatTL(order.total)}`,
         '',
         'Ürünler:',
         items || '- Ürün bilgisi yok',
         '',
+        `Fatura tipi: ${order.corporate_invoice ? 'Kurumsal' : 'Bireysel'}`,
         `Fatura adı/ünvan: ${order.invoice_name}`,
         `TC/Vergi No: ${order.invoice_identity_no || 'Yazılmamış'}`,
+        order.tax_office ? `Vergi dairesi: ${order.tax_office}` : '',
         `Fatura adresi: ${order.invoice_address}`,
         `Kargo adresi: ${order.shipping_address}`,
         order.note ? `Not: ${order.note}` : ''
       ].filter(Boolean).join('\n');
     }
-
     async function copyOrder(id) {
       const order = orders.find(item => item.id === id);
       if (!order) return;
@@ -781,9 +783,12 @@
             <div class="order-field"><b>Müşteri</b><span>${escapeHtml(order.customer_name)}</span></div>
             <div class="order-field"><b>Telefon</b><span>${escapeHtml(order.phone)}</span></div>
             <div class="order-field"><b>E-posta</b><span>${escapeHtml(order.email || 'Yok')}</span></div>
+            <div class="order-field"><b>İl / İlçe</b><span>${escapeHtml([order.city, order.district].filter(Boolean).join(' / ') || 'Yazılmamış')}</span></div>
             <div class="order-field"><b>Ödeme</b><span>Havale / EFT</span></div>
+            <div class="order-field"><b>Fatura Tipi</b><span>${order.corporate_invoice ? 'Kurumsal' : 'Bireysel'}</span></div>
             <div class="order-field"><b>Fatura Adı / Ünvan</b><span>${escapeHtml(order.invoice_name)}</span></div>
             <div class="order-field"><b>TC / Vergi No</b><span>${escapeHtml(order.invoice_identity_no || 'Yazılmamış')}</span></div>
+            <div class="order-field"><b>Vergi Dairesi</b><span>${escapeHtml(order.tax_office || 'Yok')}</span></div>
             <div class="order-field full"><b>Fatura Adresi</b><span>${escapeHtml(order.invoice_address)}</span></div>
             <div class="order-field full"><b>Kargo Gönderim Adresi</b><span>${escapeHtml(order.shipping_address)}</span></div>
             <div class="order-field full"><b>Sipariş Notu</b><span>${escapeHtml(order.note || 'Not yok')}</span></div>
@@ -850,6 +855,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
