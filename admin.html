@@ -130,7 +130,26 @@
     .order-field span { color: var(--gold-light); font-size: 13px; overflow-wrap: anywhere; }
     .order-field.full { grid-column: 1 / -1; }
     .order-actions { display: grid; grid-template-columns: minmax(180px, 260px) auto auto auto; gap: 10px; align-items: center; }
-    @media (max-width: 900px) { .admin-sections { grid-template-columns: 1fr; } }
+    .security-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+    .security-card { border: 1px solid rgba(212, 175, 55, 0.18); border-radius: 10px; padding: 16px; background: rgba(2, 6, 5, 0.56); display: grid; gap: 12px; }
+    .security-card h3 { color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: 24px; line-height: 1; }
+    .security-card.full { grid-column: 1 / -1; }
+    .security-line { display: grid; grid-template-columns: 145px minmax(0, 1fr); gap: 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 8px; font-size: 13px; }
+    .security-line b { color: var(--muted); }
+    .security-line span { color: var(--gold-light); overflow-wrap: anywhere; }
+    .session-list { display: grid; gap: 10px; }
+    .session-item { border: 1px solid rgba(212, 175, 55, 0.14); border-radius: 9px; padding: 12px; background: rgba(255,255,255,0.025); display: grid; gap: 8px; }
+    .session-item strong { color: var(--gold-light); display: block; }
+    .session-item span { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .session-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .auto-logout-pill { border: 1px solid rgba(52, 211, 153, 0.28); color: #bbf7d0; background: rgba(52, 211, 153, 0.08); border-radius: 999px; padding: 7px 10px; font-size: 12px; font-weight: 800; width: max-content; }
+    .mfa-layout { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 18px; align-items: start; margin-top: 16px; }
+    .mfa-qr-box { border: 1px solid rgba(212, 175, 55, 0.22); border-radius: 10px; background: #f7f6f2; padding: 14px; display: grid; place-items: center; min-height: 250px; }
+    .mfa-qr-box img { width: min(230px, 100%); height: auto; display: block; }
+    .mfa-secret { margin-top: 10px; border: 1px dashed rgba(212, 175, 55, 0.32); border-radius: 8px; padding: 10px; color: var(--gold-light); background: rgba(2,6,5,0.52); font-size: 12px; overflow-wrap: anywhere; }
+    .mfa-note { border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 10px; padding: 14px; background: rgba(52, 211, 153, 0.06); color: var(--muted); line-height: 1.6; font-size: 13px; }
+    .mfa-code { max-width: 260px; font-size: 22px; letter-spacing: 7px; text-align: center; font-weight: 800; color: var(--gold-light); }
+    @media (max-width: 900px) { .admin-sections { grid-template-columns: 1fr; } .security-grid { grid-template-columns: 1fr; } .security-card.full { grid-column: auto; } .security-line { grid-template-columns: 1fr; } .mfa-layout { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -195,7 +214,10 @@
         <button class="secondary" data-admin-tab="content" onclick="showAdminPage('content')">Sorular & Duyurular</button>
         <button class="secondary" data-admin-tab="members" onclick="showAdminPage('members')">Müşteriler</button>
       </div>
-      <button class="secondary" onclick="logout()">Çıkış</button>
+      <div class="admin-nav-left">
+        <button class="secondary" data-admin-tab="settings" onclick="showAdminPage('settings')" title="Güvenlik ayarları">⚙ Ayarlar</button>
+        <button class="secondary" onclick="logout()">Çıkış</button>
+      </div>
     </nav>
 
     <section class="panel hidden" id="dashboard-panel">
@@ -361,6 +383,49 @@
       </section>
     </div>
 
+
+    <section class="panel hidden" id="settings-panel">
+      <div class="panel-kicker">Güvenlik</div>
+      <h2>Hesap ve Giriş Güvenliği</h2>
+      <p class="muted">Admin hesabını, giriş yapılan cihaz bilgisini ve şifre işlemlerini buradan yönet.</p>
+      <div class="security-grid">
+        <div class="security-card">
+          <h3>Hesap Bilgileri</h3>
+          <div class="auto-logout-pill">10 dk işlem yoksa otomatik çıkış</div>
+          <div class="security-line"><b>Admin e-posta</b><span id="account-email">-</span></div>
+          <div class="security-line"><b>2FA durumu</b><span>Aktif - telefon kodu zorunlu</span></div>
+          <div class="security-line"><b>Giriş uyarısı</b><span id="login-alert-state">Mail servisi kontrol ediliyor...</span></div>
+          <label>Yeni Şifre
+            <input id="new-password" type="password" autocomplete="new-password" placeholder="En az 8 karakter">
+          </label>
+          <label>Yeni Şifre Tekrar
+            <input id="new-password-repeat" type="password" autocomplete="new-password" placeholder="Yeni şifreyi tekrar yaz">
+          </label>
+          <div class="actions">
+            <button class="primary" onclick="changeAdminPassword()">Şifremi Değiştir</button>
+            <button class="secondary" onclick="sendPasswordResetMail()">Şifre Linki Gönder</button>
+          </div>
+          <div class="status" id="password-status"></div>
+        </div>
+
+        <div class="security-card">
+          <h3>Bu Cihaz</h3>
+          <div id="current-device-box"></div>
+          <div class="mfa-note">Şüpheli bir giriş görürsen önce tüm cihazlardan çıkış yap, ardından şifreni değiştir.</div>
+          <div class="actions">
+            <button class="danger" onclick="logoutAllDevices()">Tüm Cihazlardan Çıkış Yap</button>
+          </div>
+          <div class="status" id="device-status"></div>
+        </div>
+
+        <div class="security-card full">
+          <h3>Giriş Hareketleri</h3>
+          <p class="muted">Admin paneline yapılan girişlerin cihaz, tarayıcı ve konum bilgileri burada görünür.</p>
+          <div class="session-list" id="security-events-list"></div>
+          <div class="status" id="security-status"></div>
+        </div>
+      </div>
+    </section>
     <section class="panel hidden" id="members-panel">
       <div class="panel-kicker">Müşteri Alanı</div>
       <h2>Site Müşterileri</h2>
@@ -384,6 +449,11 @@
     let orders = [];
     let pendingMfaFactorId = '';
     let pendingMfaMode = 'challenge';
+    let notifyLoginAfterMfa = false;
+    let inactivityTimer = null;
+    let inactivityWatchStarted = false;
+    const AUTO_LOGOUT_MS = 10 * 60 * 1000;
+    const ADMIN_ALERT_EMAIL = 'bagmanciabdullah93@gmail.com';
 
     const orderStatusLabels = {
       new: 'Yeni sipariş',
@@ -415,7 +485,7 @@
     }
 
     function adminPageIds() {
-      return ['dashboard-panel', 'admin-panel', 'products-panel', 'orders-panel', 'content-panels', 'members-panel'];
+      return ['dashboard-panel', 'admin-panel', 'products-panel', 'orders-panel', 'content-panels', 'settings-panel', 'members-panel'];
     }
 
     function showAdminPage(page = 'dashboard') {
@@ -424,6 +494,7 @@
         products: ['admin-panel', 'products-panel'],
         orders: ['orders-panel'],
         content: ['content-panels'],
+        settings: ['settings-panel'],
         members: ['members-panel']
       }[page] || ['dashboard-panel'];
 
@@ -439,6 +510,7 @@
       if (page === 'products') loadProducts();
       if (page === 'orders') loadOrders();
       if (page === 'content') { loadQuestions(); loadAnnouncementsAdmin(); }
+      if (page === 'settings') renderSecuritySettings();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -455,8 +527,8 @@
       document.getElementById('mfa-panel').classList.add('hidden');
       const nav = document.getElementById('admin-nav');
       if (nav) nav.classList.toggle('hidden', !isLoggedIn);
-      if (isLoggedIn) showAdminPage('dashboard');
-      else hideAdminPages();
+      if (isLoggedIn) { startInactivityWatch(); showAdminPage('dashboard'); }
+      else { stopInactivityWatch(); hideAdminPages(); }
     }
 
     function showMfaPanel(mode) {
@@ -512,7 +584,7 @@
     async function requireMfa() {
       const assurance = await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel();
       if (assurance.error) { setStatus('login-status', assurance.error.message, 'err'); return; }
-      if (assurance.data.currentLevel === 'aal2') { await unlockAdmin(); return; }
+      if (assurance.data.currentLevel === 'aal2') { await unlockAdmin(); if (notifyLoginAfterMfa) { notifyLoginAfterMfa = false; await recordAdminLogin(); } return; }
 
       const factors = await supabaseClient.auth.mfa.listFactors();
       if (factors.error) { setStatus('login-status', factors.error.message, 'err'); return; }
@@ -563,6 +635,178 @@
       document.getElementById('labor').step = laborType === 'money' ? '1' : '0.01';
     }
 
+
+    function startInactivityWatch() {
+      resetInactivityTimer();
+      if (inactivityWatchStarted) return;
+      inactivityWatchStarted = true;
+      ['click', 'keydown', 'mousemove', 'touchstart', 'scroll'].forEach(eventName => {
+        window.addEventListener(eventName, resetInactivityTimer, { passive: true });
+      });
+    }
+
+    function resetInactivityTimer() {
+      if (!session) return;
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(autoLogoutForInactivity, AUTO_LOGOUT_MS);
+    }
+
+    function stopInactivityWatch() {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = null;
+    }
+
+    async function autoLogoutForInactivity() {
+      await supabaseClient.auth.signOut();
+      session = null;
+      pendingMfaFactorId = '';
+      notifyLoginAfterMfa = false;
+      showApp(false);
+      setStatus('login-status', '10 dakika işlem yapılmadığı için güvenlik amacıyla çıkış yapıldı.', 'ok');
+    }
+
+    function parseBrowser() {
+      const ua = navigator.userAgent || '';
+      if (ua.includes('Edg/')) return 'Microsoft Edge';
+      if (ua.includes('OPR/') || ua.includes('Opera')) return 'Opera';
+      if (ua.includes('Chrome/')) return 'Chrome';
+      if (ua.includes('Safari/')) return 'Safari';
+      if (ua.includes('Firefox/')) return 'Firefox';
+      return 'Bilinmeyen tarayıcı';
+    }
+
+    function parseOs() {
+      const ua = navigator.userAgent || '';
+      if (ua.includes('Windows')) return 'Windows';
+      if (ua.includes('Android')) return 'Android';
+      if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+      if (ua.includes('Mac OS')) return 'macOS';
+      if (ua.includes('Linux')) return 'Linux';
+      return 'Bilinmeyen sistem';
+    }
+
+    function currentDeviceInfo(extra = {}) {
+      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '');
+      return {
+        email: session?.user?.email || ADMIN_ALERT_EMAIL,
+        device: isMobile ? 'Mobil cihaz' : 'Bilgisayar',
+        browser: parseBrowser(),
+        os: parseOs(),
+        user_agent: navigator.userAgent || '',
+        ip: extra.ip || '',
+        city: extra.city || '',
+        country: extra.country || '',
+        sent: Boolean(extra.sent)
+      };
+    }
+
+    async function notifyLoginByMail() {
+      const localContext = currentDeviceInfo();
+      if (!window.location.protocol.startsWith('http')) return { sent: false, context: localContext, reason: 'local-file' };
+      try {
+        const response = await fetch('/api/login-alert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(localContext)
+        });
+        const data = await response.json().catch(() => ({}));
+        return { sent: Boolean(data.sent), context: currentDeviceInfo(data.context || {}), reason: data.reason || '' };
+      } catch (error) {
+        return { sent: false, context: localContext, reason: error.message || 'mail-error' };
+      }
+    }
+
+    async function recordAdminLogin() {
+      const mail = await notifyLoginByMail();
+      const context = { ...mail.context, notified: mail.sent };
+      try {
+        await supabaseClient.from('admin_security_events').insert({
+          email: context.email,
+          event_type: 'login',
+          ip: context.ip,
+          city: context.city,
+          country: context.country,
+          device: context.device,
+          browser: context.browser,
+          os: context.os,
+          user_agent: context.user_agent,
+          notified: context.notified
+        });
+      } catch (error) {}
+      const state = document.getElementById('login-alert-state');
+      if (state) state.innerText = mail.sent ? `Giriş maili ${ADMIN_ALERT_EMAIL} adresine gönderildi.` : 'Mail için Vercel RESEND_API_KEY ayarı gerekli.';
+      loadSecurityEvents();
+    }
+
+    function renderCurrentDevice() {
+      const box = document.getElementById('current-device-box');
+      if (!box) return;
+      const info = currentDeviceInfo();
+      box.innerHTML = [
+        ['Cihaz', info.device],
+        ['Tarayıcı', info.browser],
+        ['Sistem', info.os],
+        ['Oturum', session ? 'Aktif' : 'Kapalı']
+      ].map(([key, value]) => `<div class="security-line"><b>${key}</b><span>${escapeHtml(value)}</span></div>`).join('');
+    }
+
+    async function renderSecuritySettings() {
+      document.getElementById('account-email').innerText = session?.user?.email || '-';
+      const state = document.getElementById('login-alert-state');
+      if (state && state.innerText.includes('kontrol')) state.innerText = 'Mail servisi Vercel ortam değişkeniyle çalışır.';
+      renderCurrentDevice();
+      await loadSecurityEvents();
+    }
+
+    async function loadSecurityEvents() {
+      const list = document.getElementById('security-events-list');
+      if (!list || !session) return;
+      list.innerHTML = '<p class="muted">Giriş hareketleri yükleniyor...</p>';
+      const { data, error } = await supabaseClient.from('admin_security_events').select('*').order('created_at', { ascending: false }).limit(30);
+      if (error) { list.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`; return; }
+      list.innerHTML = (data || []).map(item => {
+        const location = [item.city, item.country].filter(Boolean).join(' / ') || 'Konum alınamadı';
+        const sentText = item.notified ? 'Mail gönderildi' : 'Mail ayarı bekliyor';
+        return `<div class="session-item"><div><strong>${escapeHtml(item.browser || 'Bilinmeyen tarayıcı')} - ${escapeHtml(item.device || 'Cihaz')}</strong><span>${new Date(item.created_at).toLocaleString('tr-TR')} • ${escapeHtml(location)} • IP: ${escapeHtml(item.ip || 'yok')} • ${escapeHtml(sentText)}</span></div><div class="session-actions"><button class="secondary" onclick="deleteSecurityEvent('${item.id}')">Kaydı Sil</button></div></div>`;
+      }).join('') || '<p class="muted">Henüz giriş kaydı yok.</p>';
+    }
+
+    async function deleteSecurityEvent(id) {
+      const { error } = await supabaseClient.from('admin_security_events').delete().eq('id', id);
+      if (error) { setStatus('security-status', error.message, 'err'); return; }
+      setStatus('security-status', 'Giriş kaydı silindi.', 'ok');
+      loadSecurityEvents();
+    }
+
+    async function logoutAllDevices() {
+      if (!confirm('Tüm cihazlardan çıkış yapılsın mı?')) return;
+      const { error } = await supabaseClient.auth.signOut({ scope: 'global' });
+      if (error) { setStatus('device-status', error.message, 'err'); return; }
+      session = null;
+      showApp(false);
+      setStatus('login-status', 'Tüm cihazlardan çıkış yapıldı.', 'ok');
+    }
+
+    async function changeAdminPassword() {
+      const pass = document.getElementById('new-password').value;
+      const repeat = document.getElementById('new-password-repeat').value;
+      if (pass.length < 8) { setStatus('password-status', 'Şifre en az 8 karakter olmalı.', 'err'); return; }
+      if (pass !== repeat) { setStatus('password-status', 'İki şifre aynı değil.', 'err'); return; }
+      setStatus('password-status', 'Şifre güncelleniyor...');
+      const { error } = await supabaseClient.auth.updateUser({ password: pass });
+      if (error) { setStatus('password-status', error.message, 'err'); return; }
+      document.getElementById('new-password').value = '';
+      document.getElementById('new-password-repeat').value = '';
+      setStatus('password-status', 'Şifre değiştirildi. Yeni şifreyi güvenli yerde sakla.', 'ok');
+    }
+
+    async function sendPasswordResetMail() {
+      const email = session?.user?.email || ADMIN_ALERT_EMAIL;
+      setStatus('password-status', 'Şifre linki gönderiliyor...');
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+      if (error) { setStatus('password-status', error.message, 'err'); return; }
+      setStatus('password-status', `${email} adresine şifre yenileme linki gönderildi.`, 'ok');
+    }
     async function login() {
       setStatus('login-status', 'Giriş yapılıyor...');
       const email = document.getElementById('email').value.trim();
@@ -958,7 +1202,6 @@
   </script>
 </body>
 </html>
-
 
 
 

@@ -1,0 +1,11 @@
+# Bagmanci local backups
+*YEDEK*
+yedekler/
+
+# Local scratch files
+Yeni Metin Belgesi*.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
