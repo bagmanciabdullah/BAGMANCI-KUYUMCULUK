@@ -24,22 +24,32 @@
     }
 
     body[data-theme="day"] {
-      --bg-base: #f7f4ec;
-      --card-glass: rgba(255, 252, 244, 0.88);
-      --card-border: rgba(17, 94, 67, 0.24);
-      --gold-primary: #c69a16;
-      --gold-light: #6f4f0b;
-      --gold-dark: #8f6b12;
-      --text-pearl: #102019;
-      --text-muted: #53655d;
-      --emerald-accent: #087a58;
+      --bg-base: #f6ecd2;
+      --card-glass: rgba(255, 249, 232, 0.96);
+      --card-border: rgba(183, 131, 18, 0.5);
+      --gold-primary: #c7961e;
+      --gold-light: #76510c;
+      --gold-dark: #a87410;
+      --text-pearl: #083f31;
+      --text-muted: #335f50;
+      --emerald-accent: #007456;
     }
     body[data-theme="day"] {
       background-color: var(--bg-base);
-      background-image: radial-gradient(circle at 50% 8%, rgba(255,255,255,.72), rgba(247,244,236,.88) 52%, rgba(232,226,211,.94)), url('arka-plan.jpg');
+      background-image:
+        radial-gradient(circle at 18% 10%, rgba(255, 255, 247, 0.92), transparent 26%),
+        radial-gradient(circle at 82% 18%, rgba(226, 183, 72, 0.28), transparent 30%),
+        linear-gradient(125deg, rgba(255, 252, 240, 0.96), rgba(239, 220, 168, 0.78) 42%, rgba(255, 248, 226, 0.94)),
+        repeating-linear-gradient(118deg, rgba(8, 63, 49, 0.045) 0 2px, transparent 2px 44px);
     }
     body[data-theme="day"] header,
-    body[data-theme="day"] .app-bar { background: rgba(255, 252, 244, 0.92); }
+    body[data-theme="day"] .app-bar { background: rgba(255, 249, 232, 0.96); box-shadow: 0 10px 34px rgba(122, 86, 18, 0.16); }
+    body[data-theme="day"] .market-panel,
+    body[data-theme="day"] .catalog-cover-card,
+    body[data-theme="day"] .item-card { background: linear-gradient(180deg, rgba(255, 251, 238, 0.97), rgba(248, 236, 204, 0.93)); box-shadow: 0 16px 42px rgba(116, 83, 18, 0.16); }
+    body[data-theme="day"] .market-table td { color: #8a640f; border-bottom-color: rgba(8, 63, 49, 0.11); }
+    body[data-theme="day"] .market-table th,
+    body[data-theme="day"] .market-table td:first-child { color: #083f31; }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -56,7 +66,10 @@
       overflow-x: hidden;
       min-height: 100vh;
       padding-bottom: 90px;
+      transition: background-color .75s ease, color .75s ease, filter .75s ease;
     }
+    body.theme-wave::before { content:''; position:fixed; inset:-28%; z-index:9999; pointer-events:none; background:radial-gradient(circle at 20% 50%, rgba(212,165,31,.34), transparent 30%), radial-gradient(circle at 80% 45%, rgba(8,122,88,.22), transparent 34%); opacity:0; transform:translateX(-10%) scale(.96); animation:themeWave .72s ease-out; }
+    @keyframes themeWave { 0% { opacity:0; transform:translateX(-18%) scale(.96); } 35% { opacity:1; } 100% { opacity:0; transform:translateX(18%) scale(1.05); } }
 
     /* HEADER */
     header {
@@ -2086,7 +2099,9 @@
     }
     function applyThemeMode(mode = localStorage.getItem(THEME_KEY) || 'night') {
       localStorage.setItem(THEME_KEY, mode);
-      document.body.dataset.theme = effectiveTheme(mode);
+      const nextTheme = effectiveTheme(mode);
+      if (document.body.dataset.theme && document.body.dataset.theme !== nextTheme) { document.body.classList.remove('theme-wave'); void document.body.offsetWidth; document.body.classList.add('theme-wave'); }
+      document.body.dataset.theme = nextTheme;
       const icon = document.getElementById('themeIcon');
       if (icon) icon.className = document.body.dataset.theme === 'day' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
       document.querySelectorAll('[data-theme-choice]').forEach(btn => btn.classList.toggle('active', btn.dataset.themeChoice === mode));
