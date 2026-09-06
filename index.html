@@ -23,6 +23,24 @@
       --emerald-accent: #34d399;
     }
 
+    body[data-theme="day"] {
+      --bg-base: #f7f4ec;
+      --card-glass: rgba(255, 252, 244, 0.88);
+      --card-border: rgba(17, 94, 67, 0.24);
+      --gold-primary: #c69a16;
+      --gold-light: #6f4f0b;
+      --gold-dark: #8f6b12;
+      --text-pearl: #102019;
+      --text-muted: #53655d;
+      --emerald-accent: #087a58;
+    }
+    body[data-theme="day"] {
+      background-color: var(--bg-base);
+      background-image: radial-gradient(circle at 50% 8%, rgba(255,255,255,.72), rgba(247,244,236,.88) 52%, rgba(232,226,211,.94)), url('arka-plan.jpg');
+    }
+    body[data-theme="day"] header,
+    body[data-theme="day"] .app-bar { background: rgba(255, 252, 244, 0.92); }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -54,6 +72,7 @@
       gap: 3px;
       position: sticky;
       top: 0;
+      min-height: 126px;
       z-index: 100;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
     }
@@ -85,6 +104,19 @@
       gap: 6px;
     }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
+
+    .theme-control { position:absolute; left:18px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:2; }
+    .theme-button { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,.62); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.28); }
+    .theme-menu { display:none; position:absolute; left:0; top:48px; min-width:148px; border:1px solid var(--card-border); border-radius:10px; background:var(--card-glass); padding:6px; box-shadow:0 18px 48px rgba(0,0,0,.42); }
+    .theme-control.open .theme-menu { display:grid; gap:4px; }
+    .theme-menu button { border:0; background:transparent; color:var(--text-pearl); text-align:left; padding:9px 10px; border-radius:8px; font-weight:800; cursor:pointer; }
+    .theme-menu button.active, .theme-menu button:hover { background:rgba(212,175,55,.16); color:var(--gold-light); }
+    .site-search { width:min(720px, calc(100% - 32px)); margin:14px auto 0; position:relative; }
+    .site-search i { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--gold-primary); }
+    .site-search input { width:100%; height:48px; border-radius:999px; border:1px solid var(--card-border); background:rgba(2,6,5,.72); color:var(--text-pearl); padding:0 18px 0 44px; font:700 14px Montserrat, sans-serif; outline:none; }
+    .site-search input:focus { border-color:var(--emerald-accent); box-shadow:0 0 0 3px rgba(52,211,153,.13); }
+    body[data-theme="day"] .theme-button, body[data-theme="day"] .site-search input { background:rgba(255,252,244,.88); color:var(--text-pearl); }
+    @media (max-width:620px) { header { min-height:136px; padding-top:16px; } .theme-control { left:12px; top:22px; transform:none; } .site-search { margin-top:12px; } }
 
     /* BANNER */
     .banner-container { width: 100%; max-width: 960px; margin: 24px auto 0; padding: 0 16px; }
@@ -1035,7 +1067,7 @@
     @media (max-width:620px) { #sepetModal.modal-overlay { bottom: 76px; } #sepetModal .checkout-modal { min-height: calc(100vh - 76px); } .payment-method-card { grid-template-columns: 1fr; } }
 
     /* Bagmanci marka hesap, mesaj ve bildirim sayfalari */
-    .message-page, .notification-page, .account-page { background: radial-gradient(circle at 50% 0%, rgba(15, 53, 39, 0.52), rgba(2, 6, 5, 0.98) 48%), var(--bg-base) !important; color: var(--text-pearl) !important; border-left: 1px solid rgba(212, 175, 55, 0.26) !important; border-right: 1px solid rgba(212, 175, 55, 0.26) !important; }
+    .message-page, .notification-page, .account-page { background: radial-gradient(circle at 50% 0%, rgba(15, 53, 39, 0.52), rgba(2, 6, 5, 0.98) 48%), var(--bg-base) !important; color: var(--text-pearl) !important; border-left: 1px solid rgba(212, 175, 55, 0.26) !important; border-right: 1px solid rgba(212, 175, 55, 0.26) !important; overflow:hidden; }
     .page-topbar { background: rgba(2, 7, 6, 0.96) !important; border-bottom: 1px solid var(--card-border) !important; backdrop-filter: blur(14px); }
     .page-topbar h3 { color: var(--gold-light) !important; font-family: 'Cormorant Garamond', serif; letter-spacing: 1px !important; }
     .page-close { color: var(--gold-light) !important; }
@@ -1106,6 +1138,11 @@
     .avatar-actions input { display: none; }
     .locked-field { opacity: .68; cursor: not-allowed; background: rgba(255,255,255,.035) !important; }
     .field-hint { display:block; margin-top:6px; color:var(--text-muted); font-size:12px; line-height:1.45; }
+    .phone-verify-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:end; }
+    .phone-verify-row label { min-width:0; }
+    .btn-whatsapp-code { min-height:40px; border-radius:9px; border:1px solid rgba(52,211,153,.45); background:rgba(52,211,153,.12); color:#34d399; padding:0 12px; font-weight:900; cursor:pointer; white-space:nowrap; }
+    .wp-code-box { grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:end; }
+    @media (max-width:620px) { .phone-verify-row, .wp-code-box { grid-template-columns:1fr; } }
     .remember-row, .account-switch { grid-column: 1 / -1; display: flex !important; align-items: center; gap: 10px; color: var(--text-muted); font-weight: 700; }
     .remember-row input, .account-switch input { width: 18px !important; height: 18px; accent-color: var(--gold-primary); }
     .account-list { display: grid; gap: 10px; margin-top: 14px; }
@@ -1131,16 +1168,29 @@
 
   <!-- HEADER -->
   <header id="anasayfa">
+    <div class="theme-control" id="themeControl">
+      <button class="theme-button" type="button" onclick="toggleThemeMenu()" aria-label="Tema seç"><i id="themeIcon" class="fa-solid fa-moon"></i></button>
+      <div class="theme-menu" id="themeMenu">
+        <button type="button" data-theme-choice="night" onclick="setThemeMode('night')">Gece Tema</button>
+        <button type="button" data-theme-choice="day" onclick="setThemeMode('day')">Gündüz Tema</button>
+        <button type="button" data-theme-choice="system" onclick="setThemeMode('system')">Sistem Ayarı</button>
+      </div>
+    </div>
     <a href="#" class="brand-logo">BAĞMANCI</a>
     <span class="brand-sub">Kuyumculuk & Saat</span>
     <div class="header-location">
       <i class="fa-solid fa-location-dot"></i>
       <span>Şanlıurfa • Eyyübiye</span>
     </div>
+    <div class="site-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="siteSearchInput" type="search" placeholder="Ürün, kategori veya gram ara" oninput="handleSiteSearch(this.value)" onkeydown="handleSiteSearchKey(event)">
+    </div>
     <div class="header-actions" aria-label="Müşteri işlemleri">
       <button class="header-action-btn" id="messageButton" type="button" onclick="openQuestionModal()" title="Mesajlarım" aria-label="Mesajlarım"><i class="fa-regular fa-envelope"></i></button>
       <button class="header-action-btn" id="notificationButton" type="button" onclick="openAnnouncementModal()" title="Bildirimler" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="header-count-badge" id="notificationBadge"></span></button>
-    </div>  </header>
+    </div>
+  </header>
 
   <!-- BANNER -->
   <div class="banner-container">
@@ -1481,8 +1531,8 @@
             <div class="account-form-grid">
               <div class="avatar-settings"><div class="account-avatar" id="accountAvatarPreview"><span>B</span></div><div><strong style="color:var(--gold-light);display:block;margin-bottom:8px;">Profil Fotoğrafı</strong><div class="avatar-actions"><button class="cart-btn secondary" type="button" onclick="document.getElementById('accountAvatarFile').click()">Fotoğraf Seç</button><button class="cart-btn secondary" type="button" onclick="clearCustomerAvatar()">Fotoğrafı Kaldır</button><input id="accountAvatarFile" type="file" accept="image/*" onchange="selectCustomerAvatar(event)"></div></div></div>
               <label>Ad Soyad<input id="accountFullName" placeholder="Adınız Soyadınız"></label>
-              <label>E-posta<input id="accountEmailEdit" class="locked-field" type="email" placeholder="Google hesabınızdan gelir" readonly aria-readonly="true"><span class="field-hint">E-posta Google/Gmail hesabınla aynı kalır, buradan değiştirilemez.</span></label>
-              <label>Telefon<input id="accountPhoneEdit" type="tel" inputmode="tel" maxlength="13" placeholder="+905xxxxxxxxx" oninput="syncPhoneField(this)"><span class="field-hint">Türkiye GSM formatı: +905xxxxxxxxx. Kaydetmek için SMS kodu ile doğrulanmalı.</span></label>
+              <label>E-posta<input id="accountEmailEdit" class="locked-field" type="email" placeholder="Google hesabınızdan gelir" readonly aria-readonly="true"></label>
+              <div class="phone-verify-row"><label>Telefon<input id="accountPhoneEdit" type="tel" inputmode="tel" maxlength="13" placeholder="+905xxxxxxxxx" oninput="syncPhoneField(this)"></label><button class="btn-whatsapp-code" type="button" onclick="sendWhatsappPhoneOtp()"><i class="fa-brands fa-whatsapp"></i> WP Kodu</button><div class="wp-code-box"><label>WhatsApp Onay Kodu<input id="whatsappPhoneCode" class="checkout-field" inputmode="numeric" maxlength="6" placeholder="6 haneli kod"></label><button class="cart-btn secondary" type="button" onclick="verifyWhatsappPhoneOtp()">Onayla</button></div></div>
               <label>Yüzük Parmak Ölçüsü<input id="accountRingSize" placeholder="Örn. 14"></label>
               <label>Bilezik Ölçüsü<input id="accountBraceletSize" placeholder="Örn. 6.2 ölçü (çap)"></label>
               <label class="account-full">Kayıtlı Adres<textarea id="accountAddressEdit" placeholder="Teslimat adresiniz"></textarea></label>
@@ -2028,6 +2078,42 @@
       return name;
     }
 
+
+    const THEME_KEY = 'bagmanciThemeMode';
+    function effectiveTheme(mode = localStorage.getItem(THEME_KEY) || 'night') {
+      if (mode === 'system') return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night';
+      return mode === 'day' ? 'day' : 'night';
+    }
+    function applyThemeMode(mode = localStorage.getItem(THEME_KEY) || 'night') {
+      localStorage.setItem(THEME_KEY, mode);
+      document.body.dataset.theme = effectiveTheme(mode);
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.className = document.body.dataset.theme === 'day' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      document.querySelectorAll('[data-theme-choice]').forEach(btn => btn.classList.toggle('active', btn.dataset.themeChoice === mode));
+    }
+    function setThemeMode(mode) { applyThemeMode(mode); document.getElementById('themeControl')?.classList.remove('open'); }
+    function toggleThemeMenu() { document.getElementById('themeControl')?.classList.toggle('open'); }
+    function handleSiteSearch(value) {
+      const query = normalizeTR(value || '').trim();
+      const list = catalogProducts.length ? catalogProducts : [];
+      if (!query) { renderCatalogCovers(list); return; }
+      const matched = list.filter(item => normalizeTR([item.name, item.category, item.sku, item.badge].filter(Boolean).join(' ')).includes(query));
+      const container = document.getElementById('catalogCoversView');
+      document.getElementById('catalogItemsView').style.display = 'none';
+      container.style.display = 'grid';
+      if (!matched.length) { container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:20px;">Aradığınız ürüne uygun sonuç bulunamadı.</div>'; return; }
+      container.innerHTML = matched.slice(0, 20).map(item => {
+        const price = productPrice(item);
+        const image = Array.isArray(item.images) && item.images.length ? item.images[0] : 'vitrin.jpg';
+        return `<div class="catalog-cover-card" onclick="urunDetayAc('${encodeURIComponent(item.id)}')"><div class="cover-box"><img src="${image}" alt="${escapeText(item.name)}" onerror="this.src='vitrin.jpg'"><span class="cover-kicker">${escapeText(item.category || 'Ürün')}</span></div><div class="cover-info"><div class="cover-title">${escapeText(item.name)}</div><span class="btn-open">${formatCatalogPrice(price)}</span></div></div>`;
+      }).join('');
+    }
+    async function handleSiteSearchKey(event) {
+      if (event.key !== 'Enter') return;
+      await loadCatalogProducts();
+      handleSiteSearch(event.currentTarget.value);
+      scrollToSectionTop('katalog');
+    }
     function catalogCoverImage(category, products) {
       const found = products.find(item => normalizeCategoryName(item.category) === category.name && Array.isArray(item.images) && item.images.length && item.images[0]);
       return found ? found.images[0] : category.fallback;
@@ -2412,6 +2498,18 @@
       await saveCustomerProfileToSupabase({ phone });
       setAccountStatus('Telefon doğrulandı ve hesabına bağlandı.', 'ok'); renderCustomerProfile();
     }
+    function sendWhatsappPhoneOtp() {
+      const phoneInput = document.getElementById('accountPhoneEdit');
+      const phone = normalizeCustomerPhone(phoneInput?.value || '');
+      if (phoneInput) phoneInput.value = phone;
+      if (!isValidTurkishPhone(phone)) { setAccountStatus('WhatsApp kodu için telefon +905xxxxxxxxx formatında olmalı.', 'err'); return; }
+      setAccountStatus('WhatsApp kod sistemi tasarıma eklendi. Resmi WhatsApp Business API bağlanınca bu numaraya kod gönderilecek.', 'ok');
+    }
+    function verifyWhatsappPhoneOtp() {
+      const code = (document.getElementById('whatsappPhoneCode')?.value || '').trim();
+      if (!/^\d{6}$/.test(code)) { setAccountStatus('WhatsApp onay kodu 6 haneli olmalı.', 'err'); return; }
+      setAccountStatus('WhatsApp kod onayı API bağlanınca gerçek doğrulama yapacak. Şimdilik tasarım hazır.', 'ok');
+    }
     function selectCustomerAvatar(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
@@ -2758,6 +2856,7 @@
 
     if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
     populateCityDatalist();
+    applyThemeMode();
     renderCustomerProfile();
     initCustomerSession().catch(() => renderCustomerProfile());
     setActiveNav('home');
