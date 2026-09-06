@@ -1446,6 +1446,7 @@
               <button class="auth-provider" type="button" onclick="signInWithProvider('apple')"><i class="fa-brands fa-apple"></i> Apple ile devam et</button>
               <button class="auth-provider" type="button" onclick="signInWithProvider('google')"><i class="fa-brands fa-google"></i> Google ile devam et</button>
               <button class="auth-provider" type="button" onclick="signInWithProvider('facebook')"><i class="fa-brands fa-facebook-f"></i> Facebook ile devam et</button>
+              <label class="remember-row"><input id="rememberLogin" type="checkbox" checked> Bu cihazda 30 gün açık tut</label>
             </div>
             <div class="auth-divider">veya</div>
             <div class="account-auth-grid">
@@ -1453,7 +1454,6 @@
               <button class="cart-btn secondary" type="button" onclick="sendCustomerPhoneOtp()"><i class="fa-solid fa-mobile-screen"></i> Telefon Kodu Gönder</button>
               <label>SMS Kodu<input class="checkout-field" id="customerPhoneCode" inputmode="numeric" placeholder="6 haneli kod"></label>
               <button class="cart-btn primary" type="button" onclick="verifyCustomerPhoneOtp()"><i class="fa-solid fa-shield-halved"></i> Kodu Onayla</button>
-              <label class="remember-row"><input id="rememberLogin" type="checkbox" checked> Giriş bilgilerimi 30 gün hatırla</label>
             </div>
             <div class="account-status" id="customerAuthStatus"></div>
           </div>
@@ -2348,7 +2348,10 @@
     async function signInWithProvider(provider) {
       const client = getSiteContentClient();
       if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca sosyal giriş aktif olacak.', 'err'); return; }
-      const { error } = await client.auth.signInWithOAuth({ provider, options: { redirectTo: window.location.href } });
+      rememberCustomerLogin();
+      const options = { redirectTo: window.location.href };
+      if (provider === 'google') options.queryParams = { prompt: 'select_account' };
+      const { error } = await client.auth.signInWithOAuth({ provider, options });
       if (error) setAccountStatus(error.message, 'err');
     }
     async function sendCustomerEmailOtp() {
