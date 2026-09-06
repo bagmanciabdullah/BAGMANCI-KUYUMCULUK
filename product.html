@@ -522,7 +522,7 @@
 
   <main class="page">
     <div class="top-tools">
-      <a class="back-link" href="index.html#katalog"><i class="fa-solid fa-arrow-left"></i> Kataloğa Dön</a>
+      <a class="back-link" id="productBackLink" href="index.html#katalog"><i class="fa-solid fa-arrow-left"></i> Kataloğa Dön</a>
       <div class="product-search">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input id="product-search-input" type="search" placeholder="Ürün kategori veya kodu ara" autocomplete="off" oninput="handleSearchInput()" onkeydown="handleSearchKey(event)">
@@ -943,8 +943,19 @@
       } catch (error) { liveBilezikPrice = 0; }
     }
 
+    function configureBackLink(params) {
+      const from = params.get('from') || '';
+      const back = document.getElementById('productBackLink');
+      if (!back) return;
+      if (from === 'account-history') {
+        back.href = 'index.html#account-history';
+        back.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Hesabıma Dön';
+      }
+    }
+
     async function init() {
       const params = new URLSearchParams(window.location.search);
+      configureBackLink(params);
       const id = params.get('id');
       const [products] = await Promise.all([loadProductsData(), loadLivePrice()]);
       allProducts = products;
