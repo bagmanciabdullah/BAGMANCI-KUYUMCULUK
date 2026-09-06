@@ -196,6 +196,7 @@ using (true);
 -- Havale / EFT siparisleri
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(),
+  customer_id uuid references auth.users(id) on delete set null,
   customer_name text not null,
   phone text not null,
   email text,
@@ -228,6 +229,7 @@ alter table public.orders add column if not exists district text;
 alter table public.orders add column if not exists tax_office text;
 alter table public.orders add column if not exists corporate_invoice boolean not null default false;
 alter table public.orders add column if not exists invoice_address_different boolean not null default false;
+alter table public.orders add column if not exists customer_id uuid references auth.users(id) on delete set null;
 
 alter table public.orders enable row level security;
 
@@ -241,7 +243,13 @@ drop policy if exists "Authenticated users can read orders" on public.orders;
 create policy "Authenticated users can read orders"
 on public.orders for select
 to authenticated
-using (true);
+using ((auth.jwt() ->> 'aal') = 'aal2');
+
+drop policy if exists "Customers can read own orders" on public.orders;
+create policy "Customers can read own orders"
+on public.orders for select
+to authenticated
+using (customer_id = auth.uid());
 
 drop policy if exists "Authenticated users can update orders" on public.orders;
 create policy "Authenticated users can update orders"

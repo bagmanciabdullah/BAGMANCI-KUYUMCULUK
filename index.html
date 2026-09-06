@@ -974,9 +974,6 @@
     .cart-title { font-family:'Cormorant Garamond', serif; color:var(--gold-light); font-size:clamp(30px,4vw,44px); line-height:1; letter-spacing:1.2px; }
     .cart-subtitle { color:var(--text-muted); font-size:13px; margin-top:7px; line-height:1.55; }
     .cart-close { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,0.72); color:var(--text-muted); font-size:24px; cursor:pointer; }
-    .cart-steps { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:18px clamp(18px,4vw,48px) 0; }
-    .cart-step { border:1px solid rgba(212,175,55,0.2); border-radius:999px; padding:12px 14px; color:var(--text-muted); background:rgba(2,6,5,.45); font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; text-align:center; cursor:pointer; }
-    .cart-step.active { color:#020605; background:linear-gradient(135deg,#f4d35e,#b9911c); border-color:transparent; }
     .cart-view { display:none; padding:24px clamp(18px,4vw,48px) 120px; }
     .cart-view.active { display:block; }
     .cart-layout, .checkout-layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr); gap:18px; align-items:start; }
@@ -1023,12 +1020,11 @@
     .profile-box { border:1px solid rgba(212,175,55,.18); border-radius:12px; padding:14px; background:rgba(212,175,55,.055); color:var(--text-muted); font-size:13px; line-height:1.55; }
     .profile-box strong { display:block; color:var(--gold-light); margin-bottom:4px; }
     @media (max-width:860px) { .checkout-modal { width:100% !important; } .cart-layout,.checkout-layout { grid-template-columns:1fr; } .cart-summary { position:static; } }
-    @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-steps { padding:14px 16px 0; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
+    @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
     .app-item.active { color: var(--emerald-accent); background: rgba(52, 211, 153, 0.09); border-radius: 14px; }
     .app-item.active i, .app-item.active span { color: var(--emerald-accent); }
     #sepetModal.modal-overlay { z-index: 140; bottom: 72px; align-items: stretch; }
     #sepetModal .checkout-modal { min-height: calc(100vh - 72px); }
-    #sepetModal .cart-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .payment-method-card { display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: start; border: 1px solid rgba(52,211,153,.28); border-radius: 14px; padding: 16px; background: linear-gradient(135deg, rgba(52,211,153,.12), rgba(2,6,5,.72)); }
     .payment-method-card strong { color: var(--gold-light); display: block; font-size: 16px; margin-bottom: 6px; }
     .payment-method-card p { color: var(--text-muted); font-size: 13px; line-height: 1.65; }
@@ -1036,7 +1032,7 @@
     .payment-note { margin-top: 14px; border: 1px solid rgba(212,175,55,.2); border-radius: 12px; padding: 14px; background: rgba(212,175,55,.055); display: grid; gap: 6px; }
     .payment-note strong { color: var(--gold-light); }
     .payment-note span { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
-    @media (max-width:620px) { #sepetModal.modal-overlay { bottom: 76px; } #sepetModal .checkout-modal { min-height: calc(100vh - 76px); } #sepetModal .cart-steps { grid-template-columns: 1fr; } .payment-method-card { grid-template-columns: 1fr; } }
+    @media (max-width:620px) { #sepetModal.modal-overlay { bottom: 76px; } #sepetModal .checkout-modal { min-height: calc(100vh - 76px); } .payment-method-card { grid-template-columns: 1fr; } }
 
     /* Bagmanci marka hesap, mesaj ve bildirim sayfalari */
     .message-page, .notification-page, .account-page { background: radial-gradient(circle at 50% 0%, rgba(15, 53, 39, 0.52), rgba(2, 6, 5, 0.98) 48%), var(--bg-base) !important; color: var(--text-pearl) !important; border-left: 1px solid rgba(212, 175, 55, 0.26) !important; border-right: 1px solid rgba(212, 175, 55, 0.26) !important; }
@@ -1099,6 +1095,33 @@
     .security-note div { border: 1px solid rgba(212,175,55,0.15); border-radius: 10px; padding: 12px; background: rgba(2,6,5,0.46); }
     .security-note strong { color: var(--gold-light); display: block; margin-bottom: 4px; }
     .security-note p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+    .cart-head-left { justify-content: flex-start; }
+    .cart-head-left .cart-close { order: 0; }
+    .cart-head-left .cart-title { margin-left: 6px; }
+    .account-avatar { overflow: hidden; position: relative; }
+    .account-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .account-avatar span { position: relative; z-index: 1; }
+    .avatar-settings { display: grid; grid-template-columns: 82px 1fr; gap: 14px; align-items: center; grid-column: 1 / -1; border: 1px solid rgba(212,175,55,.18); border-radius: 12px; padding: 12px; background: rgba(2,6,5,.48); }
+    .avatar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .avatar-actions input { display: none; }
+    .remember-row, .account-switch { grid-column: 1 / -1; display: flex !important; align-items: center; gap: 10px; color: var(--text-muted); font-weight: 700; }
+    .remember-row input, .account-switch input { width: 18px !important; height: 18px; accent-color: var(--gold-primary); }
+    .account-list { display: grid; gap: 10px; margin-top: 14px; }
+    .account-list-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 12px; align-items: center; border: 1px solid rgba(212,175,55,.18); border-radius: 12px; padding: 12px; background: rgba(2,6,5,.58); color: var(--text-pearl); text-align: left; cursor: pointer; }
+    .account-list-item img { width: 72px; height: 72px; border-radius: 9px; object-fit: cover; border: 1px solid rgba(212,175,55,.22); }
+    .account-list-item strong { color: var(--gold-light); display: block; }
+    .account-list-item span, .account-list-item small { color: var(--text-muted); display: block; font-size: 12px; }
+    .account-list-item .price { color: var(--gold-light); font-weight: 900; white-space: nowrap; }
+    .account-empty { padding: 18px; text-align: center; color: var(--text-muted); border: 1px dashed rgba(212,175,55,.2); border-radius: 12px; background: rgba(2,6,5,.42); }
+    .account-logout-zone { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(251,113,133,.24); }
+    .account-logout-btn { width: 100%; min-height: 46px; border: 1px solid rgba(251,113,133,.44); border-radius: 10px; background: rgba(127,29,29,.22); color: #fb7185; font-weight: 900; cursor: pointer; letter-spacing: .4px; }
+    .confirm-overlay { z-index: 240; background: rgba(0,0,0,.74); }
+    .confirm-box { width: min(420px, calc(100% - 28px)); border: 1px solid rgba(212,175,55,.32); border-radius: 14px; padding: 20px; background: linear-gradient(145deg, rgba(4,15,12,.98), rgba(2,6,5,.98)); box-shadow: 0 26px 70px rgba(0,0,0,.55); }
+    .confirm-box h3 { color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: 30px; margin-bottom: 6px; }
+    .confirm-box p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+    .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .confirm-cancel { min-height: 44px; border-radius: 10px; border: 1px solid rgba(251,113,133,.44); background: rgba(127,29,29,.22); color: #fb7185; font-weight: 900; cursor: pointer; }
+    .confirm-logout { min-height: 44px; border-radius: 10px; border: 0; background: linear-gradient(135deg, #f6d75a, #b98913); color: #020605; font-weight: 900; cursor: pointer; }
     @media (max-width: 720px) { .account-hero { grid-template-columns: 1fr; } .account-hero .join-pill { width: 100%; } .account-auth-grid, .account-shortcut-grid, .account-form-grid { grid-template-columns: 1fr; } .account-full { grid-column: auto; } }
   </style>
 </head>
@@ -1255,17 +1278,11 @@
   <!-- SEPET SAYFASI -->
   <div class="modal-overlay" id="sepetModal">
     <div class="modal-box checkout-modal">
-      <div class="cart-head">
+      <div class="cart-head cart-head-left">
+        <button class="cart-close" onclick="modalKapat('sepetModal')" aria-label="Sepeti kapat">×</button>
         <div>
           <h3 class="cart-title">Sepetim</h3>
-          <p class="cart-subtitle">Önce ürünleri onaylayın, sonra adres ve ödeme bilgilerini tamamlayın.</p>
         </div>
-        <button class="cart-close" onclick="modalKapat('sepetModal')" aria-label="Sepeti kapat">×</button>
-      </div>
-      <div class="cart-steps">
-        <button class="cart-step active" id="cartStepCart" onclick="showCartStep('cart')">1. Sepet</button>
-        <button class="cart-step" id="cartStepCheckout" onclick="goCheckout()">2. Adres</button>
-        <button class="cart-step" id="cartStepPayment" onclick="goPayment()">3. Ödeme</button>
       </div>
       <div class="cart-view active" id="cartViewCart">
         <div class="cart-layout">
@@ -1400,24 +1417,25 @@
       <div class="page-topbar"><button class="page-close" onclick="modalKapat('uyeModal')" aria-label="Hesabımı kapat">×</button><h3>Hesabım</h3><button class="page-close" onclick="openAnnouncementModal()" aria-label="Bildirimler"><i class="fa-regular fa-bell" style="font-size:20px;"></i></button></div>
       <div class="account-hero">
         <div class="account-hero-main">
-          <div class="account-avatar" id="accountAvatar">B</div>
-          <div><div class="account-title-row"><div class="account-email" id="accountEmail">Giriş yapılmadı</div></div><div class="account-complete" id="accountCompletion">Profilini tamamla</div></div>
+          <div class="account-avatar" id="accountAvatar"><span>B</span></div>
+          <div><div class="account-title-row"><div class="account-email" id="accountGreeting">Giriş yapılmadı</div></div><div class="account-complete" id="accountEmail">Üye ol veya doğrulama ile devam et</div><div class="account-complete" id="accountCompletion">Profilini tamamla</div></div>
         </div>
-        <button class="join-pill" id="accountJoinButton" type="button" onclick="openAccountSection('auth')">Üye Ol</button>
+        <button class="join-pill" id="accountJoinButton" type="button" onclick="customerSession ? openAccountSection('settings') : openAccountSection('auth')">Üye Ol</button>
       </div>
       <div class="account-body">
         <section class="account-section active" id="accountHomeSection">
           <div class="account-shortcut-grid">
-            <button class="account-shortcut" onclick="modalKapat('uyeModal'); modalGoster('sepetModal');"><i class="fa-solid fa-box"></i><b>Tüm Siparişlerim</b><span>Havale siparişleri ve durumları</span></button>
-            <button class="account-shortcut" onclick="setAccountStatus('Önceden gezdiklerin burada tutulacak.', '')"><i class="fa-regular fa-clock"></i><b>Önceden Gezdiklerim</b><span>Son baktığın ürünler</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('orders')"><i class="fa-solid fa-box"></i><b>Tüm Siparişlerim</b><span>Geçmiş sipariş, detay ve fatura</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('history')"><i class="fa-regular fa-clock"></i><b>Önceden Gezdiklerim</b><span>Baktığın ürünler</span></button>
             <button class="account-shortcut" onclick="setAccountStatus('İndirim kuponları yakında aktif olacak.', '')"><i class="fa-solid fa-ticket"></i><b>İndirim Kuponlarım</b><span>Sana özel fırsatlar</span></button>
             <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal();"><i class="fa-regular fa-envelope"></i><b>Satıcı Bildirimleri</b><span>Duyuru ve cevaplar</span></button>
             <button class="account-shortcut" onclick="modalKapat('uyeModal'); openQuestionModal(); showMessageTab('product');"><i class="fa-regular fa-comment-dots"></i><b>Ürün & Sipariş Yorumlarım</b><span>Yaptığın yorumlar</span></button>
             <button class="account-shortcut" onclick="openAccountSection('assistant')"><i class="fa-solid fa-headset"></i><b>Bağmancı Asistan</b><span>Satıcıya özel soru sor</span></button>
-            <button class="account-shortcut" onclick="openAccountSection('settings')"><i class="fa-solid fa-gear"></i><b>Hesap Ayarlarım</b><span>Profil, ölçü ve adres</span></button>
+            <button class="account-shortcut" onclick="openAccountSection('settings')"><i class="fa-solid fa-gear"></i><b>Hesap Ayarlarım</b><span>Profil, fotoğraf, ölçü ve adres</span></button>
             <button class="account-shortcut" onclick="openAccountSection('security')"><i class="fa-solid fa-shield-halved"></i><b>Güvenlik</b><span>2FA ve oturum koruması</span></button>
           </div>
           <div class="account-status" id="accountStatus"></div>
+          <div class="account-logout-zone"><button class="account-logout-btn" type="button" onclick="askCustomerLogout()">Hesaptan Çıkış Yap</button></div>
         </section>
         <section class="account-section" id="accountAuthSection">
           <div class="account-detail-panel">
@@ -1435,8 +1453,23 @@
               <button class="cart-btn secondary" type="button" onclick="sendCustomerPhoneOtp()"><i class="fa-solid fa-mobile-screen"></i> Telefon Kodu Gönder</button>
               <label>SMS Kodu<input class="checkout-field" id="customerPhoneCode" inputmode="numeric" placeholder="6 haneli kod"></label>
               <button class="cart-btn primary" type="button" onclick="verifyCustomerPhoneOtp()"><i class="fa-solid fa-shield-halved"></i> Kodu Onayla</button>
+              <label class="remember-row"><input id="rememberLogin" type="checkbox" checked> Giriş bilgilerimi 30 gün hatırla</label>
             </div>
             <div class="account-status" id="customerAuthStatus"></div>
+          </div>
+        </section>
+        <section class="account-section" id="accountOrdersSection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Tüm Siparişlerim</div>
+            <div class="account-list" id="customerOrdersList"><div class="account-empty">Siparişler yükleniyor...</div></div>
+          </div>
+        </section>
+        <section class="account-section" id="accountHistorySection">
+          <div class="account-detail-panel">
+            <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
+            <div class="panel-kicker">Önceden Gezdiklerim</div>
+            <div class="account-list" id="viewedProductsList"></div>
           </div>
         </section>
         <section class="account-section" id="accountSettingsSection">
@@ -1444,6 +1477,7 @@
             <button class="account-back" type="button" onclick="openAccountSection('home')">‹ Hesabıma Dön</button>
             <div class="panel-kicker">Hesap Ayarlarım</div>
             <div class="account-form-grid">
+              <div class="avatar-settings"><div class="account-avatar" id="accountAvatarPreview"><span>B</span></div><div><strong style="color:var(--gold-light);display:block;margin-bottom:8px;">Profil Fotoğrafı</strong><div class="avatar-actions"><button class="cart-btn secondary" type="button" onclick="document.getElementById('accountAvatarFile').click()">Fotoğraf Seç</button><button class="cart-btn secondary" type="button" onclick="clearCustomerAvatar()">Fotoğrafı Kaldır</button><input id="accountAvatarFile" type="file" accept="image/*" onchange="selectCustomerAvatar(event)"></div></div></div>
               <label>Ad Soyad<input id="accountFullName" placeholder="Adınız Soyadınız"></label>
               <label>E-posta<input id="accountEmailEdit" type="email" placeholder="E-posta adresiniz"></label>
               <label>Telefon<input id="accountPhoneEdit" type="tel" placeholder="Telefon numaranız"></label>
@@ -1470,14 +1504,24 @@
               <button class="account-menu-row" onclick="setAccountStatus('Şifre değişikliği e-posta girişinden sonra güvenli bağlantıyla yapılacak.', '')"><i class="fa-solid fa-lock"></i><span><strong>Şifre Değişikliği</strong><em>Hesap güvenliği</em></span><b>›</b></button>
               <button class="account-menu-row" onclick="setAccountStatus('Başarılı ve başarısız giriş kayıtları üyelik sistemiyle birlikte tutulacak.', '')"><i class="fa-solid fa-unlock-keyhole"></i><span><strong>Başarılı / Başarısız Girişler</strong><em>Giriş geçmişi</em></span><b>›</b></button>
               <button class="account-menu-row" onclick="setAccountStatus('Aktif oturumlar doğrulanmış hesaplara bağlanacak.', '')"><i class="fa-solid fa-laptop"></i><span><strong>Aktif Oturumlar</strong><em>Cihaz kontrolü</em></span><b>›</b></button>
-              <button class="account-menu-row" onclick="setAccountStatus('İki faktörlü doğrulama müşteri hesapları için ek güvenlik katmanı olarak planlandı.', 'ok')"><i class="fa-solid fa-shield-halved"></i><span><strong>İki Faktörlü Doğrulama</strong><em>Ek güvenlik katmanı</em></span><b>›</b></button>
+              <label class="account-menu-row account-switch"><i class="fa-solid fa-shield-halved"></i><span><strong>İki Faktörlü Giriş İzni</strong><em>Şimdilik hazırlık modu</em></span><input id="customerMfaAllowed" type="checkbox" onchange="setAccountStatus('İki faktörlü giriş izni tercihin kaydedildi. Aktivasyon altyapısı tamamlanınca bu ayar kullanılacak.', 'ok')"></label>
             </div>
             <div class="security-note"><div><strong>Güvenlik sistemi</strong><p>E-posta doğrulama, telefon kodu, iki faktörlü doğrulama, kayıtlı cihaz takibi ve admin onaylı sipariş süreci birlikte çalışır. Ödeme havale/EFT olduğu için sipariş, mağaza teyidi ve resmi fatura bilgileri alınmadan tamamlanmış sayılmaz.</p></div></div>
+            <div class="account-logout-zone"><button class="account-logout-btn" type="button" onclick="askCustomerLogout()">Hesaptan Çıkış Yap</button></div>
           </div>
         </section>
       </div>
     </div>
-  </div>  <!-- MESAJLAR SAYFASI -->
+  </div>
+  <div class="modal-overlay confirm-overlay" id="logoutConfirmModal">
+    <div class="confirm-box">
+      <h3>Çıkış yapılsın mı?</h3>
+      <p>Hesabından çıkış yapılacak. Siparişlerini ve mesajlarını tekrar görmek için yeniden giriş yapman gerekir.</p>
+      <div class="confirm-actions"><button class="confirm-cancel" type="button" onclick="modalKapat('logoutConfirmModal')">İptal Et</button><button class="confirm-logout" type="button" onclick="confirmCustomerLogout()">Çıkış Yap</button></div>
+    </div>
+  </div>
+
+  <!-- MESAJLAR SAYFASI -->
   <div class="modal-overlay message-page-overlay" id="soruModal">
     <div class="modal-box message-page">
       <div class="page-topbar"><button class="page-close" onclick="modalKapat('soruModal')" aria-label="Mesajları kapat">‹</button><h3>Satıcı Mesajlarım</h3><span></span></div>
@@ -1527,6 +1571,10 @@
     let customerSession = null;
     let customerQuestions = [];
     const CUSTOMER_JEWELRY_KEY = 'bagmanciJewelryProfile';
+    const CUSTOMER_AVATAR_KEY = 'bagmanciCustomerAvatar';
+    const CUSTOMER_REMEMBER_KEY = 'bagmanciCustomerRememberUntil';
+    const CUSTOMER_VIEWED_KEY = 'bagmanciViewedProducts';
+    const CUSTOMER_REMEMBER_DAYS = 30;
     const turkeyCities = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
     const turkeyDistricts = {
       'Adana': ['Aladağ','Ceyhan','Çukurova','Feke','İmamoğlu','Karaisalı','Karataş','Kozan','Pozantı','Saimbeyli','Sarıçam','Seyhan','Tufanbeyli','Yumurtalık','Yüreğir'],
@@ -2055,6 +2103,8 @@
     }
 
     function urunDetayAc(id) {
+      const rawId = decodeURIComponent(id);
+      trackViewedProduct(catalogProducts.find(item => item.id === rawId));
       window.location.href = `product.html?id=${id}`;
     }
 
@@ -2235,14 +2285,23 @@
       const checkout = safeJson('bagmanciCheckoutProfile', {}) || {};
       const jewelry = safeJson(CUSTOMER_JEWELRY_KEY, {}) || {};
       const user = customerSession?.user || {};
-      return { name: jewelry.name || checkout.name || user.user_metadata?.full_name || '', email: jewelry.email || user.email || checkout.email || '', phone: jewelry.phone || user.phone || checkout.phone || '', city: checkout.city || '', district: checkout.district || '', address: jewelry.address || checkout.address || '', ringSize: jewelry.ringSize || '', braceletSize: jewelry.braceletSize || '' };
+      const meta = user.user_metadata || {};
+      const avatar = localStorage.getItem(CUSTOMER_AVATAR_KEY) || meta.avatar_url || meta.picture || '';
+      return { name: jewelry.name || checkout.name || meta.full_name || meta.name || '', email: jewelry.email || user.email || checkout.email || '', phone: jewelry.phone || user.phone || checkout.phone || '', city: checkout.city || '', district: checkout.district || '', address: jewelry.address || checkout.address || '', ringSize: jewelry.ringSize || '', braceletSize: jewelry.braceletSize || '', avatar };
     }
     function profilePercent(profile) { const fields = [profile.name, profile.email, profile.phone, profile.address, profile.ringSize, profile.braceletSize]; return Math.round((fields.filter(Boolean).length / fields.length) * 100); }
+    function customerNameForGreeting(profile) { return profile.name || (profile.email ? profile.email.split('@')[0] : ''); }
+    function selectedRememberLogin() { return document.getElementById('rememberLogin')?.checked !== false; }
+    function rememberCustomerLogin() { if (selectedRememberLogin()) localStorage.setItem(CUSTOMER_REMEMBER_KEY, String(Date.now() + CUSTOMER_REMEMBER_DAYS * 24 * 60 * 60 * 1000)); else localStorage.removeItem(CUSTOMER_REMEMBER_KEY); }
+    function customerLoginExpired() { const until = Number(localStorage.getItem(CUSTOMER_REMEMBER_KEY) || 0); return Boolean(until && Date.now() > until); }
+    function ensureCustomerRememberWindow() { if (customerSession && !localStorage.getItem(CUSTOMER_REMEMBER_KEY)) localStorage.setItem(CUSTOMER_REMEMBER_KEY, String(Date.now() + CUSTOMER_REMEMBER_DAYS * 24 * 60 * 60 * 1000)); }
     async function initCustomerSession() {
       const client = getSiteContentClient();
       if (!client) { renderCustomerProfile(); return; }
       const { data } = await client.auth.getSession();
       customerSession = data.session;
+      if (customerSession && customerLoginExpired()) { await client.auth.signOut(); customerSession = null; localStorage.removeItem(CUSTOMER_REMEMBER_KEY); renderCustomerProfile(); return; }
+      ensureCustomerRememberWindow();
       await saveCustomerProfileToSupabase();
       await loadCustomerQuestions();
       renderCustomerProfile();
@@ -2253,34 +2312,39 @@
       const profile = { ...customerProfileData(), ...extra };
       await client.from('customer_profiles').upsert({ user_id: customerSession.user.id, email: profile.email || customerSession.user.email || null, phone: profile.phone || customerSession.user.phone || null, full_name: profile.name || null, ring_size: profile.ringSize || null, bracelet_size: profile.braceletSize || null, default_address: profile.address || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     }
+    function paintAccountAvatar(target, profile) {
+      const el = typeof target === 'string' ? document.getElementById(target) : target;
+      if (!el) return;
+      const initial = (profile.name || profile.email || 'B').trim().charAt(0).toLocaleUpperCase('tr-TR');
+      el.innerHTML = profile.avatar ? `<img src="${profile.avatar}" alt="Profil fotoğrafı">` : `<span>${initial}</span>`;
+    }
     function renderCustomerProfile() {
       const profile = customerProfileData();
       const percent = profilePercent(profile);
-      const email = profile.email || 'Giriş yapılmadı';
-      const avatar = document.getElementById('accountAvatar');
+      const name = customerNameForGreeting(profile);
+      const greeting = document.getElementById('accountGreeting') || document.getElementById('accountEmail');
       const emailBox = document.getElementById('accountEmail');
       const complete = document.getElementById('accountCompletion');
-      if (avatar) avatar.textContent = (profile.name || profile.email || 'B').trim().charAt(0).toLocaleUpperCase('tr-TR');
-      if (emailBox) emailBox.textContent = email;
-      if (complete) complete.textContent = customerSession ? `%${percent} profil tamamlandı` : 'Üye ol veya doğrulama ile devam et';
+      const join = document.getElementById('accountJoinButton');
+      paintAccountAvatar('accountAvatar', profile);
+      paintAccountAvatar('accountAvatarPreview', profile);
+      if (greeting) greeting.textContent = customerSession ? `Merhaba ${name || 'Bağmancı müşterisi'}` : 'Giriş yapılmadı';
+      if (emailBox && emailBox !== greeting) emailBox.textContent = customerSession ? (profile.email || profile.phone || 'Doğrulanmış hesap') : 'Üye ol veya doğrulama ile devam et';
+      if (complete) complete.textContent = customerSession ? `%${percent} profil tamamlandı` : 'Sipariş ve mesajlar için giriş yapın';
+      if (join) join.textContent = customerSession ? 'Profilim' : 'Üye Ol';
       [['customerPhoneInput', profile.phone], ['accountFullName', profile.name], ['accountEmailEdit', profile.email], ['accountPhoneEdit', profile.phone], ['accountRingSize', profile.ringSize], ['accountBraceletSize', profile.braceletSize], ['accountAddressEdit', profile.address]].forEach(([id, value]) => { const el = document.getElementById(id); if (el && !el.value && value) el.value = value; });
       const box = document.getElementById('customerProfileBox');
       if (box) box.innerHTML = profile.email ? `<strong>${profile.name || 'Müşteri'}</strong>${profile.phone || ''}<br>${profile.email}<br>${[profile.district, profile.city].filter(Boolean).join(' / ')}<br>${profile.address || ''}` : 'Kayıtlı müşteri bilginiz yok.';
     }
     function openAccountSection(section = 'home') {
-      const sections = {
-        home: 'accountHomeSection',
-        auth: 'accountAuthSection',
-        settings: 'accountSettingsSection',
-        assistant: 'accountAssistantSection',
-        security: 'accountSecuritySection'
-      };
+      const sections = { home: 'accountHomeSection', auth: 'accountAuthSection', orders: 'accountOrdersSection', history: 'accountHistorySection', settings: 'accountSettingsSection', assistant: 'accountAssistantSection', security: 'accountSecuritySection' };
       Object.values(sections).forEach(id => document.getElementById(id)?.classList.remove('active'));
       document.getElementById(sections[section] || sections.home)?.classList.add('active');
       renderCustomerProfile();
+      if (section === 'orders') loadCustomerOrders();
+      if (section === 'history') renderViewedProducts();
       if (section === 'assistant') setTimeout(() => document.getElementById('assistantQuestion')?.focus(), 80);
     }
-
     async function signInWithProvider(provider) {
       const client = getSiteContentClient();
       if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca sosyal giriş aktif olacak.', 'err'); return; }
@@ -2293,6 +2357,7 @@
       if (!email) { setAccountStatus('E-posta adresini yazman gerekiyor.', 'err'); return; }
       const jewelry = safeJson(CUSTOMER_JEWELRY_KEY, {}) || {}; localStorage.setItem(CUSTOMER_JEWELRY_KEY, JSON.stringify({ ...jewelry, email }));
       if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca e-posta doğrulama aktif olacak.', 'err'); renderCustomerProfile(); return; }
+      rememberCustomerLogin();
       const { error } = await client.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: window.location.href } });
       if (error) { setAccountStatus(error.message, 'err'); return; }
       setAccountStatus('Doğrulama bağlantısı e-postana gönderildi.', 'ok'); renderCustomerProfile();
@@ -2302,6 +2367,7 @@
       const phone = (document.getElementById('customerPhoneInput')?.value || document.getElementById('accountPhoneEdit')?.value || '').trim();
       if (!phone) { setAccountStatus('Telefon numarasını +90 ile yazman gerekiyor.', 'err'); return; }
       if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca telefon kodu aktif olacak.', 'err'); return; }
+      rememberCustomerLogin();
       const { error } = await client.auth.signInWithOtp({ phone });
       if (error) { setAccountStatus('Telefon kodu için Supabase SMS sağlayıcısı açılmalı: ' + error.message, 'err'); return; }
       setAccountStatus('Telefon doğrulama kodu gönderildi.', 'ok');
@@ -2314,8 +2380,59 @@
       const { data, error } = await client.auth.verifyOtp({ phone, token, type: 'sms' });
       if (error) { setAccountStatus(error.message, 'err'); return; }
       customerSession = data.session;
+      rememberCustomerLogin();
       await saveCustomerProfileToSupabase({ phone });
       setAccountStatus('Telefon doğrulandı ve hesabına bağlandı.', 'ok'); renderCustomerProfile();
+    }
+    function selectCustomerAvatar(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (file.size > 1800000) { setAccountStatus('Profil fotoğrafı çok büyük. Daha küçük bir görsel seç.', 'err'); return; }
+      const reader = new FileReader();
+      reader.onload = () => { localStorage.setItem(CUSTOMER_AVATAR_KEY, reader.result); renderCustomerProfile(); setAccountStatus('Profil fotoğrafın kaydedildi.', 'ok'); };
+      reader.readAsDataURL(file);
+    }
+    function clearCustomerAvatar() { localStorage.removeItem(CUSTOMER_AVATAR_KEY); renderCustomerProfile(); setAccountStatus('Profil fotoğrafı kaldırıldı.', 'ok'); }
+    function askCustomerLogout() { if (!customerSession?.user) { openAccountSection('auth'); setAccountStatus('Çıkış yapmak için önce giriş yapılmış olmalı.', 'err'); return; } modalGoster('logoutConfirmModal'); }
+    async function confirmCustomerLogout() {
+      const client = getSiteContentClient();
+      if (client) await client.auth.signOut();
+      customerSession = null;
+      localStorage.removeItem(CUSTOMER_REMEMBER_KEY);
+      modalKapat('logoutConfirmModal');
+      openAccountSection('home');
+      renderCustomerProfile();
+      setAccountStatus('Hesaptan çıkış yapıldı.', 'ok');
+    }
+    function orderStatusText(value) { return ({ new: 'Yeni sipariş', payment_waiting: 'Ödeme bekleniyor', paid: 'Ödeme alındı', preparing: 'Hazırlanıyor', shipped: 'Kargoya verildi', completed: 'Tamamlandı', cancelled: 'İptal edildi' }[value] || 'Sipariş alındı'); }
+    async function loadCustomerOrders() {
+      const list = document.getElementById('customerOrdersList');
+      if (!list) return;
+      if (!customerSession?.user) { list.innerHTML = '<div class="account-empty">Geçmiş siparişlerini görmek için önce üye girişi yapmalısın.</div>'; return; }
+      const client = getSiteContentClient();
+      if (!client) { list.innerHTML = '<div class="account-empty">Sipariş geçmişi Supabase bağlantısı hazır olunca görünecek.</div>'; return; }
+      list.innerHTML = '<div class="account-empty">Siparişler yükleniyor...</div>';
+      const { data, error } = await client.from('orders').select('id,customer_id,customer_name,invoice_name,shipping_address,items,total,status,created_at').eq('customer_id', customerSession.user.id).order('created_at', { ascending: false }).limit(50);
+      if (error) { list.innerHTML = `<div class="account-empty">Siparişleri görmek için Supabase kurulum dosyasını tekrar çalıştırman gerekiyor.<br>${escapeText(error.message)}</div>`; return; }
+      list.innerHTML = (data || []).map(order => {
+        const created = order.created_at ? new Date(order.created_at).toLocaleDateString('tr-TR') : '';
+        const items = Array.isArray(order.items) ? order.items.length : 0;
+        return `<article class="account-list-item"><div class="premium-cart-fallback"><i class="fa-solid fa-receipt"></i></div><div><strong>${escapeText(orderStatusText(order.status))}</strong><span>${escapeText(created)} • ${items} ürün • Fatura: ${escapeText(order.invoice_name || order.customer_name || '')}</span><small>${escapeText(order.shipping_address || 'Teslimat adresi yok')}</small></div><div class="price">${cartMoney(order.total)}</div></article>`;
+      }).join('') || '<div class="account-empty">Henüz geçmiş siparişin yok.</div>';
+    }
+    function getViewedProducts() { return safeJson(CUSTOMER_VIEWED_KEY, []) || []; }
+    function trackViewedProduct(item) {
+      if (!item) return;
+      const image = Array.isArray(item.images) && item.images.length ? item.images[0] : '';
+      const current = getViewedProducts().filter(product => product.id !== item.id);
+      current.unshift({ id: item.id, name: item.name, category: item.category, image, price: productPrice(item), viewedAt: new Date().toISOString() });
+      localStorage.setItem(CUSTOMER_VIEWED_KEY, JSON.stringify(current.slice(0, 30)));
+    }
+    function renderViewedProducts() {
+      const list = document.getElementById('viewedProductsList');
+      if (!list) return;
+      const viewed = getViewedProducts();
+      list.innerHTML = viewed.map(item => `<button class="account-list-item" type="button" onclick="urunDetayAc('${encodeURIComponent(item.id)}')">${item.image ? `<img src="${item.image}" alt="${escapeText(item.name)}">` : '<div class="premium-cart-fallback"><i class="fa-solid fa-gem"></i></div>'}<div><strong>${escapeText(item.name)}</strong><span>${escapeText(item.category || 'Bağmancı seçkisi')}</span><small>${item.viewedAt ? new Date(item.viewedAt).toLocaleDateString('tr-TR') : ''}</small></div><div class="price">${cartMoney(item.price)}</div></button>`).join('') || '<div class="account-empty">Henüz ürün gezmedin. Katalogdan ürün açtıkça burada görünecek.</div>';
     }
     async function saveCustomerJewelryProfile() {
       const profile = { name: document.getElementById('accountFullName')?.value.trim() || '', email: document.getElementById('accountEmailEdit')?.value.trim() || '', phone: document.getElementById('accountPhoneEdit')?.value.trim() || '', ringSize: document.getElementById('accountRingSize')?.value.trim() || '', braceletSize: document.getElementById('accountBraceletSize')?.value.trim() || '', address: document.getElementById('accountAddressEdit')?.value.trim() || '' };
@@ -2438,6 +2555,7 @@
         invoice_address: invoiceDifferent ? checkoutValue('invoiceAddress') : deliveryAddress,
         shipping_address: deliveryAddress,
         note: checkoutValue('orderNote'),
+        customer_id: customerSession?.user?.id || null,
         payment_method: 'havale_eft',
         total,
         items: sepet
@@ -2449,6 +2567,7 @@
         if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
       }
       saveCheckoutProfileIfWanted();
+      loadCustomerOrders().catch(() => {});
       status.textContent = 'Siparişiniz alındı. Mağaza ödeme bilgisi için sizinle iletişime geçecek.';
       status.classList.add('ok');
       sepet = [];
