@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -19,6 +19,25 @@
       --text: #f7f6f2;
       --muted: #a3b3ae;
       --green: #34d399;
+    }
+
+    
+    body[data-theme="day"] {
+      --bg-base: #f6ecd2;
+      --panel: rgba(255, 249, 232, 0.96);
+      --panel-soft: rgba(255, 252, 243, 0.86);
+      --gold-primary: #c7961e;
+      --gold-light: #76510c;
+      --border: rgba(183, 131, 18, 0.42);
+      --text: #083f31;
+      --muted: #335f50;
+      --green: #007456;
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 18% 8%, rgba(255, 255, 247, 0.94), transparent 28%),
+        radial-gradient(circle at 92% 22%, rgba(225, 202, 143, 0.42), transparent 34%),
+        linear-gradient(180deg, #fff8e6 0%, #f6ecd2 48%, #efe0b9 100%);
+      color: var(--text);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -389,6 +408,110 @@
     /* Favori ve kucuk gorsel duzeltmeleri */
     .thumb img { object-fit: cover !important; padding: 0 !important; object-position: center !important; }
     .gallery-fav.active i { color: var(--gold-primary); }
+    /* Gündüz tema: ürün detay sayfasını ana palete bağla */
+    body[data-theme="day"] header,
+    body[data-theme="day"] .app-bar {
+      background: rgba(255, 249, 232, 0.97) !important;
+      border-color: rgba(183, 131, 18, 0.34) !important;
+      box-shadow: 0 10px 34px rgba(122, 86, 18, 0.14);
+    }
+    body[data-theme="day"] .brand-logo,
+    body[data-theme="day"] h1,
+    body[data-theme="day"] .cart-box h3,
+    body[data-theme="day"] .spec-section h3 {
+      color: #76510c !important;
+    }
+    body[data-theme="day"] .brand-sub,
+    body[data-theme="day"] .app-item,
+    body[data-theme="day"] .desc,
+    body[data-theme="day"] .sku,
+    body[data-theme="day"] .live-status,
+    body[data-theme="day"] .tab-body,
+    body[data-theme="day"] .workmanship-info,
+    body[data-theme="day"] .search-result span {
+      color: #335f50 !important;
+    }
+    body[data-theme="day"] .back-link,
+    body[data-theme="day"] .product-search,
+    body[data-theme="day"] .detail-panel,
+    body[data-theme="day"] .tabs,
+    body[data-theme="day"] .quick-spec,
+    body[data-theme="day"] .spec-row,
+    body[data-theme="day"] .workmanship-info,
+    body[data-theme="day"] .cart-box {
+      background: linear-gradient(180deg, rgba(255, 251, 238, 0.98), rgba(248, 236, 204, 0.94)) !important;
+      border-color: rgba(183, 131, 18, 0.36) !important;
+      color: #083f31 !important;
+      box-shadow: 0 16px 38px rgba(116, 83, 18, 0.12);
+    }
+    body[data-theme="day"] .gallery-main,
+    body[data-theme="day"] .thumb,
+    body[data-theme="day"] .lightbox-image,
+    body[data-theme="day"] .search-result img,
+    body[data-theme="day"] .search-result .no-image {
+      background: #fffaf0 !important;
+      border-color: rgba(183, 131, 18, 0.28) !important;
+    }
+    body[data-theme="day"] .product-search input[type="search"] {
+      color: #083f31 !important;
+    }
+    body[data-theme="day"] .product-search input[type="search"]::placeholder {
+      color: rgba(51, 95, 80, 0.72) !important;
+    }
+    body[data-theme="day"] .search-btn,
+    body[data-theme="day"] .image-search-btn,
+    body[data-theme="day"] .icon-action,
+    body[data-theme="day"] .cart-secondary,
+    body[data-theme="day"] .gallery-fav {
+      background: rgba(255, 252, 243, 0.78) !important;
+      border-color: rgba(183, 131, 18, 0.34) !important;
+      color: #76510c !important;
+    }
+    body[data-theme="day"] .search-results {
+      background: rgba(255, 249, 232, 0.99) !important;
+      border-color: rgba(183, 131, 18, 0.34) !important;
+      box-shadow: 0 18px 42px rgba(122, 86, 18, 0.18) !important;
+    }
+    body[data-theme="day"] .search-result {
+      color: #083f31 !important;
+      border-bottom-color: rgba(8, 63, 49, 0.12) !important;
+    }
+    body[data-theme="day"] .search-result:hover,
+    body[data-theme="day"] .tab-btn.active {
+      background: rgba(199, 150, 30, 0.13) !important;
+    }
+    body[data-theme="day"] .search-result strong,
+    body[data-theme="day"] .quick-spec strong,
+    body[data-theme="day"] .spec-row span,
+    body[data-theme="day"] .price,
+    body[data-theme="day"] .price-note,
+    body[data-theme="day"] .formula-pill,
+    body[data-theme="day"] .tab-btn.active {
+      color: #76510c !important;
+    }
+    body[data-theme="day"] .quick-spec span,
+    body[data-theme="day"] .spec-row b,
+    body[data-theme="day"] .tab-btn {
+      color: #335f50 !important;
+    }
+    body[data-theme="day"] .price,
+    body[data-theme="day"] .formula-pill {
+      background: rgba(255, 252, 243, 0.82) !important;
+      border-color: rgba(183, 131, 18, 0.28) !important;
+      box-shadow: inset 0 0 20px rgba(199, 150, 30, 0.08), 0 12px 26px rgba(116,83,18,0.12) !important;
+    }
+    body[data-theme="day"] .badge,
+    body[data-theme="day"] .buy,
+    body[data-theme="day"] .cart-primary {
+      background: linear-gradient(135deg, #f6d75a 0%, #c7961e 100%) !important;
+      color: #083f31 !important;
+    }
+    body[data-theme="day"] .app-item i,
+    body[data-theme="day"] .product-search > i,
+    body[data-theme="day"] .price .currency,
+    body[data-theme="day"] .image-fallback i {
+      color: #c7961e !important;
+    }
   </style>
 </head>
 <body>
@@ -477,6 +600,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
+    const THEME_KEY = 'bagmanciThemeMode';
+    function effectiveTheme(mode = localStorage.getItem(THEME_KEY) || 'night') {
+      if (mode === 'system') return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night';
+      return mode === 'day' ? 'day' : 'night';
+    }
+    function applyStoredTheme() {
+      document.body.dataset.theme = effectiveTheme();
+    }
+
     let product = null;
     let productImages = [];
     let currentImageIndex = 0;
@@ -828,7 +960,10 @@
       if (document.getElementById('lightbox').classList.contains('open') && event.key === 'ArrowRight') lightboxStep(1);
     });
 
+    applyStoredTheme();
+    if (window.matchMedia) window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyStoredTheme);
     init().catch(() => { document.getElementById('product-shell').innerHTML = '<p>Ürün bilgisi yüklenemedi.</p>'; });
   </script>
 </body>
 </html>
+

@@ -19,7 +19,17 @@
       --green: #34d399;
       --red: #fb7185;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+        body[data-theme="day"] {
+      --bg: #f6ecd2;
+      --panel: rgba(255, 249, 232, 0.96);
+      --border: rgba(183, 131, 18, 0.38);
+      --gold: #c7961e;
+      --gold-light: #76510c;
+      --text: #083f31;
+      --muted: #335f50;
+      --green: #007456;
+      --red: #b42335;
+    }* { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh;
       background: radial-gradient(circle at 50% 0%, rgba(17, 42, 34, 0.42), rgba(2, 6, 5, 0.96) 58%), var(--bg);
@@ -98,6 +108,72 @@
     .member-row strong { color: var(--gold-light); display: block; font-size: 16px; }
     .member-row span, .member-row small { color: var(--muted); font-size: 12px; line-height: 1.55; display: block; overflow-wrap: anywhere; }
     .member-badge { border: 1px solid rgba(52, 211, 153, 0.26); color: #bbf7d0; background: rgba(52, 211, 153, 0.07); border-radius: 999px; padding: 7px 10px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    body[data-theme="day"] {
+      background: radial-gradient(circle at 18% 8%, rgba(255,255,247,.94), transparent 28%), linear-gradient(180deg, #fff8e6 0%, #f6ecd2 52%, #efe0b9 100%);
+    }
+    body[data-theme="day"] .panel,
+    body[data-theme="day"] .admin-nav,
+    body[data-theme="day"] .dashboard-card,
+    body[data-theme="day"] .empty-panel,
+    body[data-theme="day"] .member-stat,
+    body[data-theme="day"] .member-row,
+    body[data-theme="day"] .message-row,
+    body[data-theme="day"] .announcement-row,
+    body[data-theme="day"] .order-card,
+    body[data-theme="day"] .order-field,
+    body[data-theme="day"] .security-card,
+    body[data-theme="day"] .session-item,
+    body[data-theme="day"] .mfa-secret {
+      background: linear-gradient(180deg, rgba(255, 251, 238, 0.98), rgba(248, 236, 204, 0.94)) !important;
+      border-color: rgba(183, 131, 18, 0.34) !important;
+      color: var(--text) !important;
+      box-shadow: 0 16px 38px rgba(116, 83, 18, 0.12);
+    }
+    body[data-theme="day"] h1,
+    body[data-theme="day"] h2,
+    body[data-theme="day"] h3,
+    body[data-theme="day"] .home,
+    body[data-theme="day"] .product-row strong,
+    body[data-theme="day"] .dashboard-card strong,
+    body[data-theme="day"] .message-row strong,
+    body[data-theme="day"] .announcement-row strong,
+    body[data-theme="day"] .member-row strong,
+    body[data-theme="day"] .order-title,
+    body[data-theme="day"] .order-total,
+    body[data-theme="day"] .order-field span,
+    body[data-theme="day"] .security-line span,
+    body[data-theme="day"] .session-item strong { color: var(--gold-light) !important; }
+    body[data-theme="day"] .muted,
+    body[data-theme="day"] label,
+    body[data-theme="day"] .status,
+    body[data-theme="day"] .product-row span,
+    body[data-theme="day"] .dashboard-card span,
+    body[data-theme="day"] .message-row small,
+    body[data-theme="day"] .announcement-row small,
+    body[data-theme="day"] .member-row span,
+    body[data-theme="day"] .member-row small,
+    body[data-theme="day"] .order-meta,
+    body[data-theme="day"] .order-item span,
+    body[data-theme="day"] .order-field b,
+    body[data-theme="day"] .security-line b,
+    body[data-theme="day"] .session-item span,
+    body[data-theme="day"] .mfa-note { color: var(--muted) !important; }
+    body[data-theme="day"] input,
+    body[data-theme="day"] select,
+    body[data-theme="day"] textarea {
+      background: rgba(255, 253, 247, 0.94) !important;
+      color: var(--text) !important;
+      border-color: rgba(183, 131, 18, 0.34) !important;
+    }
+    body[data-theme="day"] .secondary,
+    body[data-theme="day"] .home,
+    body[data-theme="day"] .menu-index,
+    body[data-theme="day"] .order-badge { background: rgba(255, 252, 243, 0.78) !important; color: var(--gold-light) !important; border-color: rgba(183, 131, 18, 0.34) !important; }
+    body[data-theme="day"] .member-badge,
+    body[data-theme="day"] .auto-logout-pill,
+    body[data-theme="day"] .order-badge.completed,
+    body[data-theme="day"] .order-badge.shipped,
+    body[data-theme="day"] .order-badge.paid { color: var(--green) !important; background: rgba(0,116,86,.08) !important; border-color: rgba(0,116,86,.24) !important; }
     @media (max-width: 760px) {
       body { padding: 14px; }
       header { align-items: flex-start; flex-direction: column; }
@@ -161,7 +237,12 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <script>
+    const mode = localStorage.getItem('bagmanciThemeMode') || 'night';
+    document.body.dataset.theme = mode === 'system'
+      ? (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night')
+      : (mode === 'day' ? 'day' : 'night');
+  </script>  <div class="wrap">
     <header>
       <div>
         <h1>Bağmancı Admin</h1>
