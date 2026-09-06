@@ -118,18 +118,22 @@
     }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
-    .theme-control { position:absolute; left:18px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:2; }
+    .theme-control { position:absolute; left:22px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:2; }
     .theme-button { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,.62); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.28); }
     .theme-menu { display:none; position:absolute; left:0; top:48px; min-width:148px; border:1px solid var(--card-border); border-radius:10px; background:var(--card-glass); padding:6px; box-shadow:0 18px 48px rgba(0,0,0,.42); }
     .theme-control.open .theme-menu { display:grid; gap:4px; }
     .theme-menu button { border:0; background:transparent; color:var(--text-pearl); text-align:left; padding:9px 10px; border-radius:8px; font-weight:800; cursor:pointer; }
     .theme-menu button.active, .theme-menu button:hover { background:rgba(212,175,55,.16); color:var(--gold-light); }
-    .site-search { width:min(720px, calc(100% - 32px)); margin:14px auto 0; position:relative; }
-    .site-search i { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--gold-primary); }
-    .site-search input { width:100%; height:48px; border-radius:999px; border:1px solid var(--card-border); background:rgba(2,6,5,.72); color:var(--text-pearl); padding:0 18px 0 44px; font:700 14px Montserrat, sans-serif; outline:none; }
+    .site-search { width:min(980px, calc(100% - 40px)); margin:14px auto 0; position:relative; display:flex; align-items:center; }
+    .site-search .site-search-icon { position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--gold-primary); font-size:18px; }
+    .site-search input { width:100%; height:54px; border-radius:12px; border:1px solid var(--card-border); background:rgba(2,6,5,.72); color:var(--text-pearl); padding:0 118px 0 52px; font:700 15px Montserrat, sans-serif; outline:none; }
     .site-search input:focus { border-color:var(--emerald-accent); box-shadow:0 0 0 3px rgba(52,211,153,.13); }
-    body[data-theme="day"] .theme-button, body[data-theme="day"] .site-search input { background:rgba(255,252,244,.88); color:var(--text-pearl); }
-    @media (max-width:620px) { header { min-height:136px; padding-top:16px; } .theme-control { left:12px; top:22px; transform:none; } .site-search { margin-top:12px; } }
+    .site-search-actions { position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:8px; }
+    .site-search-btn { width:40px; height:40px; border-radius:10px; border:1px solid var(--card-border); background:rgba(212,175,55,.12); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; font-size:15px; }
+    .site-search-btn:hover { border-color:var(--gold-primary); background:rgba(212,175,55,.22); }
+    .site-visual-input { display:none; }
+    body[data-theme="day"] .theme-button, body[data-theme="day"] .site-search input, body[data-theme="day"] .site-search-btn { background:rgba(255,252,244,.9); color:var(--text-pearl); }
+    @media (max-width:620px) { header { min-height:136px; padding-top:16px; } .theme-control { left:12px; top:50%; transform:translateY(-50%); } .site-search { width:calc(100% - 20px); margin-top:12px; } .site-search input { height:50px; padding-right:106px; font-size:13px; } .site-search-btn { width:37px; height:37px; } }
 
     /* BANNER */
     .banner-container { width: 100%; max-width: 960px; margin: 24px auto 0; padding: 0 16px; }
@@ -219,10 +223,11 @@
       display: block;
       font-style: italic;
       font-size: 34px;
-      background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--gold-light);
+      text-shadow: 0 1px 0 rgba(255,255,255,.18);
     }
+    body[data-theme="night"] .hero-title span { background: linear-gradient(135deg, #ffffff 0%, #f7e8c3 45%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    body[data-theme="day"] .hero-title span { color:#8a640f; -webkit-text-fill-color: currentColor; }
     .hero-desc {
       font-size: 14px;
       font-weight: 300;
@@ -1167,6 +1172,45 @@
     .account-empty { padding: 18px; text-align: center; color: var(--text-muted); border: 1px dashed rgba(212,175,55,.2); border-radius: 12px; background: rgba(2,6,5,.42); }
     .account-logout-zone { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(251,113,133,.24); }
     .account-logout-btn { width: 100%; min-height: 46px; border: 1px solid rgba(251,113,133,.44); border-radius: 10px; background: rgba(127,29,29,.22); color: #fb7185; font-weight: 900; cursor: pointer; letter-spacing: .4px; }
+    body[data-theme="day"] #sepetModal.modal-overlay,
+    body[data-theme="day"] #uyeModal.account-page-overlay { background: radial-gradient(circle at 50% 0%, rgba(255, 247, 222, 0.86), rgba(246, 236, 210, 0.96) 58%), rgba(246,236,210,.98); }
+    body[data-theme="day"] .checkout-modal,
+    body[data-theme="day"] .account-page { background: linear-gradient(180deg, rgba(255, 250, 235, 0.98), rgba(241, 225, 181, 0.98)) !important; color: var(--text-pearl) !important; border-color: rgba(183,131,18,.34) !important; }
+    body[data-theme="day"] .cart-head,
+    body[data-theme="day"] .page-topbar { background: rgba(255, 249, 232, 0.96) !important; border-bottom-color: rgba(183,131,18,.32) !important; }
+    body[data-theme="day"] .account-hero { background: linear-gradient(135deg, rgba(255, 248, 225, 0.94), rgba(221, 197, 132, 0.5)); }
+    body[data-theme="day"] .cart-panel,
+    body[data-theme="day"] .checkout-panel,
+    body[data-theme="day"] .cart-summary,
+    body[data-theme="day"] .account-panel,
+    body[data-theme="day"] .account-menu,
+    body[data-theme="day"] .account-auth-card,
+    body[data-theme="day"] .account-detail-panel { background: linear-gradient(180deg, rgba(255, 251, 238, 0.98), rgba(248, 236, 204, 0.94)) !important; border-color: rgba(183,131,18,.36) !important; box-shadow: 0 16px 38px rgba(116,83,18,.13); }
+    body[data-theme="day"] .premium-cart-item,
+    body[data-theme="day"] .cart-empty,
+    body[data-theme="day"] .account-shortcut,
+    body[data-theme="day"] .account-menu-row,
+    body[data-theme="day"] .account-list-item,
+    body[data-theme="day"] .account-empty,
+    body[data-theme="day"] .avatar-settings { background: rgba(255, 252, 243, 0.78) !important; border-color: rgba(183,131,18,.28) !important; color: var(--text-pearl) !important; }
+    body[data-theme="day"] .account-form-grid input,
+    body[data-theme="day"] .account-form-grid textarea,
+    body[data-theme="day"] .checkout-field,
+    body[data-theme="day"] .modal-field { background: rgba(255, 253, 247, 0.92) !important; color: var(--text-pearl) !important; border-color: rgba(183,131,18,.34) !important; }
+    body[data-theme="day"] .premium-cart-item strong,
+    body[data-theme="day"] .cart-panel-title h4,
+    body[data-theme="day"] .account-shortcut b,
+    body[data-theme="day"] .account-menu-row strong,
+    body[data-theme="day"] .account-list-item strong,
+    body[data-theme="day"] .profile-box strong { color: var(--gold-light) !important; }
+    body[data-theme="day"] .premium-cart-item span,
+    body[data-theme="day"] .cart-summary-row,
+    body[data-theme="day"] .account-shortcut span,
+    body[data-theme="day"] .account-menu-row span,
+    body[data-theme="day"] .account-menu-row em,
+    body[data-theme="day"] .account-list-item span,
+    body[data-theme="day"] .account-list-item small,
+    body[data-theme="day"] .cart-subtitle { color: var(--text-muted) !important; }
     .confirm-overlay { z-index: 240; background: rgba(0,0,0,.74); }
     .confirm-box { width: min(420px, calc(100% - 28px)); border: 1px solid rgba(212,175,55,.32); border-radius: 14px; padding: 20px; background: linear-gradient(145deg, rgba(4,15,12,.98), rgba(2,6,5,.98)); box-shadow: 0 26px 70px rgba(0,0,0,.55); }
     .confirm-box h3 { color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: 30px; margin-bottom: 6px; }
@@ -1196,8 +1240,13 @@
       <span>Şanlıurfa • Eyyübiye</span>
     </div>
     <div class="site-search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input id="siteSearchInput" type="search" placeholder="Ürün, kategori veya gram ara" oninput="handleSiteSearch(this.value)" onkeydown="handleSiteSearchKey(event)">
+      <i class="fa-solid fa-magnifying-glass site-search-icon"></i>
+      <input id="siteSearchInput" type="search" placeholder="Ürün kategori veya kodu ara" oninput="handleSiteSearch(this.value)" onkeydown="handleSiteSearchKey(event)">
+      <div class="site-search-actions">
+        <button class="site-search-btn" type="button" onclick="submitSiteSearch()" aria-label="Ara"><i class="fa-solid fa-arrow-right"></i></button>
+        <button class="site-search-btn" type="button" onclick="document.getElementById('siteVisualSearchInput').click()" aria-label="Görsel ile ara"><i class="fa-regular fa-image"></i></button>
+      </div>
+      <input class="site-visual-input" id="siteVisualSearchInput" type="file" accept="image/*" onchange="handleVisualSiteSearch(event)">
     </div>
     <div class="header-actions" aria-label="Müşteri işlemleri">
       <button class="header-action-btn" id="messageButton" type="button" onclick="openQuestionModal()" title="Mesajlarım" aria-label="Mesajlarım"><i class="fa-regular fa-envelope"></i></button>
@@ -1215,7 +1264,7 @@
 
   <!-- MAIN CONTENT -->
   <main class="hero-main-content">
-    <div class="hero-tag">1997'den Beri Güvenle</div>
+    <div class="hero-tag">1999'dan Beri Güvenle</div>
 
     <h1 class="hero-title">
       Çeyrek Asırlık Güven,
@@ -1223,7 +1272,7 @@
     </h1>
 
     <p class="hero-desc">
-      <strong>Hüseyin Bağmancı</strong> tarafından 1997 yılında Şanlıurfa Eyyübiye'de temelleri atılan <strong>BAĞMANCI</strong> Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır değerinize değer katıyor.
+      <strong>Hüseyin BAĞMANCI</strong> tarafından 1999 yılında Şanlıurfa Eyyübiye'de temelleri atılan <strong>BAĞMANCI</strong> Kuyumculuk & Saat; dürüst esnaflık ahlakı, garantili 22 ayar altınları ve seçkin saat koleksiyonlarıyla çeyrek asırdır değerinize değer katıyor.
     </p>
 
     <!-- ACTION BUTTONS -->
@@ -1279,7 +1328,7 @@
     <!-- FEATURES -->
     <div class="features-list">
       <div class="feature-box">
-        <h4>1997'den Beri</h4>
+        <h4>1999'dan Beri</h4>
         <p>Eyyübiye'de çeyrek asırlık tecrübe</p>
       </div>
       <div class="feature-box">
@@ -2123,11 +2172,23 @@
         return `<div class="catalog-cover-card" onclick="urunDetayAc('${encodeURIComponent(item.id)}')"><div class="cover-box"><img src="${image}" alt="${escapeText(item.name)}" onerror="this.src='vitrin.jpg'"><span class="cover-kicker">${escapeText(item.category || 'Ürün')}</span></div><div class="cover-info"><div class="cover-title">${escapeText(item.name)}</div><span class="btn-open">${formatCatalogPrice(price)}</span></div></div>`;
       }).join('');
     }
+    async function submitSiteSearch() {
+      const input = document.getElementById('siteSearchInput');
+      await loadCatalogProducts();
+      handleSiteSearch(input?.value || '');
+      scrollToSectionTop('katalog');
+    }
     async function handleSiteSearchKey(event) {
       if (event.key !== 'Enter') return;
-      await loadCatalogProducts();
-      handleSiteSearch(event.currentTarget.value);
-      scrollToSectionTop('katalog');
+      await submitSiteSearch();
+    }
+    async function handleVisualSiteSearch(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const input = document.getElementById('siteSearchInput');
+      const guess = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+      if (input && guess) input.value = guess;
+      await submitSiteSearch();
     }
     function catalogCoverImage(category, products) {
       const found = products.find(item => normalizeCategoryName(item.category) === category.name && Array.isArray(item.images) && item.images.length && item.images[0]);
