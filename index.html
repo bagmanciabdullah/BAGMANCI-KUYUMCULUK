@@ -1104,6 +1104,8 @@
     .avatar-settings { display: grid; grid-template-columns: 82px 1fr; gap: 14px; align-items: center; grid-column: 1 / -1; border: 1px solid rgba(212,175,55,.18); border-radius: 12px; padding: 12px; background: rgba(2,6,5,.48); }
     .avatar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
     .avatar-actions input { display: none; }
+    .locked-field { opacity: .68; cursor: not-allowed; background: rgba(255,255,255,.035) !important; }
+    .field-hint { display:block; margin-top:6px; color:var(--text-muted); font-size:12px; line-height:1.45; }
     .remember-row, .account-switch { grid-column: 1 / -1; display: flex !important; align-items: center; gap: 10px; color: var(--text-muted); font-weight: 700; }
     .remember-row input, .account-switch input { width: 18px !important; height: 18px; accent-color: var(--gold-primary); }
     .account-list { display: grid; gap: 10px; margin-top: 14px; }
@@ -1450,7 +1452,7 @@
             </div>
             <div class="auth-divider">veya</div>
             <div class="account-auth-grid">
-              <label>Telefon<input class="checkout-field" id="customerPhoneInput" type="tel" placeholder="+905xxxxxxxxx"></label>
+              <label>Telefon<input class="checkout-field" id="customerPhoneInput" type="tel" inputmode="tel" maxlength="13" placeholder="+905xxxxxxxxx" oninput="syncPhoneField(this)"></label>
               <button class="cart-btn secondary" type="button" onclick="sendCustomerPhoneOtp()"><i class="fa-solid fa-mobile-screen"></i> Telefon Kodu Gönder</button>
               <label>SMS Kodu<input class="checkout-field" id="customerPhoneCode" inputmode="numeric" placeholder="6 haneli kod"></label>
               <button class="cart-btn primary" type="button" onclick="verifyCustomerPhoneOtp()"><i class="fa-solid fa-shield-halved"></i> Kodu Onayla</button>
@@ -1479,8 +1481,8 @@
             <div class="account-form-grid">
               <div class="avatar-settings"><div class="account-avatar" id="accountAvatarPreview"><span>B</span></div><div><strong style="color:var(--gold-light);display:block;margin-bottom:8px;">Profil Fotoğrafı</strong><div class="avatar-actions"><button class="cart-btn secondary" type="button" onclick="document.getElementById('accountAvatarFile').click()">Fotoğraf Seç</button><button class="cart-btn secondary" type="button" onclick="clearCustomerAvatar()">Fotoğrafı Kaldır</button><input id="accountAvatarFile" type="file" accept="image/*" onchange="selectCustomerAvatar(event)"></div></div></div>
               <label>Ad Soyad<input id="accountFullName" placeholder="Adınız Soyadınız"></label>
-              <label>E-posta<input id="accountEmailEdit" type="email" placeholder="E-posta adresiniz"></label>
-              <label>Telefon<input id="accountPhoneEdit" type="tel" placeholder="Telefon numaranız"></label>
+              <label>E-posta<input id="accountEmailEdit" class="locked-field" type="email" placeholder="Google hesabınızdan gelir" readonly aria-readonly="true"><span class="field-hint">E-posta Google/Gmail hesabınla aynı kalır, buradan değiştirilemez.</span></label>
+              <label>Telefon<input id="accountPhoneEdit" type="tel" inputmode="tel" maxlength="13" placeholder="+905xxxxxxxxx" oninput="syncPhoneField(this)"><span class="field-hint">Türkiye GSM formatı: +905xxxxxxxxx. Kaydetmek için SMS kodu ile doğrulanmalı.</span></label>
               <label>Yüzük Parmak Ölçüsü<input id="accountRingSize" placeholder="Örn. 14"></label>
               <label>Bilezik Ölçüsü<input id="accountBraceletSize" placeholder="Örn. 6.2 ölçü (çap)"></label>
               <label class="account-full">Kayıtlı Adres<textarea id="accountAddressEdit" placeholder="Teslimat adresiniz"></textarea></label>
@@ -2287,10 +2289,27 @@
       const user = customerSession?.user || {};
       const meta = user.user_metadata || {};
       const avatar = localStorage.getItem(CUSTOMER_AVATAR_KEY) || meta.avatar_url || meta.picture || '';
-      return { name: jewelry.name || checkout.name || meta.full_name || meta.name || '', email: jewelry.email || user.email || checkout.email || '', phone: jewelry.phone || user.phone || checkout.phone || '', city: checkout.city || '', district: checkout.district || '', address: jewelry.address || checkout.address || '', ringSize: jewelry.ringSize || '', braceletSize: jewelry.braceletSize || '', avatar };
+      const email = user.email || jewelry.email || checkout.email || '';
+      const phone = normalizeCustomerPhone(jewelry.phone || user.phone || checkout.phone || '');
+      return { name: jewelry.name || checkout.name || meta.full_name || meta.name || '', email, phone, city: checkout.city || '', district: checkout.district || '', address: jewelry.address || checkout.address || '', ringSize: jewelry.ringSize || '', braceletSize: jewelry.braceletSize || '', avatar };
     }
     function profilePercent(profile) { const fields = [profile.name, profile.email, profile.phone, profile.address, profile.ringSize, profile.braceletSize]; return Math.round((fields.filter(Boolean).length / fields.length) * 100); }
     function customerNameForGreeting(profile) { return profile.name || (profile.email ? profile.email.split('@')[0] : ''); }
+    function verifiedCustomerEmail() { return customerSession?.user?.email || ''; }
+    function normalizeCustomerPhone(value) {
+      const digits = String(value || '').replace(/\D/g, '');
+      if (!digits) return '';
+      if (digits.startsWith('90') && digits.length <= 12) return '+' + digits;
+      if (digits.startsWith('0') && digits.length <= 11) return '+9' + digits;
+      if (digits.startsWith('5') && digits.length <= 10) return '+90' + digits;
+      return '+' + digits.slice(0, 12);
+    }
+    function isValidTurkishPhone(value) { return /^\+905\d{9}$/.test(String(value || '').trim()); }
+    function syncPhoneField(input) {
+      const normalized = normalizeCustomerPhone(input.value);
+      input.value = normalized;
+      input.setCustomValidity(!normalized || isValidTurkishPhone(normalized) ? '' : 'Telefon +905xxxxxxxxx formatında olmalı.');
+    }
     function selectedRememberLogin() { return document.getElementById('rememberLogin')?.checked !== false; }
     function rememberCustomerLogin() { if (selectedRememberLogin()) localStorage.setItem(CUSTOMER_REMEMBER_KEY, String(Date.now() + CUSTOMER_REMEMBER_DAYS * 24 * 60 * 60 * 1000)); else localStorage.removeItem(CUSTOMER_REMEMBER_KEY); }
     function customerLoginExpired() { const until = Number(localStorage.getItem(CUSTOMER_REMEMBER_KEY) || 0); return Boolean(until && Date.now() > until); }
@@ -2310,7 +2329,7 @@
       const client = getSiteContentClient();
       if (!client || !customerSession?.user) return;
       const profile = { ...customerProfileData(), ...extra };
-      await client.from('customer_profiles').upsert({ user_id: customerSession.user.id, email: profile.email || customerSession.user.email || null, phone: profile.phone || customerSession.user.phone || null, full_name: profile.name || null, ring_size: profile.ringSize || null, bracelet_size: profile.braceletSize || null, default_address: profile.address || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+      await client.from('customer_profiles').upsert({ user_id: customerSession.user.id, email: verifiedCustomerEmail() || null, phone: customerSession.user.phone || null, full_name: profile.name || null, ring_size: profile.ringSize || null, bracelet_size: profile.braceletSize || null, default_address: profile.address || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     }
     function paintAccountAvatar(target, profile) {
       const el = typeof target === 'string' ? document.getElementById(target) : target;
@@ -2332,7 +2351,9 @@
       if (emailBox && emailBox !== greeting) emailBox.textContent = customerSession ? (profile.email || profile.phone || 'Doğrulanmış hesap') : 'Üye ol veya doğrulama ile devam et';
       if (complete) complete.textContent = customerSession ? `%${percent} profil tamamlandı` : 'Sipariş ve mesajlar için giriş yapın';
       if (join) join.textContent = customerSession ? 'Profilim' : 'Üye Ol';
-      [['customerPhoneInput', profile.phone], ['accountFullName', profile.name], ['accountEmailEdit', profile.email], ['accountPhoneEdit', profile.phone], ['accountRingSize', profile.ringSize], ['accountBraceletSize', profile.braceletSize], ['accountAddressEdit', profile.address]].forEach(([id, value]) => { const el = document.getElementById(id); if (el && !el.value && value) el.value = value; });
+      [['customerPhoneInput', profile.phone], ['accountFullName', profile.name], ['accountPhoneEdit', profile.phone], ['accountRingSize', profile.ringSize], ['accountBraceletSize', profile.braceletSize], ['accountAddressEdit', profile.address]].forEach(([id, value]) => { const el = document.getElementById(id); if (el && !el.value && value) el.value = value; });
+      const emailEdit = document.getElementById('accountEmailEdit');
+      if (emailEdit) emailEdit.value = verifiedCustomerEmail() || profile.email || '';
       const box = document.getElementById('customerProfileBox');
       if (box) box.innerHTML = profile.email ? `<strong>${profile.name || 'Müşteri'}</strong>${profile.phone || ''}<br>${profile.email}<br>${[profile.district, profile.city].filter(Boolean).join(' / ')}<br>${profile.address || ''}` : 'Kayıtlı müşteri bilginiz yok.';
     }
@@ -2367,8 +2388,10 @@
     }
     async function sendCustomerPhoneOtp() {
       const client = getSiteContentClient();
-      const phone = (document.getElementById('customerPhoneInput')?.value || document.getElementById('accountPhoneEdit')?.value || '').trim();
-      if (!phone) { setAccountStatus('Telefon numarasını +90 ile yazman gerekiyor.', 'err'); return; }
+      const phoneInput = document.getElementById('customerPhoneInput') || document.getElementById('accountPhoneEdit');
+      const phone = normalizeCustomerPhone(phoneInput?.value || '');
+      if (phoneInput) phoneInput.value = phone;
+      if (!isValidTurkishPhone(phone)) { setAccountStatus('Telefon numarası +905xxxxxxxxx formatında olmalı.', 'err'); return; }
       if (!client) { setAccountStatus('Supabase bağlantısı hazır olunca telefon kodu aktif olacak.', 'err'); return; }
       rememberCustomerLogin();
       const { error } = await client.auth.signInWithOtp({ phone });
@@ -2377,9 +2400,11 @@
     }
     async function verifyCustomerPhoneOtp() {
       const client = getSiteContentClient();
-      const phone = (document.getElementById('customerPhoneInput')?.value || '').trim();
+      const phoneInput = document.getElementById('customerPhoneInput');
+      const phone = normalizeCustomerPhone(phoneInput?.value || '');
+      if (phoneInput) phoneInput.value = phone;
       const token = (document.getElementById('customerPhoneCode')?.value || '').trim();
-      if (!client || !phone || !token) { setAccountStatus('Telefon ve gelen kodu yazman gerekiyor.', 'err'); return; }
+      if (!client || !isValidTurkishPhone(phone) || !/^\d{6}$/.test(token)) { setAccountStatus('Telefon +905xxxxxxxxx formatında ve kod 6 haneli olmalı.', 'err'); return; }
       const { data, error } = await client.auth.verifyOtp({ phone, token, type: 'sms' });
       if (error) { setAccountStatus(error.message, 'err'); return; }
       customerSession = data.session;
@@ -2438,7 +2463,11 @@
       list.innerHTML = viewed.map(item => `<button class="account-list-item" type="button" onclick="urunDetayAc('${encodeURIComponent(item.id)}')">${item.image ? `<img src="${item.image}" alt="${escapeText(item.name)}">` : '<div class="premium-cart-fallback"><i class="fa-solid fa-gem"></i></div>'}<div><strong>${escapeText(item.name)}</strong><span>${escapeText(item.category || 'Bağmancı seçkisi')}</span><small>${item.viewedAt ? new Date(item.viewedAt).toLocaleDateString('tr-TR') : ''}</small></div><div class="price">${cartMoney(item.price)}</div></button>`).join('') || '<div class="account-empty">Henüz ürün gezmedin. Katalogdan ürün açtıkça burada görünecek.</div>';
     }
     async function saveCustomerJewelryProfile() {
-      const profile = { name: document.getElementById('accountFullName')?.value.trim() || '', email: document.getElementById('accountEmailEdit')?.value.trim() || '', phone: document.getElementById('accountPhoneEdit')?.value.trim() || '', ringSize: document.getElementById('accountRingSize')?.value.trim() || '', braceletSize: document.getElementById('accountBraceletSize')?.value.trim() || '', address: document.getElementById('accountAddressEdit')?.value.trim() || '' };
+      const email = verifiedCustomerEmail();
+      const phone = normalizeCustomerPhone(document.getElementById('accountPhoneEdit')?.value || '');
+      if (phone && !isValidTurkishPhone(phone)) { setAccountStatus('Telefon numarası +905xxxxxxxxx formatında olmalı.', 'err'); return; }
+      if (phone && customerSession?.user?.phone !== phone) { setAccountStatus('Telefonu kaydetmek için önce SMS kodu ile doğrulaman gerekiyor.', 'err'); return; }
+      const profile = { name: document.getElementById('accountFullName')?.value.trim() || '', email, phone, ringSize: document.getElementById('accountRingSize')?.value.trim() || '', braceletSize: document.getElementById('accountBraceletSize')?.value.trim() || '', address: document.getElementById('accountAddressEdit')?.value.trim() || '' };
       localStorage.setItem(CUSTOMER_JEWELRY_KEY, JSON.stringify(profile));
       localStorage.setItem('bagmanciCheckoutProfile', JSON.stringify({ name: profile.name, phone: profile.phone, email: profile.email, city: '', district: '', address: profile.address }));
       await saveCustomerProfileToSupabase(profile);
