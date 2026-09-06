@@ -194,8 +194,6 @@
       font-variant-numeric: tabular-nums;
       margin-bottom: 10px;
     }
-    .price-note { color: var(--gold-light); font-weight: 600; margin-bottom: 8px; line-height: 1.5; }
-    .live-status { color: var(--muted); font-size: 12px; margin: -2px 0 18px; }
     .sku { color: var(--muted); font-size: 13px; letter-spacing: 1px; margin-bottom: 22px; }
     .actions { display: grid; grid-template-columns: minmax(0, 1fr) 56px 56px; gap: 12px; align-items: center; margin-bottom: 24px; }
     .buy, .icon-action { height: 54px; border-radius: 7px; font-weight: 800; cursor: pointer; font-family: inherit; }
@@ -223,8 +221,6 @@
     .spec-row { display: grid; grid-template-columns: 180px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; }
     .spec-row b { color: var(--text); }
     .spec-row span { color: var(--muted); }
-    .workmanship-info { margin-top: 18px; border: 1px solid rgba(212, 175, 55, 0.22); border-radius: 8px; background: rgba(4, 15, 12, 0.74); padding: 18px 20px; color: var(--muted); font-size: 13px; }
-    .workmanship-info strong { color: var(--gold-light); }
     .lightbox, .cart-choice { position: fixed; inset: 0; z-index: 120; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); padding: 20px; }
     .lightbox.open, .cart-choice.open { display: flex; }
     .lightbox-panel { width: min(1080px, 96vw); max-height: 92vh; display: grid; grid-template-rows: 1fr auto; gap: 12px; }
@@ -389,7 +385,6 @@
       box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05), 0 12px 26px rgba(0,0,0,0.24);
     }
     .price .currency { color: var(--gold-primary); font-size: 15px; font-weight: 800; letter-spacing: 1.8px; }
-    .price-note { font-size: 13px; font-weight: 700; }
     .formula-pill { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 7px 10px; border: 1px solid rgba(212, 175, 55, 0.22); border-radius: 999px; background: rgba(212, 175, 55, 0.07); }
     .actions { grid-template-columns: minmax(0, 1fr) 56px !important; margin-bottom: 18px; }
     .price-calculation { margin-top: 14px; }
@@ -432,9 +427,7 @@
     body[data-theme="day"] .app-item,
     body[data-theme="day"] .desc,
     body[data-theme="day"] .sku,
-    body[data-theme="day"] .live-status,
     body[data-theme="day"] .tab-body,
-    body[data-theme="day"] .workmanship-info,
     body[data-theme="day"] .search-result span {
       color: #335f50 !important;
     }
@@ -444,7 +437,6 @@
     body[data-theme="day"] .tabs,
     body[data-theme="day"] .calc-cell,
     body[data-theme="day"] .spec-row,
-    body[data-theme="day"] .workmanship-info,
     body[data-theme="day"] .cart-box {
       background: linear-gradient(180deg, rgba(255, 251, 238, 0.98), rgba(248, 236, 204, 0.94)) !important;
       border-color: rgba(183, 131, 18, 0.36) !important;
@@ -491,7 +483,6 @@
     body[data-theme="day"] .calc-cell strong,
     body[data-theme="day"] .spec-row span,
     body[data-theme="day"] .price,
-    body[data-theme="day"] .price-note,
     body[data-theme="day"] .formula-pill,
     body[data-theme="day"] .tab-btn.active {
       color: #76510c !important;
@@ -507,6 +498,19 @@
       border-color: rgba(183, 131, 18, 0.28) !important;
       box-shadow: inset 0 0 20px rgba(199, 150, 30, 0.08), 0 12px 26px rgba(116,83,18,0.12) !important;
     }
+    body[data-theme="day"] .price-calculation {
+      background: linear-gradient(145deg, rgba(255, 248, 226, 0.98), rgba(232, 210, 138, 0.92)) !important;
+      border-color: rgba(174, 123, 10, 0.52) !important;
+      color: #083f31 !important;
+      box-shadow: 0 18px 34px rgba(116, 83, 18, 0.18), inset 0 0 26px rgba(255,255,255,0.42) !important;
+    }
+    body[data-theme="day"] .calc-head { border-bottom-color: rgba(117, 81, 12, 0.24) !important; }
+    body[data-theme="day"] .calc-head span,
+    body[data-theme="day"] .calc-cell span { color: #007456 !important; }
+    body[data-theme="day"] .calc-head strong,
+    body[data-theme="day"] .calc-explain strong { color: #76510c !important; }
+    body[data-theme="day"] .calc-live { color: #008c67 !important; }
+    body[data-theme="day"] .calc-explain { color: #164f40 !important; }
     body[data-theme="day"] .badge,
     body[data-theme="day"] .buy,
     body[data-theme="day"] .cart-primary {
@@ -549,8 +553,6 @@
         <h1 id="product-name">Ürün yükleniyor...</h1>
         <p class="desc" id="short-description"></p>
         <div class="price" id="product-price">--</div>
-        <div class="price-note" id="price-note"></div>
-        <div class="live-status" id="live-status"></div>
         <div class="sku" id="sku"></div>
         <div class="actions">
           <button class="buy" type="button" onclick="addToCart()">Sepete Ekle</button>
@@ -569,11 +571,6 @@
         <button class="tab-btn" type="button" onclick="showTab('return')">İADE & DEĞİŞİM</button>
       </div>
       <div class="tab-body" id="tab-body"></div>
-    </section>
-
-
-    <section class="workmanship-info">
-      <strong>İşçilik nedir?</strong> Ürünün atölye üretimi, model zorluğu, ustalık süresi ve el emeği için eklenen değerdir. Ürünün nihai fiyatı gram bilgisi, canlı kur ve işçilik değeri birlikte değerlendirilerek hesaplanır.
     </section>
   </main>
 
@@ -767,12 +764,8 @@
       const laborValue = labor.toLocaleString('tr-TR');
       const isLive = product.priceMode === 'liveGram';
       const priceEl = document.getElementById('product-price');
-      const noteEl = document.getElementById('price-note');
-      const liveEl = document.getElementById('live-status');
       const calcEl = document.getElementById('price-calculation');
       if (priceEl) priceEl.innerHTML = price ? `<span>${money(price)}</span><span class="currency">TL</span>` : '<span>Fiyat için iletişime geçin</span>';
-      if (noteEl) noteEl.innerHTML = isLive ? '<span class="formula-pill">Canlı kurla otomatik hesaplanır</span>' : '<span class="formula-pill">Sabit mağaza fiyatı</span>';
-      if (liveEl) liveEl.innerText = isLive && liveBilezikPrice ? `Canlı kur: ${money(liveBilezikPrice)} | Fiyat otomatik güncellenir.` : '';
       if (!calcEl) return;
       const formula = isLive
         ? (laborType === 'money' ? `${gram.toLocaleString('tr-TR')} gr x canlı kur + ${laborValue} TL işçilik` : `(${gram.toLocaleString('tr-TR')} gr + ${laborValue} gr işçilik) x canlı kur`)
@@ -786,7 +779,7 @@
           <div class="calc-cell"><span>İşçilik</span><strong>${escapeHtml(laborText)}</strong></div>
           <div class="calc-cell"><span>Stok</span><strong>${escapeHtml(product.sku || product.id || 'Mağaza kaydı')}</strong></div>
         </div>
-        <div class="calc-explain"><strong>İşçilik nedir?</strong> Model zorluğu, atölye emeği ve ürün hazırlığı için eklenen değerdir. Nihai tutar gram, canlı kur ve işçilik birlikte değerlendirilerek mağazada teyit edilir.</div>`;
+        <div class="calc-explain"><strong>İşçilik nedir?</strong> Modele göre işçilik değişir; model zorluğu, atölye emeği ve ürün hazırlığı için eklenen değerdir. Canlı kur otomatik olarak güncellenir, nihai tutar gram, canlı kur ve işçilik birlikte değerlendirilerek mağazada teyit edilir.</div>`;
     }
 
     function renderImageByIndex(index) {
