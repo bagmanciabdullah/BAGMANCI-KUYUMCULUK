@@ -132,23 +132,50 @@
     }
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
-    .theme-control { position:absolute; left:22px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:2; }
+    .theme-control { position:absolute; left:22px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:180; }
     .theme-button { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,.62); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.28); }
-    .theme-menu { display:none; position:absolute; left:0; top:48px; min-width:148px; border:1px solid var(--card-border); border-radius:10px; background:var(--card-glass); padding:6px; box-shadow:0 18px 48px rgba(0,0,0,.42); }
-    .theme-control.open .theme-menu { display:grid; gap:4px; }
-    .theme-menu button { border:0; background:transparent; color:var(--text-pearl); text-align:left; padding:9px 10px; border-radius:8px; font-weight:800; cursor:pointer; }
+    .theme-menu { display:none; position:fixed; left:18px; top:116px; min-width:190px; border:1px solid var(--card-border); border-radius:14px; background:rgba(4,15,12,.98); padding:8px; box-shadow:0 18px 48px rgba(0,0,0,.42); z-index:260; }
+    .theme-control.open .theme-menu { display:grid; gap:6px; }
+    .theme-menu button { border:0; background:transparent; color:var(--text-pearl); text-align:left; padding:12px 13px; border-radius:10px; font-weight:900; cursor:pointer; }
     .theme-menu button.active, .theme-menu button:hover { background:rgba(212,175,55,.16); color:var(--gold-light); }
     .site-search { width:min(1060px, calc(100vw - 32px)); margin:14px auto 0; position:relative; left:50%; transform:translateX(-50%); display:flex; align-items:center; max-width:none; }
     .site-search .site-search-icon { position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--gold-primary); font-size:18px; }
-    .site-search input { width:100%; height:54px; border-radius:12px; border:1px solid var(--card-border); background:rgba(2,6,5,.72); color:var(--text-pearl); padding:0 118px 0 52px; font:700 15px Montserrat, sans-serif; outline:none; }
+    .site-search input { width:100%; height:54px; border-radius:12px; border:1px solid var(--card-border); background:rgba(2,6,5,.72); color:var(--text-pearl); padding:0 68px 0 52px; font:700 15px Montserrat, sans-serif; outline:none; cursor:pointer; }
     .site-search input:focus { border-color:var(--emerald-accent); box-shadow:0 0 0 3px rgba(52,211,153,.13); }
     .site-search-actions { position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:8px; }
     .site-search-btn { width:40px; height:40px; border-radius:10px; border:1px solid var(--card-border); background:rgba(212,175,55,.12); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; font-size:15px; }
     .site-search-btn:hover { border-color:var(--gold-primary); background:rgba(212,175,55,.22); }
     .site-visual-input { display:none; }
     body[data-theme="day"] .theme-button, body[data-theme="day"] .site-search input, body[data-theme="day"] .site-search-btn { background:rgba(255,252,244,.9); color:var(--text-pearl); }
-    @media (max-width:620px) { header { min-height:136px; padding-top:16px; overflow:hidden; } .theme-control { left:12px; top:50%; transform:translateY(-50%); } .site-search { width:calc(100vw - 32px); margin-top:12px; left:50%; transform:translateX(-50%); } .site-search input { height:50px; padding-right:106px; font-size:13px; } .site-search-btn { width:37px; height:37px; } }
+    body[data-theme="day"] .theme-menu { background:rgba(255,249,232,.98); box-shadow:0 18px 42px rgba(122,86,18,.22); }
+    @media (max-width:620px) { header { min-height:136px; padding-top:16px; } .theme-control { left:12px; top:50%; transform:translateY(-50%); } .theme-menu { left:14px; top:222px; } .site-search { width:calc(100vw - 32px); margin-top:12px; left:50%; transform:translateX(-50%); } .site-search input { height:50px; padding-right:58px; font-size:13px; } .site-search-btn { width:37px; height:37px; } }
 
+
+    .search-page { width:min(980px,100%) !important; min-height:100vh; max-height:none; overflow:visible; border-radius:0 !important; padding:0 !important; box-shadow:none !important; background:linear-gradient(180deg,rgba(3,14,11,.98),rgba(2,6,5,.99)); color:var(--text-pearl); }
+    .search-shell { padding:18px clamp(14px,4vw,34px) 110px; display:grid; gap:16px; }
+    .search-top-row { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; }
+    .search-input-wrap { position:relative; }
+    .search-input-wrap i { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--gold-primary); }
+    .search-input-wrap input { width:100%; height:48px; border:1px solid var(--card-border); border-radius:999px; background:rgba(255,255,255,.08); color:var(--text-pearl); padding:0 48px; font:800 14px Montserrat,sans-serif; outline:none; }
+    .search-camera { position:absolute; right:8px; top:50%; transform:translateY(-50%); width:34px; height:34px; border:0; border-radius:50%; background:rgba(212,175,55,.12); color:var(--gold-light); cursor:pointer; }
+    .search-cancel { border:0; background:transparent; color:var(--gold-light); font-weight:900; font-size:15px; cursor:pointer; text-decoration:underline; }
+    .search-callout, .search-assistant { border:1px solid rgba(212,175,55,.22); border-radius:10px; padding:14px 16px; background:rgba(4,15,12,.86); display:flex; align-items:center; gap:12px; color:var(--text-pearl); }
+    .search-callout i, .search-assistant i { color:var(--gold-primary); font-size:22px; }
+    .search-assistant { justify-content:space-between; background:linear-gradient(135deg,rgba(212,175,55,.13),rgba(52,211,153,.08)); }
+    .search-section-title { display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--text-pearl); font-weight:900; margin-top:4px; }
+    .search-section-title button { border:0; background:transparent; color:var(--gold-light); font-weight:900; cursor:pointer; }
+    .search-history { display:grid; gap:0; border-top:1px solid rgba(212,175,55,.14); }
+    .search-history button { min-height:48px; border:0; border-bottom:1px solid rgba(212,175,55,.12); background:transparent; color:var(--text-pearl); display:flex; align-items:center; gap:12px; text-align:left; font:700 14px Montserrat,sans-serif; cursor:pointer; }
+    .search-products { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; overflow:hidden; }
+    .search-product-card { border:1px solid rgba(212,175,55,.18); border-radius:10px; background:rgba(255,255,255,.06); overflow:hidden; cursor:pointer; text-align:left; color:var(--text-pearl); }
+    .search-product-card img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:#f7f4ee; }
+    .search-product-card span { display:block; padding:8px; font-size:11px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .visual-search-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .visual-search-grid button { min-height:48px; border:1px solid rgba(212,175,55,.2); border-radius:8px; background:rgba(255,255,255,.08); color:var(--text-pearl); font-weight:900; cursor:pointer; }
+    body[data-theme="day"] .search-page { background:linear-gradient(180deg,rgba(255,250,235,.99),rgba(246,236,210,.99)); color:var(--text-pearl); }
+    body[data-theme="day"] .search-callout, body[data-theme="day"] .search-assistant, body[data-theme="day"] .search-product-card, body[data-theme="day"] .visual-search-grid button { background:rgba(255,252,243,.9); color:var(--text-pearl); border-color:rgba(183,131,18,.28); }
+    body[data-theme="day"] .search-input-wrap input { background:#fffdf7; color:var(--text-pearl); border-color:rgba(183,131,18,.34); }
+    @media (max-width:620px) { .search-products { grid-template-columns:repeat(3,minmax(0,1fr)); } .visual-search-grid { grid-template-columns:1fr; } }
     /* BANNER */
     .banner-container { width: 100%; max-width: 960px; margin: 24px auto 0; padding: 0 16px; }
     .hero-banner {
@@ -1253,12 +1280,11 @@
       <i class="fa-solid fa-location-dot"></i>
       <span>Şanlıurfa • Eyyübiye</span>
     </div>
-    <div class="site-search">
+    <div class="site-search" onclick="openSearchPage()">
       <i class="fa-solid fa-magnifying-glass site-search-icon"></i>
-      <input id="siteSearchInput" type="search" placeholder="Ürün kategori veya kodu ara" oninput="handleSiteSearch(this.value)" onkeydown="handleSiteSearchKey(event)">
+      <input id="siteSearchInput" type="search" placeholder="Ürün kategori veya kodu ara" readonly aria-label="Ürün ara">
       <div class="site-search-actions">
-        <button class="site-search-btn" type="button" onclick="submitSiteSearch()" aria-label="Ara"><i class="fa-solid fa-arrow-right"></i></button>
-        <button class="site-search-btn" type="button" onclick="document.getElementById('siteVisualSearchInput').click()" aria-label="Görsel ile ara"><i class="fa-regular fa-image"></i></button>
+        <button class="site-search-btn" type="button" onclick="event.stopPropagation(); openSearchPage(true)" aria-label="Görsel ile ara"><i class="fa-regular fa-image"></i></button>
       </div>
       <input class="site-visual-input" id="siteVisualSearchInput" type="file" accept="image/*" onchange="handleVisualSiteSearch(event)">
     </div>
@@ -1403,6 +1429,31 @@
     </button>
   </nav>
 
+  <!-- ARAMA SAYFASI -->
+  <div class="modal-overlay search-page-overlay" id="searchModal">
+    <div class="modal-box search-page">
+      <div class="search-shell">
+        <div class="search-top-row">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchPageInput" type="search" placeholder="Marka, ürün veya kategori ara" onkeydown="handleSearchPageKey(event)" autocomplete="off">
+            <button class="search-camera" type="button" onclick="document.getElementById('siteVisualSearchInput').click()" aria-label="Görsel ile ara"><i class="fa-solid fa-camera"></i></button>
+          </div>
+          <button class="search-cancel" type="button" onclick="modalKapat('searchModal')">Vazgeç</button>
+        </div>
+        <div class="search-callout"><i class="fa-brands fa-tiktok"></i><span>TikTok'ta gördüğün takıyı mı arıyorsun? Ekran görüntüsü al, görselle ara.</span></div>
+        <button class="search-assistant" type="button" onclick="modalKapat('searchModal'); openAccountModal(); openAccountSection('assistant');"><span><strong>Sana Özel Öneriler</strong><br>Bağmancı Asistan'a Sor</span><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="search-section-title"><span>Geçmiş Aramalarım</span><button type="button" onclick="clearSearchHistory()">Temizle</button></div>
+        <div class="search-history" id="searchHistoryList"></div>
+        <div class="search-section-title"><span>Sana Özel Ürünler</span><button type="button" onclick="modalKapat('searchModal'); scrollToSectionTop('katalog')">Tümünü Gör</button></div>
+        <div class="search-products" id="searchSuggestedProducts"></div>
+        <div class="visual-search-grid">
+          <button type="button" onclick="document.getElementById('siteVisualSearchInput').click()"><i class="fa-regular fa-image"></i> Görsel Yükleyerek Ara</button>
+          <button type="button" onclick="document.getElementById('siteVisualSearchInput').click()"><i class="fa-solid fa-camera"></i> Fotoğraf Çekerek Ara</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- SEPET SAYFASI -->
   <div class="modal-overlay" id="sepetModal">
     <div class="modal-box checkout-modal">
@@ -2171,6 +2222,29 @@
     }
     function setThemeMode(mode) { applyThemeMode(mode); document.getElementById('themeControl')?.classList.remove('open'); }
     function toggleThemeMenu() { document.getElementById('themeControl')?.classList.toggle('open'); }
+    const SEARCH_HISTORY_KEY = 'bagmanciSearchHistory';
+    function searchHistory() { return safeJson(SEARCH_HISTORY_KEY, []) || []; }
+    function saveSearchHistory(query) {
+      const clean = (query || '').trim();
+      if (!clean) return;
+      const next = [clean, ...searchHistory().filter(item => normalizeTR(item) !== normalizeTR(clean))].slice(0, 6);
+      localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(next));
+    }
+    function renderSearchPage() {
+      const history = document.getElementById('searchHistoryList');
+      if (history) history.innerHTML = searchHistory().map(item => `<button type="button" onclick="runSearchFromPage('${escapeText(item).replace(/'/g, '&#39;')}')"><i class="fa-solid fa-xmark"></i><span>${escapeText(item)}</span></button>`).join('') || '<div class="account-empty">Henüz arama geçmişin yok.</div>';
+      const products = document.getElementById('searchSuggestedProducts');
+      const list = (catalogProducts || []).filter(item => Array.isArray(item.images) && item.images[0]).slice(0, 8);
+      if (products) products.innerHTML = list.map(item => `<button class="search-product-card" type="button" onclick="modalKapat('searchModal'); urunDetayAc('${encodeURIComponent(item.id)}')"><img src="${item.images[0]}" alt="${escapeText(item.name)}" onerror="this.src='vitrin.jpg'"><span>${escapeText(item.name)}</span></button>`).join('') || '';
+    }
+    async function openSearchPage(visual = false) {
+      await loadCatalogProducts();
+      modalGoster('searchModal');
+      const input = document.getElementById('searchPageInput');
+      if (input) { input.value = document.getElementById('siteSearchInput')?.value || ''; setTimeout(() => input.focus(), 80); }
+      renderSearchPage();
+      if (visual) setTimeout(() => document.getElementById('siteVisualSearchInput')?.click(), 120);
+    }
     function handleSiteSearch(value) {
       const query = normalizeTR(value || '').trim();
       const list = catalogProducts.length ? catalogProducts : [];
@@ -2186,23 +2260,35 @@
         return `<div class="catalog-cover-card" onclick="urunDetayAc('${encodeURIComponent(item.id)}')"><div class="cover-box"><img src="${image}" alt="${escapeText(item.name)}" onerror="this.src='vitrin.jpg'"><span class="cover-kicker">${escapeText(item.category || 'Ürün')}</span></div><div class="cover-info"><div class="cover-title">${escapeText(item.name)}</div><span class="btn-open">${formatCatalogPrice(price)}</span></div></div>`;
       }).join('');
     }
-    async function submitSiteSearch() {
-      const input = document.getElementById('siteSearchInput');
+    async function submitSiteSearch(query) {
+      const value = (query ?? document.getElementById('searchPageInput')?.value ?? document.getElementById('siteSearchInput')?.value ?? '').trim();
+      const mainInput = document.getElementById('siteSearchInput');
+      if (mainInput) mainInput.value = value;
       await loadCatalogProducts();
-      handleSiteSearch(input?.value || '');
+      saveSearchHistory(value);
+      handleSiteSearch(value);
+      modalKapat('searchModal');
       scrollToSectionTop('katalog');
+      renderSearchPage();
+    }
+    function runSearchFromPage(query) { submitSiteSearch(query); }
+    function clearSearchHistory() { localStorage.removeItem(SEARCH_HISTORY_KEY); renderSearchPage(); }
+    async function handleSearchPageKey(event) {
+      if (event.key !== 'Enter') return;
+      await submitSiteSearch(event.currentTarget.value);
     }
     async function handleSiteSearchKey(event) {
       if (event.key !== 'Enter') return;
-      await submitSiteSearch();
+      await openSearchPage();
     }
     async function handleVisualSiteSearch(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
-      const input = document.getElementById('siteSearchInput');
       const guess = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+      const input = document.getElementById('searchPageInput') || document.getElementById('siteSearchInput');
       if (input && guess) input.value = guess;
-      await submitSiteSearch();
+      await submitSiteSearch(guess);
+      event.target.value = '';
     }
     function catalogCoverImage(category, products) {
       const found = products.find(item => normalizeCategoryName(item.category) === category.name && Array.isArray(item.images) && item.images.length && item.images[0]);
