@@ -1344,6 +1344,49 @@
     }
     @media (max-width: 720px) { .account-hero { grid-template-columns: 1fr; } .account-hero .join-pill { width: 100%; } .account-auth-grid, .account-shortcut-grid, .account-form-grid { grid-template-columns: 1fr; } .account-full { grid-column: auto; } }
     @media (max-width: 620px) { .search-page-overlay, .message-page-overlay, .notification-page-overlay, .account-page-overlay { bottom: 76px !important; } .search-page, .message-page, .notification-page, .account-page { min-height: calc(100dvh - 76px) !important; } }
+    /* Tam sayfa modalleri: arka site artık görünmez ve hareket etmez. */
+    body.modal-page-open { overflow: hidden !important; }
+    #sepetModal.modal-overlay,
+    #uyeModal.account-page-overlay,
+    .search-page-overlay,
+    .message-page-overlay,
+    .notification-page-overlay {
+      inset: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      min-height: 100dvh !important;
+      align-items: stretch !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      overflow-y: auto !important;
+      overscroll-behavior: contain !important;
+      background: var(--bg-base) !important;
+    }
+    #sepetModal .checkout-modal,
+    #uyeModal .account-page,
+    .search-page,
+    .message-page,
+    .notification-page {
+      width: 100% !important;
+      max-width: none !important;
+      min-height: 100dvh !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    body[data-theme="day"] #sepetModal.modal-overlay,
+    body[data-theme="day"] #uyeModal.account-page-overlay,
+    body[data-theme="day"] .search-page-overlay,
+    body[data-theme="day"] .message-page-overlay,
+    body[data-theme="day"] .notification-page-overlay {
+      background: linear-gradient(180deg, #fff8e6 0%, #f6ecd2 54%, #efe0b9 100%) !important;
+    }
+    body[data-theme="night"] #sepetModal.modal-overlay,
+    body[data-theme="night"] #uyeModal.account-page-overlay,
+    body[data-theme="night"] .search-page-overlay,
+    body[data-theme="night"] .message-page-overlay,
+    body[data-theme="night"] .notification-page-overlay {
+      background: linear-gradient(180deg, #020706 0%, #03120e 48%, #010404 100%) !important;
+    }
   </style>
 </head>
 <body>
@@ -3081,7 +3124,7 @@
       document.querySelectorAll('.app-item[data-nav]').forEach(item => item.classList.toggle('active', item.dataset.nav === name));
     }
 
-    function closeTopPages() { ['searchModal','sepetModal','uyeModal','soruModal','duyuruModal'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); }
+    function closeTopPages() { ['searchModal','sepetModal','uyeModal','soruModal','duyuruModal'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; }); document.body.classList.remove('modal-page-open'); }
     function goHomeNav() {
       closeTopPages();
       setActiveNav('home');
@@ -3244,10 +3287,18 @@
     }
     function modalGoster(id) {
       document.getElementById(id).style.display = 'flex';
+      if (['searchModal','sepetModal','uyeModal','soruModal','duyuruModal'].includes(id)) document.body.classList.add('modal-page-open');
       if (id === 'sepetModal') { populateCityDatalist(); loadCheckoutProfile(); toggleConditionalFields(); sepetGuncelle(); showCartStep('cart'); setActiveNav('sepet'); }
       if (id === 'uyeModal') { openAccountSection('home'); renderCustomerProfile(); initCustomerSession().catch(() => renderCustomerProfile()); }
     }
-    function modalKapat(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; if (id === 'sepetModal') setActiveNav(''); if (id === 'uyeModal') setActiveNav(''); }
+    function modalKapat(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+      if (id === 'sepetModal') setActiveNav('');
+      if (id === 'uyeModal') setActiveNav('');
+      const openPage = ['searchModal','sepetModal','uyeModal','soruModal','duyuruModal'].some(pageId => document.getElementById(pageId)?.style.display === 'flex');
+      if (!openPage) document.body.classList.remove('modal-page-open');
+    }
 
     if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
     if (window.location.hash === '#account-history') setTimeout(() => { openAccountModal(); openAccountSection('history'); }, 180);
