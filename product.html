@@ -210,6 +210,8 @@
     .calc-cell span { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .calc-cell strong { display: block; margin-top: 4px; color: var(--text); font-size: 13px; overflow-wrap: anywhere; }
     .calc-explain { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .calc-explain p { margin: 0; }
+    .calc-explain p + p { margin-top: 8px; }
     .calc-explain strong { color: var(--gold-light); }
     .tabs { margin-top: 28px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--panel); }
     .tab-head { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
@@ -779,7 +781,7 @@
           <div class="calc-cell"><span>İşçilik</span><strong>${escapeHtml(laborText)}</strong></div>
           <div class="calc-cell"><span>Stok</span><strong>${escapeHtml(product.sku || product.id || 'Mağaza kaydı')}</strong></div>
         </div>
-        <div class="calc-explain"><strong>İşçilik nedir?</strong> Modele göre işçilik değişir; model zorluğu, atölye emeği ve ürün hazırlığı için eklenen değerdir. Canlı kur otomatik olarak güncellenir, nihai tutar gram, canlı kur ve işçilik birlikte değerlendirilerek mağazada teyit edilir.</div>`;
+        <div class="calc-explain"><p><strong>İşçilik nedir?</strong> Modele göre işçilik değişir; model zorluğu, atölye emeği ve ürün hazırlığı için eklenen değerdir.</p><p><strong>Canlı kur nedir?</strong> Canlı kur otomatik olarak güncellenir; nihai tutar gram, canlı kur ve işçilik birlikte değerlendirilerek mağazada teyit edilir.</p></div>`;
     }
 
     function renderImageByIndex(index) {
