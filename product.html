@@ -526,6 +526,12 @@
       color: #c7961e !important;
     }
   </style>
+  <style>
+    .gallery-main { min-height: 0; width: 100%; aspect-ratio: 1; }
+    .gallery-main img { object-fit: contain !important; }
+    .gallery-main video { min-width: 0; min-height: 0; max-height: 100%; }
+    .thumb { color: var(--gold-light); }
+  </style>
 </head>
 <body>
   <header>
@@ -707,7 +713,7 @@
         ['Renk', renk], ['Taş', tas], ['Ölçü', olcu], ['Stok', stok]
       ].filter(([, value]) => value !== null && value !== undefined && String(value).trim())
        .map(([label, value]) => ({ label, value: String(value) }));
-      return { id: field(row, 'id'), name: field(row, 'name'), category, sku, badge: field(row, 'badge') || category, priceMode: field(row, 'priceMode', 'price_mode') || (gram ? 'liveGram' : 'fixed'), gram, labor, laborType, fixedPrice, images, shortDescription, description, features, sections: [{ title: 'Ürün Özellikleri', items: features }] };
+      return { id: field(row, 'id'), name: field(row, 'name'), category, sku, badge: field(row, 'badge') || category, priceMode: field(row, 'priceMode', 'price_mode') || (gram ? 'liveGram' : 'fixed'), gram, labor, laborType, fixedPrice, images, media: Array.isArray(row.media) ? row.media : [], shortDescription, description, features, sections: [{ title: 'Ürün Özellikleri', items: features }] };
     }
 
     async function loadProductsFromSupabase() {
@@ -788,6 +794,16 @@
       currentImageIndex = Math.max(0, Math.min(index, productImages.length - 1));
       const src = productImages[currentImageIndex];
       const main = document.getElementById('main-image');
+      main.onmousemove = null; main.onmouseleave = null; main.classList.remove('zooming');
+      if (product.media?.[currentImageIndex]?.type === 'video') {
+        main.replaceChildren();
+        const video = document.createElement('video');
+        video.src = src; video.controls = true; video.playsInline = true; video.preload = 'metadata';
+        video.style.cssText = 'width:100%;height:100%;object-fit:contain';
+        main.append(video);
+        document.querySelectorAll('#thumbs .thumb').forEach((thumb, i) => thumb.classList.toggle('active', i === currentImageIndex));
+        return;
+      }
       if (!src) { main.innerHTML = '<div class="image-fallback"><i class="fa-solid fa-gem"></i><strong>Ürün görseli yakında</strong></div>'; return; }
       const favoriteActive = isFavorite(product.id);
       main.innerHTML = `<button class="gallery-fav ${favoriteActive ? 'active' : ''}" type="button" onclick="toggleFavorite(event)" title="Favori" aria-label="Favori"><i class="fa-${favoriteActive ? 'solid' : 'regular'} fa-heart"></i></button><img id="main-product-img" src="${src}" alt="${escapeHtml(product.name)}"><div class="zoom-lens" id="zoom-lens"></div>`;
@@ -821,7 +837,14 @@
     }
 
     function renderThumbs() {
-      document.getElementById('thumbs').innerHTML = productImages.map((src, index) => `<button class="thumb" type="button" onclick="renderImageByIndex(${index})"><img src="${src}" alt="${escapeHtml(product.name)}" onerror="this.parentElement.style.display='none'"></button>`).join('');
+      const root = document.getElementById('thumbs'); root.replaceChildren();
+      productImages.forEach((src, index) => {
+        const button = document.createElement('button'); button.className = 'thumb'; button.type = 'button';
+        button.setAttribute('aria-label', 'Medya ' + (index + 1)); button.onclick = () => renderImageByIndex(index);
+        if (product.media?.[index]?.type === 'video') button.textContent = '▶ Video';
+        else { const img = document.createElement('img'); img.src = src; img.alt = product.name; button.append(img); }
+        root.append(button);
+      });
     }
 
     function renderProduct() {
@@ -830,7 +853,7 @@
       document.getElementById('product-name').innerText = product.name;
       document.getElementById('short-description').innerText = product.shortDescription || '';
       document.getElementById('sku').innerText = product.sku || '';
-      productImages = Array.isArray(product.images) ? product.images : [];
+      productImages = Array.isArray(product.media) && product.media.length ? product.media.map(item => item.url) : (Array.isArray(product.images) ? product.images : []);
       renderPrice(); renderThumbs(); renderImageByIndex(0);
       showTab('features');
     }
@@ -851,7 +874,7 @@
     function addToCart() {
       const price = productPrice(product);
       const cart = readCart();
-      cart.push({ id: product.id, ad: product.name, f: price || 0, sku: product.sku || product.id, image: productImages[0] || '' });
+      cart.push({ id: product.id, ad: product.name, f: price || 0, sku: product.sku || product.id, image: product.images?.[0] || '' });
       writeCart(cart);
       document.getElementById('cart-choice-text').innerText = `${product.name} sepetine eklendi. Sepete gidip sipariş oluşturabilir ya da alışverişe devam edebilirsin.`;
       document.getElementById('cart-choice').classList.add('open');
@@ -942,12 +965,25 @@
     }
 
     function openLightbox(index = currentImageIndex) { if (!productImages.length) return; currentImageIndex = index; renderLightbox(); document.getElementById('lightbox').classList.add('open'); }
-    function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+    function closeLightbox() { document.querySelectorAll('#lightbox video').forEach(video => video.pause()); document.getElementById('lightbox').classList.remove('open'); }
     function lightboxStep(step) { if (!productImages.length) return; currentImageIndex = (currentImageIndex + step + productImages.length) % productImages.length; renderImageByIndex(currentImageIndex); renderLightbox(); }
     function renderLightbox() {
       const src = productImages[currentImageIndex];
-      document.getElementById('lightbox-image').innerHTML = `<img src="${src}" alt="${escapeHtml(product.name)}">`;
-      document.getElementById('lightbox-thumbs').innerHTML = productImages.map((image, index) => `<button class="thumb ${index === currentImageIndex ? 'active' : ''}" type="button" onclick="currentImageIndex=${index}; renderImageByIndex(${index}); renderLightbox();"><img src="${image}" alt="${escapeHtml(product.name)}"></button>`).join('');
+      const root = document.getElementById('lightbox-image'); root.replaceChildren();
+      const media = document.createElement(product.media?.[currentImageIndex]?.type === 'video' ? 'video' : 'img');
+      media.src = src; media.style.cssText = 'max-width:100%;max-height:78vh;object-fit:contain';
+      if (media.tagName === 'VIDEO') { media.controls = true; media.playsInline = true; } else media.alt = product.name;
+      root.append(media);
+      const thumbs = document.getElementById('lightbox-thumbs'); thumbs.replaceChildren();
+      productImages.forEach((url, index) => {
+        const button = document.createElement('button'); button.type = 'button';
+        button.className = 'thumb' + (index === currentImageIndex ? ' active' : '');
+        button.setAttribute('aria-label', 'Medya ' + (index + 1));
+        button.onclick = () => { renderImageByIndex(index); renderLightbox(); };
+        if (product.media?.[index]?.type === 'video') button.textContent = '▶ Video';
+        else { const img = document.createElement('img'); img.src = url; img.alt = product.name; button.append(img); }
+        thumbs.append(button);
+      });
     }
 
     async function loadLivePrice() {

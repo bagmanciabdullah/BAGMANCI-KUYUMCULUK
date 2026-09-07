@@ -1388,6 +1388,10 @@
       background: linear-gradient(180deg, #020706 0%, #03120e 48%, #010404 100%) !important;
     }
   </style>
+  <style>
+    #catalogCoversView .cover-box { height: auto !important; aspect-ratio: 4 / 3; }
+    #catalogCoversView .cover-box img { transform: none !important; }
+  </style>
 </head>
 <body>
 
@@ -2529,6 +2533,8 @@
       event.target.value = '';
     }
     function catalogCoverImage(category, products) {
+      const configured = window.BagmanciSiteAssets?.['catalog:' + category.name];
+      if (configured) return configured;
       const found = products.find(item => normalizeCategoryName(item.category) === category.name && Array.isArray(item.images) && item.images.length && item.images[0]);
       return found ? found.images[0] : category.fallback;
     }
@@ -3321,6 +3327,7 @@
     setInterval(fetchMarketData, 1000);
     setInterval(fetchVisitorCount, 10000);
   </script>
+  <script src="site-media.js"></script>
 </body>
 </html>
 

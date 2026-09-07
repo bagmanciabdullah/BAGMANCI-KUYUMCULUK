@@ -302,6 +302,7 @@
         <button class="secondary" data-admin-tab="orders" onclick="showAdminPage('orders')">Siparişler</button>
         <button class="secondary" data-admin-tab="content" onclick="showAdminPage('content')">Sorular & Duyurular</button>
         <button class="secondary" data-admin-tab="members" onclick="showAdminPage('members')">Müşteriler</button>
+        <button class="secondary" data-admin-tab="site" onclick="showAdminPage('site')">Site Ayarları</button>
       </div>
       <div class="admin-nav-left">
         <button class="secondary" data-admin-tab="settings" onclick="showAdminPage('settings')" title="Güvenlik ayarları">⚙ Ayarlar</button>
@@ -412,9 +413,10 @@
         <label class="full">Detay Açıklama
           <textarea id="description" placeholder="Ürün detay sayfasındaki açıklama"></textarea>
         </label>
-        <label class="full">Ürün Fotoğrafları
-          <input id="images" type="file" accept="image/*" multiple>
+        <label class="full">Ürün Fotoğrafları ve Videoları
+          <input id="images" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" multiple onchange="MediaAdmin.add(this)">
         </label>
+        <div class="full" id="product-media-editor"></div>
       </div>
       <div class="actions">
         <button class="primary" onclick="saveProduct()">Kaydet</button>
@@ -586,7 +588,7 @@
     }
 
     function adminPageIds() {
-      return ['dashboard-panel', 'admin-panel', 'products-panel', 'orders-panel', 'content-panels', 'settings-panel', 'members-panel'];
+      return ['dashboard-panel', 'admin-panel', 'products-panel', 'orders-panel', 'content-panels', 'settings-panel', 'members-panel', 'site-media-panel'];
     }
 
     function showAdminPage(page = 'dashboard') {
@@ -596,7 +598,8 @@
         orders: ['orders-panel'],
         content: ['content-panels'],
         settings: ['settings-panel'],
-        members: ['members-panel']
+        members: ['members-panel'],
+        site: ['site-media-panel']
       }[page] || ['dashboard-panel'];
 
       adminPageIds().forEach(id => {
@@ -613,6 +616,7 @@
       if (page === 'content') { loadQuestions(); loadAnnouncementsAdmin(); }
       if (page === 'settings') renderSecuritySettings();
       if (page === 'members') loadMembers();
+      if (page === 'site') MediaAdmin.loadSite();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -986,7 +990,11 @@
       };
     }
 
+    let savingProduct = false;
     async function saveProduct() {
+      if (savingProduct) return;
+      savingProduct = true;
+      document.getElementById('admin-panel').inert = true;
       try {
         setStatus('save-status', 'Kaydediliyor...');
         const productId = formValue('id') || slugify(formValue('name'));
@@ -997,9 +1005,10 @@
 
         const editingId = formValue('editing-id');
         const current = products.find(item => item.id === editingId || item.id === productId);
-        const uploaded = await uploadImages(productId);
-        const existingImages = current && Array.isArray(current.images) ? current.images : [];
-        const payload = productPayload(uploaded.length ? uploaded : existingImages);
+        if (current && !editingId) throw Error('Bu ürün ID zaten kayıtlı. Ürünü listeden Düzenle ile açın.');
+        const media = await MediaAdmin.save(productId);
+        const payload = productPayload(media.filter(item => item.type === 'image').map(item => item.url));
+        payload.media = media;
 
         const { error } = await supabaseClient.from('products').upsert(payload, { onConflict: 'id' });
         if (error) throw error;
@@ -1012,6 +1021,9 @@
         loadAnnouncementsAdmin();
       } catch (error) {
         setStatus('save-status', error.message || 'Ürün kaydedilemedi.', 'err');
+      } finally {
+        savingProduct = false;
+        document.getElementById('admin-panel').inert = false;
       }
     }
 
@@ -1025,10 +1037,12 @@
       document.getElementById('labor_type').value = 'gram';
       document.getElementById('labor').value = '0';
       document.getElementById('images').value = '';
+      MediaAdmin.reset();
       togglePriceFields();
     }
 
     function editProduct(id) {
+      if (savingProduct) return;
       const item = products.find(product => product.id === id);
       if (!item) return;
       document.getElementById('editing-id').value = item.id;
@@ -1050,6 +1064,7 @@
       document.getElementById('stok').value = item.stok || '';
       document.getElementById('short_description').value = item.short_description || '';
       document.getElementById('description').value = item.description || '';
+      MediaAdmin.edit(item);
       togglePriceFields();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1361,8 +1376,10 @@
       }
     }
 
-    init();
+    // Media editor initializes before the authenticated application starts.
   </script>
+  <script src="admin-media.js"></script>
+  <script>init();</script>
 </body>
 </html>
 
