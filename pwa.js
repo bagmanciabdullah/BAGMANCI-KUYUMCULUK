@@ -1,4 +1,24 @@
 (() => {
+  const standalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const style = document.createElement('style');
+  style.textContent = `
+    #bk-install-dialog{width:min(390px,calc(100% - 32px));max-height:85dvh;overflow:auto;padding:24px;border:1px solid #c8a345;border-radius:8px;background:#fffaf0;color:#104b3a;font:16px/1.6 Arial,sans-serif}
+    #bk-install-dialog::backdrop{background:#0009}#bk-install-dialog img{display:block;width:92px;height:92px;border-radius:8px;margin:0 auto 12px}#bk-install-dialog h2{font-size:22px;text-align:center;color:#104b3a}#bk-install-dialog ol{padding-left:24px}#bk-install-dialog button{width:100%;padding:12px;background:#d4af37;color:#06251d;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+    #bk-opening{position:fixed;inset:0;z-index:10000;display:grid;place-content:center;background:#06251d;pointer-events:none;animation:bk-opening-out .2s ease .55s forwards}#bk-opening img{width:min(65vw,300px);height:auto;border-radius:8px}
+    @keyframes bk-opening-out{to{opacity:0;visibility:hidden}}@media(prefers-reduced-motion:reduce){#bk-opening{animation-duration:0s}}
+  `;
+  document.head.append(style);
+  if (standalone()) {
+    let seen = false;
+    try { seen = sessionStorage.getItem('bk-opening') === '1'; sessionStorage.setItem('bk-opening','1'); } catch {}
+    if (!seen) {
+      const opening = document.createElement('div'); opening.id = 'bk-opening';
+      const logo = document.createElement('img'); logo.src = 'bk-logo.jpg'; logo.alt = 'BK Bağmancı Kuyumculuk';
+      opening.append(logo); document.body.append(opening);
+      setTimeout(() => opening.remove(), 800);
+    }
+  }
   if ('serviceWorker' in navigator && window.isSecureContext) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').catch(error => console.warn('Uygulama desteği başlatılamadı.', error));
@@ -6,17 +26,30 @@
   }
   let installEvent;
   const button = document.createElement('button');
-  button.type = 'button'; button.textContent = 'Uygulamayı Yükle'; button.hidden = true;
+  button.type = 'button'; button.textContent = "BK’yı Yükle"; button.hidden = !ios || standalone();
   button.style.cssText = 'position:fixed;right:16px;bottom:92px;z-index:90;background:#d4af37;color:#06251d;border:1px solid #947422;border-radius:8px;padding:12px 16px;font:600 14px sans-serif;box-shadow:0 4px 16px #0003;cursor:pointer';
   document.body.append(button);
+  function showIOSGuide() {
+    let dialog = document.getElementById('bk-install-dialog');
+    if (!dialog) {
+      dialog = document.createElement('dialog'); dialog.id = 'bk-install-dialog';
+      dialog.setAttribute('aria-labelledby','bk-install-title');
+      dialog.innerHTML = '<img src="bk-logo.jpg" alt="BK"><h2 id="bk-install-title">BK’yı Ana Ekrana Ekle</h2><ol><li>Safari’de <strong>Paylaş</strong> menüsünü aç.</li><li><strong>Ana Ekrana Ekle</strong> seçeneğine dokun.</li><li>Adı <strong>BK</strong> olarak bırak. Varsa <strong>Web Uygulaması Olarak Aç</strong> seçeneğini açıp <strong>Ekle</strong>ye dokun.</li></ol>';
+      const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Tamam'; close.onclick = () => dialog.close();
+      dialog.append(close); document.body.append(dialog);
+      dialog.addEventListener('close', () => button.focus());
+    }
+    dialog.showModal();
+  }
   window.addEventListener('beforeinstallprompt', event => {
     event.preventDefault(); installEvent = event;
-    button.hidden = window.matchMedia('(display-mode: standalone)').matches;
+    button.hidden = standalone();
   });
   button.onclick = async () => {
-    if (!installEvent) return;
+    if (!installEvent) { if (ios) showIOSGuide(); return; }
     button.hidden = true;
     try { await installEvent.prompt(); await installEvent.userChoice; }
+    catch (error) { console.warn('Yükleme isteği açılamadı.', error); }
     finally { installEvent = null; }
   };
   window.addEventListener('appinstalled', () => { button.hidden = true; installEvent = null; });
