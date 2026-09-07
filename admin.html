@@ -482,7 +482,7 @@
       <div class="security-grid">
         <div class="security-card">
           <h3>Hesap Bilgileri</h3>
-          <div class="auto-logout-pill">10 dk işlem yoksa otomatik çıkış</div>
+          <div class="auto-logout-pill">1 saat işlem yoksa otomatik çıkış</div>
           <div class="security-line"><b>Admin e-posta</b><span id="account-email">-</span></div>
           <div class="security-line"><b>2FA durumu</b><span>Aktif - telefon kodu zorunlu</span></div>
           <div class="security-line"><b>Giriş uyarısı</b><span id="login-alert-state">Mail servisi kontrol ediliyor...</span></div>
@@ -555,7 +555,7 @@
     let notifyLoginAfterMfa = false;
     let inactivityTimer = null;
     let inactivityWatchStarted = false;
-    const AUTO_LOGOUT_MS = 10 * 60 * 1000;
+    const AUTO_LOGOUT_MS = 60 * 60 * 1000;
     const ADMIN_ALERT_EMAIL = 'bagmanciabdullah93@gmail.com';
 
     const orderStatusLabels = {
@@ -768,7 +768,7 @@
       pendingMfaFactorId = '';
       notifyLoginAfterMfa = false;
       showApp(false);
-      setStatus('login-status', '10 dakika işlem yapılmadığı için güvenlik amacıyla çıkış yapıldı.', 'ok');
+      setStatus('login-status', '1 saat işlem yapılmadığı için güvenlik amacıyla çıkış yapıldı.', 'ok');
     }
 
     function parseBrowser() {
