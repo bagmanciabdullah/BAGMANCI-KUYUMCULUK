@@ -492,6 +492,19 @@
     .market-row-down .market-price {
       color: #fda4af;
     }
+    body[data-theme="day"] .market-price { color: #76520b; font-weight: 700; }
+    body[data-theme="day"] .market-row-up td {
+      background: #e8f3e9;
+      animation: none;
+    }
+    body[data-theme="day"] .market-row-down td {
+      background: #fcebea;
+      animation: none;
+    }
+    body[data-theme="day"] .market-row-up .market-price { color: #08613e; }
+    body[data-theme="day"] .market-row-down .market-price { color: #a32432; }
+    body[data-theme="day"] .market-row-up td:first-child { box-shadow: inset 3px 0 0 #08613e; }
+    body[data-theme="day"] .market-row-down td:first-child { box-shadow: inset 3px 0 0 #a32432; }
     @keyframes rowUpFade {
       0% { background-color: rgba(34, 197, 94, 0.18); }
       100% { background-color: transparent; }
