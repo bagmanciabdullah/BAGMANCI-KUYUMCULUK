@@ -1,4 +1,4 @@
 window.BAGMANCI_SUPABASE = {
-  url: 'https://...supabase.co',
-  anonKey: 'sb_publishable_u-7LFFT1nupBcvI14pyZSA_ksfnKwQM'
+  url: 'https://imdkgirfmtiqnuwpxvwu.supabase.co',
+  anonKey: 'sb_publishable_A9kr3yZAFi_sSb_TLZ9D5A_HYhrLpxx'
 };
