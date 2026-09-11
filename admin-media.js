@@ -24,11 +24,12 @@ const MediaAdmin = (() => {
   }
   function message(text, bad = false) {
     const node = document.getElementById('media-message');
+    if (!node) return;
     node.textContent = text; node.style.color = bad ? '#e96f75' : 'inherit';
   }
   function validate(file, video = true) {
-    const allowed = ['image/jpeg','image/png','image/webp', ...(video ? ['video/mp4','video/webm'] : [])];
-    if (!allowed.includes(file.type)) throw Error('JPG, PNG, WebP' + (video ? ', MP4 veya WebM' : '') + ' dosyası seçin.');
+    const allowed = ['image/jpeg','image/jpg','image/png','image/webp', ...(video ? ['video/mp4','video/webm'] : [])];
+    if (!allowed.includes((file.type || '').toLowerCase())) throw Error('JPG, PNG, WebP' + (video ? ', MP4 veya WebM' : '') + ' dosyası seçin.');
     if (file.size > (file.type.startsWith('video/') ? 50 : 15) * 1024 * 1024) throw Error('Fotoğraf en fazla 15 MB, video en fazla 50 MB olabilir.');
   }
   function entry(item) {
@@ -37,9 +38,10 @@ const MediaAdmin = (() => {
   function release(item) { if (item.local) URL.revokeObjectURL(item.local); }
   function reset() { draft.forEach(release); draft = []; render(); }
   function edit(product) {
-    if (busy || savingProduct) return;
+    if (busy || (typeof savingProduct !== 'undefined' && savingProduct)) return;
     reset();
-    document.getElementById('images').value = '';
+    const imgInp = document.getElementById('images');
+    if (imgInp) imgInp.value = '';
     draft = (Array.isArray(product.media) && product.media.length ? product.media : (product.images || []).map(url => ({ url, type: 'image' }))).map(entry);
     render();
   }
@@ -51,7 +53,10 @@ const MediaAdmin = (() => {
       files.forEach(file => validate(file));
       files.forEach(file => draft.push(entry({ file, local: URL.createObjectURL(file), type: file.type.startsWith('video/') ? 'video' : 'image', dirty: true })));
       render();
-    } catch (error) { setStatus('save-status', error.message, 'err'); }
+    } catch (error) { 
+      if (typeof setStatus === 'function') setStatus('save-status', error.message, 'err'); 
+      else message(error.message, true);
+    }
     input.value = '';
   }
   function geometry(iw, ih, w, h, c) {
@@ -69,7 +74,13 @@ const MediaAdmin = (() => {
       return box;
     }
     const canvas = el('canvas'); canvas.width = 720; canvas.height = Math.round(720 / ratio); stage.append(canvas);
-    const img = new Image(); img.crossOrigin = 'anonymous';
+    const img = new Image();
+    
+    // Yalnızca dış sunuculardan gelen adresler için crossOrigin ayarlanır, yerel blob engellenmez
+    if (typeof source === 'string' && (source.startsWith('http://') || source.startsWith('https://'))) {
+      img.crossOrigin = 'anonymous';
+    }
+
     function draw() {
       const ctx = canvas.getContext('2d'); ctx.fillStyle = '#faf8f3'; ctx.fillRect(0, 0, canvas.width, canvas.height);
       if (!img.naturalWidth) return;
@@ -79,6 +90,7 @@ const MediaAdmin = (() => {
     img.onload = draw;
     img.onerror = () => { stage.replaceChildren(el('span', '', 'Görsel yüklenemedi. Dosyayı yeniden seçin.')); };
     img.src = source;
+
     const controls = el('div', 'media-controls');
     const fitLabel = el('label', '', 'Kadraj');
     const fit = el('select');
@@ -99,7 +111,9 @@ const MediaAdmin = (() => {
     return box;
   }
   function render() {
-    const root = document.getElementById('product-media-editor'); root.replaceChildren();
+    const root = document.getElementById('product-media-editor'); 
+    if (!root) return;
+    root.replaceChildren();
     draft.forEach((item, index) => {
       const card = el('div', 'media-draft');
       card.append(el('strong', '', `${index + 1}. ${item.type === 'video' ? 'Video' : 'Fotoğraf'}${index === draft.findIndex(i => i.type === 'image') ? ' · Ürün kapağı' : ''}`));
@@ -114,10 +128,13 @@ const MediaAdmin = (() => {
     });
   }
   async function upload(file, folder) {
-    const ext = { 'image/jpeg':'jpg','image/png':'png','image/webp':'webp','video/mp4':'mp4','video/webm':'webm' }[file.type];
-    if (!ext) throw Error('Desteklenmeyen dosya türü.');
-    const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabaseClient.storage.from('product-images').upload(path, file, { contentType: file.type, upsert: false });
+    const type = (file.type || '').toLowerCase();
+    const extMap = { 'image/jpeg':'jpg','image/jpg':'jpg','image/png':'png','image/webp':'webp','video/mp4':'mp4','video/webm':'webm' };
+    const ext = extMap[type] || 'webp';
+    // Klasör adlarındaki özel karakterleri ve iki noktayı temizle (S3/Supabase Storage uyumu)
+    const cleanFolder = folder.replace(/[^a-zA-Z0-9_\-\/]/g, '-');
+    const path = `${cleanFolder}/${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabaseClient.storage.from('product-images').upload(path, file, { contentType: type || 'image/webp', upsert: true });
     if (error) throw error;
     return supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl;
   }
@@ -126,12 +143,24 @@ const MediaAdmin = (() => {
     let original = item.original_url || item.url;
     if (item.file) { original = await upload(item.file, folder); item.original_url = original; item.file = null; }
     if (item.type === 'video') { item.url = original; item.dirty = false; return clean(item); }
-    const img = new Image(); img.crossOrigin = 'anonymous';
-    await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = () => reject(Error('Kırpma için orijinal görsel yüklenemedi.')); img.src = item.local || original; });
+    const img = new Image();
+    const imgSrc = item.local || original;
+    if (typeof imgSrc === 'string' && (imgSrc.startsWith('http://') || imgSrc.startsWith('https://'))) {
+      img.crossOrigin = 'anonymous';
+    }
+    await new Promise((resolve, reject) => { 
+      img.onload = resolve; 
+      img.onerror = () => reject(Error('Kırpma için orijinal görsel yüklenemedi.')); 
+      img.src = imgSrc; 
+    });
     const canvas = document.createElement('canvas'); canvas.width = 1600; canvas.height = Math.round(1600 / ratio);
     const ctx = canvas.getContext('2d'); ctx.fillStyle = '#faf8f3'; ctx.fillRect(0,0,canvas.width,canvas.height);
     const r = geometry(img.naturalWidth,img.naturalHeight,canvas.width,canvas.height,item.crop); ctx.drawImage(img,r.x,r.y,r.w,r.h);
-    const blob = await new Promise((resolve, reject) => { try { canvas.toBlob(b => b ? resolve(b) : reject(Error('Görsel hazırlanamadı.')), 'image/webp', .92); } catch (e) { reject(e); } });
+    const blob = await new Promise((resolve, reject) => { 
+      try { 
+        canvas.toBlob(b => b ? resolve(b) : reject(Error('Görsel hazırlanamadı.')), 'image/webp', .92); 
+      } catch (e) { reject(e); } 
+    });
     item.url = await upload(blob, folder); item.original_url = original; item.dirty = false;
     return clean(item);
   }
@@ -139,14 +168,18 @@ const MediaAdmin = (() => {
   async function save(id) {
     if (busy) throw Error('Yükleme devam ediyor.');
     busy = true;
-    document.getElementById('product-media-editor').inert = true;
+    const editorEl = document.getElementById('product-media-editor');
+    if (editorEl) editorEl.inert = true;
     try {
       const { error } = await supabaseClient.from('products').select('media').limit(0);
       if (error) throw Error('Medya alanı hazır değil. Önce supabase-media.sql güncellemesini uygulayın. ' + error.message);
       const result = [];
       for (const item of draft) result.push(await persist(item, 'products/' + encodeURIComponent(id), 1));
       return result;
-    } finally { busy = false; document.getElementById('product-media-editor').inert = false; }
+    } finally { 
+      busy = false; 
+      if (editorEl) editorEl.inert = false; 
+    }
   }
   async function loadSite() {
     showSiteSection('menu');
@@ -155,7 +188,6 @@ const MediaAdmin = (() => {
     if (error) { message('Site görselleri yüklenemedi: ' + error.message, true); return; }
     assets.forEach(release); assets.clear();
     for (const row of data || []) assets.set(row.key, entry(row));
-    // Existing shared hero remains the initial image for both new theme slots.
     for (const mode of ['day', 'night']) {
       if (!assets.has('hero:' + mode) && assets.has('hero:main')) assets.set('hero:' + mode, entry(assets.get('hero:main')));
     }
@@ -180,7 +212,7 @@ const MediaAdmin = (() => {
         if (!current) { message('Önce görsel seçin.', true); return; }
         card.inert = true; message(title + ' kaydediliyor...');
         try {
-          const media = await persist(current, 'site/' + encodeURIComponent(key), ratio);
+          const media = await persist(current, 'site/' + key.replace(':', '-'), ratio);
           const { error } = await supabaseClient.from('site_assets').upsert({ key, ...media }, { onConflict: 'key' });
           if (error) throw error;
           message(title + ' kaydedildi.');
@@ -232,6 +264,7 @@ const MediaAdmin = (() => {
     if (section !== 'menu') sectionTitle.focus();
   }
   const status = el('div', 'status'); status.id = 'media-message'; status.setAttribute('role','status'); panel.append(status);
-  document.getElementById('members-panel').before(panel);
+  const membersPanel = document.getElementById('members-panel');
+  if (membersPanel) membersPanel.before(panel);
   return { add, edit, reset, save, loadSite, geometry };
 })();

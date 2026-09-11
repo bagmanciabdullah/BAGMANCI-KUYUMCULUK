@@ -1,0 +1,56 @@
+﻿BAGMANCI URUN EKLEME - EN KOLAY YOL
+
+Kanki Excel/JSON ile ugrasmayacaksin. Artik mantik bu:
+
+1) Supabase bir kere kurulacak.
+2) admin.html sayfasindan giris yapacaksin.
+3) Urun adi, kategori, gram/fiyat, aciklama ve fotograflari sececeksin.
+4) Kaydet diyeceksin.
+5) Urun otomatik olarak ana sayfadaki katalogda ve product.html detay sayfasinda gorunecek.
+
+BIR KERE YAPILACAK KURULUM
+
+1. https://supabase.com adresine gir.
+2. New project olustur.
+3. Sol menuden SQL Editor ac.
+4. Bu klasordeki supabase-kurulum.sql dosyasini komple kopyala.
+5. SQL Editor'e yapistir ve Run de.
+6. Sol menuden Authentication > Users ekranina gir.
+7. Add user ile kendi admin mailini ve sifreni olustur.
+8. Project Settings > API ekranina gir.
+9. Project URL degerini ve anon public key degerini kopyala.
+10. supabase-config.js dosyasini ac ve sunlari doldur:
+
+window.BAGMANCI_SUPABASE = {
+  url: 'BURAYA_PROJECT_URL',
+  anonKey: 'BURAYA_ANON_PUBLIC_KEY'
+};
+
+DIKKAT:
+service_role key kullanma. Sadece anon public key kullan.
+Admin sifresi koda yazilmayacak. Sifre Supabase Authentication > Users icinde duracak.
+
+URUN NASIL EKLENECEK
+
+1. Sitede /admin.html sayfasini ac.
+2. Mail ve sifrenle giris yap.
+3. Urun adini yaz.
+4. Kategori sec.
+5. Altin urun ise fiyat tipi: Canli gram x gram sec.
+6. Gram alanina urunun gramini yaz.
+7. Sabit fiyatli saat/aksesuar ise fiyat tipi: Sabit fiyat sec.
+8. Fotograflari sec.
+9. Kaydet.
+
+Fiyat mantigi:
+- Canli gram x gram: SUKOB 22 ayar bilezik satis fiyati x urun grami olarak hesaplar.
+- Sabit fiyat: Sen ne yazarsan onu gosterir.
+
+GitHub/Vercel'e yuklenecek ana dosyalar:
+- index.html
+- product.html
+- admin.html
+- supabase-config.js
+- api/sukob.js
+
+products.csv ve products.json artik sadece yedek/ornek. Urun eklemek icin onlarla ugrasma.

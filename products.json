@@ -1,0 +1,131 @@
+[
+  {
+    "id": "22-ayar-klasik-bilezik-01",
+    "name": "22 Ayar Klasik Bilezik",
+    "category": "Bilezik",
+    "sku": "BGM-BLZ-001",
+    "badge": "22 AYAR",
+    "priceMode": "liveGram",
+    "gram": 18.5,
+    "labor": 0,
+    "fixedPrice": null,
+    "images": ["products/bilezik-01.jpg"],
+    "shortDescription": "Günlük kullanıma uygun, parlak işçilikli 22 ayar klasik bilezik modeli.",
+    "description": "Bağmancı Kuyumculuk seçkisi için hazırlanmış 22 ayar klasik bilezik. Fiyat canlı 22 ayar bilezik satış kuru üzerinden gram bazlı hesaplanır.",
+    "features": [
+      { "label": "Ayar", "value": "22 Ayar" },
+      { "label": "Gram", "value": "18.5 gr" },
+      { "label": "Fiyat", "value": "Canlı kura göre" },
+      { "label": "Garanti", "value": "Bağmancı güvencesi" }
+    ],
+    "sections": [
+      {
+        "title": "Altın Özellikleri",
+        "items": [
+          { "label": "Ayar", "value": "22 Ayar" },
+          { "label": "Gram", "value": "18.5 gr" },
+          { "label": "Renk", "value": "Sarı Altın" },
+          { "label": "Kullanım", "value": "Günlük / özel gün" }
+        ]
+      },
+      {
+        "title": "Satış Bilgisi",
+        "items": [
+          { "label": "Fiyatlandırma", "value": "Canlı 22 ayar satış kuru x gram" },
+          { "label": "Teslim", "value": "Mağazadan teslim / iletişimle sipariş" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "urfa-akitmasi-model-01",
+    "name": "Urfa Akıtması Modeli",
+    "category": "Urfa Akıtması",
+    "sku": "BGM-URF-001",
+    "badge": "YÖRESEL",
+    "priceMode": "liveGram",
+    "gram": 32,
+    "labor": 0,
+    "fixedPrice": null,
+    "images": ["products/urfa-akitmasi-01.jpg"],
+    "shortDescription": "Şanlıurfa yöresel takı geleneğinden ilham alan gösterişli akıtma modeli.",
+    "description": "Yöresel takı sevenler için güçlü duruşlu Urfa Akıtması modeli. Gram bilgisi ve canlı kurla fiyatlandırma müşteriye şeffaf şekilde gösterilir.",
+    "features": [
+      { "label": "Ayar", "value": "22 Ayar" },
+      { "label": "Gram", "value": "32 gr" },
+      { "label": "Kategori", "value": "Yöresel Takı" },
+      { "label": "Fiyat", "value": "Canlı kura göre" }
+    ],
+    "sections": [
+      {
+        "title": "Ürün Özellikleri",
+        "items": [
+          { "label": "Model", "value": "Urfa Akıtması" },
+          { "label": "Ayar", "value": "22 Ayar" },
+          { "label": "Gram", "value": "32 gr" },
+          { "label": "İşçilik", "value": "Yöresel işçilik" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tek-tas-yuzuk-01",
+    "name": "Tek Taş Yüzük",
+    "category": "Yüzük",
+    "sku": "BGM-YZK-001",
+    "badge": "ÖZEL",
+    "priceMode": "fixed",
+    "gram": null,
+    "labor": 0,
+    "fixedPrice": 26800,
+    "images": ["products/yuzuk-01.jpg"],
+    "shortDescription": "Zarif taş görünümü ve şık yüzük formuyla özel günler için seçkin model.",
+    "description": "Tek taş yüzük modeli sabit fiyatla gösterilir. Taş, ölçü ve özel sipariş bilgileri mağaza iletişimiyle netleştirilebilir.",
+    "features": [
+      { "label": "Model", "value": "Tek Taş" },
+      { "label": "Fiyat", "value": "Sabit fiyat" },
+      { "label": "Ölçü", "value": "Mağazada ayarlanır" },
+      { "label": "Garanti", "value": "Bağmancı güvencesi" }
+    ],
+    "sections": [
+      {
+        "title": "Taş Özellikleri",
+        "items": [
+          { "label": "Model", "value": "Tek Taş" },
+          { "label": "Renk", "value": "Rose / sarı seçenekli" },
+          { "label": "Ölçü", "value": "Siparişe göre" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "klasik-erkek-saati-01",
+    "name": "Klasik Erkek Saati",
+    "category": "Saat & Aksesuar",
+    "sku": "BGM-SAT-001",
+    "badge": "SAAT",
+    "priceMode": "fixed",
+    "gram": null,
+    "labor": 0,
+    "fixedPrice": 4250,
+    "images": ["products/saat-01.jpg"],
+    "shortDescription": "Günlük şıklık için sade kadranlı, garantili klasik erkek saati.",
+    "description": "Bağmancı Kuyumculuk & Saat koleksiyonundan klasik erkek saati. Stok ve renk seçenekleri için mağaza ile iletişime geçilebilir.",
+    "features": [
+      { "label": "Kategori", "value": "Saat" },
+      { "label": "Garanti", "value": "Var" },
+      { "label": "Fiyat", "value": "Sabit fiyat" },
+      { "label": "Stok", "value": "Mağazadan teyit" }
+    ],
+    "sections": [
+      {
+        "title": "Saat Özellikleri",
+        "items": [
+          { "label": "Kasa", "value": "Klasik form" },
+          { "label": "Kullanım", "value": "Günlük" },
+          { "label": "Garanti", "value": "Mağaza garantili" }
+        ]
+      }
+    ]
+  }
+]
