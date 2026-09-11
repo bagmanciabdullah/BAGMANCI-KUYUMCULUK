@@ -179,7 +179,44 @@
     .header-location i { color: var(--gold-primary); font-size: 10px; }
 
     .theme-control { position:absolute; left:22px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:8px; z-index:180; }
-    .theme-button { min-width:42px; height:42px; border-radius:50%; border:1px solid var(--card-border); background:rgba(2,6,5,.62); color:var(--gold-light); display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.28); }
+
+    /* GÜNCELLENEN LÜKS BUTON TASARIMI (Gece/Gündüz Uyumlu) */
+    .theme-button, .header-action-btn {
+      min-width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(4, 15, 12, 0.75);
+      color: var(--gold-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+    .theme-button:hover, .header-action-btn:hover {
+      background: var(--emerald-accent);
+      color: #020605;
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 211, 153, 0.25);
+    }
+
+    body[data-theme="day"] .theme-button,
+    body[data-theme="day"] .header-action-btn {
+      background: rgba(255, 252, 243, 0.9);
+      color: #76510c;
+      border-color: rgba(183, 131, 18, 0.4);
+    }
+    body[data-theme="day"] .theme-button:hover,
+    body[data-theme="day"] .header-action-btn:hover {
+      background: #007456;
+      color: #fff9e8;
+      border-color: #c7961e;
+    }
+
     .theme-menu { display:none; position:absolute; left:48px; top:-2px; min-width:132px; border:1px solid var(--card-border); border-radius:10px; background:rgba(4,15,12,.98); padding:5px; box-shadow:0 12px 26px rgba(0,0,0,.32); z-index:260; }
     .theme-control.open .theme-menu { display:grid; gap:6px; }
     .theme-menu button { border:0; background:transparent; color:var(--text-pearl); text-align:left; padding:8px 10px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; }
@@ -1058,9 +1095,6 @@
 
     /* Ust aksiyonlar, mesaj ve duyuru alanlari */
     .header-actions { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); display: flex; gap: 10px; align-items: center; }
-    .header-action-btn { position: relative; width: 42px; height: 42px; border-radius: 999px; border: 1px solid rgba(212, 175, 55, 0.34); background: radial-gradient(circle at 30% 20%, rgba(247, 232, 195, 0.12), rgba(2, 7, 6, 0.88)); color: var(--gold-light); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
-    .header-action-btn:hover { transform: translateY(-2px); border-color: rgba(247, 232, 195, 0.7); box-shadow: 0 10px 26px rgba(0,0,0,0.35), 0 0 22px rgba(212, 175, 55, 0.14); }
-    .header-action-btn i { font-size: 16px; }
     .notice-dot { position: absolute; top: 7px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--emerald-accent); box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.12), 0 0 14px rgba(52, 211, 153, 0.8); }
     .header-count-badge { position: absolute; top: -5px; right: -5px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; display: none; place-items: center; background: var(--gold-primary); color: #020605; font-size: 10px; font-weight: 900; line-height: 19px; border: 1px solid rgba(247, 232, 195, 0.75); box-shadow: 0 6px 16px rgba(212, 175, 55, 0.28); }
     .header-action-btn.has-unread .header-count-badge { display: grid; }
@@ -1190,8 +1224,26 @@
     .checkout-status.err { color:#fb7185; }
     .profile-box { border:1px solid rgba(212,175,55,.18); border-radius:12px; padding:14px; background:rgba(212,175,55,.055); color:var(--text-muted); font-size:13px; line-height:1.55; }
     .profile-box strong { display:block; color:var(--gold-light); margin-bottom:4px; }
+    .checkout-section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:18px 0 10px; }
+    .checkout-section-head h5 { color:var(--gold-light); font-size:16px; margin:0; letter-spacing:.3px; }
+    .address-book-section { display:grid; gap:12px; margin-bottom:16px; }
+    .address-book-head { display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid rgba(212,175,55,.18); border-radius:12px; padding:13px; background:rgba(212,175,55,.05); }
+    .address-book-head strong { color:var(--gold-light); display:block; }
+    .address-book-head span { color:var(--text-muted); font-size:12px; }
+    .saved-address-list { display:grid; gap:10px; }
+    .saved-address-card { width:100%; border:1px solid rgba(212,175,55,.2); border-radius:12px; background:rgba(2,6,5,.58); color:var(--text-pearl); padding:14px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; text-align:left; align-items:start; cursor:pointer; }
+    .saved-address-card.selected { border-color:var(--emerald-accent); box-shadow:0 0 0 3px rgba(52,211,153,.12); }
+    .saved-address-card i { color:var(--gold-primary); margin-top:3px; }
+    .saved-address-card strong { color:var(--gold-light); display:block; margin-bottom:4px; }
+    .saved-address-card span { color:var(--text-muted); display:block; line-height:1.45; font-size:13px; }
+    .address-card-actions { display:flex; gap:8px; }
+    .address-card-actions button, .address-mini-btn { border:1px solid rgba(212,175,55,.28); border-radius:9px; background:rgba(212,175,55,.08); color:var(--gold-light); min-height:36px; padding:0 11px; font-weight:900; cursor:pointer; font-family:inherit; }
+    .checkout-address-form[hidden] { display:none !important; }
+    .checkout-address-form { border:1px solid rgba(212,175,55,.18); border-radius:14px; padding:14px; background:rgba(2,6,5,.38); margin-bottom:16px; }
+    .address-form-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:13px; }
+    .checkout-note-line { color:var(--text-muted); font-size:12px; line-height:1.55; margin-top:8px; }
     @media (max-width:860px) { .checkout-modal { width:100% !important; } .cart-layout,.checkout-layout { grid-template-columns:1fr; } .cart-summary { position:static; } }
-    @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } }
+    @media (max-width:620px) { .cart-head { padding:18px 16px 14px; } .cart-view { padding:16px 16px 112px; } .premium-cart-item { grid-template-columns:58px 1fr; } .cart-item-side { grid-column:1 / -1; grid-template-columns:1fr auto; justify-items:stretch; align-items:center; } .premium-cart-img,.premium-cart-fallback { width:58px; height:58px; } .cart-action-grid,.checkout-grid,.conditional-fields { grid-template-columns:1fr; } .checkout-full,.cart-wide { grid-column:auto; } .saved-address-card { grid-template-columns:auto 1fr; } .address-card-actions { grid-column:1 / -1; justify-content:flex-end; } }
     .app-item.active { color: var(--emerald-accent); background: rgba(52, 211, 153, 0.09); border-radius: 14px; }
     .app-item.active i, .app-item.active span { color: var(--emerald-accent); }
     #sepetModal.modal-overlay { z-index: 140; bottom: 72px; align-items: stretch; }
@@ -1485,7 +1537,7 @@
     <div class="hero-banner">
       <img src="vitrin.jpg" alt="Bağmancı Kuyumculuk & Saat Vitrin">
       <div class="banner-overlay"></div>
-</div>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -1591,7 +1643,7 @@
     <a href="kullanim-sartlari/">Kullanım Şartları</a>
     <a href="mailto:bagmanciabdullah93@gmail.com">bagmanciabdullah93@gmail.com</a>
   </footer>
-    <!-- BOTTOM BAR -->
+  <!-- BOTTOM BAR -->
   <nav class="app-bar">
     <button class="app-item active" data-nav="home" onclick="goHomeNav()">
       <i class="fa-solid fa-house"></i>
@@ -1671,48 +1723,75 @@
         <div class="checkout-layout">
           <section class="checkout-panel">
             <div class="cart-panel-title">
-              <h4>Adres Bilgileri</h4>
-              <span>Teslimat ve fatura bilgilerini girin.</span>
+              <h4>Güvenli Sipariş</h4>
+              <span>Kayıtlı teslimat adresi ve havale/EFT ödeme akışı.</span>
+            </div>
+            <div class="address-book-section" id="checkoutAddressBook">
+              <div class="address-book-head">
+                <div>
+                  <strong>Teslimat Adresi</strong>
+                  <span>Kayıtlı adresini seç, gerekirse düzenle veya yeni adres ekle.</span>
+                </div>
+                <button class="address-mini-btn" type="button" onclick="showCheckoutAddressForm('new')"><i class="fa-solid fa-plus"></i> Yeni Adres</button>
+              </div>
+              <div class="saved-address-list" id="savedAddressList"></div>
+            </div>
+            <div class="checkout-address-form" id="checkoutAddressForm">
+              <div class="checkout-section-head">
+                <h5 id="addressFormTitle">Teslimat bilgileri</h5>
+                <button class="address-mini-btn" id="cancelAddressEdit" type="button" onclick="hideCheckoutAddressForm()">Vazgeç</button>
+              </div>
+              <div class="checkout-grid">
+                <label><strong>Adres Başlığı</strong>
+                  <input id="orderAddressTitle" class="checkout-field" autocomplete="off" placeholder="Ev, iş yeri, mağaza vb.">
+                </label>
+                <label><strong>Ad Soyad</strong>
+                  <input id="orderName" class="checkout-field" autocomplete="name" placeholder="Adınız soyadınız">
+                </label>
+                <label><strong>Telefon Numarası</strong>
+                  <input id="orderPhone" class="checkout-field" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx">
+                </label>
+                <label><strong>E-posta</strong>
+                  <input id="orderEmail" class="checkout-field" autocomplete="email" inputmode="email" placeholder="mail adresiniz">
+                </label>
+                <label><strong>İl</strong>
+                  <input id="orderCity" class="checkout-field" list="cityList" autocomplete="address-level1" oninput="handleCityInput()" placeholder="İl ara">
+                  <datalist id="cityList"></datalist>
+                </label>
+                <label><strong>İlçe</strong>
+                  <input id="orderDistrict" class="checkout-field" list="districtList" autocomplete="address-level2" placeholder="İlçe ara">
+                  <datalist id="districtList"></datalist>
+                </label>
+                <label class="checkout-full"><strong>Açık Teslimat Adresi</strong>
+                  <textarea id="deliveryAddress" class="checkout-field" autocomplete="street-address" placeholder="Mahalle, cadde/sokak, bina, daire gibi açık adres"></textarea>
+                </label>
+                <label class="checkout-full"><strong>Sipariş Notu <span style="color:var(--text-muted); font-weight:500;">(opsiyonel)</span></strong>
+                  <textarea id="orderNote" class="checkout-field" placeholder="Ölçü, hediye paketi, teslimat notu vb."></textarea>
+                </label>
+                <label class="check-row">
+                  <input id="saveCheckoutProfile" type="checkbox" checked>
+                  <span>Bu adresi ve iletişim bilgilerimi sonraki alışverişler için kaydet</span>
+                </label>
+              </div>
+              <div class="address-form-actions">
+                <button class="cart-btn secondary" type="button" onclick="saveCheckoutAddressFromForm()"><i class="fa-solid fa-location-dot"></i> Adresi Kaydet</button>
+              </div>
+            </div>
+            <div class="checkout-section-head">
+              <h5>Fatura Bilgileri</h5>
             </div>
             <div class="checkout-grid">
-              <label><strong>Ad Soyad</strong>
-                <input id="orderName" class="checkout-field" autocomplete="name" placeholder="Adınız soyadınız">
+              <label><strong>Fatura Adı / Ünvan</strong>
+                <input id="invoiceName" class="checkout-field" placeholder="Kişi adı veya firma ünvanı">
               </label>
-              <label><strong>Telefon Numarası</strong>
-                <input id="orderPhone" class="checkout-field" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx">
-              </label>
-              <label><strong>E-posta</strong>
-                <input id="orderEmail" class="checkout-field" autocomplete="email" inputmode="email" placeholder="mail adresiniz">
-              </label>
-              <label><strong>İl</strong>
-                <input id="orderCity" class="checkout-field" list="cityList" autocomplete="address-level1" oninput="handleCityInput()" placeholder="İl ara">
-                <datalist id="cityList"></datalist>
-              </label>
-              <label><strong>İlçe</strong>
-                <input id="orderDistrict" class="checkout-field" list="districtList" autocomplete="address-level2" placeholder="İlçe ara">
-                <datalist id="districtList"></datalist>
-              </label>
-              <label class="checkout-full"><strong>Teslimat Adresi</strong>
-                <textarea id="deliveryAddress" class="checkout-field" autocomplete="street-address" placeholder="Mahalle, cadde/sokak, bina, daire gibi açık adres"></textarea>
-              </label>
-              <label class="checkout-full"><strong>Sipariş Notu <span style="color:var(--text-muted); font-weight:500;">(opsiyonel)</span></strong>
-                <textarea id="orderNote" class="checkout-field" placeholder="Ölçü, hediye paketi, teslimat notu vb."></textarea>
-              </label>
-              <label class="check-row">
-                <input id="saveCheckoutProfile" type="checkbox">
-                <span>Bu adresi ve iletişim bilgilerimi bir dahaki alışveriş için kaydet</span>
+              <label><strong>TC Kimlik No / Vergi No</strong>
+                <input id="invoiceIdentity" class="checkout-field" inputmode="numeric" maxlength="11" placeholder="Fatura için zorunlu">
               </label>
               <label class="check-row">
                 <input id="corporateInvoice" type="checkbox" onchange="toggleConditionalFields()">
                 <span>Kurumsal fatura istiyorum</span>
               </label>
               <div class="conditional-fields" id="corporateFields">
-                <label><strong>Fatura Adı / Ünvan</strong>
-                  <input id="invoiceName" class="checkout-field" placeholder="Kişi adı veya firma ünvanı">
-                </label>
-                <label><strong>Vergi No / TCKN</strong>
-                  <input id="invoiceIdentity" class="checkout-field" inputmode="numeric" placeholder="Fatura için gerekli">
-                </label>
                 <label class="checkout-full"><strong>Vergi Dairesi</strong>
                   <input id="taxOffice" class="checkout-field" placeholder="Vergi dairesi">
                 </label>
@@ -1725,6 +1804,7 @@
                 <textarea id="invoiceAddress" class="checkout-field" placeholder="Fatura için farklı adres"></textarea>
               </label>
             </div>
+            <p class="checkout-note-line">Ödeme yöntemi Havale/EFT olarak ilerler. Siparişten sonra mağaza IBAN ve ödeme açıklamasını paylaşır.</p>
             <div class="cart-action-grid">
               <button class="cart-btn secondary" onclick="showCartStep('cart')"><i class="fa-solid fa-arrow-left"></i> Sepete Dön</button>
               <button class="cart-btn primary" onclick="goPayment()"><i class="fa-solid fa-arrow-right"></i> Onayla ve Bitir</button>
@@ -1772,7 +1852,9 @@
         </div>
       </div>
     </div>
-  </div>  <!-- HESABIM SAYFASI -->
+  </div>
+
+  <!-- HESABIM SAYFASI -->
   <div class="modal-overlay account-page-overlay" id="uyeModal">
     <div class="modal-box account-page">
       <div class="page-topbar"><button class="page-close" onclick="modalKapat('uyeModal')" aria-label="Hesabımı kapat">×</button><h3>Hesabım</h3><button class="page-close" onclick="openAnnouncementModal({ returnTo: 'account' })" aria-label="Bildirimler"><i class="fa-regular fa-bell" style="font-size:20px;"></i></button></div>
@@ -1915,9 +1997,10 @@
       </div>
     </div>
   </div>
-      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-      <script src="supabase-config.js"></script>
-      <script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script>
     let canliBilezikFiyati = 6350;
     let sepet = JSON.parse(localStorage.getItem('bagmanciSepet') || '[]');
     let currentVisitors = 14;
@@ -1936,6 +2019,9 @@
     const CUSTOMER_AVATAR_KEY = 'bagmanciCustomerAvatar';
     const CUSTOMER_REMEMBER_KEY = 'bagmanciCustomerRememberUntil';
     const CUSTOMER_VIEWED_KEY = 'bagmanciViewedProducts';
+    const CHECKOUT_PROFILE_KEY = 'bagmanciCheckoutProfile';
+    const CHECKOUT_ADDRESSES_KEY = 'bagmanciCheckoutAddresses';
+    const CHECKOUT_SELECTED_ADDRESS_KEY = 'bagmanciSelectedAddressId';
     const CUSTOMER_REMEMBER_DAYS = 30;
     const turkeyCities = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
     const turkeyDistricts = {
@@ -1970,7 +2056,7 @@
     ];
 
     const SUKOB_DIRECT_URL = 'https://www.sukobfiyat.com/api/prices/';
-    const SUKOB_PROXY_URL = '/api/sukob'; // Vercel Serverless Function: SUKOB verisini CORS engeline takılmadan alır
+    const SUKOB_PROXY_URL = '/api/sukob';
     const PRODUCT_ORDER = [
       'HAS',
       '22_ayar_bilezik',
@@ -2190,7 +2276,6 @@
           updateVisitorCount(Number(data.total));
           return;
         } catch (error) {
-          // Bir sonraki kaynağı dene.
         }
       }
       updateVisitorCount();
@@ -2671,7 +2756,7 @@
       window.location.href = `product.html?id=${id}&from=${encodeURIComponent(from)}`;
     }
 
-        function favorilereEkle(event, id, ad) {
+    function favorilereEkle(event, id, ad) {
       event.stopPropagation();
       const key = 'bagmanciFavoriler';
       const favoriler = JSON.parse(localStorage.getItem(key) || '[]');
@@ -2803,41 +2888,166 @@
     }
 
     function checkoutProfileData() {
+      const id = document.getElementById('checkoutAddressForm')?.dataset.editId || localStorage.getItem(CHECKOUT_SELECTED_ADDRESS_KEY) || crypto.randomUUID();
+      const name = checkoutValue('orderName');
       return {
-        name: checkoutValue('orderName'),
+        id,
+        title: checkoutValue('orderAddressTitle') || 'Teslimat adresim',
+        name,
         phone: checkoutValue('orderPhone'),
         email: checkoutValue('orderEmail'),
         city: checkoutValue('orderCity'),
         district: checkoutValue('orderDistrict'),
-        address: checkoutValue('deliveryAddress')
+        address: checkoutValue('deliveryAddress'),
+        invoiceName: checkoutValue('invoiceName') || name,
+        invoiceIdentity: checkoutValue('invoiceIdentity'),
+        taxOffice: checkoutValue('taxOffice'),
+        corporate: Boolean(document.getElementById('corporateInvoice')?.checked),
+        invoiceDifferent: Boolean(document.getElementById('invoiceDifferent')?.checked),
+        invoiceAddress: checkoutValue('invoiceAddress')
       };
     }
 
-    function loadCheckoutProfile() {
-      const saved = JSON.parse(localStorage.getItem('bagmanciCheckoutProfile') || 'null');
-      if (!saved) { renderCustomerProfile(); return; }
-      const pairs = [
-        ['orderName', saved.name], ['orderPhone', saved.phone], ['orderEmail', saved.email],
-        ['orderCity', saved.city], ['orderDistrict', saved.district], ['deliveryAddress', saved.address]
-      ];
-      pairs.forEach(([id, value]) => {
+    function legacyCheckoutProfile() {
+      const saved = safeJson(CHECKOUT_PROFILE_KEY, null);
+      if (!saved || !saved.address) return null;
+      return { id: saved.id || 'legacy-address', title: saved.title || 'Kayıtlı adresim', ...saved };
+    }
+
+    function getCheckoutAddresses() {
+      const list = safeJson(CHECKOUT_ADDRESSES_KEY, []);
+      const addresses = Array.isArray(list) ? list.filter(item => item && item.address) : [];
+      const legacy = legacyCheckoutProfile();
+      if (legacy && !addresses.some(item => item.id === legacy.id)) addresses.unshift(legacy);
+      return addresses.slice(0, 8);
+    }
+
+    function saveCheckoutAddresses(addresses) {
+      localStorage.setItem(CHECKOUT_ADDRESSES_KEY, JSON.stringify(addresses.slice(0, 8)));
+    }
+
+    function fillCheckoutAddress(address = {}) {
+      [
+        ['orderAddressTitle', address.title],
+        ['orderName', address.name],
+        ['orderPhone', address.phone],
+        ['orderEmail', address.email],
+        ['orderCity', address.city],
+        ['orderDistrict', address.district],
+        ['deliveryAddress', address.address],
+        ['invoiceName', address.invoiceName || address.name],
+        ['invoiceIdentity', address.invoiceIdentity],
+        ['taxOffice', address.taxOffice],
+        ['invoiceAddress', address.invoiceAddress]
+      ].forEach(([id, value]) => {
         const el = document.getElementById(id);
-        if (el && !el.value && value) el.value = value;
+        if (el) el.value = value || '';
       });
+      const corporate = document.getElementById('corporateInvoice');
+      const invoiceDifferent = document.getElementById('invoiceDifferent');
+      if (corporate) corporate.checked = Boolean(address.corporate);
+      if (invoiceDifferent) invoiceDifferent.checked = Boolean(address.invoiceDifferent);
       const save = document.getElementById('saveCheckoutProfile');
       if (save) save.checked = true;
       populateDistrictDatalist();
+      toggleConditionalFields();
+    }
+
+    function selectCheckoutAddress(id) {
+      const address = getCheckoutAddresses().find(item => item.id === id);
+      if (!address) return;
+      localStorage.setItem(CHECKOUT_SELECTED_ADDRESS_KEY, id);
+      fillCheckoutAddress(address);
+      hideCheckoutAddressForm();
+      renderCheckoutAddresses();
+    }
+
+    function showCheckoutAddressForm(mode = 'new', id = '') {
+      const form = document.getElementById('checkoutAddressForm');
+      if (!form) return;
+      const address = mode === 'edit' ? getCheckoutAddresses().find(item => item.id === id) : null;
+      form.hidden = false;
+      form.dataset.editId = address?.id || '';
+      const title = document.getElementById('addressFormTitle');
+      if (title) title.textContent = address ? 'Adresi düzenle' : 'Yeni adres ekle';
+      if (address) fillCheckoutAddress(address);
+      else {
+        const profile = customerProfileData();
+        fillCheckoutAddress({ title: '', name: profile.name, phone: profile.phone, email: profile.email, city: profile.city, district: profile.district, address: '' });
+      }
+      document.getElementById('orderAddressTitle')?.focus();
+    }
+
+    function hideCheckoutAddressForm() {
+      const form = document.getElementById('checkoutAddressForm');
+      const cancel = document.getElementById('cancelAddressEdit');
+      if (!form) return;
+      const hasAddresses = getCheckoutAddresses().length > 0;
+      form.hidden = hasAddresses;
+      if (cancel) cancel.style.display = hasAddresses ? '' : 'none';
+    }
+
+    function renderCheckoutAddresses() {
+      const list = document.getElementById('savedAddressList');
+      const book = document.getElementById('checkoutAddressBook');
+      if (!list || !book) return;
+      const addresses = getCheckoutAddresses();
+      book.hidden = addresses.length === 0;
+      const selected = localStorage.getItem(CHECKOUT_SELECTED_ADDRESS_KEY) || addresses[0]?.id || '';
+      if (selected && !localStorage.getItem(CHECKOUT_SELECTED_ADDRESS_KEY)) localStorage.setItem(CHECKOUT_SELECTED_ADDRESS_KEY, selected);
+      list.innerHTML = addresses.map(address => {
+        const detail = [address.district, address.city].filter(Boolean).join(' / ');
+        const selectedClass = address.id === selected ? ' selected' : '';
+        return `<article class="saved-address-card${selectedClass}" onclick="selectCheckoutAddress('${escapeText(address.id)}')"><i class="fa-solid fa-location-dot"></i><div><strong>${escapeText(address.title || 'Teslimat adresim')}</strong><span>${escapeText(address.name || '')} · ${escapeText(address.phone || '')}</span><span>${escapeText(detail)}</span><span>${escapeText(address.address || '')}</span></div><div class="address-card-actions"><button type="button" onclick="event.stopPropagation(); showCheckoutAddressForm('edit','${escapeText(address.id)}')">Düzenle</button></div></article>`;
+      }).join('');
+    }
+
+    function saveCheckoutAddressFromForm() {
+      if (!validateAddressStep('checkoutStatus', { quietInvoice: true })) return false;
+      const address = checkoutProfileData();
+      const addresses = getCheckoutAddresses().filter(item => item.id !== address.id);
+      addresses.unshift(address);
+      saveCheckoutAddresses(addresses);
+      localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify(address));
+      localStorage.setItem(CHECKOUT_SELECTED_ADDRESS_KEY, address.id);
+      const form = document.getElementById('checkoutAddressForm');
+      if (form) form.dataset.editId = '';
+      renderCheckoutAddresses();
+      hideCheckoutAddressForm();
+      renderCustomerProfile();
+      const status = document.getElementById('checkoutStatus');
+      if (status) { status.textContent = 'Adres kaydedildi. Bu bilgiler sonraki alışverişte hazır gelecek.'; status.className = 'checkout-status ok'; }
+      return true;
+    }
+
+    function loadCheckoutProfile() {
+      const addresses = getCheckoutAddresses();
+      renderCheckoutAddresses();
+      if (addresses.length) {
+        selectCheckoutAddress(localStorage.getItem(CHECKOUT_SELECTED_ADDRESS_KEY) || addresses[0].id);
+      } else {
+        showCheckoutAddressForm('new');
+      }
       renderCustomerProfile();
     }
 
     function saveCheckoutProfileIfWanted() {
-      if (!document.getElementById('saveCheckoutProfile')?.checked) return;
-      localStorage.setItem('bagmanciCheckoutProfile', JSON.stringify(checkoutProfileData()));
+      const address = checkoutProfileData();
+      localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify(address));
+      if (document.getElementById('saveCheckoutProfile')?.checked !== false) {
+        const addresses = getCheckoutAddresses().filter(item => item.id !== address.id);
+        addresses.unshift(address);
+        saveCheckoutAddresses(addresses);
+        localStorage.setItem(CHECKOUT_SELECTED_ADDRESS_KEY, address.id);
+      }
+      renderCheckoutAddresses();
       renderCustomerProfile();
     }
 
     function clearCheckoutProfile() {
-      localStorage.removeItem('bagmanciCheckoutProfile');
+      localStorage.removeItem(CHECKOUT_PROFILE_KEY);
+      localStorage.removeItem(CHECKOUT_ADDRESSES_KEY);
+      localStorage.removeItem(CHECKOUT_SELECTED_ADDRESS_KEY);
       renderCustomerProfile();
       alert('Kayıtlı müşteri bilgileri silindi.');
     }
@@ -2845,7 +3055,7 @@
     function safeJson(key, fallback = null) { try { return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback; } catch (_) { return fallback; } }
     function setAccountStatus(message, type = '') { ['accountStatus', 'customerAuthStatus'].forEach(id => { const el = document.getElementById(id); if (el) { el.textContent = message; el.className = `account-status ${type}`; } }); }
     function customerProfileData() {
-      const checkout = safeJson('bagmanciCheckoutProfile', {}) || {};
+      const checkout = safeJson(CHECKOUT_PROFILE_KEY, {}) || {};
       const jewelry = safeJson(CUSTOMER_JEWELRY_KEY, {}) || {};
       const user = customerSession?.user || {};
       const meta = user.user_metadata || {};
@@ -3043,7 +3253,7 @@
       if (phone && customerSession?.user?.phone !== phone) { setAccountStatus('Telefonu kaydetmek için önce SMS kodu ile doğrulaman gerekiyor.', 'err'); return; }
       const profile = { name: document.getElementById('accountFullName')?.value.trim() || '', email, phone, ringSize: document.getElementById('accountRingSize')?.value.trim() || '', braceletSize: document.getElementById('accountBraceletSize')?.value.trim() || '', address: document.getElementById('accountAddressEdit')?.value.trim() || '' };
       localStorage.setItem(CUSTOMER_JEWELRY_KEY, JSON.stringify(profile));
-      localStorage.setItem('bagmanciCheckoutProfile', JSON.stringify({ name: profile.name, phone: profile.phone, email: profile.email, city: '', district: '', address: profile.address }));
+      localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify({ id: 'account-default-address', title: 'Kayıtlı adresim', name: profile.name, phone: profile.phone, email: profile.email, city: '', district: '', address: profile.address }));
       await saveCustomerProfileToSupabase(profile);
       setAccountStatus('Hesap bilgilerin kaydedildi.', 'ok'); renderCustomerProfile(); openAccountSection('home');
     }
@@ -3106,7 +3316,7 @@
       return document.getElementById('checkoutStatus') || document.getElementById('paymentStatus');
     }
 
-    function validateAddressStep(targetId = 'checkoutStatus') {
+    function validateAddressStep(targetId = 'checkoutStatus', options = {}) {
       const status = document.getElementById(targetId) || checkoutStatusEl();
       if (status) status.className = 'checkout-status';
       const corporate = document.getElementById('corporateInvoice').checked;
@@ -3119,7 +3329,8 @@
         ['orderDistrict', 'İlçe'],
         ['deliveryAddress', 'Teslimat adresi']
       ];
-      if (corporate) required.push(['invoiceName', 'Fatura adı/ünvan'], ['invoiceIdentity', 'Vergi No / TCKN'], ['taxOffice', 'Vergi dairesi']);
+      if (!options.quietInvoice) required.push(['invoiceIdentity', 'TC Kimlik No / Vergi No']);
+      if (corporate) required.push(['invoiceName', 'Fatura adı/ünvan'], ['taxOffice', 'Vergi dairesi']);
       if (invoiceDifferent) required.push(['invoiceAddress', 'Fatura adresi']);
       const missing = required.find(([id]) => !checkoutValue(id));
       if (missing) {
@@ -3130,11 +3341,19 @@
         if (status) { status.textContent = 'Geçerli bir e-posta adresi yazman gerekiyor.'; status.classList.add('err'); }
         return false;
       }
+      if (checkoutValue('orderPhone').replace(/\D/g, '').length < 10) {
+        if (status) { status.textContent = 'Geçerli bir telefon numarası yazman gerekiyor.'; status.classList.add('err'); }
+        return false;
+      }
+      if (!options.quietInvoice && !/^\d{10,11}$/.test(checkoutValue('invoiceIdentity'))) {
+        if (status) { status.textContent = 'Fatura için TC Kimlik No / Vergi No 10 veya 11 haneli olmalı.'; status.classList.add('err'); }
+        return false;
+      }
       if (status) status.textContent = '';
       return true;
     }
     function checkoutValue(id) {
-      return document.getElementById(id).value.trim();
+      return (document.getElementById(id)?.value || '').trim();
     }
 
     async function submitOrder() {
@@ -3153,8 +3372,8 @@
         email: checkoutValue('orderEmail'),
         city: checkoutValue('orderCity'),
         district: checkoutValue('orderDistrict'),
-        invoice_name: corporate ? checkoutValue('invoiceName') : checkoutValue('orderName'),
-        invoice_identity_no: corporate ? checkoutValue('invoiceIdentity') : '',
+        invoice_name: checkoutValue('invoiceName') || checkoutValue('orderName'),
+        invoice_identity_no: checkoutValue('invoiceIdentity'),
         tax_office: corporate ? checkoutValue('taxOffice') : '',
         corporate_invoice: corporate,
         invoice_address_different: invoiceDifferent,
@@ -3385,13 +3604,3 @@
   <script src="site-media.js?v=20260911-2"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
