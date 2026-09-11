@@ -3,7 +3,8 @@ const MediaAdmin = (() => {
   'use strict';
   let draft = [], busy = false;
   const slots = [
-    ['hero:main', 'Ana sayfa vitrin', 2.4],
+    ['hero:day', 'Gündüz vitrin görseli', 2.4],
+    ['hero:night', 'Gece vitrin görseli', 2.4],
     ['background:day', 'Gündüz arka planı', 16 / 9],
     ['background:night', 'Gece arka planı', 16 / 9],
     ...['Yüzük','Küpe','Bilezik','Bileklik','Kolye','Madonna','Frenk Bağı','Urfa Akıtması','Saat','Aksesuar'].map(name => ['catalog:' + name, name + ' katalog kapağı', 4 / 3])
@@ -148,13 +149,19 @@ const MediaAdmin = (() => {
     } finally { busy = false; document.getElementById('product-media-editor').inert = false; }
   }
   async function loadSite() {
+    showSiteSection('menu');
     message('Görseller yükleniyor...');
     const { data, error } = await supabaseClient.from('site_assets').select('*');
     if (error) { message('Site görselleri yüklenemedi: ' + error.message, true); return; }
     assets.forEach(release); assets.clear();
     for (const row of data || []) assets.set(row.key, entry(row));
-    const root = document.getElementById('site-media-grid'); root.replaceChildren();
+    // Existing shared hero remains the initial image for both new theme slots.
+    for (const mode of ['day', 'night']) {
+      if (!assets.has('hero:' + mode) && assets.has('hero:main')) assets.set('hero:' + mode, entry(assets.get('hero:main')));
+    }
+    imageGrid.replaceChildren(); catalogGrid.replaceChildren();
     for (const [key, title, ratio] of slots) {
+      const root = key.startsWith('catalog:') ? catalogGrid : imageGrid;
       const card = el('article', 'media-asset'); card.append(el('h3', '', title));
       const preview = el('div');
       let current = assets.get(key);
@@ -187,6 +194,13 @@ const MediaAdmin = (() => {
   const style = el('style');
   style.textContent = `
     #product-media-editor,#site-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;width:100%;margin-top:12px}
+    .site-settings-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-top:20px}
+    .site-settings-menu button{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:76px;padding:20px;text-align:left;font-size:17px;border-radius:8px}
+    .site-settings-menu button span:last-child{font-size:24px}
+    .site-settings-toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:20px 0}
+    .site-settings-toolbar h3{font-size:20px;margin:0}
+    .site-assets-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;align-items:start}
+    #site-media-panel [hidden]{display:none!important}
     .media-draft,.media-asset{min-width:0;border:1px solid #94762b;border-radius:8px;padding:12px;background:#061c16;color:#f8eed1}
     .media-crop-stage{width:100%;overflow:hidden;background:#faf8f3;display:grid;place-items:center;margin:10px 0}
     .media-crop-stage canvas,.media-crop-stage video{display:block;width:100%;height:100%;max-height:420px;object-fit:contain}
@@ -198,7 +212,25 @@ const MediaAdmin = (() => {
   document.head.append(style);
   const panel = el('section', 'panel hidden'); panel.id = 'site-media-panel';
   panel.append(el('h2', '', 'Site Ayarları'));
-  const grid = el('div'); grid.id = 'site-media-grid'; panel.append(grid);
+  const menu = el('div', 'site-settings-menu');
+  for (const [key, title] of [['images', 'Site Görselleri'], ['catalog', 'Katalog']]) {
+    const link = button('', () => showSiteSection(key), title);
+    link.append(el('span', '', title));
+    const arrow = el('span', '', '›'); arrow.setAttribute('aria-hidden', 'true'); link.append(arrow);
+    menu.append(link);
+  }
+  const toolbar = el('div', 'site-settings-toolbar'); toolbar.hidden = true;
+  toolbar.append(button('← Site Ayarları', () => showSiteSection('menu')));
+  const sectionTitle = el('h3'); sectionTitle.tabIndex = -1; toolbar.append(sectionTitle);
+  const imageGrid = el('div', 'site-assets-group'); imageGrid.id = 'site-images-grid'; imageGrid.hidden = true;
+  const catalogGrid = el('div', 'site-assets-group'); catalogGrid.id = 'site-catalog-grid'; catalogGrid.hidden = true;
+  panel.append(menu, toolbar, imageGrid, catalogGrid);
+  function showSiteSection(section) {
+    menu.hidden = section !== 'menu'; toolbar.hidden = section === 'menu';
+    imageGrid.hidden = section !== 'images'; catalogGrid.hidden = section !== 'catalog';
+    sectionTitle.textContent = section === 'images' ? 'Site Görselleri' : 'Katalog';
+    if (section !== 'menu') sectionTitle.focus();
+  }
   const status = el('div', 'status'); status.id = 'media-message'; status.setAttribute('role','status'); panel.append(status);
   document.getElementById('members-panel').before(panel);
   return { add, edit, reset, save, loadSite, geometry };

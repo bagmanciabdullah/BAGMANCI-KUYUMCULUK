@@ -256,7 +256,7 @@
       <p class="muted">Önce Supabase bilgilerini <strong>supabase-config.js</strong> dosyasına yazman gerekiyor.</p>
     </section>
 
-    <section class="panel" id="login-panel">
+    <form class="panel" id="login-panel" onsubmit="submitAdminAuth(event, 'login')">
       <h2>Admin Girişi</h2>
       <div class="grid" style="margin-top:14px;">
         <label>E-posta
@@ -267,12 +267,12 @@
         </label>
       </div>
       <div class="actions">
-        <button class="primary" onclick="login()">Giriş Yap</button>
+        <button class="primary" type="submit">Giriş Yap</button>
       </div>
       <div class="status" id="login-status"></div>
-    </section>
+    </form>
 
-    <section class="panel hidden" id="mfa-panel">
+    <form class="panel hidden" id="mfa-panel" onsubmit="submitAdminAuth(event, 'mfa')">
       <div class="panel-kicker">İki Faktörlü Koruma</div>
       <h2 id="mfa-title">Admin Doğrulama</h2>
       <p class="muted" id="mfa-help">Telefonundaki doğrulama uygulamasından 6 haneli kodu gir.</p>
@@ -287,13 +287,13 @@
             <input id="mfa-code" class="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
           </label>
           <div class="actions">
-            <button class="primary" onclick="verifyMfa()">Doğrula ve Devam Et</button>
-            <button class="secondary" onclick="logout()">Vazgeç</button>
+            <button class="primary" type="submit">Doğrula ve Devam Et</button>
+            <button class="secondary" type="button" onclick="logout()">Vazgeç</button>
           </div>
           <div class="status" id="mfa-status"></div>
         </div>
       </div>
-    </section>
+    </form>
 
     <nav class="admin-nav hidden" id="admin-nav">
       <div class="admin-nav-left">
@@ -913,6 +913,18 @@
       if (error) { setStatus('password-status', error.message, 'err'); return; }
       setStatus('password-status', `${email} adresine şifre yenileme linki gönderildi.`, 'ok');
     }
+    async function submitAdminAuth(event, step) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (form.dataset.submitting === 'true') return;
+      form.dataset.submitting = 'true';
+      const submit = form.querySelector('button[type="submit"]');
+      submit.disabled = true;
+      try { await (step === 'mfa' ? verifyMfa() : login()); }
+      catch (error) { setStatus(step === 'mfa' ? 'mfa-status' : 'login-status', error.message || 'Giriş yapılamadı. Tekrar deneyin.', 'err'); }
+      finally { form.dataset.submitting = 'false'; submit.disabled = false; }
+    }
+
     async function login() {
       setStatus('login-status', 'Giriş yapılıyor...');
       const email = document.getElementById('email').value.trim();

@@ -17,10 +17,19 @@ window.BagmanciSiteAssets = Object.create(null);
       if (url) document.body.style.setProperty('--bg-image-' + mode, `url(${JSON.stringify(url)})`);
     }
     const hero = document.querySelector('.hero-banner img');
-    if (hero && window.BagmanciSiteAssets['hero:main']) {
-      hero.src = window.BagmanciSiteAssets['hero:main'];
-      hero.parentElement.style.height = 'auto'; hero.parentElement.style.aspectRatio = '2.4';
-      hero.style.objectPosition = 'center';
+    if (hero) {
+      const original = hero.getAttribute('src');
+      const applyHero = () => {
+        const mode = document.body.dataset.theme === 'day' ? 'day' : 'night';
+        const configured = window.BagmanciSiteAssets['hero:' + mode] || window.BagmanciSiteAssets['hero:main'];
+        const url = configured || original;
+        if (hero.getAttribute('src') !== url) hero.src = url;
+        hero.parentElement.style.height = configured ? 'auto' : '';
+        hero.parentElement.style.aspectRatio = configured ? '2.4' : '';
+        hero.style.objectPosition = configured ? 'center' : '';
+      };
+      applyHero();
+      new MutationObserver(applyHero).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
     }
     if (typeof renderCatalogCovers === 'function') renderCatalogCovers();
   } catch (error) { console.warn('Site görselleri yüklenemedi.', error); }

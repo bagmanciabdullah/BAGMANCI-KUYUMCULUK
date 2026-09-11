@@ -12,6 +12,9 @@ class Element {
   append(...nodes) { this.children.push(...nodes); }
   replaceChildren(...nodes) { this.children = nodes; }
   setAttribute() {} before() {} replaceWith() {}
+  set id(value) { this._id = value; nodes.set(value, this); }
+  get id() { return this._id; }
+  focus() {}
   getContext() { return { fillRect() {}, drawImage() {} }; }
   toBlob(callback) { callback({ type: 'image/webp' }); }
 }
@@ -25,7 +28,7 @@ const context = vm.createContext({ document, console, crypto: require('node:cryp
   URL: { createObjectURL: () => 'blob:test', revokeObjectURL() {} },
   Image: class { naturalWidth = 1200; naturalHeight = 800; set src(v) { this.onload?.(); } },
   setStatus: (...args) => status = args,
-  supabaseClient: { from: () => ({ select: () => ({ limit: async () => ({ error: null }) }) }),
+  supabaseClient: { from: () => ({ select: fields => fields === '*' ? Promise.resolve({ data: [{key:'hero:main',url:'https://example.test/hero.jpg',type:'image'}], error:null }) : ({ limit: async () => ({ error: null }) }) }),
     storage: { from: () => ({ upload: async () => { uploads++; return { error: null }; }, getPublicUrl: path => ({ data: { publicUrl: 'https://example.test/' + path } }) }) } }
 });
 vm.runInContext(fs.readFileSync(__dirname + '/admin-media.js','utf8') + '\nglobalThis.api = MediaAdmin;', context);
@@ -54,5 +57,15 @@ vm.runInContext(fs.readFileSync(__dirname + '/admin-media.js','utf8') + '\ngloba
   api.reset(); assert.equal((await api.save('test')).length,0);
   api.edit({media:[{url:'https://example.test/crop.webp',original_url:'https://example.test/original.jpg',type:'image',crop:{fit:'cover',zoom:2,x:25,y:75}}]});
   saved=await api.save('test'); assert.equal(saved[0].crop.zoom,2); assert.equal(saved[0].original_url,'https://example.test/original.jpg');
+  await api.loadSite();
+  const images = document.getElementById('site-images-grid'), catalog = document.getElementById('site-catalog-grid');
+  assert.equal(images.children.length,4); assert.equal(catalog.children.length,10);
+  assert.equal(images.hidden,true); assert.equal(catalog.hidden,true);
+  const panel = document.getElementById('site-media-panel');
+  panel.children[1].children[0].onclick();
+  assert.equal(images.hidden,false); assert.equal(catalog.hidden,true);
+  panel.children[2].children[0].onclick();
+  panel.children[1].children[1].onclick();
+  assert.equal(images.hidden,true); assert.equal(catalog.hidden,false);
   console.log('PASS: HTML/JS syntax; crop geometry; old photo preservation; multiple photos/video; reorder/remove; invalid uploads; retry reuse; existing crop restore.');
 })().catch(error => { console.error(error); process.exitCode=1; });
