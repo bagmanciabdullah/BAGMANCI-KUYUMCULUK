@@ -9,3 +9,5 @@ Yeni Metin Belgesi*.txt
 .DS_Store
 Thumbs.db
 .vscode/
+.vercel
+.env*

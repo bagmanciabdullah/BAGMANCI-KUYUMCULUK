@@ -587,6 +587,20 @@
       el.className = `status ${type}`;
     }
 
+    function explainAdminAuthError(error) {
+      const message = error?.message || 'Giriş yapılamadı.';
+      if (/invalid login credentials|user not found|sign in failed/i.test(message)) {
+        return 'Supabase Authentication > Users içinde bu admin hesabı oluşturulmamış veya şifre yanlış. E-posta ve şifreyi kontrol et; kullanıcı yoksa yeni kullanıcı oluştur.';
+      }
+      if (/email.*not.*confirmed|confirm.*email|email.*confirmed/i.test(message)) {
+        return 'Bu e-posta hesabı Supabase Auth üzerinde doğrulanmamış. Authentication > Users ekranında e-postayı doğrula veya kullanıcıyı yeniden oluştur.';
+      }
+      if (/mfa|authenticator|totp|aal2/i.test(message)) {
+        return '2FA kodu eksik veya hatalı. Telefonundaki doğrulama kodunu tekrar gir veya ilk kurulum için 2FA ayarlarını kontrol et.';
+      }
+      return message;
+    }
+
     function adminPageIds() {
       return ['dashboard-panel', 'admin-panel', 'products-panel', 'orders-panel', 'content-panels', 'settings-panel', 'members-panel', 'site-media-panel'];
     }
@@ -931,7 +945,7 @@
       const password = document.getElementById('password').value;
       const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
       if (error) {
-        setStatus('login-status', error.message, 'err');
+        setStatus('login-status', explainAdminAuthError(error), 'err');
         return;
       }
       session = data.session;
