@@ -3277,6 +3277,7 @@
       if (!client) { setAccountStatus('Soru sistemi Supabase bağlantısı hazır olunca aktif olacak.', 'err'); return; }
       const { error } = await client.from('customer_questions').insert({ customer_id: customerSession.user.id, name: profile.name, phone: profile.phone, email: profile.email, question });
       if (error) { setAccountStatus(error.message, 'err'); return; }
+      notifyOwner('question', { name: profile.name, phone: profile.phone, email: profile.email, question });
       document.getElementById('assistantQuestion').value = '';
       await loadCustomerQuestions();
       setAccountStatus('Sorun satıcıya gönderildi. Cevap geldiğinde Mesajlarım alanında görünecek.', 'ok'); openAccountSection('home');
@@ -3356,6 +3357,17 @@
       return (document.getElementById(id)?.value || '').trim();
     }
 
+    function notifyOwner(type, payload) {
+      try {
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({ type, payload })
+        }).catch(() => {});
+      } catch (error) {}
+    }
+
     async function submitOrder() {
       const status = document.getElementById('paymentStatus') || document.getElementById('checkoutStatus');
       status.className = 'checkout-status';
@@ -3391,6 +3403,24 @@
         const { error } = await client.from('orders').insert(order);
         if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
       }
+      notifyOwner('order', {
+        customer_name: order.customer_name,
+        phone: order.phone,
+        email: order.email,
+        city: order.city,
+        district: order.district,
+        shipping_address: order.shipping_address,
+        invoice_name: order.invoice_name,
+        invoice_identity_no: order.invoice_identity_no,
+        tax_office: order.tax_office,
+        corporate_invoice: order.corporate_invoice,
+        invoice_address_different: order.invoice_address_different,
+        invoice_address: order.invoice_address,
+        item_count: sepet.length,
+        total: order.total,
+        items: sepet,
+        note: order.note
+      });
       saveCheckoutProfileIfWanted();
       loadCustomerOrders().catch(() => {});
       status.textContent = 'Siparişiniz alındı. Mağaza ödeme bilgisi için sizinle iletişime geçecek.';
