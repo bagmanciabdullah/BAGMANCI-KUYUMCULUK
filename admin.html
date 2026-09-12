@@ -555,6 +555,10 @@
     let notifyLoginAfterMfa = false;
     let inactivityTimer = null;
     let inactivityWatchStarted = false;
+    let adminAlertTimer = null;
+    let adminAlertAudio = null;
+    let adminAlertUnlocked = false;
+    const adminAlertState = { orders: { ready: false, ids: new Set() }, questions: { ready: false, ids: new Set() } };
     const AUTO_LOGOUT_MS = 60 * 60 * 1000;
     const ADMIN_ALERT_EMAIL = 'bagmanciabdullah93@gmail.com';
 
@@ -587,6 +591,100 @@
       el.className = `status ${type}`;
     }
 
+    function primeAdminAudio() {
+      if (adminAlertUnlocked) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext && !adminAlertAudio) adminAlertAudio = new AudioContext();
+        if (adminAlertAudio?.state === 'suspended') adminAlertAudio.resume();
+        if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+        adminAlertUnlocked = true;
+      } catch (error) {}
+    }
+
+    function playAdminBeep() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = adminAlertAudio || new AudioContext();
+        adminAlertAudio = ctx;
+        if (ctx.state === 'suspended') ctx.resume();
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.34, ctx.currentTime + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.85);
+        oscillator.connect(gain).connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.9);
+      } catch (error) {}
+    }
+
+    function speakAdminAlert(message) {
+      try {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.lang = 'tr-TR';
+        utterance.rate = 0.95;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+      } catch (error) {}
+    }
+
+    function fireAdminAlert(kind, count = 1) {
+      primeAdminAudio();
+      playAdminBeep();
+      const message = kind === 'orders'
+        ? `${count > 1 ? count + ' yeni sipariş' : 'Yeni sipariş'} geldi Abdullah Bey.`
+        : `${count > 1 ? count + ' yeni müşteri mesajı' : 'Yeni müşteri mesajı'} geldi Abdullah Bey.`;
+      speakAdminAlert(message);
+      if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification('Bağmancı Admin', { body: message });
+      }
+    }
+
+    function syncAdminAlertState(kind, rows = []) {
+      const state = adminAlertState[kind];
+      const ids = new Set((rows || []).map(item => String(item.id)).filter(Boolean));
+      if (!state.ready) {
+        state.ids = ids;
+        state.ready = true;
+        return;
+      }
+      const newCount = [...ids].filter(id => !state.ids.has(id)).length;
+      state.ids = ids;
+      if (newCount > 0) fireAdminAlert(kind, newCount);
+    }
+
+    async function checkAdminAlerts() {
+      if (!session || !supabaseClient) return;
+      const [orderResult, questionResult] = await Promise.allSettled([
+        supabaseClient.from('orders').select('id,created_at').order('created_at', { ascending: false }).limit(20),
+        supabaseClient.from('customer_questions').select('id,created_at').order('created_at', { ascending: false }).limit(20)
+      ]);
+      if (orderResult.status === 'fulfilled' && !orderResult.value.error) syncAdminAlertState('orders', orderResult.value.data || []);
+      if (questionResult.status === 'fulfilled' && !questionResult.value.error) syncAdminAlertState('questions', questionResult.value.data || []);
+    }
+
+    function startAdminAlertWatch() {
+      primeAdminAudio();
+      if ('Notification' in window && Notification.permission === 'default') Promise.resolve(Notification.requestPermission()).catch(() => {});
+      if (adminAlertTimer) return;
+      checkAdminAlerts().catch(() => {});
+      adminAlertTimer = setInterval(() => checkAdminAlerts().catch(() => {}), 15000);
+    }
+
+    function stopAdminAlertWatch() {
+      if (adminAlertTimer) clearInterval(adminAlertTimer);
+      adminAlertTimer = null;
+      adminAlertState.orders.ready = false;
+      adminAlertState.orders.ids = new Set();
+      adminAlertState.questions.ready = false;
+      adminAlertState.questions.ids = new Set();
+    }
+
     function explainAdminAuthError(error) {
       const message = error?.message || 'Giriş yapılamadı.';
       if (/invalid login credentials|user not found|sign in failed/i.test(message)) {
@@ -606,6 +704,7 @@
     }
 
     function showAdminPage(page = 'dashboard') {
+      primeAdminAudio();
       const visible = {
         dashboard: ['dashboard-panel'],
         products: ['admin-panel', 'products-panel'],
@@ -647,8 +746,8 @@
       document.getElementById('mfa-panel').classList.add('hidden');
       const nav = document.getElementById('admin-nav');
       if (nav) nav.classList.toggle('hidden', !isLoggedIn);
-      if (isLoggedIn) { startInactivityWatch(); showAdminPage('dashboard'); }
-      else { stopInactivityWatch(); hideAdminPages(); }
+      if (isLoggedIn) { startInactivityWatch(); startAdminAlertWatch(); showAdminPage('dashboard'); }
+      else { stopInactivityWatch(); stopAdminAlertWatch(); hideAdminPages(); }
     }
 
     function showMfaPanel(mode) {
@@ -929,6 +1028,7 @@
     }
     async function submitAdminAuth(event, step) {
       event.preventDefault();
+      primeAdminAudio();
       const form = event.currentTarget;
       if (form.dataset.submitting === 'true') return;
       form.dataset.submitting = 'true';
