@@ -257,6 +257,8 @@
     .search-input-wrap input { width:100%; height:48px; border:1px solid var(--card-border); border-radius:999px; background:rgba(255,255,255,.08); color:var(--text-pearl); padding:0 48px; font:800 16px Montserrat,sans-serif; outline:none; }
     .search-camera { position:absolute; right:8px; top:50%; transform:translateY(-50%); width:34px; height:34px; border:0; border-radius:50%; background:rgba(212,175,55,.12); color:var(--gold-light); cursor:pointer; }
     .search-cancel { border:0; background:transparent; color:var(--gold-light); font-weight:900; font-size:15px; cursor:pointer; text-decoration:underline; }
+    .search-intro { display:grid; gap:12px; }
+    .search-intro.hidden, .search-history-section.hidden { display:none; }
     .search-callout, .search-assistant { border:1px solid rgba(212,175,55,.22); border-radius:10px; padding:14px 16px; background:rgba(4,15,12,.86); display:flex; align-items:center; gap:12px; color:var(--text-pearl); }
     .search-callout i, .search-assistant i { color:var(--gold-primary); font-size:22px; }
     .search-assistant { justify-content:space-between; background:linear-gradient(135deg,rgba(212,175,55,.13),rgba(52,211,153,.08)); }
@@ -270,11 +272,13 @@
     .search-product-card strong { display:block; min-height:38px; padding:8px 8px 2px; color:var(--text-pearl); font:900 12px/1.25 Montserrat,sans-serif; }
     .search-product-card small { display:block; padding:0 8px; color:var(--emerald-bright); font:800 10px/1.2 Montserrat,sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .search-product-card span { display:block; padding:5px 8px 8px; font-size:11px; font-weight:900; color:var(--gold-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .search-ai-line { border:1px solid rgba(52,211,153,.22); border-radius:10px; padding:12px 14px; color:var(--emerald-bright); background:rgba(52,211,153,.07); font-weight:800; font-size:13px; display:none; }
+    .search-ai-line.active { display:block; }
     .search-results-empty { grid-column:1/-1; border:1px dashed rgba(212,175,55,.28); border-radius:12px; padding:18px; color:var(--text-muted); background:rgba(255,255,255,.05); display:grid; gap:6px; }
     .search-results-empty strong { color:var(--gold-light); font-size:16px; }
     body[data-theme="day"] .search-page-overlay, body[data-theme="day"] .message-page-overlay, body[data-theme="day"] .notification-page-overlay, body[data-theme="day"] .account-page-overlay { background:#f6ecd2; }
     body[data-theme="day"] .search-page { background:linear-gradient(180deg,rgba(255,250,235,.99),rgba(246,236,210,.99)); color:var(--text-pearl); }
-    body[data-theme="day"] .search-callout, body[data-theme="day"] .search-assistant, body[data-theme="day"] .search-product-card, body[data-theme="day"] .search-results-empty { background:rgba(255,252,243,.9); color:var(--text-pearl); border-color:rgba(183,131,18,.28); }
+    body[data-theme="day"] .search-callout, body[data-theme="day"] .search-assistant, body[data-theme="day"] .search-product-card, body[data-theme="day"] .search-results-empty, body[data-theme="day"] .search-ai-line { background:rgba(255,252,243,.9); color:var(--text-pearl); border-color:rgba(183,131,18,.28); }
     body[data-theme="day"] .search-input-wrap input { background:#fffdf7; color:var(--text-pearl); border-color:rgba(183,131,18,.34); }
     @media (max-width:620px) { .search-products { grid-template-columns:repeat(3,minmax(0,1fr)); } }
     /* BANNER */
@@ -1679,11 +1683,16 @@
           </div>
           <button class="search-cancel" type="button" onclick="modalKapat('searchModal')">Vazgeç</button>
         </div>
-        <div class="search-callout"><i class="fa-brands fa-tiktok"></i><span>TikTok'ta gördüğün takıyı mı arıyorsun? Ekran görüntüsü al, görselle ara.</span></div>
-        <button class="search-assistant" type="button" onclick="modalKapat('searchModal'); openAccountModal(); openAccountSection('assistant');"><span><strong>Sana Özel Öneriler</strong><br>Bağmancı Asistan'a Sor</span><i class="fa-solid fa-chevron-right"></i></button>
-        <div class="search-section-title"><span>Geçmiş Aramalarım</span><button type="button" onclick="clearSearchHistory()">Temizle</button></div>
-        <div class="search-history" id="searchHistoryList"></div>
-        <div class="search-section-title"><span id="searchResultsTitle">Arama Sonuçları</span><button type="button" onclick="clearSearchQuery()">Temizle</button></div>
+        <div class="search-intro" id="searchIntroBlocks">
+          <div class="search-callout"><i class="fa-brands fa-tiktok"></i><span>TikTok'ta gördüğün takıyı mı arıyorsun? Ekran görüntüsü al, görselle ara.</span></div>
+          <button class="search-assistant" type="button" onclick="modalKapat('searchModal'); openAccountModal(); openAccountSection('assistant');"><span><strong>Sana Özel Öneriler</strong><br>Bağmancı Asistan'a Sor</span><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="search-history-section" id="searchHistorySection">
+          <div class="search-section-title"><span>Geçmiş Aramalarım</span></div>
+          <div class="search-history" id="searchHistoryList"></div>
+        </div>
+        <div class="search-ai-line" id="searchAiLine"></div>
+        <div class="search-section-title"><span id="searchResultsTitle">Arama Sonuçları</span></div>
         <div class="search-products" id="searchSuggestedProducts"></div>
       </div>
     </div>
@@ -2506,7 +2515,7 @@
       return normalizeTR(value).replace(/[^a-z0-9]+/g, '');
     }
     function searchFields(item) {
-      return [item.sku, item.id, item.name, item.category, item.badge, item.material, item.ayar, item.renk].filter(Boolean).map(String);
+      return [item.sku, item.id, item.name, item.category, item.badge, item.material, item.ayar, item.renk, item.shortDescription, item.description].filter(Boolean).map(String);
     }
     function isSubsequence(needle, haystack) {
       if (!needle || !haystack || needle.length < 2) return false;
@@ -2551,14 +2560,89 @@
       if (terms.length > 1 && terms.every(term => haystack.includes(term) || haystackCode.includes(compactCode(term)))) score += 70;
       return score;
     }
-    function smartSearchProducts(rawQuery, limit = 40) {
+    function smartSearchProducts(rawQuery, limit = 40, options = {}) {
       const list = catalogProducts || [];
       const query = (rawQuery || '').trim();
+      const fallbackLimit = options.fallbackLimit || Math.min(limit, 12);
       if (!query) return list.filter(item => Array.isArray(item.images) && item.images[0]).slice(0, limit);
-      return list
+      const ranked = list
         .map(item => ({ item, score: productSearchScore(item, query) }))
         .filter(row => row.score > 0)
-        .sort((a, b) => b.score - a.score || String(a.item.name || '').localeCompare(String(b.item.name || ''), 'tr'))
+        .sort((a, b) => b.score - a.score || String(a.item.name || '').localeCompare(String(b.item.name || ''), 'tr'));
+      if (ranked.length) return ranked.slice(0, limit).map(row => row.item);
+      if (!options.withFallback) return [];
+      const terms = compactSearchText(query).split(/\s+/).filter(Boolean);
+      const fallback = list
+        .filter(item => Array.isArray(item.images) && item.images[0])
+        .map(item => {
+          const haystack = compactSearchText(searchFields(item).join(' '));
+          const score = terms.reduce((sum, term) => sum + (isSubsequence(term, compactCode(haystack)) ? 1 : 0), 0);
+          return { item, score };
+        })
+        .sort((a, b) => b.score - a.score || String(a.item.name || '').localeCompare(String(b.item.name || ''), 'tr'));
+      return fallback.slice(0, fallbackLimit).map(row => row.item);
+    }
+
+    function fileToImage(file) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = URL.createObjectURL(file);
+      });
+    }
+
+    function urlToImage(src) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.crossOrigin = 'anonymous';
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = src;
+      });
+    }
+
+    function imageSignature(image) {
+      const canvas = document.createElement('canvas');
+      const size = 12;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(image, 0, 0, size, size);
+      const data = ctx.getImageData(0, 0, size, size).data;
+      const gray = [];
+      let r = 0, g = 0, b = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        r += data[i]; g += data[i + 1]; b += data[i + 2];
+        gray.push(data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114);
+      }
+      const avg = gray.reduce((sum, value) => sum + value, 0) / gray.length;
+      return { hash: gray.map(value => value >= avg ? 1 : 0), color: [r / gray.length, g / gray.length, b / gray.length] };
+    }
+
+    function signatureDistance(a, b) {
+      if (!a || !b) return Number.POSITIVE_INFINITY;
+      const hashDiff = a.hash.reduce((sum, bit, index) => sum + (bit === b.hash[index] ? 0 : 1), 0) / a.hash.length;
+      const colorDiff = Math.sqrt(a.color.reduce((sum, value, index) => sum + Math.pow(value - b.color[index], 2), 0)) / 441.7;
+      return hashDiff * 0.7 + colorDiff * 0.3;
+    }
+
+    async function visualSearchProducts(file, limit = 24) {
+      const uploaded = await fileToImage(file);
+      const uploadedSignature = imageSignature(uploaded);
+      URL.revokeObjectURL(uploaded.src);
+      const candidates = (catalogProducts || []).filter(item => Array.isArray(item.images) && item.images[0]);
+      const ranked = await Promise.all(candidates.map(async item => {
+        try {
+          const image = await urlToImage(item.images[0]);
+          return { item, distance: signatureDistance(uploadedSignature, imageSignature(image)) };
+        } catch (error) {
+          return { item, distance: Number.POSITIVE_INFINITY };
+        }
+      }));
+      return ranked
+        .filter(row => Number.isFinite(row.distance))
+        .sort((a, b) => a.distance - b.distance)
         .slice(0, limit)
         .map(row => row.item);
     }
@@ -2571,29 +2655,37 @@
     function renderSearchResults(query = '', options = {}) {
       const products = document.getElementById('searchSuggestedProducts');
       const title = document.getElementById('searchResultsTitle');
+      const aiLine = document.getElementById('searchAiLine');
       if (!products) return;
-      const list = smartSearchProducts(query, 48);
+      const list = options.products || smartSearchProducts(query, 48, { withFallback: Boolean(query.trim()) });
+      if (aiLine) {
+        aiLine.classList.toggle('active', Boolean(options.note));
+        aiLine.textContent = options.note || '';
+      }
       if (title) {
-        if (options.visualName) title.textContent = list.length ? `Görsel için öneriler (${list.length})` : 'Görsel için öneriler';
+        if (options.visualName) title.textContent = list.length ? `Görsel için benzer ürünler (${list.length})` : 'Görsel için benzer ürünler';
         else title.textContent = query.trim() ? `Arama Sonuçları (${list.length})` : 'Öne Çıkan Ürünler';
       }
       if (!list.length) {
-        products.innerHTML = `<div class="search-results-empty"><strong>Uygun ürün bulunamadı.</strong><span>Stok kodu, ürün adı veya kategori ile tekrar deneyebilirsin. Örn: BGM-001, bilezik, kolye.</span></div>`;
+        products.innerHTML = `<div class="search-results-empty"><strong>Üzgünüz, birebir ürün bulamadık.</strong><span>İstersen ürün kodunu, kategori adını veya görsel aramayı tekrar dene; sana en yakın ürünleri de göstermeye çalışıyoruz.</span></div>`;
         return;
       }
       products.innerHTML = list.map(searchCardHtml).join('');
     }
     function renderSearchPage(query = '') {
+      const hasQuery = Boolean((query || '').trim());
+      document.getElementById('searchIntroBlocks')?.classList.toggle('hidden', hasQuery);
+      document.getElementById('searchHistorySection')?.classList.toggle('hidden', hasQuery);
       const history = document.getElementById('searchHistoryList');
       if (history) history.innerHTML = searchHistory().map(item => `<button type="button" onclick="runSearchFromPage('${escapeText(item).replace(/'/g, '&#39;')}')"><i class="fa-solid fa-clock-rotate-left"></i><span>${escapeText(item)}</span></button>`).join('') || '<div class="account-empty">Henüz arama geçmişin yok.</div>';
       renderSearchResults(query);
     }
-    async function openSearchPage(visual = false) {
+    async function openSearchPage(visual = false, presetQuery = null) {
       await loadCatalogProducts();
       modalGoster('searchModal');
       document.getElementById('searchModal')?.scrollTo({ top: 0 });
       const input = document.getElementById('searchPageInput');
-      const current = document.getElementById('siteSearchInput')?.value || '';
+      const current = presetQuery ?? document.getElementById('siteSearchInput')?.value ?? '';
       if (input) { input.value = current; setTimeout(() => input.focus(), 80); }
       renderSearchPage(current);
       if (visual) setTimeout(() => document.getElementById('siteVisualSearchInput')?.click(), 120);
@@ -2607,7 +2699,7 @@
       const query = (value || '').trim();
       const list = catalogProducts.length ? catalogProducts : [];
       if (!query) { renderCatalogCovers(list); return; }
-      const matched = smartSearchProducts(query, 40);
+      const matched = smartSearchProducts(query, 40, { withFallback: true });
       const container = document.getElementById('catalogCoversView');
       document.getElementById('catalogItemsView').style.display = 'none';
       container.style.display = 'grid';
@@ -2651,8 +2743,9 @@
       const rawId = decodeURIComponent(id);
       const product = (catalogProducts || []).find(item => item.id === rawId);
       saveSearchHistory(product?.name || document.getElementById('searchPageInput')?.value || '');
+      const query = document.getElementById('searchPageInput')?.value || product?.name || '';
       modalKapat('searchModal');
-      urunDetayAc(id);
+      urunDetayAc(id, 'search', { q: query });
     }
     async function handleVisualSiteSearch(event) {
       const file = event.target.files && event.target.files[0];
@@ -2660,16 +2753,23 @@
       await loadCatalogProducts();
       modalGoster('searchModal');
       document.getElementById('searchModal')?.scrollTo({ top: 0 });
-      const rawName = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
-      const normalizedName = compactSearchText(rawName);
-      const isGeneric = !normalizedName || GENERIC_IMAGE_NAMES.some(term => normalizedName.includes(term));
-      const query = isGeneric ? '' : rawName;
       const input = document.getElementById('searchPageInput');
-      if (input) input.value = query;
+      if (input) input.value = 'Görsel arama';
       const mainInput = document.getElementById('siteSearchInput');
-      if (mainInput) mainInput.value = query || 'Görsel arama';
-      renderSearchPage(query);
-      renderSearchResults(query, { visualName: file.name });
+      if (mainInput) mainInput.value = 'Görsel arama';
+      document.getElementById('searchIntroBlocks')?.classList.add('hidden');
+      document.getElementById('searchHistorySection')?.classList.add('hidden');
+      renderSearchResults('', { visualName: file.name, products: [], note: 'Görsel inceleniyor; benzer ürünler aranıyor...' });
+      try {
+        const visualMatches = await visualSearchProducts(file, 24);
+        renderSearchResults('', {
+          visualName: file.name,
+          products: visualMatches.length ? visualMatches : smartSearchProducts('', 12),
+          note: visualMatches.length ? 'Görsel benzerliğine göre en yakın ürünler listelendi.' : 'Görsel okunamadı; bunun yerine öne çıkan ürünleri gösteriyorum.'
+        });
+      } catch (error) {
+        renderSearchResults('', { visualName: file.name, products: smartSearchProducts('', 12), note: 'Görsel tam okunamadı; yine de benzer olabilecek ürünleri gösteriyorum.' });
+      }
       event.target.value = '';
     }
     function catalogCoverImage(category, products) {
@@ -3630,6 +3730,8 @@
     if (window.location.hash === '#sepet') setTimeout(() => modalGoster('sepetModal'), 150);
     if (window.location.hash === '#account-history') setTimeout(() => { openAccountModal(); openAccountSection('history'); }, 180);
     if (window.location.hash === '#account-messages') setTimeout(() => openQuestionModal({ returnTo: 'account', tab: 'seller' }), 180);
+    if (window.location.hash === '#account-assistant') setTimeout(() => { openAccountModal(); openAccountSection('assistant'); }, 180);
+    if (window.location.hash.startsWith('#search')) { const hashQuery = new URLSearchParams(window.location.hash.split('?')[1] || '').get('q') || ''; setTimeout(() => openSearchPage(false, hashQuery), 180); }
     populateCityDatalist();
     applyThemeMode();
     renderCustomerProfile();

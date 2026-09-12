@@ -1004,11 +1004,22 @@
 
     function configureBackLink(params) {
       const from = params.get('from') || '';
+      const query = params.get('q') || '';
       const back = document.getElementById('productBackLink');
       if (!back) return;
       if (from === 'account-history') {
         back.href = 'index.html#account-history';
         back.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Hesabıma Dön';
+        return;
+      }
+      if (from === 'search') {
+        back.href = `index.html#search${query ? '?' + new URLSearchParams({ q: query }).toString() : ''}`;
+        back.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Aramaya Dön';
+        return;
+      }
+      if (from === 'assistant') {
+        back.href = 'index.html#account-assistant';
+        back.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Asistana Dön';
       }
     }
 
