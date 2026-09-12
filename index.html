@@ -3357,15 +3357,23 @@
       return (document.getElementById(id)?.value || '').trim();
     }
 
-    function notifyOwner(type, payload) {
+    async function notifyOwner(type, payload) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6500);
       try {
-        fetch('/api/notify', {
+        const response = await fetch('/api/notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           keepalive: true,
+          signal: controller.signal,
           body: JSON.stringify({ type, payload })
-        }).catch(() => {});
-      } catch (error) {}
+        });
+        return response.ok ? await response.json().catch(() => ({ ok: true })) : { ok: false };
+      } catch (error) {
+        return { ok: false, reason: error?.message || 'Bildirim gonderilemedi' };
+      } finally {
+        clearTimeout(timer);
+      }
     }
 
     async function submitOrder() {
@@ -3397,13 +3405,7 @@
         total,
         items: sepet
       };
-      const client = getSiteContentClient();
-      status.textContent = 'Sipariş gönderiliyor...';
-      if (client) {
-        const { error } = await client.from('orders').insert(order);
-        if (error) { status.textContent = error.message || 'Sipariş kaydedilemedi.'; status.classList.add('err'); return; }
-      }
-      notifyOwner('order', {
+      const notificationPayload = {
         customer_name: order.customer_name,
         phone: order.phone,
         email: order.email,
@@ -3418,9 +3420,24 @@
         invoice_address: order.invoice_address,
         item_count: sepet.length,
         total: order.total,
-        items: sepet,
+        items: sepet.map(item => ({ ...item })),
         note: order.note
-      });
+      };
+      const client = getSiteContentClient();
+      status.textContent = 'Sipariş gönderiliyor...';
+      if (client) {
+        const { error } = await client.from('orders').insert(order);
+        if (error) {
+          await notifyOwner('order', {
+            ...notificationPayload,
+            note: [order.note, `SIPARIS KAYDI HATASI: ${error.message || 'Bilinmeyen hata'}`].filter(Boolean).join(' | ')
+          });
+          status.textContent = error.message || 'Sipariş kaydedilemedi.';
+          status.classList.add('err');
+          return;
+        }
+      }
+      await notifyOwner('order', notificationPayload);
       saveCheckoutProfileIfWanted();
       loadCustomerOrders().catch(() => {});
       status.textContent = 'Siparişiniz alındı. Mağaza ödeme bilgisi için sizinle iletişime geçecek.';

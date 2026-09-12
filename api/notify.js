@@ -25,7 +25,7 @@ function shortItems(items) {
   if (!Array.isArray(items) || !items.length) return '-';
   return items.slice(0, 8).map((item, index) => {
     const name = clean(item.ad || item.name || 'Urun', 80);
-    const sku = clean(item.sku || '', 40);
+    const sku = clean(item.sku || item.stock_code || item.kod || item.id || '', 40);
     const price = item.f || item.price ? ` - ${money(item.f || item.price)}` : '';
     return `${index + 1}. ${name}${sku ? ` (${sku})` : ''}${price}`;
   }).join('\n');
