@@ -5,18 +5,20 @@
   style.textContent = `
     #bk-install-dialog{width:min(390px,calc(100% - 32px));max-height:85dvh;overflow:auto;padding:24px;border:1px solid #c8a345;border-radius:8px;background:#fffaf0;color:#104b3a;font:16px/1.6 Arial,sans-serif}
     #bk-install-dialog::backdrop{background:#0009}#bk-install-dialog img{display:block;width:92px;height:92px;border-radius:8px;margin:0 auto 12px}#bk-install-dialog h2{font-size:22px;text-align:center;color:#104b3a}#bk-install-dialog ol{padding-left:24px}#bk-install-dialog button{width:100%;padding:12px;background:#d4af37;color:#06251d;border:0;border-radius:8px;font-weight:700;cursor:pointer}
-    #bk-opening{position:fixed;inset:0;z-index:10000;display:grid;place-content:center;background:#06251d;pointer-events:none;animation:bk-opening-out .2s ease .55s forwards}#bk-opening img{width:min(65vw,300px);height:auto;border-radius:8px}
+    #bk-opening{position:fixed;inset:0;z-index:10000;display:grid;place-content:center;background:#06251d;pointer-events:none;animation:bk-opening-out .5s ease 2s forwards}#bk-opening img{width:min(65vw,300px);height:auto;border-radius:8px}
     @keyframes bk-opening-out{to{opacity:0;visibility:hidden}}@media(prefers-reduced-motion:reduce){#bk-opening{animation-duration:0s}}
   `;
   document.head.append(style);
-  if (standalone()) {
+  const debugMode = false; // TEST: true yapıp test et
+  if (standalone() || debugMode) {
     let seen = false;
-    try { seen = sessionStorage.getItem('bk-opening') === '1'; sessionStorage.setItem('bk-opening','1'); } catch {}
+    // TEST MODE: Her açılışta göster (production'da comment'e al)
+    try { seen = sessionStorage.getItem('bk-opening') === '1'; if (!debugMode) sessionStorage.setItem('bk-opening','1'); } catch {}
     if (!seen) {
       const opening = document.createElement('div'); opening.id = 'bk-opening';
-      const logo = document.createElement('img'); logo.src = 'bk-logo.jpg'; logo.alt = 'BK Bağmancı Kuyumculuk';
+      const logo = document.createElement('img'); logo.src = 'bk-opening.png'; logo.alt = 'BK Bağmancı Kuyumculuk';
       opening.append(logo); document.body.append(opening);
-      setTimeout(() => opening.remove(), 800);
+      setTimeout(() => opening.remove(), 2500);
     }
   }
   if ('serviceWorker' in navigator && window.isSecureContext) {
@@ -34,7 +36,7 @@
     if (!dialog) {
       dialog = document.createElement('dialog'); dialog.id = 'bk-install-dialog';
       dialog.setAttribute('aria-labelledby','bk-install-title');
-      dialog.innerHTML = '<img src="bk-logo.jpg" alt="BK"><h2 id="bk-install-title">BK’yı Ana Ekrana Ekle</h2><ol><li>Safari’de <strong>Paylaş</strong> menüsünü aç.</li><li><strong>Ana Ekrana Ekle</strong> seçeneğine dokun.</li><li>Adı <strong>BK</strong> olarak bırak. Varsa <strong>Web Uygulaması Olarak Aç</strong> seçeneğini açıp <strong>Ekle</strong>ye dokun.</li></ol>';
+      dialog.innerHTML = '<img src="bk-logo.png" alt="BK"><h2 id="bk-install-title">BK'yı Ana Ekrana Ekle</h2><ol><li>Safari'de <strong>Paylaş</strong> menüsünü aç.</li><li><strong>Ana Ekrana Ekle</strong> seçeneğine dokun.</li><li>Adı <strong>BK</strong> olarak bırak. Varsa <strong>Web Uygulaması Olarak Aç</strong> seçeneğini açıp <strong>Ekle</strong>ye dokun.</li></ol>';
       const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Tamam'; close.onclick = () => dialog.close();
       dialog.append(close); document.body.append(dialog);
       dialog.addEventListener('close', () => button.focus());

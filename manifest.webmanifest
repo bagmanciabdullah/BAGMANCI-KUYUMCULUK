@@ -9,6 +9,6 @@
   "background_color": "#06251d",
   "theme_color": "#06251d",
   "icons": [
-    { "src": "bk-logo.jpg", "sizes": "1254x1254", "type": "image/jpeg", "purpose": "any" }
+    { "src": "bk-logo.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any" }
   ]
 }
