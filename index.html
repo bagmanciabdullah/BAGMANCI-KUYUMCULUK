@@ -2695,6 +2695,31 @@
       if (mainInput) mainInput.value = value || '';
       renderSearchResults(value || '');
     }
+    async function askSearchAssistant(query, products) {
+      const value = (query || '').trim();
+      if (!value || !Array.isArray(products) || !products.length) return '';
+      try {
+        const response = await fetch('/api/assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: value,
+            products: products.slice(0, 8).map(item => ({
+              name: item.name,
+              category: item.category,
+              sku: item.sku || item.id,
+              material: item.material,
+              price: productPrice(item)
+            }))
+          })
+        });
+        if (!response.ok) return '';
+        const data = await response.json();
+        return String(data.answer || '').trim();
+      } catch (error) {
+        return '';
+      }
+    }
     function handleSiteSearch(value) {
       const query = (value || '').trim();
       const list = catalogProducts.length ? catalogProducts : [];
@@ -2719,6 +2744,10 @@
       await loadCatalogProducts();
       saveSearchHistory(value);
       renderSearchPage(value);
+      if (!value) return;
+      const products = smartSearchProducts(value, 12, { withFallback: true });
+      const answer = await askSearchAssistant(value, products);
+      if (answer) renderSearchResults(value, { products, note: answer });
     }
     function runSearchFromPage(query) { submitSiteSearch(query); }
     function clearSearchHistory() { localStorage.removeItem(SEARCH_HISTORY_KEY); renderSearchPage(document.getElementById('searchPageInput')?.value || ''); }
